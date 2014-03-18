@@ -28,9 +28,9 @@ bin/logstash deps
 popd
 
 # Run the tests
-bin/run_tests.sh
+bin/run-tests.sh
 
-# $ bin/run_tests.sh 
+# $ bin/run-tests.sh 
 # ....
 # 
 # Finished in 0.145 seconds

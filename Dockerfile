@@ -5,5 +5,3 @@ RUN apt-get -y install openjdk-7-jre-headless curl build-essential git
 
 ADD . /docker
 RUN cd /docker/vendor/logstash; make vendor-jruby; bin/logstash deps
-
-ENTRYPOINT /docker/bin/build.sh
