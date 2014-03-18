@@ -1,11 +1,15 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 # Defaults you can override with environment variables
+echo "====> Building..."
+
 LS_HEAP_SIZE="${LS_HEAP_SIZE:=500m}"
+
+basedir=$(cd `dirname $0`/..; pwd)
 
 #Speedup jruby startup time - https://github.com/jruby/jruby/wiki/Improving-startup-time#wiki-tiered-compilation-64-bit
 export JAVA_OPTS="$JAVA_OPTS -XX:+TieredCompilation -XX:TieredStopAtLevel=1"
 
-pushd vendor/logstash 
+pushd $basedir/vendor/logstash 
 . bin/logstash.lib.sh
 popd 
 
