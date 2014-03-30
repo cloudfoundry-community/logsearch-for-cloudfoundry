@@ -1,9 +1,9 @@
 #CF parsing
 
-if [type] in ["syslog", "relp"] {
-  if [message] =~ /.*vcap.*/ {
+if [@type] in ["syslog", "relp"] {
+  if [@message] =~ /.*vcap.*/ {
 	grok {
-	  match => { "message" => "%{SYSLOG5424PRI}+(?:%{TIMESTAMP_ISO8601:@shipper.timestamp}|-) +(?:%{IPORHOST:@shipper.host}|-) +(?:%{NOTSPACE:@shipper.name}|-) +(?:\[job=%{NOTSPACE:@shipper.job}|-) +(?:index=%{NOTSPACE:@shipper.job_index}\]|-) +%{GREEDYDATA:message_json}" }
+	  match => { "@message" => "%{SYSLOG5424PRI}+(?:%{TIMESTAMP_ISO8601:@shipper.timestamp}|-) +(?:%{IPORHOST:@shipper.host}|-) +(?:%{NOTSPACE:@shipper.name}|-) +(?:\[job=%{NOTSPACE:@shipper.job}|-) +(?:index=%{NOTSPACE:@shipper.job_index}\]|-) +%{GREEDYDATA:message_json}" }
 	}
 	date {
 	  match => [ "@shipper.timestamp", "ISO8601" ]
@@ -14,6 +14,7 @@ if [type] in ["syslog", "relp"] {
 	  }
 	  mutate {
         replace => [ "@shipper.priority", "%{syslog5424_pri}" ]
+        replace => [ "@type", "cf_%{@type}" ]
       }
 	  mutate {
 	   remove_field => [ "message_json", "syslog5424_pri" ]
