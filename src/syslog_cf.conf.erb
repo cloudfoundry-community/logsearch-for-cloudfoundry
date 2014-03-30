@@ -1,9 +1,23 @@
 #CF parsing
 
-grok {
-  match => [ "message", "%{NUMBER} %{SYSLOG5424PRI}1 %{MCOLLECTIVEAUDIT}11%{ISO8601_TIMEZONE} loggregator 66dcf62e-703d-49d4-b478-319e80f47fd8 App - - {%{QS}:%{QS},%{QS}:%{QS},%{QS}:%{QS},%{QS}:%{QS},%{QS}:%{SYSLOG5424SD},%{QS}:%{QS},%{QS}:%{QS}}" ]
-  singles => true
-  overwrite => [ "message" ]
+if [type] in ["syslog", "relp"] {
+  if [message] =~ /.*vcap.*/ {
+	grok {
+	  match => { "message" => "%{SYSLOG5424PRI}+(?:%{TIMESTAMP_ISO8601:@shipper.timestamp}|-) +(?:%{IPORHOST:@shipper.host}|-) +(?:%{NOTSPACE:@shipper.name}|-) +(?:\[job=%{NOTSPACE:@shipper.job}|-) +(?:index=%{NOTSPACE:@shipper.job_index}\]|-) +%{GREEDYDATA:message_json}" }
+	}
+	date {
+	  match => [ "@shipper.timestamp", "ISO8601" ]
+	}
+	if !("_grokparsefailure" in [tags]) {
+	  json {
+	    source => "message_json"
+	  }
+	  mutate {
+        replace => [ "@shipper.priority", "%{syslog5424_pri}" ]
+      }
+	  mutate {
+	   remove_field => [ "message_json", "syslog5424_pri" ]
+	  }
+	}	
+  }
 }
-
-# <%= `date` %>
