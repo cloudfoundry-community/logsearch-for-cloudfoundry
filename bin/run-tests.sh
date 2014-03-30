@@ -1,4 +1,4 @@
-#!/bin/bash -ex
+#!/bin/bash 
 echo "====> Running tests..."
 
 #Speedup jruby startup time - https://github.com/jruby/jruby/wiki/Improving-startup-time#wiki-tiered-compilation-64-bit
