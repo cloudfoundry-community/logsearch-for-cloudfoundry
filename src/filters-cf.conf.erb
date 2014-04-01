@@ -1,0 +1,33 @@
+#CF parsing
+
+if [@type] in ["syslog", "relp"] {
+	if [@message] =~ /.*vcap.*/ {
+		grok {
+		  match => { "@message" => "%{SYSLOG5424PRI}+(?:%{TIMESTAMP_ISO8601:@shipper.timestamp}|-) +(?:%{IPORHOST:@job.host}|-) +(?:%{NOTSPACE:@shipper.name}|-) +(?:\[job=%{NOTSPACE:@job.name}|-) +(?:index=%{NOTSPACE:@job.index}\]|-) +%{GREEDYDATA:message_json}" }
+		}
+		if !("_grokparsefailure" in [tags]) {
+			date {
+			  match => [ "@shipper.timestamp", "ISO8601" ]
+			}
+			json {
+				source => "message_json"
+			}
+			mutate {
+				replace => [ "@shipper.priority", "%{syslog5424_pri}" ]
+				replace => [ "@shipper.name", "%{@shipper.name}_%{@type}" ]
+				replace => [ "@type", "%{@type}_cf" ]
+			}
+			# replace . with _
+			mutate {
+				gsub => [
+				  "@shipper.name", "\.", "_",
+				  "@job.name", "\.", "_"
+				]
+			}
+			# remove temp fields
+			mutate {
+				remove_field => [ "message_json", "syslog5424_pri" ]
+			}
+		}	
+	}	
+}

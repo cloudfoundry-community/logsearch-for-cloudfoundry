@@ -24,5 +24,5 @@ mkdir -p $SCRIPT_DIR/target
 rm -rf $SCRIPT_DIR/target/*
 mkdir -p $SCRIPT_DIR/target/logstash-filters-cf
 
-compile "$SCRIPT_DIR/src/syslog_cf.conf.erb"
+compile "$SCRIPT_DIR/src/filters-cf.conf.erb"
 
