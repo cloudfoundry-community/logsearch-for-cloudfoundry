@@ -4,7 +4,7 @@ require "logstash/filters/grok"
 describe LogStash::Filters::Grok do
   extend LogStash::RSpec
 
-  describe "CF syslog/relp" do
+  describe "CloudFoundry messages shipped via Syslog or RELP" do
 
     config <<-CONFIG
       filter {

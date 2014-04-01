@@ -24,6 +24,15 @@ if [@type] in ["syslog", "relp"] {
 				  "@job.name", "\.", "_"
 				]
 			}
+
+			#extract NatsStreamForwarder data
+			if [source] == "NatsStreamForwarder" {
+				json {
+					source => "[data][nats_message]"
+					target => "[data][nats_message]"
+				}
+			}
+
 			# remove temp fields
 			mutate {
 				remove_field => [ "message_json", "syslog5424_pri" ]
