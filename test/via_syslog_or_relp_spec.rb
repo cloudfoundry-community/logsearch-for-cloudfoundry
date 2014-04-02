@@ -8,7 +8,7 @@ describe LogStash::Filters::Grok do
 
     config <<-CONFIG
       filter {
-        #{File.read("target/logstash-filters-cf/logstash-filters-cf.conf")}
+        #{File.read("target/100-cloudfoundry.conf")}
       }
     CONFIG
 

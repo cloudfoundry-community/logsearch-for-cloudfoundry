@@ -1,4 +1,4 @@
-#CF parsing
+#Parse Cloud Foundry logs from syslog_aggregator
 
 if [@type] in ["syslog", "relp"] {
 	if [@message] =~ /.*vcap.*/ {
@@ -29,7 +29,7 @@ if [@type] in ["syslog", "relp"] {
 			if [source] == "NatsStreamForwarder" {
 				json {
 					source => "[data][nats_message]"
-					target => "[data][nats_message]"
+					target => "nats_message"
 				}
 			}
 

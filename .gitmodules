@@ -1,3 +1,3 @@
-[submodule "vendor/logstash"]
-	path = vendor/logstash
-	url = https://github.com/elasticsearch/logstash.git
+[submodule "vendor/logsearch-filters-common"]
+	path = vendor/logsearch-filters-common
+	url = https://github.com/logsearch/logsearch-filters-common.git

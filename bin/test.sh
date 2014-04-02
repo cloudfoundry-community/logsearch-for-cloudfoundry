@@ -1,0 +1,1 @@
+../vendor/logsearch-filters-common/bin/test.sh
