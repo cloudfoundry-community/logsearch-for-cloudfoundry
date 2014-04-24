@@ -4,8 +4,9 @@ if [@type] in ["syslog", "relp"] {
 	if [@message] =~ /.*vcap.*/ {
 		grok {
 		  match => { "@message" => "%{SYSLOG5424PRI}+(?:%{TIMESTAMP_ISO8601:@shipper.timestamp}|-) +(?:%{IPORHOST:@job.host}|-) +(?:%{NOTSPACE:@shipper.name}|-) +(?:\[job=%{NOTSPACE:@job.name}|-) +(?:index=%{NOTSPACE:@job.index}\]|-) +%{GREEDYDATA:message_json}" }
+		  tag_on_failure => ["_cfparsefailure"]
 		}
-		if !("_grokparsefailure" in [tags]) {
+		if !("_cfparsefailure" in [tags]) {
 			date {
 			  match => [ "@shipper.timestamp", "ISO8601" ]
 			}
