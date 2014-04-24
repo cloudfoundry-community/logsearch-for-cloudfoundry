@@ -63,4 +63,15 @@ describe LogStash::Filters::Grok do
     end  
   end
 
+  describe "relp or syslog messages that do not contain vcap are not parsed as cloudfoundry messages" do
+    sample("@type" => "relp", "@message" => '<14>2014-03-29T21:14:33.254640+00:00 10.0.1.13 Foo') do
+      subject["tags"].should be_nil
+      insist { subject["@type"] } == "relp"
+    end 
+    sample("@type" => "syslog", "@message" => '<14>2014-03-29T21:14:33.254640+00:00 10.0.1.13 Foo') do
+      subject["tags"].should be_nil
+      insist { subject["@type"]} == "syslog"
+    end 
+  end
+
 end
