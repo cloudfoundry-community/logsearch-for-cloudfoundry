@@ -1,42 +1,48 @@
-#Parse Cloud Foundry logs from syslog_aggregator
-
+# Parse Cloud Foundry logs from syslog_aggregator
 if [@type] in ["syslog", "relp"] {
-	if [@message] =~ /.*vcap.*/ {
-		grok {
-		  match => { "@message" => "%{SYSLOG5424PRI}+(?:%{TIMESTAMP_ISO8601:@shipper.timestamp}|-) +(?:%{IPORHOST:@job.host}|-) +(?:%{NOTSPACE:@shipper.name}|-) +(?:\[job=%{NOTSPACE:@job.name}|-) +(?:index=%{NOTSPACE:@job.index}\]|-) +%{GREEDYDATA:message_json}" }
-		}
-		if !("_grokparsefailure" in [tags]) {
-			date {
-			  match => [ "@shipper.timestamp", "ISO8601" ]
-			}
-			json {
-				source => "message_json"
-			}
-			mutate {
-				replace => [ "@shipper.priority", "%{syslog5424_pri}" ]
-				replace => [ "@shipper.name", "%{@shipper.name}_%{@type}" ]
-				replace => [ "@type", "%{@type}_cf" ]
-			}
-			# replace . with _
-			mutate {
-				gsub => [
-				  "@shipper.name", "\.", "_",
-				  "@job.name", "\.", "_"
-				]
-			}
+    if [@message] =~ /.*vcap.*/ {
+        grok {
+            match => { "@message" => "%{SYSLOG5424PRI}+(?:%{TIMESTAMP_ISO8601:@shipper.timestamp}|-) +(?:%{IPORHOST:@job.host}|-) +(?:%{NOTSPACE:@shipper.name}|-) +(?:\[job=%{NOTSPACE:@job.name}|-) +(?:index=%{NOTSPACE:@job.index}\]|-) +%{GREEDYDATA:message_json}" }
+            add_tag => [ "cloudfoundry" ]
+            tag_on_failure => ["_grokparsefailure-cloudfoundry"]
+        }
 
-			#extract NatsStreamForwarder data
-			if [source] == "NatsStreamForwarder" {
-				json {
-					source => "[data][nats_message]"
-					target => "nats_message"
-				}
-			}
+        if !("_grokparsefailure-cloudfoundry" in [tags]) {
+            date {
+                match => [ "@shipper.timestamp", "ISO8601" ]
+            }
 
-			# remove temp fields
-			mutate {
-				remove_field => [ "message_json", "syslog5424_pri" ]
-			}
-		}	
-	}	
+            json {
+                source => "message_json"
+            }
+
+            mutate {
+                replace => [ "@shipper.priority", "%{syslog5424_pri}" ]
+                replace => [ "@shipper.name", "%{@shipper.name}_%{@type}" ]
+                replace => [ "@type", "%{@type}_cf" ]
+            }
+
+            # Replace . with _
+            mutate {
+                gsub => [
+                    "@shipper.name", "\.", "_",
+                    "@job.name", "\.", "_"
+                  ]
+            }
+
+            # Extract NatsStreamForwarder data
+            if [source] == "NatsStreamForwarder" {
+                json {
+                    source => "[data][nats_message]"
+                    target => "nats_message"
+                }
+            }
+
+            # Remove temp fields
+            mutate {
+                remove_field => [ "message_json", "syslog5424_pri" ]
+            }
+
+        }	
+    }	
 }
