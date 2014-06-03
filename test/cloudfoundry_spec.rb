@@ -42,6 +42,21 @@ describe LogStash::Filters::Grok do
       insist { subject["log_level"] } == "info"
       insist { subject["message"] } == "dea.advertise"
     end
+
+    sample("@type" => "relp", "@message" => '<11>2014-06-03T18:54:10.392723+00:00 10.13.24.115 vcap.cloud_controller_ng.stderr [job=vcap.cloud_controller_ng.stderr index=0]  192.0.2.14, 10.13.17.18, 10.13.24.70 - - [03/Jun/2014 18:54:10] "GET /info HTTP/1.0" 200 283 0.0037') do
+      insist { subject["tags"] } == [ 'cloudfoundry' ]
+      insist { subject["@type"] } == "relp_cf"
+      insist { subject["@timestamp"] } == Time.iso8601("2014-06-03T18:54:10.392Z").utc
+
+      insist { subject["@shipper.priority"] } == "11"
+      insist { subject["@shipper.name"] } == "vcap_cloud_controller_ng_stderr_relp"
+
+      insist { subject["@job.host"] } == "10.13.24.115"
+      insist { subject["@job.name"] } == "vcap_cloud_controller_ng_stderr"
+      insist { subject["@job.index"] } == "0"
+
+      insist { subject["message"] } == "192.0.2.14, 10.13.17.18, 10.13.24.70 - - [03/Jun/2014 18:54:10] \"GET /info HTTP/1.0\" 200 283 0.0037"
+    end
   end
 
   describe "Parse NatsStreamForwarder specific messages from Cloud Foundry" do
