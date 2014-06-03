@@ -11,7 +11,9 @@ describe LogStash::Filters::Grok do
   CONFIG
 
   describe "Parse Cloud Foundry messages shipped via Syslog or RELP" do
-    sample("@type" => "relp", "@message" => '<6>2014-03-29T21:14:35.269841+00:00 10.0.1.13 vcap.hm9000.listener [job=vcap.hm9000.listener index=0] {"timestamp":1396127675.269712210,"process_id":16353,"source":"vcap.hm9000.listener","log_level":"info","message":"Received a heartbeat - {\"Heartbeats Pending Save\":\"1\"}","data":null}') do
+    samplemsg = '<6>2014-03-29T21:14:35.269841+00:00 10.0.1.13 vcap.hm9000.listener [job=vcap.hm9000.listener index=0] {"timestamp":1396127675.269712210,"process_id":16353,"source":"vcap.hm9000.listener","log_level":"info","message":"Received a heartbeat - {\"Heartbeats Pending Save\":\"1\"}","data":null}'
+
+    sample("@type" => "relp", "@message" => samplemsg) do
       insist { subject["tags"] } == [ 'cloudfoundry' ]
       insist { subject["@type"] } == "relp_cf"
       insist { subject["@timestamp"] } == Time.iso8601("2014-03-29T21:14:35.269Z").utc
@@ -22,6 +24,24 @@ describe LogStash::Filters::Grok do
       insist { subject["@job.host"] } == "10.0.1.13"
       insist { subject["@job.name"] } == "vcap_hm9000_listener"
       insist { subject["@job.index"] } == "0"
+
+      insist { subject["log_level"] } == "info"
+      insist { subject["message"] } == "Received a heartbeat - {\"Heartbeats Pending Save\":\"1\"}"
+    end
+
+    sample("@type" => "relp", "@message" => "289 #{samplemsg}") do
+      insist { subject["tags"] } == [ 'cloudfoundry' ]
+      insist { subject["@type"] } == "relp_cf"
+      insist { subject["@timestamp"] } == Time.iso8601("2014-03-29T21:14:35.269Z").utc
+
+      insist { subject["@shipper.priority"] } == "6"
+      insist { subject["@shipper.name"] } == "vcap_hm9000_listener_relp"
+
+      insist { subject["@job.host"] } == "10.0.1.13"
+      insist { subject["@job.name"] } == "vcap_hm9000_listener"
+      insist { subject["@job.index"] } == "0"
+
+      insist { subject["syslog_length"] } === 289
 
       insist { subject["log_level"] } == "info"
       insist { subject["message"] } == "Received a heartbeat - {\"Heartbeats Pending Save\":\"1\"}"
