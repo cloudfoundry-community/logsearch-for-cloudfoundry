@@ -41,7 +41,7 @@ describe LogStash::Filters::Grok do
       insist { subject["@job.name"] } == "vcap_hm9000_listener"
       insist { subject["@job.index"] } == "0"
 
-      insist { subject["syslog_length"] } === 289
+      insist { subject["message_len"] } === 289
 
       insist { subject["log_level"] } == "info"
       insist { subject["message"] } == "Received a heartbeat - {\"Heartbeats Pending Save\":\"1\"}"

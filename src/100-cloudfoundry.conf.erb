@@ -2,7 +2,7 @@
 if [@type] in ["syslog", "relp"] {
     if [@message] =~ /.*vcap.*/ {
         grok {
-            match => { "@message" => "(?:%{INT:syslog_length} )?%{SYSLOG5424PRI}(?:%{NONNEGINT:syslog5424_ver} )?+(?:%{TIMESTAMP_ISO8601:@shipper.timestamp}|-) +(?:%{IPORHOST:@job.host}|-) +(?:%{NOTSPACE:@shipper.name}|-) +(?:\[job=%{NOTSPACE:@job.name}|-) +(?:index=%{NOTSPACE:@job.index}\]|-) +%{GREEDYDATA:message}" }
+            match => { "@message" => "(?:%{INT:message_len} )?%{SYSLOG5424PRI}(?:%{NONNEGINT:syslog5424_ver} )?+(?:%{TIMESTAMP_ISO8601:@shipper.timestamp}|-) +(?:%{IPORHOST:@job.host}|-) +(?:%{NOTSPACE:@shipper.name}|-) +(?:\[job=%{NOTSPACE:@job.name}|-) +(?:index=%{NOTSPACE:@job.index}\]|-) +%{GREEDYDATA:message}" }
             add_tag => [ "cloudfoundry" ]
             tag_on_failure => ["_grokparsefailure-cloudfoundry"]
         }
@@ -55,7 +55,7 @@ if [@type] in ["syslog", "relp"] {
 
             mutate {
                 convert => [ "syslog5424_ver", "integer" ]
-                convert => [ "syslog_length", "integer" ]
+                convert => [ "message_len", "integer" ]
             }
         }	
     }	
