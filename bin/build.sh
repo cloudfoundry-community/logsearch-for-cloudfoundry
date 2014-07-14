@@ -1,1 +1,0 @@
-../vendor/logsearch-filters-common/bin/build.sh
