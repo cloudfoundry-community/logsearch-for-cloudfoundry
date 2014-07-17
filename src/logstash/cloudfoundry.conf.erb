@@ -2,7 +2,7 @@
 # see https://github.com/cloudfoundry/loggregator/blob/master/src/loggregator/sinks/syslogwriter/syslog_writer.go#L156
 
 if [@type] in ["syslog", "relp"] and [@source.host] == "loggregator" {
-<%= File.read('snippets/loggregator.conf').gsub(/^/, '  ') %>
+<%= File.read('src/logstash/snippets/loggregator.conf').gsub(/^/, '  ') %>
 } else if [@type] in ["syslog", "relp"] and [syslog_program] =~ /vcap\..*/ {
-<%= File.read('snippets/vcap.conf').gsub(/^/, '  ') %>
+<%= File.read('src/logstash/snippets/vcap.conf').gsub(/^/, '  ') %>
 }
