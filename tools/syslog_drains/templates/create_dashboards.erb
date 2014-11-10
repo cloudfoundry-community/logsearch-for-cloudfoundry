@@ -7,7 +7,13 @@ set -x
 es_path=/var/vcap/packages/elasticsearch
 dashboard_path=/var/vcap/packages/kibana-dashboards
 mkdir -p $es_path/plugins/kibana/_site/app/dashboards
-for x in <%= p("tenants").to_s.split(',') %>; do
+
+# Create the default dashboards
+cat $dashboard_path/plugins/kibana/_site/app/dashboards/default_tenant.json | sed "s/DASHBOARD_TITLE/PCF Elastic Runtime Search/" | sed "s/TENANT/default/" > $es_path/plugins/kibana/_site/app/dashboards/default.json
+cat $dashboard_path/plugins/kibana/_site/app/dashboards/default_tenant_overview.json | sed "s/DASHBOARD_TITLE/PCF Elastic Runtime Search Overview/" | sed "s/TENANT/default/" > $es_path/plugins/kibana/_site/app/dashboards/default_overview.json
+
+# Create the tenant dashboards
+for x in <%= p("tenants", "").to_s.split(',') %>; do
   # Parse the tenant in org:space format
   tenant=$(echo $x | tr -d "[],\"")
   echo "tenant: '$tenant'"

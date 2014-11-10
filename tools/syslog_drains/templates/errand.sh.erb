@@ -11,32 +11,32 @@ cf login -a <%= "#{p("cf.api_prefix")}#{p("cf.app_domain")}" %> -u <%= p("cf.adm
 syslog_host=<%= p("logstash_ingestor.syslog.host") %>
 
 COUNTER=5514
-for x in <%= p("tenants").to_s.split(',') %>; do
+for x in <%= p("tenants", "").to_s.split(',') %>; do
   # Parse the tenant in org:space format
   tenant=$(echo $x | tr -d "[],\"")
   org=$(echo $tenant | cut -d':' -f1)
   space=$(echo $tenant | cut -d':' -f2)
   echo "Targeting org = '${org}' and space = '${space}'"
   cf target -o $org -s $space
+  COUNTER=$((COUNTER+10))
   for app in `cf apps`; do
     echo "App = '${app}'"
     line=$(cf app $app 2>&1)
     echo "Line: '${line}'"
     case $line in
       *"FAILED"*) false;;
-      *) syslog_port=$((COUNTER+10))
-      for port in `seq $syslog_port 6000` 
+      *) syslog_port=$((COUNTER))
+      for port in `seq $syslog_port 10000` 
       do 
-        echo "Looking for syslog drain port:${port} for ${app}..."
+        echo "Looking for a syslog drain port:${port} for ${app}..."
         is_defined=$(netcat -v ${syslog_host} ${port} -w 1 -z 2>&1)
         echo "'${is_defined}'"
         if [[ "$is_defined" =~ "succeeded" ]]; then
-          echo "Creating user-provided syslog-drain-${app} at syslog://${syslog_host}:${port}"
-          cf cups syslog-drain-${app} -l syslog://${syslog_host}:${port} || true
-          cf bs ${app} syslog-drain-${app} || true
-          echo "Restaging ${app} in the ${space} space of the ${org} organization"
-          cf restage ${app} || true
-          COUNTER=$port
+          echo "Creating user-provided syslog-drain at syslog://${syslog_host}:${port}"
+          cf cups syslog-drain -l syslog://${syslog_host}:${port} || true
+          cf bs ${app} syslog-drain || true
+          # echo "Restaging ${app} in the ${space} space of the ${org} organization"
+          # cf restage ${app} || true
           break
         fi
       done
