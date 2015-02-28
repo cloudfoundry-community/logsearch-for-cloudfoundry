@@ -1,5 +1,8 @@
 require "test_utils"
 require "logstash/filters/grok"
+require "date"
+
+current = DateTime.now
 
 describe LogStash::Filters::Grok do
   extend LogStash::RSpec
@@ -69,7 +72,7 @@ describe LogStash::Filters::Grok do
     sample("@type" => "relp", "host" => "1.2.3.4", "@message" => '<78>Apr 24 04:03:06 localhost crontab[32185]: (root) LIST (root)') do
       insist { subject["tags"] } == [ 'syslog_standard' ]
       insist { subject["@type"] } == 'relp'
-      insist { subject["@timestamp"] } == Time.iso8601("2014-04-24T04:03:06.000Z")
+      insist { subject["@timestamp"] } == Time.iso8601("#{current.year}-04-24T04:03:06.000Z")
       insist { subject['@source.host'] } == '1.2.3.4'
     end
   end
