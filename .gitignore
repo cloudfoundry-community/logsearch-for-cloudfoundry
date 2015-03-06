@@ -17,5 +17,5 @@ tmp
 _yardoc
 doc/
 
-target/
+#This should be downloaded / linked
 vendor/logstash
