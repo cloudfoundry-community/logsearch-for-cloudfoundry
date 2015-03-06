@@ -9,8 +9,8 @@ describe LogStash::Filters::Grok do
 
   config <<-CONFIG
     filter {
-      #{File.read("vendor/logsearch-filters-common/src/logstash/snippets/syslog_standard.conf")}
-      #{File.read("target/logstash/cloudfoundry.conf")}
+      #{File.read("vendor/logsearch-filters-common/target/logsearch-filters-default.conf")}
+      #{File.read("target/logstash-filters-default.conf")}
     }
   CONFIG
 
