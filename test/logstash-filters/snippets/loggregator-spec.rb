@@ -1,8 +1,8 @@
-require "test_utils"
+# encoding: utf-8
+require "logstash/devutils/rspec/spec_helper"
 require "logstash/filters/grok"
 
 describe LogStash::Filters::Grok do
-  extend LogStash::RSpec
 
   config <<-CONFIG
     filter {

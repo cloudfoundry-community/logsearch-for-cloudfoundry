@@ -1,11 +1,11 @@
-require "test_utils"
+# encoding: utf-8
+require "logstash/devutils/rspec/spec_helper"
 require "logstash/filters/grok"
 require "date"
 
 current = DateTime.now
 
 describe LogStash::Filters::Grok do
-  extend LogStash::RSpec
 
   config <<-CONFIG
     filter {
