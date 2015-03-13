@@ -1,3 +1,0 @@
-[submodule "vendor/logsearch-filters-common"]
-	path = vendor/logsearch-filters-common
-	url = https://github.com/logsearch/logsearch-filters-common.git
