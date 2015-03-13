@@ -1,24 +1,23 @@
-## Log parsing rules for Cloud Foundry
+## Logsearch for Cloud Foundry
 
-Log parsing rules for for cloudfoundry logs
+A logsearch addon that customises Logsearch to work with Cloud Foundry data
 
 ### Getting Started
 
-*On Mac OX Mavericks* 
-Make sure you have [java](http://www.java.com/) installed, then clone this
-repository and install the dependencies it needs (it'll take a few minutes).
+* INSIDE your Logsearch-workspace,
 
-    $ git clone git@github.com:logsearch/logstash-filters-cf.git
-    $ cd logstash-filters-cf
-    $ git submodule update --init
-    $ ./bin/install_deps.sh
+```
+git clone git@github.com:logsearch/logsearch-for-cloudfoundry.git ~/src/logsearch-for-cloudfoundry
+cd ~/src/logsearch-for-cloudfoundry
+bin/install_dependancies
+bin/build
+```
 
-When you ready to test the changes you've made to filters run the helper
-scripts.
+### Developing
 
-    $ ./bin/build.sh && ./bin/test.sh
-    compiling src/100-cloudfoundry.conf.erb...done
-    ..
+0. Make a failing test under `test/`
+0. Run the tests `bin/test`
+0. Make tests pass by writing code under `src/`
+0. Ensure tests are green.
+0. Create PR!
 
-    Finished in 0.385 seconds
-    2 examples, 0 failures

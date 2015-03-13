@@ -1,16 +1,16 @@
-require "test_utils"
+# encoding: utf-8
+require "logstash/devutils/rspec/spec_helper"
 require "logstash/filters/grok"
 require "date"
 
 current = DateTime.now
 
 describe LogStash::Filters::Grok do
-  extend LogStash::RSpec
 
   config <<-CONFIG
     filter {
-      #{File.read("vendor/logsearch-filters-common/src/logstash/snippets/syslog_standard.conf")}
-      #{File.read("target/logstash/cloudfoundry.conf")}
+      #{File.read("vendor/logsearch-filters-common/target/logsearch-filters-default.conf")}
+      #{File.read("target/logstash-filters-default.conf")}
     }
   CONFIG
 
