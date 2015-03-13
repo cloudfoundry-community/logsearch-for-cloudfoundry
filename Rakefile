@@ -1,17 +1,17 @@
 require 'erb'
 
 task :clean do
-  rm_rf "target"
-  mkdir "target"
+  mkdir_p "target"
+  rm_rf "target/*"
 end
 
 desc "Builds filters & dashboards"
 task :build => :clean do
-	puts "===> Building ..."
+  puts "===> Building ..."
   compile_erb 'src/logstash-filters/default.conf.erb', 'target/logstash-filters-default.conf'
 
-	puts "===> Artifacts:"
-	puts `tree target`
+  puts "===> Artifacts:"
+  puts `tree target`
 end
 
 desc "Runs unit tests against filters & dashboards"
