@@ -8,7 +8,9 @@ A Logsearch addon that customises Logsearch to work with Cloud Foundry data
 * CF application dashboards - ingest, parse and analyse application logs and metrics form the Doppler Firehose [WIP]
 * Multi-tenancy - Integration with CF UUA to only allow app users to see their own logs/metrics
 * cf-cli plugin - A plugin for the cf-cli to enable searching of an applications logs - eg:
-      cf log-search APP "type:RTR AND url:index.html"
+
+        cf log-search APP "type:RTR AND url:index.html"
+
 * Per App/Space Kibana dashboards
 
 ### Getting Started
