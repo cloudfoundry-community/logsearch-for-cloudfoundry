@@ -56,8 +56,12 @@ describe LogStash::Filters::Grok do
         insist { subject["status"] } == 200
         insist { subject["body_bytes_sent"] } == 5087
         insist { subject["referer"] } == "-"
-        insist { subject["user_agent"] } == "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36"
-        insist { subject["x_forwarded_for"] } == "184.169.44.78, 192.168.16.3, 184.169.44.78, 10.10.0.71"
+        insist { subject["http_user_agent"] } == "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36"
+        
+        insist { subject["remote_addr"] } == "184.169.44.78"
+        insist { subject["x_forwarded_for"] } == [ "184.169.44.78", "192.168.16.3", "184.169.44.78", "10.10.0.71" ]
+        insist { subject["geoip"]["location"] } == [ -118.8935, 34.14439999999999 ]
+
         insist { subject["vcap_request_id"] } == "c66716aa-fef1-482f-55c3-133be3ed8de7"
         insist { subject["response_time"] } == 0.003644458
 
@@ -85,6 +89,8 @@ describe LogStash::Filters::Grok do
       end
 
       sample("@type" => "syslog", "@message" => '<6>2015-03-17T01:22:40Z jumpbox.xxxxxxx.com doppler[6375]: {"cf_app_id":"ec2d33f6-fd1c-49a5-9a90-031454d1f1ac","level":"info","message_type":"ERR","msg":"W, [2015-03-17T01:21:39.739322 #31] WARN -- : attack prevented by Rack::Protection::IPSpoofing","source_instance":"0","source_type":"App","time":"2015-03-17T01:22:40Z"}') do
+
+       # puts subject.to_hash.to_yaml
 
         insist { subject["tags"] } == [ 'syslog_standard', 'cloudfoundry_doppler' ]
         insist { subject["@type"] } == "cloudfoundry_doppler"
