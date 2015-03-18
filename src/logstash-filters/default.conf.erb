@@ -1,7 +1,9 @@
 # Parse Cloud Foundry logs from loggregator (syslog)
 # see https://github.com/cloudfoundry/loggregator/blob/master/src/loggregator/sinks/syslogwriter/syslog_writer.go#L156
 
-if [@type] in ["syslog", "relp"] and [@source.host] == "loggregator" {
+if [@type] in ["syslog", "relp"] and [syslog_program] == "doppler" {
+<%= File.read('src/logstash-filters/snippets/doppler.conf').gsub(/^/, '  ') %>
+} else if [@type] in ["syslog", "relp"] and [@source.host] == "loggregator" {
 <%= File.read('src/logstash-filters/snippets/loggregator.conf').gsub(/^/, '  ') %>
 } else if [@type] in ["syslog", "relp"] and [syslog_program] =~ /vcap\..*/ {
 <%= File.read('src/logstash-filters/snippets/vcap.conf').gsub(/^/, '  ') %>
