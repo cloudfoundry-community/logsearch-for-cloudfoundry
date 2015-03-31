@@ -5,4 +5,4 @@ BASE_DIR=$(cd $SCRIPT_DIR/.. ; pwd)
 
 cd $BASE_DIR
 
-rake test
+rake test["$1"]
