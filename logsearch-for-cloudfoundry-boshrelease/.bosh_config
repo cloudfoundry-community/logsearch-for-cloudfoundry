@@ -1,0 +1,14 @@
+---
+target: https://127.0.0.1:25555
+target_name: Bosh Lite Director
+target_version: 1.2811.0 (00000000)
+target_uuid: c6f166bd-ddac-4f7d-9c57-d11c6ad5133b
+aliases:
+  target:
+    c6f166bd-ddac-4f7d-9c57-d11c6ad5133b: https://127.0.0.1:25555
+auth:
+  https://127.0.0.1:25555:
+    username: admin
+    password: admin
+deployment:
+  https://127.0.0.1:25555: "/home/vagrant/src/logsearch-for-cloudfoundry/logsearch-for-cloudfoundry-boshrelease/tmp/logsearch-for-cloudfoundry-warden-manifest.yml"
