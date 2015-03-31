@@ -15,10 +15,21 @@ describe LogStash::Filters::Grok do
 
     describe "invalid json" do
       sample("@type" => "syslog", "@message" => '<6>2015-03-17T01:24:23Z jumpbox.xxxxxxx.com doppler[6375]: {"invalid }') do
-        puts subject.to_hash.to_yaml
+        #puts subject.to_hash.to_yaml
 
         insist { subject["tags"] } == [ 'syslog_standard', 'fail/cloudfoundry/doppler/jsonparsefailure_of_syslog_message' ]
      
+      end
+    end
+
+    describe "should always have an event_type field" do
+        describe "should default to event_type:LogMessage when missing" do
+          sample("@type" => "syslog", "@message" => '<6>2015-03-17T01:24:23Z jumpbox.xxxxxxx.com doppler[6375]: {"cf_app_id":"b732c465-0536-4014-b922-165eb38857b2","level":"info","message_type":"OUT","msg":"Stopped app instance (index 0) with guid b732c465-0536-4014-b922-165eb38857b2","source_instance":"7","source_type":"DEA","time":"2015-03-17T01:24:23Z"}') do
+            #puts subject.to_hash.to_yaml
+
+            insist { subject["event_type"] } == "LogMessage"
+         
+          end
       end
     end
 
