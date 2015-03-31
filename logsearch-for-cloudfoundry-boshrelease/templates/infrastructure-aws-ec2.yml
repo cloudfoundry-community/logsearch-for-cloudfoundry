@@ -1,0 +1,29 @@
+meta:
+  environment: (( merge ))
+  dns_root: (( merge ))
+  security_groups: (( merge ))
+
+  stemcell:
+    name: bosh-aws-xen-ubuntu-trusty-go_agent-hvm
+    version: latest
+
+jobs:
+  - name: ingestor_cloudfoundry
+    instances: 1
+    networks:
+      - name: logsearch_for_cloudfoundry1
+
+compilation:
+  cloud_properties:
+    instance_type: m3.medium
+
+resource_pools:
+  - name: small_z1
+    cloud_properties:
+      instance_type: m3.medium
+
+networks:
+  - name: logsearch_for_cloudfoundry1
+    type: dynamic
+    cloud_properties:
+      security_groups: (( meta.security_groups ))
