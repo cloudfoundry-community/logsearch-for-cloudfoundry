@@ -78,7 +78,7 @@ describe LogStash::Filters::Grok do
       insist { subject["log_source"] } == "App"
       insist { subject["log_source_id"] } == "0"
 
-      insist { subject["message"] }.nil? === true
+      insist { subject["message"] }.nil? === "true"
     end
   end
 end
