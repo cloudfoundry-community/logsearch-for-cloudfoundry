@@ -1,0 +1,3 @@
+[submodule "logsearch-for-cloudfoundry-boshrelease/src/firehose-to-syslog"]
+	path = logsearch-for-cloudfoundry-boshrelease/src/firehose-to-syslog
+	url = https://github.com/SpringerPE/firehose-to-syslog.git

@@ -1,0 +1,7 @@
+---
+name: firehose-to-syslog
+dependencies: 
+- golang1.4
+files:
+- firehose-to-syslog/**/*.{go,golden,proto,c,h,}
+
