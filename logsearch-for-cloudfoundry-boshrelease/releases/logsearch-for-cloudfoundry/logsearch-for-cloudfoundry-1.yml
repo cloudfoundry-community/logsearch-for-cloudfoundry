@@ -1,0 +1,26 @@
+---
+packages:
+- name: firehose-to-syslog
+  version: ed0896b13276dcde3320293fb26ae6b5a568ef5c
+  fingerprint: ed0896b13276dcde3320293fb26ae6b5a568ef5c
+  sha1: ff4a0032ebb5bd926090c979e89246793732a523
+  dependencies:
+  - golang1.4
+- name: golang1.4
+  version: f57ddbc8d55d7a0f08775bf76bb6a27dc98c7ea7
+  fingerprint: f57ddbc8d55d7a0f08775bf76bb6a27dc98c7ea7
+  sha1: 1514f2765093eb9e912469fbf9887e73ae2d2412
+  dependencies: []
+jobs:
+- name: ingestor_cloudfoundry-firehose
+  version: 6033e0b068c05cc214a53bcd2a6489ea0ef881a8
+  fingerprint: 6033e0b068c05cc214a53bcd2a6489ea0ef881a8
+  sha1: cdb42522639c14b4de1fdd2adc2dc9278e0513dc
+license:
+  version: 45ba225fe5790e0633fb9a8e20be9efeea888f51
+  fingerprint: 45ba225fe5790e0633fb9a8e20be9efeea888f51
+  sha1: 2918df5d475946a84e10f336bba645a1154cc4d0
+commit_hash: 1b2cc774
+uncommitted_changes: true
+name: logsearch-for-cloudfoundry
+version: '1'
