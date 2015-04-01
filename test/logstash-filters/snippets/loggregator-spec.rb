@@ -6,7 +6,7 @@ describe LogStash::Filters::Grok do
 
   config <<-CONFIG
     filter {
-      #{File.read("vendor/logsearch-filters-common/target/logsearch-filters-default.conf")}
+      #{File.read("vendor/logsearch-boshrelease/logstash-filters-default.conf")} # This simulates the default parsing that logsearch v19+ does
       #{File.read("target/logstash-filters-default.conf")}
     }
   CONFIG
@@ -78,7 +78,7 @@ describe LogStash::Filters::Grok do
       insist { subject["log_source"] } == "App"
       insist { subject["log_source_id"] } == "0"
 
-      insist { subject["message"] }.nil? === true
+      insist { subject["message"] }.nil? === "true"
     end
   end
 end

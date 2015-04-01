@@ -1,4 +1,5 @@
 require 'erb'
+require 'rake'
 
 task :clean do
   mkdir_p "target"
@@ -15,9 +16,10 @@ task :build => :clean do
 end
 
 desc "Runs unit tests against filters & dashboards"
-task :test => :build do
+task :test, [:rspec_files] => :build do |t, args|
+  args.with_defaults(:rspec_files => "$(find test -name *spec.rb)")
 	puts "===> Testing ..."
-  sh %Q[ JAVA_OPTS="$JAVA_OPTS -XX:+TieredCompilation -XX:TieredStopAtLevel=1" vendor/logstash/bin/logstash rspec $(find test -name *spec.rb) ]
+  sh %Q[ JAVA_OPTS="$JAVA_OPTS -XX:+TieredCompilation -XX:TieredStopAtLevel=1" vendor/logstash/bin/logstash rspec #{args[:rspec_files]} ]
 end
 
 def compile_erb(source_file, dest_file)
