@@ -6,7 +6,7 @@ A Logsearch addon that customises Logsearch to work with Cloud Foundry data
 
 * CF Operator dashboards - ingest, parse and analyse data from CF runtime components. [WIP]
 * CF application dashboards - ingest, parse and analyse application logs and metrics form the Doppler Firehose [WIP]
-* Multi-tenancy - Integration with CF UUA to only allow app users to see their own logs/metrics
+* Multi-tenancy - Integration with CF UAA to only allow app users to see their own logs/metrics
 * cf-cli plugin - A plugin for the cf-cli to enable searching of an applications logs - eg:
 
         cf log-search APP "type:RTR AND url:index.html"
@@ -25,28 +25,28 @@ This has been tested on cf-release v205 and logsearch-boshrelease v19.
   * Add and configure the `ingestor_cloudfoundry` job to your logsearch deploy manifest:
            releases:
   	          - name: logsearch-for-cloudfoundry
-                version: latest    
-  
+                version: latest
+
            jobs:
              - name: ingestor_cloudfoundry
                release: logsearch-for-cloudfoundry
-               templates: 
+               templates:
                - name: ingestor_cloudfoundry-firehose
                instances: 1
                resource_pool: small_z1
                networks: z1
                persistent_disk: 0
-  
+
            properties:
                ingestor_cloudfoundry-firehose:
                  debug: true
-                 uua-endpoint: "https://uaa.10.244.0.34.xip.io/oauth/authorize"
+                 uaa-endpoint: "https://uaa.10.244.0.34.xip.io/oauth/authorize"
                  doppler-endpoint: "wss://doppler.10.244.0.34.xip.io"
                  skip-ssl-validation: true
                  firehose-user: admin
                  firehose-password: admin
                  syslog-server: "10.244.10.6:514"
-   
+
    * Include `logsearch-for-cloudfoundry/logstash-filters-default.conf` log_parsing rules
            properties:
              logstash_parser:
@@ -74,4 +74,3 @@ bin/test
 0. Make tests pass by writing code under `src/`
 0. Ensure tests are green.
 0. Create PR!
-
