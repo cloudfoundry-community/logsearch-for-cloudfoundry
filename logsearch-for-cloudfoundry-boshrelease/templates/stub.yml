@@ -14,7 +14,7 @@ releases:
 properties:
   ingestor_cloudfoundry-firehose:
     debug: true
-    uua-endpoint: "https://uaa.10.244.0.34.xip.io/oauth/authorize"
+    uaa-endpoint: "https://uaa.10.244.0.34.xip.io/oauth/authorize"
     doppler-endpoint: "wss://doppler.10.244.0.34.xip.io"
     skip-ssl-validation: true
     firehose-user: admin

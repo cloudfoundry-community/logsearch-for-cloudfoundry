@@ -1,6 +1,6 @@
 ---
 name: ingestor_cloudfoundry-firehose
-packages: 
+packages:
 - firehose-to-syslog
 templates:
   bin/ingestor_cloudfoundry-firehose_ctl: bin/ingestor_cloudfoundry-firehose_ctl
@@ -12,16 +12,16 @@ properties:
   ingestor_cloudfoundry-firehose.debug:
     description: Debug level logging
     default: false
-  ingestor_cloudfoundry-firehose.uua-endpoint:
-    description: "Uri endpoint for CF UUA (eg: https://uaa.domain.com/oauth/authorize)"
+  ingestor_cloudfoundry-firehose.uaa-endpoint:
+    description: "Uri endpoint for CF UAA (eg: https://uaa.domain.com/oauth/authorize)"
   ingestor_cloudfoundry-firehose.doppler-endpoint:
     description: "Uri endpoint for CF doppler (eg: wss://doppler.domain.com)"
   ingestor_cloudfoundry-firehose.skip-ssl-validation:
     description: "Set to true to skip SSL validation when connecting to CF (defaults to false)"
     default: false
   ingestor_cloudfoundry-firehose.firehose-user:
-    description: "CF UUA username of user with 'doppler.firehose' permissions"
+    description: "CF UAA username of user with 'doppler.firehose' permissions"
   ingestor_cloudfoundry-firehose.firehose-password:
-    description: "CF UUA password of user with 'doppler.firehose' permissions"
+    description: "CF UAA password of user with 'doppler.firehose' permissions"
   ingestor_cloudfoundry-firehose.syslog-server:
     description: "syslogserver:syslogport of Logsearch syslog ingestor (eg: ingestor.logsearch.example.org:514)"
