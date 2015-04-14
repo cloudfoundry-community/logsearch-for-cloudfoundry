@@ -1,13 +1,33 @@
 # encoding: utf-8
 require "logstash/devutils/rspec/spec_helper"
 require "logstash/filters/grok"
+require 'tempfile'
+
+#Lookup using: cf curl "/v2/apps/$APP_UUID?inline-relations-depth=2" | jq --compact-output '. | { cf_app_id: .metadata.guid, cf_app_name: .entity.name , cf_space_id: .entity.space.metadata.guid , cf_space_name: .entity.space.entity.name , cf_org_id: .entity.space.entity.organization.metadata.guid , cf_org_name: .entity.space.entity.organization.entity.name }'
+DICTIONARY = <<EOD
+'9af4f832-32cf-47c1-bce8-f2e852ea0730': '{"cf_app_id":"9af4f832-32cf-47c1-bce8-f2e852ea0730","cf_app_name":"app-logs","cf_space_id":"5c98b860-f5d2-444c-b923-d91b277b5269","cf_space_name":"production","cf_org_id":"8005f45b-76d9-4038-8ca1-9e0a85ed5be0","cf_org_name":"system"}'
+'54967f0c-5069-4428-83de-84f86c1286e2': '{"cf_app_id":"54967f0c-5069-4428-83de-84f86c1286e2","cf_app_name":"devApp1","cf_space_id":"a871a722-cad2-4d46-8061-2c9b728b7d8f","cf_space_name":"development","cf_org_id":"8005f45b-76d9-4038-8ca1-9e0a85ed5be0","cf_org_name":"system"}'
+'2769b9da-5ad7-4bbc-a337-d9fc14ed355e': '{"cf_app_id":"2769b9da-5ad7-4bbc-a337-d9fc14ed355e","cf_app_name":"testApp1","cf_space_id":"182d42fe-eebf-4826-9127-38a49fac8e91","cf_space_name":"test","cf_org_id":"8005f45b-76d9-4038-8ca1-9e0a85ed5be0","cf_org_name":"system"}'
+'d7d702c9-7863-4d16-a375-be7cd960022d': '{"cf_app_id":"d7d702c9-7863-4d16-a375-be7cd960022d","cf_app_name":"prodApp1","cf_space_id":"5c98b860-f5d2-444c-b923-d91b277b5269","cf_space_name":"production","cf_org_id":"8005f45b-76d9-4038-8ca1-9e0a85ed5be0","cf_org_name":"system"}'
+'ec2d33f6-fd1c-49a5-9a90-031454d1f1ac': '{"cf_app_id":"ec2d33f6-fd1c-49a5-9a90-031454d1f1ac","cf_app_name":"myappname","cf_space_id":"5c98b860-f5d2-444c-b923-XXXXX","cf_space_name":"myspacename","cf_org_id":"8005f45b-76d9-4038-8ca1-YYYYY","cf_org_name":"myorgname"}'
+EOD
 
 describe LogStash::Filters::Grok do
+ 
+  #Replace referenced cf-app-space-org-dictionary.yml path with path to test dictionary
+  test_dictionary = Tempfile.new('TEST-cf-app-space-org-dictionary.yml')
+  test_dictionary.write(DICTIONARY)
+  test_dictionary.close
+
+  filters_path = "target/logstash-filters-default.conf"
+  filters = File.read(filters_path) 
+  updated_filters = filters.gsub!("/var/vcap/store/cf_app_details_cache/cf_app_space_org_dictionary.yml", test_dictionary.path)
+  File.open("#{filters_path}-with-test-dictionary", "w") { |file| file << updated_filters }
 
   config <<-CONFIG
     filter {
       #{File.read("vendor/logsearch-boshrelease/logstash-filters-default.conf")} # This simulates the default parsing that logsearch v19+ does
-      #{File.read("target/logstash-filters-default.conf")}
+      #{File.read("target/logstash-filters-default.conf-with-test-dictionary")}
     }
   CONFIG
 
@@ -149,3 +169,4 @@ describe LogStash::Filters::Grok do
   end
 
 end
+
