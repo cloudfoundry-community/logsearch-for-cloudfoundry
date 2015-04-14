@@ -18,7 +18,7 @@ case $1 in
     echo $$ > $PIDFILE
 
     exec chpst -u vcap:vcap firehose-to-syslog \
-        --uaa-endpoint=<%= p("ingestor_cloudfoundry-firehose.uua-endpoint") %> \
+        --uaa-endpoint=<%= p("ingestor_cloudfoundry-firehose.uaa-endpoint") %> \
         --doppler-endpoint=<%= p("ingestor_cloudfoundry-firehose.doppler-endpoint") %> \
         <% if p("ingestor_cloudfoundry-firehose.skip-ssl-validation") %>--skip-ssl-validation <% end%> \
         --firehose-user=<%= p("ingestor_cloudfoundry-firehose.firehose-user") %> \
