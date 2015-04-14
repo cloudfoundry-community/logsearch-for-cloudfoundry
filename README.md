@@ -46,7 +46,16 @@ This has been tested on cf-release v205 and logsearch-boshrelease v19.
                  firehose-user: admin
                  firehose-password: admin
                  syslog-server: "10.244.10.6:514"
-   
+  
+   * Colocate the `cf_app_details_cache` template on all your log_parser jobs: 
+
+           jobs:
+             - name: log_parser
+               templates: 
+               - name: log_parser
+               - { name: cf_app_details_cache, release: logsearch-for-cloudfoundry }
+               ...snip...
+
    * Include `logsearch-for-cloudfoundry/logstash-filters-default.conf` log_parsing rules
            properties:
              logstash_parser:
