@@ -2,20 +2,26 @@
 
 A Logsearch addon that customises Logsearch to work with Cloud Foundry data
 
+It consumes the syslog component log streams AND the doppler firehose stream, to provide log dashboards for 2 distinct user groups:
+
+* **cf-users** (those deploying apps to the CF cluster) see a tenanted view of the doppler firehose data stored in Logsearch for just the apps in spaces they are members of.  They access the data via an app deployed on CF, and are required to authenticated against the CF's UAA component using the same credentials they would use to interact via the `cf` CLI tool.
+
+![CF Apps - RTR dashboard](https://cloud.githubusercontent.com/assets/227505/7153240/a1e01afe-e340-11e4-9b95-2903defc8059.png)
+
+* **cf-operators** (those responsible for operating the CF cluster) can see data for all cf-user apps as well as data from all underlying CF components and the NATs message bus.
+
+![CF dashboard](https://cloud.githubusercontent.com/assets/227505/7153274/4dbfcc8e-e341-11e4-8e16-b45a2ac68565.png)
+
 ### Roadmap
 
-* CF Operator dashboards - ingest, parse and analyse data from CF runtime components. [WIP]
-* CF application dashboards - ingest, parse and analyse application logs and metrics form the Doppler Firehose [WIP]
-* Multi-tenancy - Integration with CF UAA to only allow app users to see their own logs/metrics
 * cf-cli plugin - A plugin for the cf-cli to enable searching of an applications logs - eg:
 
         cf log-search APP "type:RTR AND url:index.html"
 
-* Per App/Space Kibana dashboards
 
 ### Getting Started
 
-### Adding to an existing Cloud Foundry + Logsearch deployments
+### Adding to existing Cloud Foundry + Logsearch deployments
 
 This has been tested on cf-release v205 and logsearch-boshrelease v19.
 
