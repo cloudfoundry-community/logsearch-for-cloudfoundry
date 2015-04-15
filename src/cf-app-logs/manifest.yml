@@ -1,0 +1,17 @@
+---
+applications:
+- name: app-logs
+  memory: 512M
+  instances: 1
+  path: target/cf-app-logs-0.0.2-SNAPSHOT.jar
+  stack: cflinuxfs2
+  env:
+    spring_oauth2_client_clientId: logsearch_for_cloudfoundry
+    spring_oauth2_client_clientSecret: "XXXXXX"
+    spring_oauth2_client_accessTokenUri: http://login.run.54.183.203.97.xip.io/oauth/token
+    spring_oauth2_client_userAuthorizationUri: http://login.run.54.183.203.97.xip.io/oauth/authorize
+    spring_oauth2_resource_jwt_keyUri: http://uaa.run.54.183.203.97.xip.io/token_key
+    logsearch_elasticsearchAdminUri: http://10.10.5.6:9200
+    zuul_routes_kibana_url: http://logs.54.183.203.97.xip.io
+    cloudfoundry_cloudControllerUri: http://api.run.54.183.203.97.xip.io
+    cloudfoundry_uaaUri: http://uaa.run.54.183.203.97.xip.io
