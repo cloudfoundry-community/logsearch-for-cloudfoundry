@@ -10,12 +10,10 @@ templates:
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
 properties:
   ingestor_cloudfoundry-firehose.debug:
-    description: Debug level logging
+    description: Debug level logging. This disables forwarding to syslog
     default: false
-  ingestor_cloudfoundry-firehose.uaa-endpoint:
-    description: "Uri endpoint for CF UAA (eg: https://uaa.domain.com/oauth/authorize)"
-  ingestor_cloudfoundry-firehose.doppler-endpoint:
-    description: "Uri endpoint for CF doppler (eg: wss://doppler.domain.com)"
+  ingestor_cloudfoundry-firehose.cf-domain:
+    description: "Domain of your CF installation. (eg: 10.244.0.34.xip.io)"
   ingestor_cloudfoundry-firehose.skip-ssl-validation:
     description: "Set to true to skip SSL validation when connecting to CF (defaults to false)"
     default: false

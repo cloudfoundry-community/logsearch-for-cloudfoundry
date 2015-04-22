@@ -1,5 +1,0 @@
-check process cf_app_details_cache
-  with pidfile /var/vcap/sys/run/cf_app_details_cache/cf_app_details_cache.pid
-  start program "/var/vcap/jobs/cf_app_details_cache/bin/monit_debugger cf_app_details_cache_ctl '/var/vcap/jobs/cf_app_details_cache/bin/cf_app_details_cache_ctl start'"
-  stop program "/var/vcap/jobs/cf_app_details_cache/bin/monit_debugger cf_app_details_cache_ctl '/var/vcap/jobs/cf_app_details_cache/bin/cf_app_details_cache_ctl stop'"
-  group vcap
