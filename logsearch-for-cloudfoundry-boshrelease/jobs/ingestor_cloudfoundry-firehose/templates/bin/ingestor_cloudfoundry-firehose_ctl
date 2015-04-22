@@ -18,13 +18,15 @@ case $1 in
     echo $$ > $PIDFILE
 
     exec chpst -u vcap:vcap firehose-to-syslog \
-        --uaa-endpoint=<%= p("ingestor_cloudfoundry-firehose.uaa-endpoint") %> \
-        --doppler-endpoint=<%= p("ingestor_cloudfoundry-firehose.doppler-endpoint") %> \
-        <% if p("ingestor_cloudfoundry-firehose.skip-ssl-validation") %>--skip-ssl-validation <% end%> \
-        --firehose-user=<%= p("ingestor_cloudfoundry-firehose.firehose-user") %> \
-        --firehose-password=<%= p("ingestor_cloudfoundry-firehose.firehose-password") %> \
+        --domain=<%= p("ingestor_cloudfoundry-firehose.cf-domain") %> \
+        <% if p("ingestor_cloudfoundry-firehose.skip-ssl-validation") %>--skip-ssl-validation <% end %> \
+        --user=<%= p("ingestor_cloudfoundry-firehose.firehose-user") %> \
+        --password=<%= p("ingestor_cloudfoundry-firehose.firehose-password") %> \
         --syslog-server=<%= p("ingestor_cloudfoundry-firehose.syslog-server") %> \
-        <% if p("ingestor_cloudfoundry-firehose.debug") %>--debug <% end%> \
+        --events=LogMessage,Error,ContainerMetric \
+        --boltdb-path=$TMP_DIR/firehose-to-syslog.cache.db \
+        --cc-pull-time=60s \<% if p("ingestor_cloudfoundry-firehose.debug") %>
+        --debug \<% end%>
          >>$LOG_DIR/$JOB_NAME.stdout.log \
          2>>$LOG_DIR/$JOB_NAME.stderr.log
 
