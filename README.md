@@ -25,29 +25,28 @@ The video below shows this in action:
 
 ### Adding to existing Cloud Foundry + Logsearch deployments
 
-This has been tested on cf-release v205 and logsearch-boshrelease v19.
+This has been tested on cf-release v207 and logsearch-boshrelease v19.
 
 0.  Deploy the `ingestor_cloudfoundry` job to your existing logsearch deployment.
 
-  * `bosh upload release https://logsearch-for-cloudfoundry-boshrelease.s3.amazonaws.com/boshrelease-logsearch-for-cloudfoundry-0%2Bdev.3.tgz`
+  * `bosh upload release https://logsearch-for-cloudfoundry-boshrelease.s3.amazonaws.com/boshrelease-logsearch-for-cloudfoundry-2.tgz`
   * Add and configure the `ingestor_cloudfoundry` job to your logsearch deploy manifest:
-           releases:
-  	          - name: logsearch-for-cloudfoundry
-                version: latest
+             releases:
+             - name: logsearch-for-cloudfoundry
+               version: latest
 
-           jobs:
+             jobs:
              - name: ingestor_cloudfoundry
                release: logsearch-for-cloudfoundry
                templates:
-               - name: ingestor_cloudfoundry-firehose
+             - name: ingestor_cloudfoundry-firehose
                instances: 1
                resource_pool: small_z1
                networks: z1
                persistent_disk: 0
 
-           properties:
+             properties:
                ingestor_cloudfoundry-firehose:
-                 debug: true
                  uaa-endpoint: "https://uaa.10.244.0.34.xip.io/oauth/authorize"
                  doppler-endpoint: "wss://doppler.10.244.0.34.xip.io"
                  skip-ssl-validation: true
@@ -55,7 +54,9 @@ This has been tested on cf-release v205 and logsearch-boshrelease v19.
                  firehose-password: admin
                  syslog-server: "10.244.10.6:514"
 
+   
    * Include `logsearch-for-cloudfoundry/logstash-filters-default.conf` log_parsing rules
+  
            properties:
              logstash_parser:
            <% filtersconf = File.join(File.dirname(File.expand_path(__FILE__)), 'path/to/logsearch-for-  cloudfoundry/logstash-filters-default.conf') %>
