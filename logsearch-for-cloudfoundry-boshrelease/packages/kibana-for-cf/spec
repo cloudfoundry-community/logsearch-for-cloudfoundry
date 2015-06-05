@@ -1,0 +1,5 @@
+---
+name: kibana-for-cf
+dependencies: []
+files: 
+  - kibana-for-cf/kibana-4.1.0-snapshot-linux-x64.tar.gz
