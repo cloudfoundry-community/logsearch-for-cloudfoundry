@@ -43,7 +43,8 @@ cf bind-security-group allow_access_to_elasticsearch system elk-for-pcf
 # Push app
 cf push 
 
-# TODO:  Upload Kibana dashboards
+#Upload Kibana dashboards
+cat /var/vcap/jobs/push-kibana/config/kibana4-dashboards.json | curl --data-binary @- http://<%= p('push-kibana.logsearch_elasticsearch_admin_ip') %>:<%= p('push-kibana.logsearch_elasticsearch_admin_port') %>/_bulk
 
 EXITSTATUS=0
 
