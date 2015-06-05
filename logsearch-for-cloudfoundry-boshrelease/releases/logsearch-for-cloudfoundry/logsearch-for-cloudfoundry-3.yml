@@ -1,0 +1,40 @@
+---
+packages:
+- name: cli
+  version: 2bb59769970d6b9c5c478984e622d4bd24ea4750
+  fingerprint: 2bb59769970d6b9c5c478984e622d4bd24ea4750
+  sha1: 0e7a305a3036bb26eca79f27d8c128242b022435
+  dependencies: []
+- name: firehose-to-syslog
+  version: 49f3d4997d4cd69676bc6e76de678aaebb21c02b
+  fingerprint: 49f3d4997d4cd69676bc6e76de678aaebb21c02b
+  sha1: 81ffae4d4d295bf15a2a84ef43a512b23a3d9355
+  dependencies:
+  - golang1.4
+- name: golang1.4
+  version: f57ddbc8d55d7a0f08775bf76bb6a27dc98c7ea7
+  fingerprint: f57ddbc8d55d7a0f08775bf76bb6a27dc98c7ea7
+  sha1: 1514f2765093eb9e912469fbf9887e73ae2d2412
+  dependencies: []
+- name: kibana-for-cf
+  version: 206c83ec5695bb091b97f97a0884e5db04af5f43
+  fingerprint: 206c83ec5695bb091b97f97a0884e5db04af5f43
+  sha1: 54dd42677c96fb33c20f0d990cc99ea6ae6c09f1
+  dependencies: []
+jobs:
+- name: ingestor_cloudfoundry-firehose
+  version: 530d31247377b2400d2a06cbc106cf93425184a2
+  fingerprint: 530d31247377b2400d2a06cbc106cf93425184a2
+  sha1: 3a6f258506b590cb4fe31e2d4680f5c175485013
+- name: push-kibana
+  version: d0646997c946506699518c4e3f3916c1a8bf4b44
+  fingerprint: d0646997c946506699518c4e3f3916c1a8bf4b44
+  sha1: e2e48e2891cd3026fd1d18cc133cd89c52629337
+license:
+  version: 45ba225fe5790e0633fb9a8e20be9efeea888f51
+  fingerprint: 45ba225fe5790e0633fb9a8e20be9efeea888f51
+  sha1: 2918df5d475946a84e10f336bba645a1154cc4d0
+commit_hash: 3e837210
+uncommitted_changes: true
+name: logsearch-for-cloudfoundry
+version: '3'
