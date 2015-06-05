@@ -1,0 +1,13 @@
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Available variables
+# $BOSH_COMPILE_TARGET - where this package & spec'd source files are available
+# $BOSH_INSTALL_TARGET - where you copy/install files to be included in package
+
+tar -xzf kibana-for-cf/kibana-4.1.0-snapshot-linux-x64.tar.gz --strip 1 -C ${BOSH_INSTALL_TARGET}
+
+#Strip out the bundled node binaries & config; since these will be provided by the CF nodejs_buildpack
+rm -rf ${BOSH_INSTALL_TARGET}/node
+rm -rf ${BOSH_INSTALL_TARGET}/bin
+rm -rf ${BOSH_INSTALL_TARGET}/config

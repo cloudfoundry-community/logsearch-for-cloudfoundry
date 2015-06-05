@@ -12,6 +12,10 @@ jobs:
     instances: 1
     networks:
       - name: logsearch_for_cloudfoundry1
+  - name: push-kibana
+    instances: 1
+    networks:
+      - name: logsearch_for_cloudfoundry1
 
 compilation:
   cloud_properties:

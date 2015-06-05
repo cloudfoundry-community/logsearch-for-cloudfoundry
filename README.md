@@ -56,6 +56,7 @@ This has been tested on cf-release v205 and logsearch-boshrelease v19.
                  syslog-server: "10.244.10.6:514"
 
    * Include `logsearch-for-cloudfoundry/logstash-filters-default.conf` log_parsing rules
+   
            properties:
              logstash_parser:
            <% filtersconf = File.join(File.dirname(File.expand_path(__FILE__)), 'path/to/logsearch-for-  cloudfoundry/logstash-filters-default.conf') %>
