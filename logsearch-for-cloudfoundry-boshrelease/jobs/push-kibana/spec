@@ -8,6 +8,7 @@ templates:
   config/manifest.yml: config/manifest.yml
   config/kibana.yml: config/kibana.yml
   config/allow_access_to_elasticsearch.rules.json: config/allow_access_to_elasticsearch.rules.json
+  config/kibana4-dashboards.json: config/kibana4-dashboards.json
 properties:
   push-kibana.cloudfoundry_cloudControllerUri:
     description: "The Elastic Runtime API endpoint URL ( eg: http://api.10.244.0.34.xip.io )"
