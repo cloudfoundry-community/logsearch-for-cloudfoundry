@@ -11,3 +11,7 @@ cf-app-logs/cf-app-logs-0.0.2-SNAPSHOT.jar:
   object_id: 8b258f61-9ad0-44f2-9522-b69212009095
   sha: ff0847ab8b2e31198ca8dc161fb27beb9c9782ba
   size: 34281013
+kibana-for-cf/kibana-4.1.0-snapshot-linux-x64.tar.gz:
+  object_id: 0fa871c7-a7bd-4afe-8d83-11c262cb4041
+  sha: 99949ff3c2e3486f62ff4f2998725b8863aac7ed
+  size: 25238338
