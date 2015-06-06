@@ -1,0 +1,9 @@
+---
+applications:
+- name: logs
+  memory: 256M
+  instances: 2
+  buildpack: nodejs_buildpack
+  command: CONFIG_PATH=$HOME/kibana.yml exec node $HOME/src/bin/kibana.js --port $PORT
+  env:
+    NODE_ENV: production

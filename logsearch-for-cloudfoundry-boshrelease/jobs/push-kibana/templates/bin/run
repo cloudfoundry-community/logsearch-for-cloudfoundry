@@ -1,0 +1,52 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+set -x
+
+PATH=/var/vcap/packages/cli/bin:$PATH
+CF_COLOR=false
+
+export TMPDIR=/var/vcap/data/tmp
+
+# Assemble kibana + config files for pushing
+rm -rf $TMPDIR/kibana-for-cf
+cp -R /var/vcap/packages/kibana-for-cf $TMPDIR
+cp /var/vcap/jobs/push-kibana/config/*.yml $TMPDIR/kibana-for-cf
+cp $TMPDIR/kibana-for-cf/src/package.json $TMPDIR/kibana-for-cf/package.json
+
+# Change to assembled kibana deploy folder
+cd $TMPDIR/kibana-for-cf 
+
+# target api
+cf api --skip-ssl-validation <%= p("push-kibana.cloudfoundry_cloudControllerUri") %>
+
+# login without org and space in case they do not exist yet
+cf auth <%= p("push-kibana.cloudfoundry_admin_username") %> "<%= p("push-kibana.cloudfoundry_admin_password").gsub('"', '\"') %>"
+
+# Create a new org, don't fail if they already exist
+cf create-org "system" || true
+
+# Target the new org
+cf target -o "system"
+
+# Create a new space, don't fail if it already exists
+cf create-space "elk-for-pcf" -o "system"  || true
+
+# Target new space.
+cf target -o "system" -s "elk-for-pcf"
+
+# Ensure apps in elk-for-pcf have firewall access to elasticsearch
+cf create-security-group allow_access_to_elasticsearch /var/vcap/jobs/push-kibana/config/allow_access_to_elasticsearch.rules.json 
+cf bind-security-group allow_access_to_elasticsearch system elk-for-pcf
+
+# Push app
+cf push 
+
+#Upload Kibana dashboards
+cat /var/vcap/jobs/push-kibana/config/kibana4-dashboards.json | curl --data-binary @- http://<%= p('push-kibana.logsearch_elasticsearch_admin_ip') %>:<%= p('push-kibana.logsearch_elasticsearch_admin_port') %>/_bulk
+
+EXITSTATUS=0
+
+echo "Errand push-cf-app-logs is complete; exit status $EXITSTATUS"
+exit $EXITSTATUS
