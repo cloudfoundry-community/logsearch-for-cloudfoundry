@@ -1,0 +1,26 @@
+---
+name: push-kibana
+packages:
+- cli
+- kibana-for-cf
+templates:
+  bin/run: bin/run
+  config/manifest.yml: config/manifest.yml
+  config/kibana.yml: config/kibana.yml
+  config/allow_access_to_elasticsearch.rules.json: config/allow_access_to_elasticsearch.rules.json
+  config/kibana4-dashboards.json: config/kibana4-dashboards.json
+properties:
+  push-kibana.cloudfoundry_cloudControllerUri:
+    description: "The Elastic Runtime API endpoint URL ( eg: http://api.10.244.0.34.xip.io )"
+  push-kibana.cloudfoundry_admin_username:
+    description: "The Elastic Runtime API user"
+  push-kibana.cloudfoundry_admin_password:
+    description: "The Elastic Runtime API user's password"
+  push-kibana.logsearch_elasticsearch_admin_ip:
+    description: "The (internal) IP for Elasticsearch API node ( eg: 10.244.0.101 )"
+  push-kibana.logsearch_elasticsearch_admin_port:
+    description: "The (internal) port for Elasticsearch API node ( default: 9200 )"
+    default: 9200
+  push-kibana.kibana_index:
+    description: "Elasticsearch index to store Kibana settings and dashboards"
+    default: ".kibana"
