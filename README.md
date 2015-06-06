@@ -63,11 +63,11 @@ This has been tested on cf-release v205, v207 and logsearch-boshrelease v19.
    
    * Include `logsearch-for-cloudfoundry/logstash-filters-default.conf` log_parsing rules
  
-           properties:
-             logstash_parser:
-           <% filtersconf = File.join(File.dirname(File.expand_path(__FILE__)), 'path/to/logsearch-for-cloudfoundry/logstash-filters-default.conf') %>
-                filters: |
-                        <%= File.read(filtersconf).gsub(/^/, '            ').strip %>
+              properties:
+                logstash_parser:
+              <% filtersconf = File.join(File.dirname(File.expand_path(__FILE__)), 'path/to/logsearch-for-cloudfoundry/logstash-filters-  default.conf') %>
+                   filters: |
+                           <%= File.read(filtersconf).gsub(/^/, '            ').strip %>
 
    * `bosh deploy`
    * All app logs from your CF deployment should now be forwarded into your logsearch cluster. 
