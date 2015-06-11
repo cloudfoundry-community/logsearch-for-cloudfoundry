@@ -16,6 +16,14 @@ properties:
     description: "The Elastic Runtime API user"
   push-kibana.cloudfoundry_admin_password:
     description: "The Elastic Runtime API user's password"
+  push-kibana.cloudfoundry_uaaUri:
+    description: "The UAA API endpoint URL ( eg: http://uaa.10.244.0.34.xip.io )"
+  push-kibana.cloudfoundry_admin_client_secret:
+    description: "The UAA Admin client id's secret"
+  push-kibana.cloudfoundry_elk_for_pcf_client_secret:
+    description: "The UAA elk-for-pcf client id's secret"
+  push-kibana.cloudfoundry_elk_for_pcf_logs_uri:
+    description: "The elk-for-pcf log dashboard URL ( eg: http://logs.10.244.0.34.xip.io )"
   push-kibana.logsearch_elasticsearch_admin_ip:
     description: "The (internal) IP for Elasticsearch API node ( eg: 10.244.0.101 )"
   push-kibana.logsearch_elasticsearch_admin_port:
