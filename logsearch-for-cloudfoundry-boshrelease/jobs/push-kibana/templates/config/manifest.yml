@@ -4,6 +4,8 @@ applications:
   memory: 256M
   instances: 2
   buildpack: nodejs_buildpack
-  command: CONFIG_PATH=$HOME/kibana.yml exec node $HOME/src/bin/kibana.js --port $PORT
+  command: CONFIG_PATH=$HOME/kibana.yml exec node $HOME/bin/kibana.js --port $PORT
   env:
     NODE_ENV: production
+    UAA_CLIENT_ID: elk-for-pcf
+    UAA_CLIENT_SECRET: "<%= p('push-kibana.cloudfoundry_elk_for_pcf_client_secret')%>""

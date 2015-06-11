@@ -11,9 +11,9 @@ export TMPDIR=/var/vcap/data/tmp
 
 # Assemble kibana + config files for pushing
 rm -rf $TMPDIR/kibana-for-cf
-cp -R /var/vcap/packages/kibana-for-cf $TMPDIR
+mkdir -p $TMPDIR/kibana-for-cf
+cp -R /var/vcap/packages/kibana-for-cf/src/. $TMPDIR/kibana-for-cf
 cp /var/vcap/jobs/push-kibana/config/*.yml $TMPDIR/kibana-for-cf
-cp $TMPDIR/kibana-for-cf/src/package.json $TMPDIR/kibana-for-cf/package.json
 
 # Change to assembled kibana deploy folder
 cd $TMPDIR/kibana-for-cf 
@@ -31,7 +31,7 @@ cf create-org "system" || true
 cf target -o "system"
 
 # Create a new space, don't fail if it already exists
-cf create-space "elk-for-pcf" -o "system"  || true
+cf create-space "elk-for-pcf" -o "system" || true
 
 # Target new space.
 cf target -o "system" -s "elk-for-pcf"
@@ -39,6 +39,30 @@ cf target -o "system" -s "elk-for-pcf"
 # Ensure apps in elk-for-pcf have firewall access to elasticsearch
 cf create-security-group allow_access_to_elasticsearch /var/vcap/jobs/push-kibana/config/allow_access_to_elasticsearch.rules.json 
 cf bind-security-group allow_access_to_elasticsearch system elk-for-pcf
+
+# Create UAA client: elk-for-pcf
+ACCESS_TOKEN=$(\
+curl -s -D - -k \
+-u admin:<%= p('push-kibana.cloudfoundry_admin_client_secret')%> \
+-H "Accept:application/json" \
+-X POST '<%= p('push-kibana.cloudfoundry_uaaUri')%>/oauth/token?grant_type=client_credentials&response_type=token&client_id=admin&redirect_uri=http://dummy.com' \
+| sed -n 's/.*access_token":"\([^"]*\).*/\1/p' \
+) 
+
+curl -s -k -H "Authorization:Bearer $ACCESS_TOKEN" \
+-H"Content-Type:application/json" \
+-H"Accept:application/json" \
+-d '{ 
+  "client_id" : "elk-for-pcf", 
+  "client_secret" : "<%= p('push-kibana.cloudfoundry_elk_for_pcf_client_secret')%>",  
+  "scope" : ["openid","oauth.approvals","scim.userids","cloud_controller.read"], 
+  "authorities" : ["uaa.none"],
+  "resource_ids" : ["none"], 
+  "authorized_grant_types" : ["authorization_code", "refresh_token"], 
+  "access_token_validity": 43200,
+  "redirect-uri": "<%= p('push-kibana.cloudfoundry_elk_for_pcf_logs_uri')%>" 
+}' \
+-X POST <%= p('push-kibana.cloudfoundry_uaaUri')%>/oauth/clients || true
 
 # Push app
 cf push 

@@ -31,43 +31,47 @@ This has been tested on cf-release v205, v207 and logsearch-boshrelease v19.
 
   * `bosh upload release https://logsearch-for-cloudfoundry-boshrelease.s3.amazonaws.com/boshrelease-logsearch-for-cloudfoundry-3.tgz`
   * Add and configure the `ingestor_cloudfoundry` job to your logsearch deploy manifest:
-              releases:
-              - name: logsearch-for-cloudfoundry
-               version: latest
+  
+```yaml
+releases:
+- name: logsearch-for-cloudfoundry
+  version: latest
 
-              jobs:
-              - name: ingestor_cloudfoundry
-               release: logsearch-for-cloudfoundry
-               templates:
-              - name: ingestor_cloudfoundry-firehose
-               instances: 1
-               resource_pool: small_z1
-               networks: z1
-               persistent_disk: 0
+jobs:
+- name: ingestor_cloudfoundry
+  release: logsearch-for-cloudfoundry
+  templates:
+  - name: ingestor_cloudfoundry-firehose
+  instances: 1
+  resource_pool: small_z1
+  networks: 
+  - name: default
+  persistent_disk: 0
 
-              properties:
-                ingestor_cloudfoundry-firehose:
-                  cf-domain: "10.244.0.34.xip.io"
-                  doppler-port: 443
-                  skip-ssl-validation: true
-                  firehose-user: admin
-                  firehose-password: admin
-                  syslog-server: "10.244.10.6:514"
-                push-kibana:
-                  cloudfoundry_cloudControllerUri: "https://api.10.244.0.34.xip.io"
-                  cloudfoundry_admin_username: "admin"
-                  cloudfoundry_admin_password: "admin"
-                  logsearch_elasticsearch_admin_ip: "10.244.10.2"
-                  logsearch_elasticsearch_admin_port: 9200
+properties:
+  ingestor_cloudfoundry-firehose:
+    cf-domain: "10.244.0.34.xip.io"
+    skip-ssl-validation: true
+    firehose-user: admin
+    firehose-password: admin
+    syslog-server: "10.244.2.14:5514"
+  push-kibana:
+    cloudfoundry_cloudControllerUri: "https://api.10.244.0.34.xip.io"
+    cloudfoundry_admin_username: "admin"
+    cloudfoundry_admin_password: "admin"
+    logsearch_elasticsearch_admin_ip: "10.244.10.2"
+    logsearch_elasticsearch_admin_port: 9200
 
-   
+```   
    * Include `logsearch-for-cloudfoundry/logstash-filters-default.conf` log_parsing rules
- 
-              properties:
-                logstash_parser:
-              <% filtersconf = File.join(File.dirname(File.expand_path(__FILE__)), 'path/to/logsearch-for-cloudfoundry/logstash-filters-  default.conf') %>
-                   filters: |
-                           <%= File.read(filtersconf).gsub(/^/, '            ').strip %>
+
+```yaml
+           properties:
+             logstash_parser:
+           <% filtersconf = File.join(File.dirname(File.expand_path(__FILE__)), 'path/to/logsearch-for-cloudfoundry/logstash-filters-default.conf') %>
+                filters: |
+                        <%= File.read(filtersconf).gsub(/^/, '            ').strip %>
+```
 
    * `bosh deploy`
    * All app logs from your CF deployment should now be forwarded into your logsearch cluster. 
