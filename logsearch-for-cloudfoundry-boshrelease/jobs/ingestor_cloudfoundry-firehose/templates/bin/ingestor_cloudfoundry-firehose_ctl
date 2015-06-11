@@ -9,9 +9,34 @@ source /var/vcap/jobs/ingestor_cloudfoundry-firehose/helpers/ctl_setup.sh 'inges
 export PORT=${PORT:-5000}
 export LANG=en_US.UTF-8
 
+# Disable IPv6, since this seems to prevent firehose-to-syslog from connecting to ingestor_syslog
+if ! grep -q 'net.ipv6.conf.lo.disable_ipv6 = 1' /etc/sysctl.conf ; then
+   echo "Disabling IPv6..."
+   echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf
+   echo "net.ipv6.conf.default.disable_ipv6 = 1" >> /etc/sysctl.conf
+   echo "net.ipv6.conf.lo.disable_ipv6 = 1" >> /etc/sysctl.conf
+   sysctl -p
+fi
+
 case $1 in
 
   start)
+
+    echo "Waiting 5m for syslog server on: <%= p("ingestor_cloudfoundry-firehose.syslog-server")%> to accept connections..."
+    n=0
+    until [ $n -ge 60 ]
+    do
+      nc -4 -z -v <%= p("ingestor_cloudfoundry-firehose.syslog-server").gsub(':',' ') %> 2>&1 && break
+      n=$[$n+1]
+      echo "Waiting for <%= p("ingestor_cloudfoundry-firehose.syslog-server")%> to accept connections ($n of 60)..."
+      sleep 5
+    done
+
+    if [ "$n" -ge "60" ]; then
+       echo "ERROR:  Cannot connect to syslog server on: <%= p("ingestor_cloudfoundry-firehose.syslog-server")%>  Exiting..."
+       exit 1
+    fi
+
     pid_guard $PIDFILE $JOB_NAME
 
     # store pid in $PIDFILE
@@ -19,6 +44,7 @@ case $1 in
 
     exec chpst -u vcap:vcap firehose-to-syslog \
         --domain=<%= p("ingestor_cloudfoundry-firehose.cf-domain") %> \
+        --doppler-port=<%= p("ingestor_cloudfoundry-firehose.doppler-port") %> \
         <% if p("ingestor_cloudfoundry-firehose.skip-ssl-validation") %>--skip-ssl-validation <% end %> \
         --user=<%= p("ingestor_cloudfoundry-firehose.firehose-user") %> \
         --password=<%= p("ingestor_cloudfoundry-firehose.firehose-password") %> \
