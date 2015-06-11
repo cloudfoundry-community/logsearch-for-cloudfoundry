@@ -47,8 +47,8 @@ This has been tested on cf-release v205, v207 and logsearch-boshrelease v19.
 
               properties:
                 ingestor_cloudfoundry-firehose:
-                  uaa-endpoint: "https://uaa.10.244.0.34.xip.io/oauth/authorize"
-                  doppler-endpoint: "wss://doppler.10.244.0.34.xip.io"
+                  cf-domain: "10.244.0.34.xip.io"
+                  doppler-port: 443
                   skip-ssl-validation: true
                   firehose-user: admin
                   firehose-password: admin

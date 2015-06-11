@@ -16,6 +16,7 @@ properties:
     #WARING: When true, logs only written to stdout and are NOT shipped to syslog
     debug: false
     cf-domain: "10.244.0.34.xip.io"
+    doppler-port: 443
     skip-ssl-validation: true
     firehose-user: admin
     firehose-password: admin

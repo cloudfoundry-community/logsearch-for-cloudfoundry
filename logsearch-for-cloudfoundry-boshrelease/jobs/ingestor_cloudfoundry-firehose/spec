@@ -14,6 +14,9 @@ properties:
     default: false
   ingestor_cloudfoundry-firehose.cf-domain:
     description: "Domain of your CF installation. (eg: 10.244.0.34.xip.io)"
+  ingestor_cloudfoundry-firehose.doppler-port:
+    description: "Port used by CF Doppler/Loggregator endpoint. Defaults to 443"
+    default: 443
   ingestor_cloudfoundry-firehose.skip-ssl-validation:
     description: "Set to true to skip SSL validation when connecting to CF (defaults to false)"
     default: false
