@@ -2,4 +2,4 @@
 name: kibana-for-cf
 dependencies: []
 files: 
-  - kibana-for-cf/kibana-4.1.0-snapshot-linux-x64.tar.gz
+  - kibana-for-cf/kibana-4.1.1-snapshot-linux-x86.tar.gz

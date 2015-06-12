@@ -15,3 +15,15 @@ kibana-for-cf/kibana-4.1.0-snapshot-linux-x64.tar.gz:
   object_id: 0fa871c7-a7bd-4afe-8d83-11c262cb4041
   sha: 99949ff3c2e3486f62ff4f2998725b8863aac7ed
   size: 25238338
+java8/openjdk-1.8.0_40.tar.gz:
+  object_id: 0c1b6d9d-8d6a-4dc8-80fa-66f484fa08b1
+  sha: 590be5c6337753b28acc81d4843e98e6245b5261
+  size: 39630740
+kibana-for-cf/kibana-4.1.1-snapshot-linux-x86.tar.gz:
+  object_id: 351cee49-f1d1-4268-9137-ee2786b3ac87
+  sha: 467ac079fe81e8eeaf54cf4551b2be003f0572fe
+  size: 10429710
+logstash/logstash-1.5.0.tar.gz:
+  object_id: cda507fe-7378-47b1-9b28-1ef4ae72ee58
+  sha: 9729c2d31fddaabdd3d8e94c34a6d1f61d57f94a
+  size: 87008665
