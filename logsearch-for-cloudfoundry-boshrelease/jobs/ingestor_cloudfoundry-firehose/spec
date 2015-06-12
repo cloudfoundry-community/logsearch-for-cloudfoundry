@@ -19,20 +19,19 @@ properties:
     description: "Whether to include additional metadata throughout the event lifecycle. NONE = disabled, DEBUG = fully enabled"
     default: "NONE"
     
-  ingestor_cloudfoundry-firehose.cf-domain:
-    description: "Domain of your CF installation. (eg: 10.244.0.34.xip.io)"
-
-  ingestor_cloudfoundry-firehose.doppler-port:
-    description: "Port used by CF Doppler/Loggregator endpoint. Defaults to 443"
-    default: 443
-  ingestor_cloudfoundry-firehose.skip-ssl-validation:
+  cloudfoundry.system_domain:
+    description: "The Elastic Runtime API system domain, eg: 10.244.0.34.xip.io "
+  cloudfoundry.skip_ssl_validation:
     description: "Set to true to skip SSL validation when connecting to CF (defaults to false)"
     default: false
-  ingestor_cloudfoundry-firehose.firehose-user:
+  cloudfoundry.firehose_user:
     description: "CF UAA username of user with 'doppler.firehose' permissions"
-  ingestor_cloudfoundry-firehose.firehose-password:
+  cloudfoundry.firehose_password:
     description: "CF UAA password of user with 'doppler.firehose' permissions"
-
+  cloudfoundry.firehose_port:
+    description: "The Elastic Runtime API doppler port, defaults to 443"
+    default: 443
+    
   redis.host: 
     description: Redis host of queue
   redis.port: 

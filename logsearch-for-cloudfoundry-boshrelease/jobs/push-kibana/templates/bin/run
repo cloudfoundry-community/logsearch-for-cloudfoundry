@@ -19,10 +19,10 @@ cp /var/vcap/jobs/push-kibana/config/*.yml $TMPDIR/kibana-for-cf
 cd $TMPDIR/kibana-for-cf 
 
 # target api
-cf api --skip-ssl-validation <%= p("push-kibana.cloudfoundry_cloudControllerUri") %>
+cf api <% if p("cloudfoundry.skip_ssl_validation") %>--skip-ssl-validation<% end %> <%= p("cloudfoundry.cloudControllerUri") %>
 
 # login without org and space in case they do not exist yet
-cf auth <%= p("push-kibana.cloudfoundry_admin_username") %> "<%= p("push-kibana.cloudfoundry_admin_password").gsub('"', '\"') %>"
+cf auth <%= p("cloudfoundry.admin_username") %> "<%= p("cloudfoundry.admin_password").gsub('"', '\"') %>"
 
 # Create a new org, don't fail if they already exist
 cf create-org "system" || true
@@ -40,12 +40,12 @@ cf target -o "system" -s "elk-for-pcf"
 cf create-security-group allow_access_to_elasticsearch /var/vcap/jobs/push-kibana/config/allow_access_to_elasticsearch.rules.json 
 cf bind-security-group allow_access_to_elasticsearch system elk-for-pcf
 
-# Create UAA client: <%= p('push-kibana.kibana_oauth2_client_id')%> if not already exists
+# Create UAA client: <%= p('push-kibana.oauth2_client_id')%> if not already exists
 ACCESS_TOKEN=$(\
 curl -s -D - -k \
--u admin:<%= p('push-kibana.cloudfoundry_admin_client_secret')%> \
+-u admin:<%= p('cloudfoundry.admin_client_secret')%> \
 -H "Accept:application/json" \
--X POST '<%= p('push-kibana.cloudfoundry_uaaUri')%>/oauth/token?grant_type=client_credentials&response_type=token&client_id=admin&redirect_uri=http://dummy.com' \
+-X POST '<%= p('cloudfoundry.uaaUri')%>/oauth/token?grant_type=client_credentials&response_type=token&client_id=admin&redirect_uri=http://dummy.com' \
 | sed -n 's/.*access_token":"\([^"]*\).*/\1/p' \
 ) 
 
@@ -54,34 +54,34 @@ curl -s -k -w "%{http_code}" -o /dev/null \
 -H "Authorization:Bearer $ACCESS_TOKEN" \
 -H"Content-Type:application/json" \
 -H"Accept:application/json" \
-<%= p('push-kibana.cloudfoundry_uaaUri')%>/oauth/clients/<%= p('push-kibana.kibana_oauth2_client_id')%> \
+<%= p('cloudfoundry.uaaUri')%>/oauth/clients/<%= p('push-kibana.oauth2_client_id')%> \
 )
 
 if [ $CLIENT_EXISTS = "404" ]; then
-	echo "Creating new OAuth2 client: <%= p('push-kibana.kibana_oauth2_client_id')%>"
+	echo "Creating new OAuth2 client: <%= p('push-kibana.oauth2_client_id')%>"
 	curl -s -k -H "Authorization:Bearer $ACCESS_TOKEN" \
 -H"Content-Type:application/json" \
 -H"Accept:application/json" \
 -d '{ 
-  "client_id" : "<%= p('push-kibana.kibana_oauth2_client_id')%>", 
-  "client_secret" : "<%= p('push-kibana.kibana_oauth2_client_secret')%>",  
+  "client_id" : "<%= p('push-kibana.oauth2_client_id')%>", 
+  "client_secret" : "<%= p('push-kibana.oauth2_client_secret')%>",  
   "scope" : ["openid","oauth.approvals","scim.userids","cloud_controller.read"], 
   "authorities" : ["uaa.none"],
   "resource_ids" : ["none"], 
   "authorized_grant_types" : ["authorization_code", "refresh_token"], 
   "access_token_validity": 43200,
-  "redirect-uri": "https://<%= p('push-kibana.kibana_app_name')%>.<%= p('push-kibana.cloudfoundry_apps_domain')%>" 
+  "redirect-uri": "https://<%= p('push-kibana.app_name')%>.<%= p('cloudfoundry.apps_domain')%>" 
 }' \
--X POST <%= p('push-kibana.cloudfoundry_uaaUri')%>/oauth/clients
+-X POST <%= p('cloudfoundry.uaaUri')%>/oauth/clients
 else
-	echo "OAuth2 client <%= p('push-kibana.kibana_oauth2_client_id')%> already exists."
+	echo "OAuth2 client <%= p('push-kibana.oauth2_client_id')%> already exists."
 fi
 
 # Push Kibana app
 cf push 
 
 #Upload Kibana dashboards
-cat /var/vcap/jobs/push-kibana/config/kibana4-dashboards.json | curl --data-binary @- http://<%= p('push-kibana.logsearch_elasticsearch_admin_ip') %>:<%= p('push-kibana.logsearch_elasticsearch_admin_port') %>/_bulk
+cat /var/vcap/jobs/push-kibana/config/kibana4-dashboards.json | curl --data-binary @- http://<%= p('elasticsearch.admin_ip') %>:<%= p('elasticsearch.admin_port') %>/_bulk
 
 EXITSTATUS=0
 

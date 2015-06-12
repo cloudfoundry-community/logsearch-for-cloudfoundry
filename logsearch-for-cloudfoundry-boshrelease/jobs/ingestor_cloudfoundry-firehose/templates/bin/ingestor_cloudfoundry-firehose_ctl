@@ -15,7 +15,7 @@ export LOGSTASH_WORKERS=`grep -c ^processor /proc/cpuinfo`
 case $1 in
 
   start_syslog)
-    echo "Starting Logstash syslog ingestor on 127.0.0.1:514"
+    echo "Starting Logstash syslog ingestor on 127.0.0.1:514..."
 
     pid_guard $PIDFILE_syslog $JOB_NAME_syslog
 
@@ -35,7 +35,7 @@ case $1 in
     ;;
 
   start)
-    echo "Starting CF firehose-to-syslog ingestor"
+    echo "Starting CF firehose-to-syslog ingestor..."
 
     # Disable IPv6, since this seems to prevent firehose-to-syslog from connecting to logstash
     if ! grep -q 'net.ipv6.conf.lo.disable_ipv6 = 1' /etc/sysctl.conf ; then
@@ -67,11 +67,11 @@ case $1 in
     echo $$ > $PIDFILE
 
     exec chpst -u vcap:vcap firehose-to-syslog \
-        --domain=<%= p("ingestor_cloudfoundry-firehose.cf-domain") %> \
-        --doppler-port=<%= p("ingestor_cloudfoundry-firehose.doppler-port") %> \
-        <% if p("ingestor_cloudfoundry-firehose.skip-ssl-validation") %>--skip-ssl-validation <% end %> \
-        --user=<%= p("ingestor_cloudfoundry-firehose.firehose-user") %> \
-        --password=<%= p("ingestor_cloudfoundry-firehose.firehose-password") %> \
+        --domain=<%= p("cloudfoundry.system_domain") %> \
+        --doppler-port=<%= p("cloudfoundry.firehose_port") %> \
+        <% if p("cloudfoundry.skip_ssl_validation") %>--skip-ssl-validation <% end %> \
+        --user=<%= p("cloudfoundry.firehose_user") %> \
+        --password=<%= p("cloudfoundry.firehose_password") %> \
         --syslog-server=127.0.0.1:514 \
         --events=LogMessage,Error,ContainerMetric \
         --boltdb-path=$TMP_DIR/firehose-to-syslog.cache.db \

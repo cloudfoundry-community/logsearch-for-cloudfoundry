@@ -6,7 +6,7 @@
 host: "0.0.0.0"
 
 # The Elasticsearch instance to use for all your queries.
-elasticsearch_url: "http://<%= p('push-kibana.logsearch_elasticsearch_admin_ip') %>:<%= p('push-kibana.logsearch_elasticsearch_admin_port') %>"
+elasticsearch_url: "http://<%= p('elasticsearch.admin_ip') %>:<%= p('elasticsearch.admin_port') %>"
 
 # preserve_elasticsearch_host true will send the hostname specified in `elasticsearch`. If you set it to false,
 # then the host you use to connect to *this* Kibana instance will be sent.

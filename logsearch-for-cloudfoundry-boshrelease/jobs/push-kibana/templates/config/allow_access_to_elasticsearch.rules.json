@@ -1,7 +1,7 @@
 [ 
 	{
 		"protocol":"tcp",
-		"destination":"<%= p('push-kibana.logsearch_elasticsearch_admin_ip') %>/32",
-		"ports":"<%= p('push-kibana.logsearch_elasticsearch_admin_port') %>" 
+		"destination":"<%= p('elasticsearch.admin_ip') %>/32",
+		"ports":"<%= p('elasticsearch.admin_port') %>" 
 	} 
 ]

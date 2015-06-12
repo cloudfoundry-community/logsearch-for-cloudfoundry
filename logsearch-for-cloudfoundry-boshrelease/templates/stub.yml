@@ -15,21 +15,22 @@ properties:
   ingestor_cloudfoundry-firehose:
     #WARING: When true, logs only written to stdout and are NOT shipped to syslog
     debug: false
-    cf-domain: "10.244.0.34.xip.io"
-    doppler-port: 443
-    skip-ssl-validation: true
-    firehose-user: admin
-    firehose-password: admin
+  push-kibana:
+    app_name: logs
+    oauth2_client_secret: "kibana-oauth2-secret"
   redis:
     host: 10.244.10.10
-  push-kibana:
-    kibana_app_name: logs
-    cloudfoundry_apps_domain: 10.244.0.34.xip.io
-    cloudfoundry_cloudControllerUri: "https://api.10.244.0.34.xip.io"
-    cloudfoundry_admin_username: "admin"
-    cloudfoundry_admin_password: "admin"
-    logsearch_elasticsearch_admin_ip: "10.244.10.2"
-    logsearch_elasticsearch_admin_port: 9200
-    cloudfoundry_uaaUri: "https://uaa.10.244.0.34.xip.io"
-    cloudfoundry_admin_client_secret: "admin-secret"
-    kibana_oauth2_client_secret: "kibana-oauth2-secret"
+  cloudfoundry:
+    cloudControllerUri: "https://api.10.244.0.34.xip.io"
+    uaaUri: "https://uaa.10.244.0.34.xip.io"
+    skip_ssl_validation: true
+    system_domain: "10.244.0.34.xip.io"
+    apps_domain: 10.244.0.34.xip.io
+    admin_username: "admin"
+    admin_password: "admin"
+    admin_client_secret: "admin-secret"
+    firehose_user: admin
+    firehose_password: admin
+  elasticsearch:
+    admin_ip: "10.244.10.2"
+    admin_port: 9200
