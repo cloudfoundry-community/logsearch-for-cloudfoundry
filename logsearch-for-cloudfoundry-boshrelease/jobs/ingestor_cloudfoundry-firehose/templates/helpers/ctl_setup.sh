@@ -14,6 +14,7 @@ set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
 
 JOB_NAME=$1
+JOB_NAME_syslog=${1}_syslog
 output_label=${2:-${JOB_NAME}}
 
 export JOB_DIR=/var/vcap/jobs/$JOB_NAME
@@ -50,5 +51,6 @@ done
 export TMPDIR=$TMP_DIR
 
 PIDFILE=$RUN_DIR/$output_label.pid
+PIDFILE_syslog=$RUN_DIR/${output_label}_syslog.pid
 
 echo '$PATH' $PATH
