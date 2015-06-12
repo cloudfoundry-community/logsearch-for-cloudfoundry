@@ -20,7 +20,8 @@ properties:
     skip-ssl-validation: true
     firehose-user: admin
     firehose-password: admin
-    syslog-server: "10.244.10.6:514"
+  redis:
+    host: 10.244.10.10
   push-kibana:
     cloudfoundry_cloudControllerUri: "https://api.10.244.0.34.xip.io"
     cloudfoundry_admin_username: "admin"

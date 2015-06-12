@@ -1,0 +1,6 @@
+---
+name: logstash
+dependencies: []
+files: 
+  # https://download.elastic.co/logstash/logstash/logstash-1.5.0.tar.gz
+  - logstash/logstash-1.5.0.tar.gz

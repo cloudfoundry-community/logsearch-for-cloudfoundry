@@ -2,9 +2,12 @@
 name: ingestor_cloudfoundry-firehose
 packages:
 - firehose-to-syslog
+- logstash
+- java8
 templates:
   bin/ingestor_cloudfoundry-firehose_ctl: bin/ingestor_cloudfoundry-firehose_ctl
   bin/monit_debugger: bin/monit_debugger
+  config/syslog_to_redis.conf: config/syslog_to_redis.conf
   data/properties.sh.erb: data/properties.sh
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
@@ -12,8 +15,13 @@ properties:
   ingestor_cloudfoundry-firehose.debug:
     description: Debug level logging. This disables forwarding to syslog
     default: false
+  logstash.metadata_level:
+    description: "Whether to include additional metadata throughout the event lifecycle. NONE = disabled, DEBUG = fully enabled"
+    default: "NONE"
+    
   ingestor_cloudfoundry-firehose.cf-domain:
     description: "Domain of your CF installation. (eg: 10.244.0.34.xip.io)"
+
   ingestor_cloudfoundry-firehose.doppler-port:
     description: "Port used by CF Doppler/Loggregator endpoint. Defaults to 443"
     default: 443
@@ -24,5 +32,12 @@ properties:
     description: "CF UAA username of user with 'doppler.firehose' permissions"
   ingestor_cloudfoundry-firehose.firehose-password:
     description: "CF UAA password of user with 'doppler.firehose' permissions"
-  ingestor_cloudfoundry-firehose.syslog-server:
-    description: "syslogserver:syslogport of Logsearch syslog ingestor (eg: ingestor.logsearch.example.org:514)"
+
+  redis.host: 
+    description: Redis host of queue
+  redis.port: 
+    description: Redis port of queue
+    default: 6379
+  redis.key: 
+    description: Name of queue to pull messages from
+    default: logstash
