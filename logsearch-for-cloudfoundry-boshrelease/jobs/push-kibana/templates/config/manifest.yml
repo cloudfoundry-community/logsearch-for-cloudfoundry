@@ -1,11 +1,11 @@
 ---
 applications:
-- name: logs
+- name: <%= p('push-kibana.kibana_app_name')%>
   memory: 256M
   instances: 2
   buildpack: nodejs_buildpack
   command: CONFIG_PATH=$HOME/kibana.yml exec node $HOME/bin/kibana.js --port $PORT
   env:
     NODE_ENV: production
-    UAA_CLIENT_ID: elk-for-pcf
-    UAA_CLIENT_SECRET: "<%= p('push-kibana.cloudfoundry_elk_for_pcf_client_secret')%>""
+    KIBANA_OAUTH2_CLIENT_ID: <%= p('push-kibana.kibana_oauth2_client_id')%>
+    KIBANA_OAUTH2_CLIENT_SECRET: "<%= p('push-kibana.kibana_oauth2_client_secret')%>"

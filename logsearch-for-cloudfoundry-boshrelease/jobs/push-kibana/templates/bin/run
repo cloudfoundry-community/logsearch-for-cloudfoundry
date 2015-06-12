@@ -40,7 +40,7 @@ cf target -o "system" -s "elk-for-pcf"
 cf create-security-group allow_access_to_elasticsearch /var/vcap/jobs/push-kibana/config/allow_access_to_elasticsearch.rules.json 
 cf bind-security-group allow_access_to_elasticsearch system elk-for-pcf
 
-# Create UAA client: elk-for-pcf
+# Create UAA client: <%= p('push-kibana.kibana_oauth2_client_id')%> if not already exists
 ACCESS_TOKEN=$(\
 curl -s -D - -k \
 -u admin:<%= p('push-kibana.cloudfoundry_admin_client_secret')%> \
@@ -49,22 +49,35 @@ curl -s -D - -k \
 | sed -n 's/.*access_token":"\([^"]*\).*/\1/p' \
 ) 
 
-curl -s -k -H "Authorization:Bearer $ACCESS_TOKEN" \
+CLIENT_EXISTS=$(\
+curl -s -k -w "%{http_code}" -o /dev/null \
+-H "Authorization:Bearer $ACCESS_TOKEN" \
+-H"Content-Type:application/json" \
+-H"Accept:application/json" \
+<%= p('push-kibana.cloudfoundry_uaaUri')%>/oauth/clients/<%= p('push-kibana.kibana_oauth2_client_id')%> \
+)
+
+if [ $CLIENT_EXISTS = "404" ]; then
+	echo "Creating new OAuth2 client: <%= p('push-kibana.kibana_oauth2_client_id')%>"
+	curl -s -k -H "Authorization:Bearer $ACCESS_TOKEN" \
 -H"Content-Type:application/json" \
 -H"Accept:application/json" \
 -d '{ 
-  "client_id" : "elk-for-pcf", 
-  "client_secret" : "<%= p('push-kibana.cloudfoundry_elk_for_pcf_client_secret')%>",  
+  "client_id" : "<%= p('push-kibana.kibana_oauth2_client_id')%>", 
+  "client_secret" : "<%= p('push-kibana.kibana_oauth2_client_secret')%>",  
   "scope" : ["openid","oauth.approvals","scim.userids","cloud_controller.read"], 
   "authorities" : ["uaa.none"],
   "resource_ids" : ["none"], 
   "authorized_grant_types" : ["authorization_code", "refresh_token"], 
   "access_token_validity": 43200,
-  "redirect-uri": "<%= p('push-kibana.cloudfoundry_elk_for_pcf_logs_uri')%>" 
+  "redirect-uri": "https://<%= p('push-kibana.kibana_app_name')%>.<%= p('push-kibana.cloudfoundry_apps_domain')%>" 
 }' \
--X POST <%= p('push-kibana.cloudfoundry_uaaUri')%>/oauth/clients || true
+-X POST <%= p('push-kibana.cloudfoundry_uaaUri')%>/oauth/clients
+else
+	echo "OAuth2 client <%= p('push-kibana.kibana_oauth2_client_id')%> already exists."
+fi
 
-# Push app
+# Push Kibana app
 cf push 
 
 #Upload Kibana dashboards

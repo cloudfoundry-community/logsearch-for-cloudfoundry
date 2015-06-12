@@ -10,25 +10,36 @@ templates:
   config/allow_access_to_elasticsearch.rules.json: config/allow_access_to_elasticsearch.rules.json
   config/kibana4-dashboards.json: config/kibana4-dashboards.json
 properties:
+  push-kibana.kibana_app_name:
+    description: "The Kibana log dashboard app name ( eg defaults to: logs )"
+    default: logs
+
   push-kibana.cloudfoundry_cloudControllerUri:
     description: "The Elastic Runtime API endpoint URL ( eg: http://api.10.244.0.34.xip.io )"
+  push-kibana.cloudfoundry_apps_domain:
+    description: "The Elastic Runtime apps domain ( eg: 10.244.0.34.xip.io )"
   push-kibana.cloudfoundry_admin_username:
     description: "The Elastic Runtime API user"
   push-kibana.cloudfoundry_admin_password:
     description: "The Elastic Runtime API user's password"
+  
   push-kibana.cloudfoundry_uaaUri:
     description: "The UAA API endpoint URL ( eg: http://uaa.10.244.0.34.xip.io )"
   push-kibana.cloudfoundry_admin_client_secret:
     description: "The UAA Admin client id's secret"
-  push-kibana.cloudfoundry_elk_for_pcf_client_secret:
-    description: "The UAA elk-for-pcf client id's secret"
-  push-kibana.cloudfoundry_elk_for_pcf_logs_uri:
-    description: "The elk-for-pcf log dashboard URL ( eg: http://logs.10.244.0.34.xip.io )"
+
+  push-kibana.kibana_oauth2_client_id:
+    description: "The UAA kibana oauth2 client id"
+    default: kibana_oauth2_client
+  push-kibana.kibana_oauth2_client_secret:
+    description: "The UAA kibana oauth2 client id's secret"
+  
   push-kibana.logsearch_elasticsearch_admin_ip:
     description: "The (internal) IP for Elasticsearch API node ( eg: 10.244.0.101 )"
   push-kibana.logsearch_elasticsearch_admin_port:
     description: "The (internal) port for Elasticsearch API node ( default: 9200 )"
     default: 9200
+  
   push-kibana.kibana_index:
     description: "Elasticsearch index to store Kibana settings and dashboards"
     default: ".kibana"
