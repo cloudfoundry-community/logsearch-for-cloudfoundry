@@ -9,3 +9,5 @@ applications:
     NODE_ENV: production
     KIBANA_OAUTH2_CLIENT_ID: <%= p('push-kibana.oauth2_client_id')%>
     KIBANA_OAUTH2_CLIENT_SECRET: "<%= p('push-kibana.oauth2_client_secret')%>"
+    USERNAME: <%= p('push-kibana.oauth2_client_id')%> 
+    PASSWORD: "<%= p('push-kibana.oauth2_client_secret')%>"

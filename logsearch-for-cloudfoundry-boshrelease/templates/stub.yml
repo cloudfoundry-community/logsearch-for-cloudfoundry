@@ -17,7 +17,8 @@ properties:
     debug: false
   push-kibana:
     app_name: logs
-    oauth2_client_secret: "kibana-oauth2-secret"
+    oauth2_client_id: "kibana_admin"     # NB - currently used as HTTP Basic Auth username
+    oauth2_client_secret: "keepitsimple" # NB - currently used for HTTP Basic Auth password
   redis:
     host: 10.244.10.10
   cloudfoundry:
