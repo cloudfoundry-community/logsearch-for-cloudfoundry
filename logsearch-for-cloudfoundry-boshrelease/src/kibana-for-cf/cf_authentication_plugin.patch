@@ -1,7 +1,8 @@
 From c25b9e5596bea2357cf9b1f454a2bbd5efae5585 Mon Sep 17 00:00:00 2001
 From: David Laing <david@davidlaing.com>
 Date: Tue, 23 Jun 2015 06:09:27 +0100
-Subject: [PATCH] Skeleton cf_authentication plugin based on HTTP Basic Auth
+Subject: [PATCH 1/2] Skeleton cf_authentication plugin based on HTTP Basic
+ Auth
 
 ---
  package.json                                  |  3 +-
@@ -92,6 +93,38 @@ index 0000000..ad6855a
 +    });
 +  }
 +});
+-- 
+1.9.1
+
+
+From 31dcb3658676b6135549c5713bc8bf26805fc8c9 Mon Sep 17 00:00:00 2001
+From: David Laing <david@davidlaing.com>
+Date: Tue, 23 Jun 2015 07:06:27 +0100
+Subject: [PATCH 2/2] Fix typo in settings - elastcsearch.pingTimeout
+
+---
+ src/server/lib/load_settings_from_yaml.js | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/src/server/lib/load_settings_from_yaml.js b/src/server/lib/load_settings_from_yaml.js
+index e9b23f1..35d0118 100644
+--- a/src/server/lib/load_settings_from_yaml.js
++++ b/src/server/lib/load_settings_from_yaml.js
+@@ -15,10 +15,10 @@ module.exports = function (path) {
+   if (config.ca) settings['elasticsearch.ssl.ca'] = config.ca;
+   if (config.verify_ssl) settings['elasticsearch.ssl.verify'] = config.verify_ssl;
+   if (config.default_app_id) settings['kibana.defaultAppId'] = config.default_app_id;
+-  if (config.ping_timeout) settings['elastcsearch.pingTimeout'] = config.ping_timeout;
+-  if (config.request_timeout) settings['elastcsearch.requestTimeout'] = config.request_timeout;
+-  if (config.shard_timeout) settings['elastcsearch.shardTimeout'] = config.shard_timeout;
+-  if (config.startup_timeout) settings['elastcsearch.startupTimeout'] = config.startup_timeout;
++  if (config.ping_timeout) settings['elasticsearch.pingTimeout'] = config.ping_timeout;
++  if (config.request_timeout) settings['elasticsearch.requestTimeout'] = config.request_timeout;
++  if (config.shard_timeout) settings['elasticsearch.shardTimeout'] = config.shard_timeout;
++  if (config.startup_timeout) settings['elasticsearch.startupTimeout'] = config.startup_timeout;
+   if (config.ssl_cert_file) settings['kibana.server.ssl.cert'] = config.ssl_cert_file;
+   if (config.ssl_key_file) settings['kibana.server.ssl.key'] = config.ssl_key_file;
+   if (config.pid_file) settings['config.server.pidFile'] = config.pid_file;
 -- 
 1.9.1
 
