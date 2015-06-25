@@ -7,8 +7,9 @@ template_prefix="logsearch-for-cloudfoundry"
 infrastructure=$1
 
 if [ "$infrastructure" != "aws-ec2" ] && \
-    [ "$infrastructure" != "warden" ] ; then
-  echo "usage: ./make_manifest <aws-ec2|warden>"
+    [ "$infrastructure" != "warden" ] && \
+    [ "$infrastructure" != "vsphere" ] ; then
+  echo "usage: ./make_manifest <aws-ec2|warden|vsphere>"
   exit 1
 fi
 
@@ -23,6 +24,13 @@ NAME=$template_prefix-$infrastructure
 if [[ $DIRECTOR_NAME = "warden" ]]; then
   if [[ $infrastructure != "warden" ]]; then
     echo "Not targeting bosh-lite with warden CPI. Please use 'bosh target' before running this script."
+    exit 1
+  fi
+fi
+
+if [[ $DIRECTOR_NAME = "vsphere" ]]; then
+  if [[ $infrastructure != "vsphere" ]]; then
+    echo "Not targeting an VSPHERE BOSH. Please use 'bosh target' before running this script."
     exit 1
   fi
 fi
