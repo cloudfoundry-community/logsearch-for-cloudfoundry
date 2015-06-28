@@ -1,7 +1,7 @@
 From c25b9e5596bea2357cf9b1f454a2bbd5efae5585 Mon Sep 17 00:00:00 2001
 From: David Laing <david@davidlaing.com>
 Date: Tue, 23 Jun 2015 06:09:27 +0100
-Subject: [PATCH 1/2] Skeleton cf_authentication plugin based on HTTP Basic
+Subject: [PATCH 1/4] Skeleton cf_authentication plugin based on HTTP Basic
  Auth
 
 ---
@@ -100,7 +100,7 @@ index 0000000..ad6855a
 From 31dcb3658676b6135549c5713bc8bf26805fc8c9 Mon Sep 17 00:00:00 2001
 From: David Laing <david@davidlaing.com>
 Date: Tue, 23 Jun 2015 07:06:27 +0100
-Subject: [PATCH 2/2] Fix typo in settings - elastcsearch.pingTimeout
+Subject: [PATCH 2/4] Fix typo in settings - elastcsearch.pingTimeout
 
 ---
  src/server/lib/load_settings_from_yaml.js | 8 ++++----
@@ -125,6 +125,212 @@ index e9b23f1..35d0118 100644
    if (config.ssl_cert_file) settings['kibana.server.ssl.cert'] = config.ssl_cert_file;
    if (config.ssl_key_file) settings['kibana.server.ssl.key'] = config.ssl_key_file;
    if (config.pid_file) settings['config.server.pidFile'] = config.pid_file;
+-- 
+1.9.1
+
+
+From 84b18bd9c579a37043a6e984f733c99cca403380 Mon Sep 17 00:00:00 2001
+From: David Laing <david@davidlaing.com>
+Date: Sat, 27 Jun 2015 06:54:01 +0000
+Subject: [PATCH 3/4] Upgrade cf-authentication to authenticate against CF UAA
+ via OAuth2
+
+---
+ package.json                                  |   3 +-
+ src/server/plugins/cf_authentication/index.js | 105 ++++++++++++++++++++++----
+ 2 files changed, 91 insertions(+), 17 deletions(-)
+
+diff --git a/package.json b/package.json
+index 1db9287..ffa9bae 100644
+--- a/package.json
++++ b/package.json
+@@ -67,7 +67,8 @@
+     "semver": "^4.3.6",
+     "serve-favicon": "^2.2.0",
+     "through": "^2.3.6",    
+-    "hapi-auth-basic": "2.0.0"
++    "bell": "4.0.0",
++    "hapi-auth-cookie": "3.0.1"
+   },
+   "devDependencies": {
+     "bower": "^1.4.1",
+diff --git a/src/server/plugins/cf_authentication/index.js b/src/server/plugins/cf_authentication/index.js
+index ad6855a..71951e0 100644
+--- a/src/server/plugins/cf_authentication/index.js
++++ b/src/server/plugins/cf_authentication/index.js
+@@ -1,4 +1,6 @@
+ var kibana = require('../../');
++var Bell = require('bell');
++var AuthCookie = require('hapi-auth-cookie');
+ 
+ module.exports = new kibana.Plugin({
+   /*
+@@ -25,12 +27,18 @@ module.exports = new kibana.Plugin({
+   returning a promise then you should resolve the promise with the Joi schema.
+   */
+   config: function (Joi) {
+-    var username = (process.env.USERNAME) ? process.env.USERNAME : 'admin';
+-    var password = (process.env.PASSWORD) ? process.env.PASSWORD : 'admin';
++    var client_id = (process.env.KIBANA_OAUTH2_CLIENT_ID) ? process.env.KIBANA_OAUTH2_CLIENT_ID : 'client_id';
++    var client_secret = (process.env.KIBANA_OAUTH2_CLIENT_SECRET) ? process.env.KIBANA_OAUTH2_CLIENT_SECRET : 'client_secret';
++    var client_scope = (process.env.KIBANA_OAUTH_CLIENT_SCOPE) ? process.env.KIBANA_OAUTH_CLIENT_SCOPE : '';
++    var uaaUri = (process.env.UAA_URI) ? process.env.UAA_URI.replace(/\/$/, '') : 'unknown';
+ 
+     return Joi.object({
+-      username: Joi.string().default(username),
+-      password: Joi.string().default(password)
++      client_id: Joi.string().default(client_id),
++      client_secret: Joi.string().default(client_secret),
++      authorization_uri: Joi.string().default(uaaUri + '/oauth/authorize'),
++      logout_uri: Joi.string().default(uaaUri + '/logout.do'),
++      token_uri: Joi.string().default(uaaUri + '/oauth/token'),
++      account_info_uri: Joi.string().default(uaaUri + '/userinfo')
+     }).default();
+   },
+ 
+@@ -42,22 +50,87 @@ module.exports = new kibana.Plugin({
+   init: function (server, options) {
+     var config = server.config();
+ 
+-    server.log('authentication', JSON.stringify(config.get('authentication')));
++    server.log(['debug', 'authentication'], JSON.stringify(config.get('authentication')));
+ 
+-    var valid_username = config.get('authentication.username');
+-    var valid_password = config.get('authentication.password');
++    server.register([Bell, AuthCookie], function (err) {
+ 
+-    var validate = function (username, password, callback) {
+-        if ( username != valid_username
+-          || password != valid_password ) {
+-            return callback("Invalid credentials.  Please close all browser windows and try again", false);
++      if (err) {
++        server.log(['error', 'authentication'], JSON.stringify(err));
++        return;
++      }
++
++      server.auth.strategy('uaa-cookie', 'cookie', {
++        password: '397hkjhdhshs3uy02hjsdfnlskdfio3', //Password used for encryption
++        cookie: 'uaa-auth', // Name of cookie to set
++        redirectTo: '/login',
++        isSecure: false
++      });
++
++      var uaaProvider = {
++        protocol: 'oauth2',
++        auth: config.get('authentication.authorization_uri'),
++        token: config.get('authentication.token_uri'),
++        scope: ['openid', 'oauth.approvals', 'scim.userids', 'cloud_controller.read'],
++        profile: function (credentials, params, get, callback) {
++          server.log(['debug', 'authentication'],  JSON.stringify({ thecredentials: credentials, theparams: params }));
++          get(config.get('authentication.account_info_uri'), null, function (profile) {
++            server.log(['debug', 'authentication'], JSON.stringify({ theprofile: profile }));
++            credentials.profile = {
++              id: profile.id,
++              username: profile.username,
++              displayName: profile.name,
++              email: profile.email,
++              raw: profile
++            };
++            return callback();
++          });
++        }
++      };
++
++      server.auth.strategy('uaa-oauth', 'bell', {
++        provider: uaaProvider,
++        password: '397hkjhdhshs3uy02hjsdfnlskdfio3', //Password used for encryption
++        clientId: config.get('authentication.client_id'),
++        clientSecret: config.get('authentication.client_secret'),
++        isSecure: false
++      });
++
++      server.auth.default('uaa-cookie');
++
++      server.route([{
++          method: 'GET',
++          path: '/login',
++          config: {
++            auth: 'uaa-oauth',
++            handler: function (request, reply) {
++              if (request.auth.isAuthenticated) {
++                request.auth.session.set(request.auth.credentials);
++                return reply.redirect('/');
++              }
++              reply('Not logged in...').code(401);
++            }
++          }
++        }, {
++          method: 'GET',
++          path: '/account',
++          config: {
++            handler: function (request, reply) {
++              reply(request.auth.credentials.profile);
++            }
++          }
++        }, {
++          method: 'GET',
++          path: '/logout',
++          config: {
++            auth: false,
++            handler: function (request, reply) {
++              request.auth.session.clear();
++              reply.redirect(config.get('authentication.logout_uri'));
++            }
++          }
+         }
++    ]);
+ 
+-        //success!
+-        return callback(null, true, { id: valid_username, name: valid_username });
+-    };
+-    server.register(require('hapi-auth-basic'), function (err) {
+-      server.auth.strategy('simple', 'basic', 'required', { validateFunc: validate });
+     });
+   }
+ });
+-- 
+1.9.1
+
+
+From 3527b21a8d99aab0163d68b157197aadaf717215 Mon Sep 17 00:00:00 2001
+From: David Laing <david@davidlaing.com>
+Date: Sun, 28 Jun 2015 08:56:26 +0100
+Subject: [PATCH 4/4] Support skipping SSL validation when dealing with
+ dev/test CF installations that use self signed certificates
+
+---
+ src/server/plugins/cf_authentication/index.js | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/src/server/plugins/cf_authentication/index.js b/src/server/plugins/cf_authentication/index.js
+index 71951e0..12c0ba5 100644
+--- a/src/server/plugins/cf_authentication/index.js
++++ b/src/server/plugins/cf_authentication/index.js
+@@ -31,11 +31,13 @@ module.exports = new kibana.Plugin({
+     var client_secret = (process.env.KIBANA_OAUTH2_CLIENT_SECRET) ? process.env.KIBANA_OAUTH2_CLIENT_SECRET : 'client_secret';
+     var client_scope = (process.env.KIBANA_OAUTH_CLIENT_SCOPE) ? process.env.KIBANA_OAUTH_CLIENT_SCOPE : '';
+     var uaaUri = (process.env.UAA_URI) ? process.env.UAA_URI.replace(/\/$/, '') : 'unknown';
++    var skip_ssl_validation = (process.env.SKIP_SSL_VALIDATION) ? process.env.SKIP_SSL_VALIDATION : false;
+ 
+     return Joi.object({
+       client_id: Joi.string().default(client_id),
+       client_secret: Joi.string().default(client_secret),
+       authorization_uri: Joi.string().default(uaaUri + '/oauth/authorize'),
++      skip_ssl_validation: Joi.boolean().default(skip_ssl_validation),
+       logout_uri: Joi.string().default(uaaUri + '/logout.do'),
+       token_uri: Joi.string().default(uaaUri + '/oauth/token'),
+       account_info_uri: Joi.string().default(uaaUri + '/userinfo')
+@@ -52,6 +54,10 @@ module.exports = new kibana.Plugin({
+ 
+     server.log(['debug', 'authentication'], JSON.stringify(config.get('authentication')));
+ 
++    if (config.get('authentication.skip_ssl_validation')) {
++       process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
++    }
++
+     server.register([Bell, AuthCookie], function (err) {
+ 
+       if (err) {
 -- 
 1.9.1
 

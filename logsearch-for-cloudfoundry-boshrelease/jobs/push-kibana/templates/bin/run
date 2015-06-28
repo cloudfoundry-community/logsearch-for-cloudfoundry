@@ -70,7 +70,7 @@ if [ $CLIENT_EXISTS = "404" ]; then
   "resource_ids" : ["none"], 
   "authorized_grant_types" : ["authorization_code", "refresh_token"], 
   "access_token_validity": 43200,
-  "redirect-uri": "https://<%= p('push-kibana.app_name')%>.<%= p('cloudfoundry.apps_domain')%>" 
+  "redirect-uri": "https://<%= p('push-kibana.app_name')%>.<%= p('cloudfoundry.apps_domain')%>/login" 
 }' \
 -X POST <%= p('cloudfoundry.uaaUri')%>/oauth/clients
 else
