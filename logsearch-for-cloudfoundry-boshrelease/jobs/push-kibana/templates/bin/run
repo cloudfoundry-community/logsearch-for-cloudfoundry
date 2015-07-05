@@ -70,11 +70,24 @@ if [ $CLIENT_EXISTS = "404" ]; then
   "resource_ids" : ["none"], 
   "authorized_grant_types" : ["authorization_code", "refresh_token"], 
   "access_token_validity": 43200,
-  "redirect-uri": "https://<%= p('push-kibana.app_name')%>.<%= p('cloudfoundry.apps_domain')%>" 
+  "redirect-uri": "https://<%= p('push-kibana.app_name')%>.<%= p('cloudfoundry.apps_domain')%>/login" 
 }' \
 -X POST <%= p('cloudfoundry.uaaUri')%>/oauth/clients
 else
-	echo "OAuth2 client <%= p('push-kibana.oauth2_client_id')%> already exists."
+	echo "OAuth2 client <%= p('push-kibana.oauth2_client_id')%> already exists.  Updating all values EXCEPT client_id and client_secret..."
+		curl -s -k -H "Authorization:Bearer $ACCESS_TOKEN" \
+-H"Content-Type:application/json" \
+-H"Accept:application/json" \
+-d '{ 
+  "client_id" : "<%= p('push-kibana.oauth2_client_id')%>",  
+  "scope" : ["openid","oauth.approvals","scim.userids","cloud_controller.read"], 
+  "authorities" : ["uaa.none"],
+  "resource_ids" : ["none"], 
+  "authorized_grant_types" : ["authorization_code", "refresh_token"], 
+  "access_token_validity": 43200,
+  "redirect-uri": "https://<%= p('push-kibana.app_name')%>.<%= p('cloudfoundry.apps_domain')%>/login" 
+}' \
+-X PUT <%= p('cloudfoundry.uaaUri')%>/oauth/clients/<%= p('push-kibana.oauth2_client_id')%>
 fi
 
 # Push Kibana app
@@ -85,5 +98,5 @@ cat /var/vcap/jobs/push-kibana/config/kibana4-dashboards.json | curl --data-bina
 
 EXITSTATUS=0
 
-echo "Errand push-cf-app-logs is complete; exit status $EXITSTATUS"
+echo "Errand push-kibana is complete; exit status $EXITSTATUS"
 exit $EXITSTATUS

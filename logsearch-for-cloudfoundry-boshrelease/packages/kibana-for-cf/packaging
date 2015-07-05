@@ -5,7 +5,7 @@ set -u # report the usage of uninitialized variables
 # $BOSH_COMPILE_TARGET - where this package & spec'd source files are available
 # $BOSH_INSTALL_TARGET - where you copy/install files to be included in package
 
-tar -xzf kibana-for-cf/kibana-4.1.1-snapshot-linux-x86.tar.gz --strip 1 -C ${BOSH_INSTALL_TARGET}
+tar -xzf kibana-for-cf/kibana-4.2.0-snapshot-linux-x64-with-cf-authentication.tar.gz --strip 1 -C ${BOSH_INSTALL_TARGET}
 
 #Strip out the bundled node binaries & config; since these will be provided by the CF nodejs_buildpack
 rm -rf ${BOSH_INSTALL_TARGET}/node

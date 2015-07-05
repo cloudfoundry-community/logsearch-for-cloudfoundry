@@ -1,0 +1,430 @@
+From c25b9e5596bea2357cf9b1f454a2bbd5efae5585 Mon Sep 17 00:00:00 2001
+From: David Laing <david@davidlaing.com>
+Date: Tue, 23 Jun 2015 06:09:27 +0100
+Subject: [PATCH 1/5] Skeleton cf_authentication plugin based on HTTP Basic
+ Auth
+
+---
+ package.json                                  |  3 +-
+ src/server/plugins/cf_authentication/index.js | 63 +++++++++++++++++++++++++++
+ 2 files changed, 65 insertions(+), 1 deletion(-)
+ create mode 100644 src/server/plugins/cf_authentication/index.js
+
+diff --git a/package.json b/package.json
+index 2bf4dc1..1db9287 100644
+--- a/package.json
++++ b/package.json
+@@ -66,7 +66,8 @@
+     "requirefrom": "^0.2.0",
+     "semver": "^4.3.6",
+     "serve-favicon": "^2.2.0",
+-    "through": "^2.3.6"
++    "through": "^2.3.6",    
++    "hapi-auth-basic": "2.0.0"
+   },
+   "devDependencies": {
+     "bower": "^1.4.1",
+diff --git a/src/server/plugins/cf_authentication/index.js b/src/server/plugins/cf_authentication/index.js
+new file mode 100644
+index 0000000..ad6855a
+--- /dev/null
++++ b/src/server/plugins/cf_authentication/index.js
+@@ -0,0 +1,63 @@
++var kibana = require('../../');
++
++module.exports = new kibana.Plugin({
++  /*
++  This will set the name of the plugin and will be used by the server for
++  namespacing purposes in the configuration. In Hapi you can expose methods and
++  objects to the system via `server.expose()`. Access to these attributes are done
++  via `server.plugins.<name>.<attribute>`. See the `elasticsearch` plugin for an
++  example of how this is done. If you omit this attribute then the plugin loader
++  will try to set it to the name of the parent folder.
++  */
++  name: 'authentication',
++
++  /*
++  This is an array of plugin names this plugin depends on. These are guaranteed
++  to load before the init() method for this plugin is executed.
++  */
++  require: [],
++
++  /*
++  This method is executed to create a Joi schema for the plugin. In the example
++  below the enabled configuration would be accessible via config.get('my_plugin.enabled').
++  The Joi module is passed to every config method and config methods can return promises
++  if they need to execute an async operation before setting the defaults. If you're
++  returning a promise then you should resolve the promise with the Joi schema.
++  */
++  config: function (Joi) {
++    var username = (process.env.USERNAME) ? process.env.USERNAME : 'admin';
++    var password = (process.env.PASSWORD) ? process.env.PASSWORD : 'admin';
++
++    return Joi.object({
++      username: Joi.string().default(username),
++      password: Joi.string().default(password)
++    }).default();
++  },
++
++  /*
++  The init method is where all the magic happens. It's essentially the same as the
++  register method for a Hapi plugin except it uses promises instead of a callback
++  pattern. Just return a promise when you execute an async operation.
++  */
++  init: function (server, options) {
++    var config = server.config();
++
++    server.log('authentication', JSON.stringify(config.get('authentication')));
++
++    var valid_username = config.get('authentication.username');
++    var valid_password = config.get('authentication.password');
++
++    var validate = function (username, password, callback) {
++        if ( username != valid_username
++          || password != valid_password ) {
++            return callback("Invalid credentials.  Please close all browser windows and try again", false);
++        }
++
++        //success!
++        return callback(null, true, { id: valid_username, name: valid_username });
++    };
++    server.register(require('hapi-auth-basic'), function (err) {
++      server.auth.strategy('simple', 'basic', 'required', { validateFunc: validate });
++    });
++  }
++});
+-- 
+1.9.1
+
+
+From 31dcb3658676b6135549c5713bc8bf26805fc8c9 Mon Sep 17 00:00:00 2001
+From: David Laing <david@davidlaing.com>
+Date: Tue, 23 Jun 2015 07:06:27 +0100
+Subject: [PATCH 2/5] Fix typo in settings - elastcsearch.pingTimeout
+
+---
+ src/server/lib/load_settings_from_yaml.js | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/src/server/lib/load_settings_from_yaml.js b/src/server/lib/load_settings_from_yaml.js
+index e9b23f1..35d0118 100644
+--- a/src/server/lib/load_settings_from_yaml.js
++++ b/src/server/lib/load_settings_from_yaml.js
+@@ -15,10 +15,10 @@ module.exports = function (path) {
+   if (config.ca) settings['elasticsearch.ssl.ca'] = config.ca;
+   if (config.verify_ssl) settings['elasticsearch.ssl.verify'] = config.verify_ssl;
+   if (config.default_app_id) settings['kibana.defaultAppId'] = config.default_app_id;
+-  if (config.ping_timeout) settings['elastcsearch.pingTimeout'] = config.ping_timeout;
+-  if (config.request_timeout) settings['elastcsearch.requestTimeout'] = config.request_timeout;
+-  if (config.shard_timeout) settings['elastcsearch.shardTimeout'] = config.shard_timeout;
+-  if (config.startup_timeout) settings['elastcsearch.startupTimeout'] = config.startup_timeout;
++  if (config.ping_timeout) settings['elasticsearch.pingTimeout'] = config.ping_timeout;
++  if (config.request_timeout) settings['elasticsearch.requestTimeout'] = config.request_timeout;
++  if (config.shard_timeout) settings['elasticsearch.shardTimeout'] = config.shard_timeout;
++  if (config.startup_timeout) settings['elasticsearch.startupTimeout'] = config.startup_timeout;
+   if (config.ssl_cert_file) settings['kibana.server.ssl.cert'] = config.ssl_cert_file;
+   if (config.ssl_key_file) settings['kibana.server.ssl.key'] = config.ssl_key_file;
+   if (config.pid_file) settings['config.server.pidFile'] = config.pid_file;
+-- 
+1.9.1
+
+
+From 84b18bd9c579a37043a6e984f733c99cca403380 Mon Sep 17 00:00:00 2001
+From: David Laing <david@davidlaing.com>
+Date: Sat, 27 Jun 2015 06:54:01 +0000
+Subject: [PATCH 3/5] Upgrade cf-authentication to authenticate against CF UAA
+ via OAuth2
+
+---
+ package.json                                  |   3 +-
+ src/server/plugins/cf_authentication/index.js | 105 ++++++++++++++++++++++----
+ 2 files changed, 91 insertions(+), 17 deletions(-)
+
+diff --git a/package.json b/package.json
+index 1db9287..ffa9bae 100644
+--- a/package.json
++++ b/package.json
+@@ -67,7 +67,8 @@
+     "semver": "^4.3.6",
+     "serve-favicon": "^2.2.0",
+     "through": "^2.3.6",    
+-    "hapi-auth-basic": "2.0.0"
++    "bell": "4.0.0",
++    "hapi-auth-cookie": "3.0.1"
+   },
+   "devDependencies": {
+     "bower": "^1.4.1",
+diff --git a/src/server/plugins/cf_authentication/index.js b/src/server/plugins/cf_authentication/index.js
+index ad6855a..71951e0 100644
+--- a/src/server/plugins/cf_authentication/index.js
++++ b/src/server/plugins/cf_authentication/index.js
+@@ -1,4 +1,6 @@
+ var kibana = require('../../');
++var Bell = require('bell');
++var AuthCookie = require('hapi-auth-cookie');
+ 
+ module.exports = new kibana.Plugin({
+   /*
+@@ -25,12 +27,18 @@ module.exports = new kibana.Plugin({
+   returning a promise then you should resolve the promise with the Joi schema.
+   */
+   config: function (Joi) {
+-    var username = (process.env.USERNAME) ? process.env.USERNAME : 'admin';
+-    var password = (process.env.PASSWORD) ? process.env.PASSWORD : 'admin';
++    var client_id = (process.env.KIBANA_OAUTH2_CLIENT_ID) ? process.env.KIBANA_OAUTH2_CLIENT_ID : 'client_id';
++    var client_secret = (process.env.KIBANA_OAUTH2_CLIENT_SECRET) ? process.env.KIBANA_OAUTH2_CLIENT_SECRET : 'client_secret';
++    var client_scope = (process.env.KIBANA_OAUTH_CLIENT_SCOPE) ? process.env.KIBANA_OAUTH_CLIENT_SCOPE : '';
++    var uaaUri = (process.env.UAA_URI) ? process.env.UAA_URI.replace(/\/$/, '') : 'unknown';
+ 
+     return Joi.object({
+-      username: Joi.string().default(username),
+-      password: Joi.string().default(password)
++      client_id: Joi.string().default(client_id),
++      client_secret: Joi.string().default(client_secret),
++      authorization_uri: Joi.string().default(uaaUri + '/oauth/authorize'),
++      logout_uri: Joi.string().default(uaaUri + '/logout.do'),
++      token_uri: Joi.string().default(uaaUri + '/oauth/token'),
++      account_info_uri: Joi.string().default(uaaUri + '/userinfo')
+     }).default();
+   },
+ 
+@@ -42,22 +50,87 @@ module.exports = new kibana.Plugin({
+   init: function (server, options) {
+     var config = server.config();
+ 
+-    server.log('authentication', JSON.stringify(config.get('authentication')));
++    server.log(['debug', 'authentication'], JSON.stringify(config.get('authentication')));
+ 
+-    var valid_username = config.get('authentication.username');
+-    var valid_password = config.get('authentication.password');
++    server.register([Bell, AuthCookie], function (err) {
+ 
+-    var validate = function (username, password, callback) {
+-        if ( username != valid_username
+-          || password != valid_password ) {
+-            return callback("Invalid credentials.  Please close all browser windows and try again", false);
++      if (err) {
++        server.log(['error', 'authentication'], JSON.stringify(err));
++        return;
++      }
++
++      server.auth.strategy('uaa-cookie', 'cookie', {
++        password: '397hkjhdhshs3uy02hjsdfnlskdfio3', //Password used for encryption
++        cookie: 'uaa-auth', // Name of cookie to set
++        redirectTo: '/login',
++        isSecure: false
++      });
++
++      var uaaProvider = {
++        protocol: 'oauth2',
++        auth: config.get('authentication.authorization_uri'),
++        token: config.get('authentication.token_uri'),
++        scope: ['openid', 'oauth.approvals', 'scim.userids', 'cloud_controller.read'],
++        profile: function (credentials, params, get, callback) {
++          server.log(['debug', 'authentication'],  JSON.stringify({ thecredentials: credentials, theparams: params }));
++          get(config.get('authentication.account_info_uri'), null, function (profile) {
++            server.log(['debug', 'authentication'], JSON.stringify({ theprofile: profile }));
++            credentials.profile = {
++              id: profile.id,
++              username: profile.username,
++              displayName: profile.name,
++              email: profile.email,
++              raw: profile
++            };
++            return callback();
++          });
++        }
++      };
++
++      server.auth.strategy('uaa-oauth', 'bell', {
++        provider: uaaProvider,
++        password: '397hkjhdhshs3uy02hjsdfnlskdfio3', //Password used for encryption
++        clientId: config.get('authentication.client_id'),
++        clientSecret: config.get('authentication.client_secret'),
++        isSecure: false
++      });
++
++      server.auth.default('uaa-cookie');
++
++      server.route([{
++          method: 'GET',
++          path: '/login',
++          config: {
++            auth: 'uaa-oauth',
++            handler: function (request, reply) {
++              if (request.auth.isAuthenticated) {
++                request.auth.session.set(request.auth.credentials);
++                return reply.redirect('/');
++              }
++              reply('Not logged in...').code(401);
++            }
++          }
++        }, {
++          method: 'GET',
++          path: '/account',
++          config: {
++            handler: function (request, reply) {
++              reply(request.auth.credentials.profile);
++            }
++          }
++        }, {
++          method: 'GET',
++          path: '/logout',
++          config: {
++            auth: false,
++            handler: function (request, reply) {
++              request.auth.session.clear();
++              reply.redirect(config.get('authentication.logout_uri'));
++            }
++          }
+         }
++    ]);
+ 
+-        //success!
+-        return callback(null, true, { id: valid_username, name: valid_username });
+-    };
+-    server.register(require('hapi-auth-basic'), function (err) {
+-      server.auth.strategy('simple', 'basic', 'required', { validateFunc: validate });
+     });
+   }
+ });
+-- 
+1.9.1
+
+
+From 3527b21a8d99aab0163d68b157197aadaf717215 Mon Sep 17 00:00:00 2001
+From: David Laing <david@davidlaing.com>
+Date: Sun, 28 Jun 2015 08:56:26 +0100
+Subject: [PATCH 4/5] Support skipping SSL validation when dealing with
+ dev/test CF installations that use self signed certificates
+
+---
+ src/server/plugins/cf_authentication/index.js | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/src/server/plugins/cf_authentication/index.js b/src/server/plugins/cf_authentication/index.js
+index 71951e0..12c0ba5 100644
+--- a/src/server/plugins/cf_authentication/index.js
++++ b/src/server/plugins/cf_authentication/index.js
+@@ -31,11 +31,13 @@ module.exports = new kibana.Plugin({
+     var client_secret = (process.env.KIBANA_OAUTH2_CLIENT_SECRET) ? process.env.KIBANA_OAUTH2_CLIENT_SECRET : 'client_secret';
+     var client_scope = (process.env.KIBANA_OAUTH_CLIENT_SCOPE) ? process.env.KIBANA_OAUTH_CLIENT_SCOPE : '';
+     var uaaUri = (process.env.UAA_URI) ? process.env.UAA_URI.replace(/\/$/, '') : 'unknown';
++    var skip_ssl_validation = (process.env.SKIP_SSL_VALIDATION) ? process.env.SKIP_SSL_VALIDATION : false;
+ 
+     return Joi.object({
+       client_id: Joi.string().default(client_id),
+       client_secret: Joi.string().default(client_secret),
+       authorization_uri: Joi.string().default(uaaUri + '/oauth/authorize'),
++      skip_ssl_validation: Joi.boolean().default(skip_ssl_validation),
+       logout_uri: Joi.string().default(uaaUri + '/logout.do'),
+       token_uri: Joi.string().default(uaaUri + '/oauth/token'),
+       account_info_uri: Joi.string().default(uaaUri + '/userinfo')
+@@ -52,6 +54,10 @@ module.exports = new kibana.Plugin({
+ 
+     server.log(['debug', 'authentication'], JSON.stringify(config.get('authentication')));
+ 
++    if (config.get('authentication.skip_ssl_validation')) {
++       process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
++    }
++
+     server.register([Bell, AuthCookie], function (err) {
+ 
+       if (err) {
+-- 
+1.9.1
+
+
+From 04b145af05d5010132304c26ef60d0599febdc9d Mon Sep 17 00:00:00 2001
+From: David Laing <david@davidlaing.com>
+Date: Mon, 29 Jun 2015 06:14:09 +0000
+Subject: [PATCH 5/5] Fetch CF UAA Uris from CF_API/v2/info query
+
+---
+ src/server/plugins/cf_authentication/index.js | 49 +++++++++++++++++----------
+ 1 file changed, 31 insertions(+), 18 deletions(-)
+
+diff --git a/src/server/plugins/cf_authentication/index.js b/src/server/plugins/cf_authentication/index.js
+index 12c0ba5..1f4d978 100644
+--- a/src/server/plugins/cf_authentication/index.js
++++ b/src/server/plugins/cf_authentication/index.js
+@@ -1,6 +1,8 @@
+ var kibana = require('../../');
+ var Bell = require('bell');
+ var AuthCookie = require('hapi-auth-cookie');
++var Promise = require('bluebird');
++var request = Promise.promisify(require('request'));
+ 
+ module.exports = new kibana.Plugin({
+   /*
+@@ -20,8 +22,7 @@ module.exports = new kibana.Plugin({
+   require: [],
+ 
+   /*
+-  This method is executed to create a Joi schema for the plugin. In the example
+-  below the enabled configuration would be accessible via config.get('my_plugin.enabled').
++  This method is executed to create a Joi schema for the plugin.
+   The Joi module is passed to every config method and config methods can return promises
+   if they need to execute an async operation before setting the defaults. If you're
+   returning a promise then you should resolve the promise with the Joi schema.
+@@ -30,18 +31,34 @@ module.exports = new kibana.Plugin({
+     var client_id = (process.env.KIBANA_OAUTH2_CLIENT_ID) ? process.env.KIBANA_OAUTH2_CLIENT_ID : 'client_id';
+     var client_secret = (process.env.KIBANA_OAUTH2_CLIENT_SECRET) ? process.env.KIBANA_OAUTH2_CLIENT_SECRET : 'client_secret';
+     var client_scope = (process.env.KIBANA_OAUTH_CLIENT_SCOPE) ? process.env.KIBANA_OAUTH_CLIENT_SCOPE : '';
+-    var uaaUri = (process.env.UAA_URI) ? process.env.UAA_URI.replace(/\/$/, '') : 'unknown';
+-    var skip_ssl_validation = (process.env.SKIP_SSL_VALIDATION) ? process.env.SKIP_SSL_VALIDATION : false;
+-
+-    return Joi.object({
+-      client_id: Joi.string().default(client_id),
+-      client_secret: Joi.string().default(client_secret),
+-      authorization_uri: Joi.string().default(uaaUri + '/oauth/authorize'),
+-      skip_ssl_validation: Joi.boolean().default(skip_ssl_validation),
+-      logout_uri: Joi.string().default(uaaUri + '/logout.do'),
+-      token_uri: Joi.string().default(uaaUri + '/oauth/token'),
+-      account_info_uri: Joi.string().default(uaaUri + '/userinfo')
+-    }).default();
++    var skip_ssl_validation = (process.env.SKIP_SSL_VALIDATION) ? (process.env.SKIP_SSL_VALIDATION.toLowerCase() === 'true') : false;
++    var cloudFoundryApiUri = (process.env.CF_API_URI) ? process.env.CF_API_URI.replace(/\/$/, '') : 'unknown';
++    var cfInfoUri = cloudFoundryApiUri + '/v2/info';
++
++    if (skip_ssl_validation) {
++      process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
++    }
++
++    //Fetch location of login server, then set config
++    return request(cfInfoUri).spread(function (response, body) {
++
++      var cf_info = JSON.parse(body);
++
++      return Joi.object({
++        client_id: Joi.string().default(client_id),
++        client_secret: Joi.string().default(client_secret),
++        skip_ssl_validation: Joi.boolean().default(skip_ssl_validation),
++        authorization_uri: Joi.string().default(cf_info.authorization_endpoint + '/oauth/authorize'),
++        logout_uri: Joi.string().default(cf_info.authorization_endpoint + '/logout.do'),
++        token_uri: Joi.string().default(cf_info.token_endpoint + '/oauth/token'),
++        account_info_uri: Joi.string().default(cf_info.token_endpoint + '/userinfo')
++      }).default();
++
++    }).catch(function (error) {
++      console.log('ERROR fetching CF info from ' + cfInfoUri + ' : ' + error);
++      return Joi.object().default();
++    });
++
+   },
+ 
+   /*
+@@ -54,10 +71,6 @@ module.exports = new kibana.Plugin({
+ 
+     server.log(['debug', 'authentication'], JSON.stringify(config.get('authentication')));
+ 
+-    if (config.get('authentication.skip_ssl_validation')) {
+-       process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+-    }
+-
+     server.register([Bell, AuthCookie], function (err) {
+ 
+       if (err) {
+-- 
+1.9.1
+
