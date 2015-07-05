@@ -20,3 +20,6 @@ doc/
 
 #This should be downloaded / linked
 vendor/logstash
+
+#logsearch-workspace artifact
+.bosh_config
