@@ -19,7 +19,7 @@ cp /var/vcap/jobs/push-kibana/config/*.yml $TMPDIR/kibana-for-cf
 cd $TMPDIR/kibana-for-cf 
 
 # target api
-cf api <% if p("cloudfoundry.skip_ssl_validation") %>--skip-ssl-validation<% end %> <%= p("cloudfoundry.cloudControllerUri") %>
+cf api <% if p("cloudfoundry.skip_ssl_validation") %>--skip-ssl-validation<% end %> https://api.<%= p("cloudfoundry.system_domain") %>
 
 # login without org and space in case they do not exist yet
 cf auth <%= p("cloudfoundry.admin_username") %> "<%= p("cloudfoundry.admin_password").gsub('"', '\"') %>"
@@ -45,7 +45,7 @@ ACCESS_TOKEN=$(\
 curl -s -D - -k \
 -u admin:<%= p('cloudfoundry.admin_client_secret')%> \
 -H "Accept:application/json" \
--X POST '<%= p('cloudfoundry.uaaUri')%>/oauth/token?grant_type=client_credentials&response_type=token&client_id=admin&redirect_uri=http://dummy.com' \
+-X POST 'https://uaa.<%= p('cloudfoundry.system_domain')%>/oauth/token?grant_type=client_credentials&response_type=token&client_id=admin&redirect_uri=http://dummy.com' \
 | sed -n 's/.*access_token":"\([^"]*\).*/\1/p' \
 ) 
 
@@ -54,7 +54,7 @@ curl -s -k -w "%{http_code}" -o /dev/null \
 -H "Authorization:Bearer $ACCESS_TOKEN" \
 -H"Content-Type:application/json" \
 -H"Accept:application/json" \
-<%= p('cloudfoundry.uaaUri')%>/oauth/clients/<%= p('push-kibana.oauth2_client_id')%> \
+-X GET https://uaa.<%= p('cloudfoundry.system_domain')%>/oauth/clients/<%= p('push-kibana.oauth2_client_id')%> \
 )
 
 if [ $CLIENT_EXISTS = "404" ]; then
@@ -70,9 +70,9 @@ if [ $CLIENT_EXISTS = "404" ]; then
   "resource_ids" : ["none"], 
   "authorized_grant_types" : ["authorization_code", "refresh_token"], 
   "access_token_validity": 43200,
-  "redirect-uri": "https://<%= p('push-kibana.app_name')%>.<%= p('cloudfoundry.apps_domain')%>/login" 
+  "redirect-uri": "https://<%= p('push-kibana.app_name')%>.<%= p('cloudfoundry.system_domain')%>/login" 
 }' \
--X POST <%= p('cloudfoundry.uaaUri')%>/oauth/clients
+-X POST https://uaa.<%= p('cloudfoundry.system_domain')%>/oauth/clients
 else
 	echo "OAuth2 client <%= p('push-kibana.oauth2_client_id')%> already exists.  Updating all values EXCEPT client_id and client_secret..."
 		curl -s -k -H "Authorization:Bearer $ACCESS_TOKEN" \
@@ -85,13 +85,13 @@ else
   "resource_ids" : ["none"], 
   "authorized_grant_types" : ["authorization_code", "refresh_token"], 
   "access_token_validity": 43200,
-  "redirect-uri": "https://<%= p('push-kibana.app_name')%>.<%= p('cloudfoundry.apps_domain')%>/login" 
+  "redirect-uri": "https://<%= p('push-kibana.app_name')%>.<%= p('cloudfoundry.system_domain')%>/login" 
 }' \
--X PUT <%= p('cloudfoundry.uaaUri')%>/oauth/clients/<%= p('push-kibana.oauth2_client_id')%>
+-X PUT https://uaa.<%= p('cloudfoundry.system_domain')%>/oauth/clients/<%= p('push-kibana.oauth2_client_id')%>
 fi
 
 # Push Kibana app
-cf push 
+cf push
 
 #Upload Kibana dashboards
 cat /var/vcap/jobs/push-kibana/config/kibana4-dashboards.json | curl --data-binary @- http://<%= p('elasticsearch.admin_ip') %>:<%= p('elasticsearch.admin_port') %>/_bulk
