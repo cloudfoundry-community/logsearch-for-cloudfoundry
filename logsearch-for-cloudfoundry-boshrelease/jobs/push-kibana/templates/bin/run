@@ -58,7 +58,7 @@ curl -s -k -w "%{http_code}" -o /dev/null \
 )
 
 # Since we cannot update client_id and client_secret without keeping track of previous state we delete the old client, and recreate it.
-if [ $CLIENT_EXISTS != "404" ]; the
+if [ $CLIENT_EXISTS != "404" ]; then
    echo "Deleting old OAuth2 client: <%= p('push-kibana.oauth2_client_id')%>"
    curl -s -k -w "%{http_code}" \
 	-H "Authorization:Bearer $ACCESS_TOKEN" \
