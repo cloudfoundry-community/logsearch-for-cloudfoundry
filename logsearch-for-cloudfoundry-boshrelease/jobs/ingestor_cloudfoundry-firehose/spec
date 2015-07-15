@@ -31,7 +31,9 @@ properties:
   cloudfoundry.firehose_port:
     description: "The Elastic Runtime API doppler port, defaults to 443"
     default: 443
-    
+  cloudfoundry.firehose_events:
+    description: "Comma seperated list of events you would like. Valid options are HttpStop, CounterEvent, Error, Heartbeat, HttpStart, HttpStartStop, LogMessage, ValueMetric, ContainerMetric"
+    default: "LogMessage,Error,ContainerMetric"
   redis.host: 
     description: Redis host of queue
   redis.port: 

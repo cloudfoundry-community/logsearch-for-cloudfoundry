@@ -73,7 +73,7 @@ case $1 in
         --user=<%= p("cloudfoundry.firehose_user") %> \
         --password=<%= p("cloudfoundry.firehose_password") %> \
         --syslog-server=127.0.0.1:514 \
-        --events=LogMessage,Error,ContainerMetric \
+        --events=<%= p("cloudfoundry.firehose_events") %> \
         --boltdb-path=$TMP_DIR/firehose-to-syslog.cache.db \
         --cc-pull-time=60s \<% if p("ingestor_cloudfoundry-firehose.debug") %>
         --debug \<% end%>
