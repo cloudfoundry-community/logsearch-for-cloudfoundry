@@ -1,4 +1,4 @@
-## Logsearch for Cloud Foundry
+# Logsearch for Cloud Foundry
 
 A Logsearch addon that customises Logsearch to work with Cloud Foundry data
 
@@ -14,29 +14,18 @@ The video below shows this in action:
 
 [![Logsearch for Cloudfoundry - CF Operator view](https://cloud.githubusercontent.com/assets/227505/7177840/d32fa890-e421-11e4-9127-dd2ce2ef36b9.png)](https://youtu.be/gWfoHCQUixM)
 
-### Roadmap
+## Roadmap
 
 * cf-cli plugin - A plugin for the cf-cli to enable searching of an applications logs - eg:
 
         cf log-search APP "type:RTR AND url:index.html"
 
 
-### Getting Started
+## [ Adding to Existing Cloud Foundry and Logsearch Deployments ]( https://github.com/logsearch/logsearch-for-cloudfoundry/blob/master/logsearch-for-cloudfoundry-boshrelease/README.md )
 
-### Adding to existing Cloud Foundry + Logsearch deployments
-
-This has been tested on cf-release v205, v207 and logsearch-boshrelease v19.
-
-0.  Deploy the `ingestor_cloudfoundry` job to your existing logsearch deployment.
-
-  * `bosh upload release https://logsearch-for-cloudfoundry-boshrelease.s3.amazonaws.com/boshrelease-logsearch-for-cloudfoundry-4.tgz`
-  * See [logsearch-for-cloudfoundry-boshrelease/templates](https://github.com/logsearch/logsearch-for-cloudfoundry/tree/master/logsearch-for-cloudfoundry-boshrelease/templates) for example manifest files
-  * Include `logsearch-for-cloudfoundry/logstash-filters-default.conf` log_parsing rules
-  * `bosh deploy`
+__Notes:__
   * All app logs from your CF deployment should now be forwarded into your logsearch cluster. 
-  * `bosh run errand push-kibana` will deploy Kibana4 and some sample dashboards to your CF cluster
 
-_Sorry for the terse instructions; we're still finalising exactly how this will be deployed, and are delaying writing better instructions until that has happened_
 
 ### Developing
 

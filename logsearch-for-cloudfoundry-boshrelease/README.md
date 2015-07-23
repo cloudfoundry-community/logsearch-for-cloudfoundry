@@ -1,29 +1,73 @@
 # BOSH Release for logsearch-for-cloudfoundry
 
-## Usage
+## Deploying logsearch-for-cloudfoundry
 
-To use this bosh release, first upload it to your bosh:
+For [bosh-lite](https://github.com/cloudfoundry/bosh-lite):
+
+0. Get source code
+
+  ```
+    git clone http://github.com/logsearch/logsearch-for-cloudfoundry
+    cd logsearch-for-cloudfoundry/logsearch-for-cloudfoundry-boshrelease
+  ```
+
+0. Generate stub from one of the provided examples:
+
+  ```
+    cp templates/stub.warden.example.yml templates/stub.yml
+    vim templates/stub.yml # Add customizations
+  ```
+
+0. Target bosh director
+
+  ```
+    bosh target 192.168.50.4 lite
+  ```
+
+0. Make manifest
+
+  ```
+    ./templates/make-manifest warden templates/stub.yml
+  ```
+
+0. Upload logsearch bosh release
+
+  ```
+    bosh upload release releases/logseach-for-cloudfoundry/logseach-for-cloudfoundry-5.yml
+  ```
+
+0. Perform deployment
+
+  ```
+    bosh  -n deploy
+  ```
+
+0. Run push-kibana bosh errand
+
+  ```
+    bosh run errand push-kibana # will deploy Kibana4 and some sample dashboards to your CF cluster
+  ```
+
+## Redeploying logsearch
+
+Losearch-for-cloudfoundry requires some of the logsearch#log_parser job capabilities.
+It extends the log parsing filters to allow logstash to properly parse the format of cloud foundry log output.
+
+To do this, include the following in your `logstash#stub.yml` before generating your manifest:
 
 ```
-bosh target BOSH_HOST
-git clone https://github.com/cloudfoundry-community/logsearch-for-cloudfoundry-boshrelease.git
-cd logsearch-for-cloudfoundry-boshrelease
-bosh upload release releases/logsearch-for-cloudfoundry-1.yml
+...
+
+properties:
+ logstash_parser:
+    filters: |
+            <%= File.read("#{ENV['HOME']}/workspace/logsearch-for-cloudfoundry/target/logstash-filters-default.conf").gsub(/^/, '            ').strip %>
+
+...
 ```
 
-For [bosh-lite](https://github.com/cloudfoundry/bosh-lite), you can quickly create a deployment manifest & deploy a cluster:
+Now proceed by generating your manifest again and redeploying your logsearch deployment.
 
-```
-templates/make_manifest warden
-bosh -n deploy
-```
-
-For AWS EC2, create a single VM:
-
-```
-templates/make_manifest aws-ec2
-bosh -n deploy
-```
 
 ### Override security groups
 
