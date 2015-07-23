@@ -70,7 +70,7 @@ describe LogStash::Filters::Grok do
   describe "Ensure non-NATS messages are ignored" do
     # this is taken from a syslog_standard test
     sample("@type" => "relp", "host" => "1.2.3.4", "@message" => '<78>Apr 24 04:03:06 localhost crontab[32185]: (root) LIST (root)') do
-      insist { subject["tags"] } == [ 'syslog_standard' ]
+      insist { subject["tags"] } == [ 'syslog_standard', '_grokparsefailure-cf-vcap']
       insist { subject["@type"] } == 'relp'
       insist { subject["@timestamp"] } == Time.iso8601("#{current.year}-04-24T04:03:06.000Z")
       insist { subject['@source.host'] } == '1.2.3.4'
