@@ -20,13 +20,10 @@ properties:
     oauth2_client_id: "kibana_admin"     
     oauth2_client_secret: "keepitsimple" 
   redis:
-    host: 10.244.10.10
+    host: "10.244.10.10"
   cloudfoundry:
-    cloudControllerUri: "https://api.10.244.0.34.xip.io"
-    uaaUri: "https://uaa.10.244.0.34.xip.io"
-    skip_ssl_validation: true
     system_domain: "10.244.0.34.xip.io"
-    apps_domain: 10.244.0.34.xip.io
+    skip_ssl_validation: true
     admin_username: "admin"
     admin_password: "admin"
     admin_client_secret: "admin-secret"

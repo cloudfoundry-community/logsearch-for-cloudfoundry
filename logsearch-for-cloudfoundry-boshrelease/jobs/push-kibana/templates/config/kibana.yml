@@ -32,7 +32,7 @@ kibana_index: "<%= p('push-kibana.kibana_index') %>"
 # ca: /path/to/your/CA.pem
 
 # The default application to load.
-default_app_id: "discover"
+default_app_id: "dashboard/Overview"
 
 # Time in milliseconds to wait for elasticsearch to respond to pings, defaults to
 # request_timeout setting

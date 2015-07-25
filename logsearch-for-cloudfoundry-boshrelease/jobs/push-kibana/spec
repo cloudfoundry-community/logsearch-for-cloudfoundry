@@ -23,15 +23,11 @@ properties:
   push-kibana.oauth2_client_secret:
     description: "The UAA kibana oauth2 client id's secret"
 
-  cloudfoundry.cloudControllerUri:
-    description: "The Elastic Runtime API endpoint URL ( eg: http://api.10.244.0.34.xip.io )"
-  cloudfoundry.uaaUri:
-    description: "The UAA API endpoint URL ( eg: http://uaa.10.244.0.34.xip.io )"
+  cloudfoundry.system_domain:
+    description: "The Elastic Runtime system domain ( eg: system.10.244.0.34.xip.io )"
   cloudfoundry.skip_ssl_validation:
     description: "Set to true to skip SSL validation when connecting to CF (defaults to false)"
     default: false
-  cloudfoundry.apps_domain:
-    description: "The Elastic Runtime apps domain ( eg: 10.244.0.34.xip.io )"
   cloudfoundry.admin_username:
     description: "The Elastic Runtime API user"
   cloudfoundry.admin_password:
