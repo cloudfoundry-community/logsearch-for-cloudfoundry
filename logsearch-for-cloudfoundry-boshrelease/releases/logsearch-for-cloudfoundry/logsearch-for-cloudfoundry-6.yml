@@ -1,0 +1,46 @@
+---
+packages:
+- name: java8
+  version: 0ae49bb225b4b74e6d4f9cab3681ebd2f725b9aa
+  sha1: b89a5ddc29a2b62505b647cf8516fc2041587aaf
+  fingerprint: 0ae49bb225b4b74e6d4f9cab3681ebd2f725b9aa
+  dependencies: []
+- name: kibana-for-cf
+  version: 73c18253bbafd09c42ce1564d9186c862a0a40a5
+  sha1: 5cbf81ee8b240887bd6aa80b1075fe9b72ebecee
+  fingerprint: 73c18253bbafd09c42ce1564d9186c862a0a40a5
+  dependencies: []
+- name: logstash
+  version: 54e04b8f9d221a23310c66d87a557049a0c815fd
+  sha1: 2a96b51922ed38e93b8fcaca4f76a6822f60b570
+  fingerprint: 54e04b8f9d221a23310c66d87a557049a0c815fd
+  dependencies: []
+- name: cli
+  version: 2bb59769970d6b9c5c478984e622d4bd24ea4750
+  sha1: 0e7a305a3036bb26eca79f27d8c128242b022435
+  fingerprint: 2bb59769970d6b9c5c478984e622d4bd24ea4750
+  dependencies: []
+- name: golang1.4
+  version: f57ddbc8d55d7a0f08775bf76bb6a27dc98c7ea7
+  sha1: 1514f2765093eb9e912469fbf9887e73ae2d2412
+  fingerprint: f57ddbc8d55d7a0f08775bf76bb6a27dc98c7ea7
+  dependencies: []
+- name: firehose-to-syslog
+  version: 20ee03cda5e56d1ee122dcacc42cbbe405ea3993
+  sha1: b20c378d18293b1e8a6c187d1e51f4bfd32afb22
+  fingerprint: 20ee03cda5e56d1ee122dcacc42cbbe405ea3993
+  dependencies:
+  - golang1.4
+jobs:
+- name: push-kibana
+  version: 12c404c1c5fdc1440c0b658df5928de3f8424061
+  fingerprint: 12c404c1c5fdc1440c0b658df5928de3f8424061
+  sha1: 4b0c58d0261a50df5bda0040e5c58bbe9d6e0e3d
+- name: ingestor_cloudfoundry-firehose
+  version: d18047fe588232b82feccbc4c3a2f66e69bdcd10
+  fingerprint: d18047fe588232b82feccbc4c3a2f66e69bdcd10
+  sha1: d2dfda5cc315e8626fffe258f312e6fb30a9a181
+commit_hash: 0fd08bec
+uncommitted_changes: true
+name: logsearch-for-cloudfoundry
+version: '6'
