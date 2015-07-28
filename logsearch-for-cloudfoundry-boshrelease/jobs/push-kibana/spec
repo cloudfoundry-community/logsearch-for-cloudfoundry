@@ -25,6 +25,9 @@ properties:
 
   cloudfoundry.system_domain:
     description: "The Elastic Runtime system domain ( eg: system.10.244.0.34.xip.io )"
+  cloudfoundry.system_org:
+    description: "The organisation that owns the CF system domain"
+    default: system
   cloudfoundry.skip_ssl_validation:
     description: "Set to true to skip SSL validation when connecting to CF (defaults to false)"
     default: false
@@ -34,10 +37,10 @@ properties:
     description: "The Elastic Runtime API user's password"
   cloudfoundry.admin_client_secret:
     description: "The UAA Admin client id's secret"
-  
+
   elasticsearch.admin_ip:
     description: "The (internal) IP for Elasticsearch API node ( eg: 10.244.0.101 )"
   elasticsearch.admin_port:
     description: "The (internal) port for Elasticsearch API node ( default: 9200 )"
     default: 9200
-  
+

@@ -16,7 +16,7 @@ cp -R /var/vcap/packages/kibana-for-cf/src/. $TMPDIR/kibana-for-cf
 cp /var/vcap/jobs/push-kibana/config/*.yml $TMPDIR/kibana-for-cf
 
 # Change to assembled kibana deploy folder
-cd $TMPDIR/kibana-for-cf 
+cd $TMPDIR/kibana-for-cf
 
 # target api
 cf api <% if p("cloudfoundry.skip_ssl_validation") %>--skip-ssl-validation<% end %> https://api.<%= p("cloudfoundry.system_domain") %>
@@ -25,20 +25,21 @@ cf api <% if p("cloudfoundry.skip_ssl_validation") %>--skip-ssl-validation<% end
 cf auth <%= p("cloudfoundry.admin_username") %> "<%= p("cloudfoundry.admin_password").gsub('"', '\"') %>"
 
 # Create a new org, don't fail if they already exist
-cf create-org "system" || true
+org=<%= p('cloudfoundry.system_org') %>
+cf create-org "$org" || true
 
 # Target the new org
-cf target -o "system"
+cf target -o "$org"
 
 # Create a new space, don't fail if it already exists
-cf create-space "elk-for-pcf" -o "system" || true
+cf create-space "elk-for-pcf" -o "$org" || true
 
 # Target new space.
-cf target -o "system" -s "elk-for-pcf"
+cf target -o "$org" -s "elk-for-pcf"
 
 # Ensure apps in elk-for-pcf have firewall access to elasticsearch
-cf create-security-group allow_access_to_elasticsearch /var/vcap/jobs/push-kibana/config/allow_access_to_elasticsearch.rules.json 
-cf bind-security-group allow_access_to_elasticsearch system elk-for-pcf
+cf create-security-group allow_access_to_elasticsearch /var/vcap/jobs/push-kibana/config/allow_access_to_elasticsearch.rules.json
+cf bind-security-group allow_access_to_elasticsearch "$org" elk-for-pcf
 
 # Create UAA client: <%= p('push-kibana.oauth2_client_id')%> if not already exists
 ACCESS_TOKEN=$(\
@@ -47,7 +48,7 @@ curl -s -D - -k \
 -H "Accept:application/json" \
 -X POST 'https://uaa.<%= p('cloudfoundry.system_domain')%>/oauth/token?grant_type=client_credentials&response_type=token&client_id=admin&redirect_uri=http://dummy.com' \
 | sed -n 's/.*access_token":"\([^"]*\).*/\1/p' \
-) 
+)
 
 CLIENT_EXISTS=$(\
 curl -s -k -w "%{http_code}" -o /dev/null \
