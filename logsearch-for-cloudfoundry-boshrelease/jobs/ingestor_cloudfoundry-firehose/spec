@@ -7,7 +7,7 @@ packages:
 templates:
   bin/ingestor_cloudfoundry-firehose_ctl: bin/ingestor_cloudfoundry-firehose_ctl
   bin/monit_debugger: bin/monit_debugger
-  config/syslog_to_redis.conf: config/syslog_to_redis.conf
+  config/logstash.conf.erb: config/logstash.conf
   data/properties.sh.erb: data/properties.sh
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
@@ -42,3 +42,15 @@ properties:
   redis.key: 
     description: Name of queue to pull messages from
     default: logstash
+  rabbitmq.host:
+    description: RabbitMQ host of queue
+  rabbitmq.exchange:
+    description: RabbitMQ Exchange
+    default: amq.direct
+  rabbitmq.exchange_type:
+    description: RabbitMQ Exchange Type
+    default: direct
+  rabbitmq.user:
+    description: RabbitMQ username
+  rabbitmq.password:
+    description: RabbitMQ password
