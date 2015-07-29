@@ -28,6 +28,7 @@ output {
         }
 	<% end %>
 	
+	<% if_p("redis.host") do |redis_host| %>
 	redis {
 		host => "<%= p("redis.host") %>"
 		port => "<%= p("redis.port") %>"
@@ -36,4 +37,18 @@ output {
 		batch => true
 		batch_events => 50
 	}
+	<% end %>
+
+	<% if_p("rabbitmq.host") do |rabbitmq_host| %>
+	rabbitmq {
+		host => "<%= p("rabbitmq.host") %>"
+		exchange => "<%= p("rabbitmq.exchange") %>"
+		exchange_type => "<%= p("rabbitmq.exchange_type") %>"
+		user => "<%= p("rabbitmq.user") %>"
+		password => "<%= p("rabbitmq.password") %>"
+	}
+	<% end %>
+
+	<% an_output = p(['redis.host', 'rabbitmq.host'], nil) %>
+	<% raise "There are no output configured" if an_output.nil? %>
 }
