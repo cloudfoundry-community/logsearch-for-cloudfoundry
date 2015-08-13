@@ -1,3 +1,7 @@
+#Ignore emacs jazz
+.#*
+#*
+
 **/*.tgz
 *.gem
 *.rbc

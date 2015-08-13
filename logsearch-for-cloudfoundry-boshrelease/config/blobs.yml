@@ -31,3 +31,7 @@ kibana-for-cf/kibana-4.2.0-snapshot-linux-x64-with-cf-authentication.tar.gz:
   object_id: 8e596ad6-5060-43b8-a6ed-a433fcf095be
   sha: 2bc5b5fa73e9775bfdb81d465508f29a7cf69c6e
   size: 13699041
+kibana-for-cf/kibana-4.2.0-snapshot-linux-x64.tar.gz:
+  object_id: aa5e83fb-f81b-4cb9-bb47-604766672044
+  sha: 201e90d88142474db1fd2816ca15d79f147c9a3b
+  size: 13453492
