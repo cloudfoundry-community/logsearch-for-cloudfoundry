@@ -14,14 +14,13 @@ The video below shows this in action:
 
 [![Logsearch for Cloudfoundry - CF Operator view](https://cloud.githubusercontent.com/assets/227505/7177840/d32fa890-e421-11e4-9127-dd2ce2ef36b9.png)](https://youtu.be/gWfoHCQUixM)
 
+To install, please use the logsearch-for-cloudfoundry-boshrelease, documented [here]( https://github.com/logsearch/logsearch-for-cloudfoundry/blob/master/logsearch-for-cloudfoundry-boshrelease/README.md )
+
 ## Roadmap
 
 * cf-cli plugin - A plugin for the cf-cli to enable searching of an applications logs - eg:
 
         cf log-search APP "type:RTR AND url:index.html"
-
-
-## [ Adding to Existing Cloud Foundry and Logsearch Deployments ]( https://github.com/logsearch/logsearch-for-cloudfoundry/blob/master/logsearch-for-cloudfoundry-boshrelease/README.md )
 
 __Notes:__
   * All app logs from your CF deployment should now be forwarded into your logsearch cluster. 
