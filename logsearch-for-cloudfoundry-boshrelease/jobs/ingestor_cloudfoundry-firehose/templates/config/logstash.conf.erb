@@ -27,7 +27,7 @@ output {
             codec => "json"
         }
 	<% end %>
-	
+	<% if_p("redis.host") do |redis_host| %>	
 	redis {
 		host => "<%= p("redis.host") %>"
 		port => "<%= p("redis.port") %>"
@@ -36,4 +36,18 @@ output {
 		batch => true
 		batch_events => 50
 	}
+	<% end %>
+
+	<% if_p("ingestor.outputs") do |ingestor_outputs| %>
+	  <% ingestor_outputs.each do | output | %>
+	    <%= output['plugin'] %> {
+	      <% output['options'].each do | k, v | %>
+	        <%= k %> => <%= v.inspect %>
+	      <% end %>
+	    }
+	  <% end %>
+	<% end %>
+
+	<% an_output = p(['redis.host', 'ingestor.outputs'], nil) %>
+	<% raise "There are no output configured" if an_output.nil? %>
 }
