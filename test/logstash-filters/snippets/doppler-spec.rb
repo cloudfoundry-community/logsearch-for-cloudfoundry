@@ -158,6 +158,18 @@ describe LogStash::Filters::Grok do
       end
       
     end 
+
+    describe "Handle unicode newline character - \u2028" do
+	sample("@type"=>"syslog", "@message" => "<6>2015-08-18T10:01:35Z 15875963-9c45-4544-a5e8-f34bcd84c8a2 doppler[4241]: {\"cf_app_id\":\"ced331e4-43d8-42ff-9a16-5126a7ae9d3a\",\"cf_app_name\":\"quotes\",\"cf_org_id\":\"1e91cfa1-c754-4759-ae80-ce172b89ffd2\",\"cf_org_name\":\"stayUp\",\"cf_space_id\":\"1aba7f55-79f3-464b-8e53-9348c9e48997\",\"cf_space_name\":\"development\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"2015-08-18 10:01:35.834  WARN 33 --- [io-61013-exec-9] i.p.quotes.controller.QuoteController    : Handle Error: io.pivotal.quotes.exception.SymbolNotFoundException: Symbol not found: FOOBAR\\u2028\\tat io.pivotal.quotes.service.QuoteService.getQuote(QuoteService.java:52) ~[app/:na]\\u2028\\tat io.pivotal.quotes.controller.QuoteController.getQuote(QuoteController.java:58) ~[app/:na]\\u2028\\tat sun.reflect.GeneratedMethodAccessor38.invoke(Unknown Source) ~[na:na]\\u2028\\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_51-]\\u2028\\tat org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-embed-core-8.0.23.jar!/:8.0.23]\\u2028\\tat java.lang.Thread.run(Thread.java:745) [na:1.8.0_51-]\\u2028\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"App\",\"time\":\"2015-08-18T10:01:35Z\",\"timestamp\":1439892095835415236}") do
+
+        #puts subject.to_hash.to_yaml
+
+        insist { subject["tags"] } == [ 'syslog_standard', 'cloudfoundry_doppler' ]
+
+        insist { subject["msg"] } == "2015-08-18 10:01:35.834  WARN 33 --- [io-61013-exec-9] i.p.quotes.controller.QuoteController    : Handle Error: io.pivotal.quotes.exception.SymbolNotFoundException: Symbol not found: FOOBAR\n\tat io.pivotal.quotes.service.QuoteService.getQuote(QuoteService.java:52) ~[app/:na]\n\tat io.pivotal.quotes.controller.QuoteController.getQuote(QuoteController.java:58) ~[app/:na]\n\tat sun.reflect.GeneratedMethodAccessor38.invoke(Unknown Source) ~[na:na]\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_51-]\n\tat org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-embed-core-8.0.23.jar!/:8.0.23]\n\tat java.lang.Thread.run(Thread.java:745) [na:1.8.0_51-]\n"
+      end
+
+    end
   end
 
 end
