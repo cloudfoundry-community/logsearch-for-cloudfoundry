@@ -20,8 +20,8 @@ describe LogStash::Filters::Grok do
       insist { subject["@source.host"] } == "loggregator"
       insist { subject["@source.app_id"] } == "d5a5e8a5-9b06-4dd3-8157-e9bd3327b9dc"
 
-      insist { subject["log_source"] } == "App"
-      insist { subject["log_source_id"] } == "0"
+      insist { subject["source_type"] } == "App"
+      insist { subject["source_instance"] } == "0"
 
       insist { subject["message"] } == "LowRequestRate 2014-05-20T15:44:58.794Z"
       insist { subject["logger"] } == "logsearch_watcher_bot.Program"
@@ -34,8 +34,8 @@ describe LogStash::Filters::Grok do
       insist { subject["@type"] } == "syslog"
       insist { subject["@timestamp"] } == Time.iso8601("2014-05-20T20:34:49.830Z").utc
 
-      insist { subject["log_source"] } == "App"
-      insist { subject["log_source_id"] } == "0"
+      insist { subject["source_type"] } == "App"
+      insist { subject["source_instance"] } == "0"
 
       insist { subject["Watcher_FinishedOn"] } == "2014-05-20T15:44:58.794Z"
       insist { subject["logger"] } == "logsearch_watcher_bot.Program"
@@ -53,19 +53,20 @@ describe LogStash::Filters::Grok do
       insist { subject["@source.host"] } == "loggregator"
       insist { subject["@source.app_id"] } == "d5a5e8a5-9b06-4dd3-8157-e9bd3327b9dc"
 
-      insist { subject["log_source"] } == "App"
-      insist { subject["log_source_id"] } == "0"
+      insist { subject["source_type"] } == "App"
+      insist { subject["source_instance"] } == "0"
 
       insist { subject["message"] } == "Updating AppSettings for /home/vcap/app/logsearch-watcher-bot.exe.config"
     end
 
     sample("@type" => "syslog", "@message" => '170 <14>1 2014-05-20T09:46:10+00:00 loggregator d5a5e8a5-9b06-4dd3-8157-e9bd3327b9dc [DEA] - - Starting app instance (index 0) with guid d5a5e8a5-9b06-4dd3-8157-e9bd3327b9dc') do
+
       insist { subject["tags"] } == [ 'syslog_standard', 'cloudfoundry_loggregator' ]
       insist { subject["@type"] } == "syslog"
       insist { subject["@timestamp"] } == Time.iso8601("2014-05-20T09:46:10Z").utc
 
-      insist { subject["log_source"] } == "DEA"
-      insist { subject["log_source_id"] }.nil? === true
+      insist { subject["source_type"] } == "DEA"
+      insist { subject["source_instance"] }.nil? === true
 
       insist { subject["message"] } == "Starting app instance (index 0) with guid d5a5e8a5-9b06-4dd3-8157-e9bd3327b9dc"
     end
@@ -75,8 +76,8 @@ describe LogStash::Filters::Grok do
       insist { subject["@type"] } == "syslog"
       insist { subject["@timestamp"] } == Time.iso8601("2014-05-20T09:46:07Z").utc
 
-      insist { subject["log_source"] } == "App"
-      insist { subject["log_source_id"] } == "0"
+      insist { subject["source_type"] } == "App"
+      insist { subject["source_instance"] } == "0"
 
       insist { subject["message"] }.nil? === "true"
     end
