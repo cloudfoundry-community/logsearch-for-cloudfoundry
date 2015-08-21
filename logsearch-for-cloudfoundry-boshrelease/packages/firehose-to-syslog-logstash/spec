@@ -1,0 +1,6 @@
+---
+name: firehose-to-syslog-logstash
+dependencies: []
+files: 
+  # https://download.elastic.co/logstash/logstash/logstash-1.5.2.tar.gz
+  - firehose-to-syslog-logstash/logstash-1.5.2.tar.gz
