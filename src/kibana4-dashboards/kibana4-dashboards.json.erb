@@ -1,0 +1,17 @@
+<%
+require 'json'
+require 'cgi'
+
+def include_template(type, name)
+    template_path = "src/kibana4-dashboards/#{type}/#{name}.json.erb"
+    "{\"index\":{\"_index\":\".kibana\",\"_type\":\"#{type}\",\"_id\":\"#{name}\"}}\n#{JSON.parse(ERB.new(File.read(template_path)).result(binding)).to_json}"
+end
+%>
+<%= include_template 'index-pattern','[logstash-]YYYY.MM.DD' %>
+<%= include_template 'search','LogMessages' %>
+<%= include_template 'search','LogMessages-RTR' %>
+<%= include_template 'search','LogMessages-ERROR' %>
+<%= include_template 'visualization','LogMessages-ERROR-by-cf_app_name' %>
+<%= include_template 'visualization','LogMessages-ERROR-by-time' %>
+<%= include_template 'dashboard','CF-App-ERRORs' %>
+

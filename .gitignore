@@ -17,6 +17,9 @@ test/tmp
 test/version_tmp
 tmp
 
+#vim temp files
+*.swp
+
 # YARD artifacts
 .yardoc
 _yardoc
