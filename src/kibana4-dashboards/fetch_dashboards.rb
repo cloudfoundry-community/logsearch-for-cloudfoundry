@@ -70,7 +70,8 @@ export_kibana_config es_host, 'visualization', 'LogMessages-ERROR-by-time'
 export_kibana_config es_host, 'dashboard', 'CF-App-ERRORs'
 
 # Redis
-#export_kibana_config es_host, 'dashboard', 'Redis-dashboard
-#visualization Redis-log-severity
-#visualization Redis-source-hosts
-#visualization
+export_kibana_config es_host, 'dashboard', 'Redis-dashboard'
+export_kibana_config es_host, 'visualization', 'Redis-log-severity'
+export_kibana_config es_host, 'visualization', 'Redis-source-hosts'
+export_kibana_config es_host, 'visualization', 'Redis-syslog-programs'
+export_kibana_config es_host, 'search', 'Redis-logs-from-redis-and-redis-broker'
