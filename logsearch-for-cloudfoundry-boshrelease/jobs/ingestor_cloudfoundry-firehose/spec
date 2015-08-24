@@ -43,5 +43,15 @@ properties:
     description: Name of queue to pull messages from
     default: logstash
   ingestor.outputs:
-    description: The configuration to embed into the logstash outputs section
+    description: |
+      A list of output plugins, with a hash of options for each of them. Please refer to example below.
+    example:
+      outputs:
+        - plugin: rabbitmq
+          options:
+            host: 192.168.1.1
+            user: logsearch
+            password: c1oudbunny
+            exchange_type: "direct"
+    default: [ { plugin: "redis", options : {} } ]
 
