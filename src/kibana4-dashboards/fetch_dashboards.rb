@@ -25,6 +25,14 @@ def convert_to_erb ( type, doc )
     doc["kibanaSavedObjectMeta"]["searchSourceJSON"] = "REPLACE_WITH_searchSourceJSON"
     erb_string = "<% require 'json' %>\n#{JSON.pretty_generate(doc)}"
     erb_string = erb_string.sub(/REPLACE_WITH_searchSourceJSON/, erb_to_render_stringified_json(searchSourceJSON) )
+  when "visualization"
+    searchSourceJSON = JSON.parse(doc["kibanaSavedObjectMeta"]["searchSourceJSON"])
+    doc["kibanaSavedObjectMeta"]["searchSourceJSON"] = "REPLACE_WITH_searchSourceJSON"
+    visStateJSON = JSON.parse(doc["visState"])
+    doc["visState"]= "REPLACE_WITH_visStateJSON"
+    erb_string = "<% require 'json' %>\n#{JSON.pretty_generate(doc)}"
+    erb_string = erb_string.sub(/REPLACE_WITH_searchSourceJSON/, erb_to_render_stringified_json(searchSourceJSON) )
+    erb_string = erb_string.sub(/REPLACE_WITH_visStateJSON/, erb_to_render_stringified_json(visStateJSON) )
   when "index-pattern"
     fieldsJSON = JSON.parse(doc["fields"])
     doc["fields"]= "REPLACE_WITH_fieldsJSON"
@@ -60,3 +68,9 @@ export_kibana_config es_host, 'visualization', 'LogMessages-ERROR-by-cf_app_name
 export_kibana_config es_host, 'visualization', 'LogMessages-ERROR-by-time'
 
 export_kibana_config es_host, 'dashboard', 'CF-App-ERRORs'
+
+# Redis
+#export_kibana_config es_host, 'dashboard', 'Redis-dashboard
+#visualization Redis-log-severity
+#visualization Redis-source-hosts
+#visualization

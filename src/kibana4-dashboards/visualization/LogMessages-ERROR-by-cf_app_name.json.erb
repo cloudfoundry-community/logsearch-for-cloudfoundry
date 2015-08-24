@@ -1,10 +1,51 @@
+<% require 'json' %>
 {
   "title": "LogMessages - ERROR - by cf_app_name",
-  "visState": "{\"type\":\"pie\",\"params\":{\"shareYAxis\":true,\"addTooltip\":true,\"addLegend\":true,\"isDonut\":false},\"aggs\":[{\"id\":\"1\",\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"cf_app_name\",\"size\":25,\"order\":\"desc\",\"orderBy\":\"1\"}}],\"listeners\":{}}",
+  "visState": "<%= JSON.parse(<<ENDOFFJSON).to_json.gsub(/"/){ '\"' }
+    {
+      "type": "pie",
+      "params": {
+        "shareYAxis": true,
+        "addTooltip": true,
+        "addLegend": true,
+        "isDonut": false
+      },
+      "aggs": [
+        {
+          "id": "1",
+          "type": "count",
+          "schema": "metric",
+          "params": {
+          }
+        },
+        {
+          "id": "2",
+          "type": "terms",
+          "schema": "segment",
+          "params": {
+            "field": "cf_app_name",
+            "size": 25,
+            "order": "desc",
+            "orderBy": "1"
+          }
+        }
+      ],
+      "listeners": {
+      }
+    }
+ENDOFFJSON
+%>",
   "description": "",
   "savedSearchId": "LogMessages-ERROR",
   "version": 1,
   "kibanaSavedObjectMeta": {
-    "searchSourceJSON": "{\"filter\":[]}"
+    "searchSourceJSON": "<%= JSON.parse(<<ENDOFFJSON).to_json.gsub(/"/){ '\"' }
+    {
+      "filter": [
+    
+      ]
+    }
+ENDOFFJSON
+%>"
   }
 }
