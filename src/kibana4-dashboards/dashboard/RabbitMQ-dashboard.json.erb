@@ -1,40 +1,39 @@
 <% require 'json' %>
 {
-  "title": "CF App ERRORs",
+  "title": "RabbitMQ dashboard",
   "hits": 0,
   "description": "",
   "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     [
       {
-        "id": "LogMessages-ERROR-by-time",
-        "type": "visualization",
-        "size_x": 9,
-        "size_y": 3,
         "col": 1,
-        "row": 1
-      },
-      {
-        "id": "LogMessages-ERROR",
-        "type": "search",
-        "size_x": 12,
-        "size_y": 5,
-        "col": 1,
-        "row": 4,
         "columns": [
-          "cf_app_name",
-          "msg"
+          "@message"
         ],
+        "id": "Rabbitmq-logs-from-rabbitmq,-HAProxy-and-rabbit-broker",
+        "row": 3,
+        "size_x": 12,
+        "size_y": 6,
         "sort": [
           "@timestamp",
           "desc"
-        ]
+        ],
+        "type": "search"
       },
       {
-        "id": "LogMessages-ERROR-by-cf_app_name",
-        "type": "visualization",
+        "col": 1,
+        "id": "RabbitMQ-source-hosts",
+        "row": 1,
         "size_x": 3,
-        "size_y": 3,
-        "col": 10,
+        "size_y": 2,
+        "type": "visualization"
+      },
+      {
+        "id": "RabbitMQ-all-logs",
+        "type": "visualization",
+        "size_x": 9,
+        "size_y": 2,
+        "col": 4,
         "row": 1
       }
     ]
@@ -49,8 +48,8 @@ ENDOFFJSON
         {
           "query": {
             "query_string": {
-              "query": "*",
-              "analyze_wildcard": true
+              "analyze_wildcard": true,
+              "query": "*"
             }
           }
         }

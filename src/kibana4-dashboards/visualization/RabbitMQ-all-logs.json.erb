@@ -1,6 +1,6 @@
 <% require 'json' %>
 {
-  "title": "Redis log severity",
+  "title": "RabbitMQ all logs",
   "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
       "type": "histogram",
@@ -9,7 +9,7 @@
         "addTooltip": true,
         "addLegend": true,
         "scale": "linear",
-        "mode": "grouped",
+        "mode": "stacked",
         "times": [
     
         ],
@@ -29,24 +29,15 @@
         },
         {
           "id": "2",
-          "type": "terms",
+          "type": "date_histogram",
           "schema": "segment",
           "params": {
             "field": "@timestamp",
-            "size": 5,
-            "order": "desc",
-            "orderBy": "1"
-          }
-        },
-        {
-          "id": "3",
-          "type": "terms",
-          "schema": "group",
-          "params": {
-            "field": "syslog_severity",
-            "size": 5,
-            "order": "desc",
-            "orderBy": "1"
+            "interval": "auto",
+            "customInterval": "2h",
+            "min_doc_count": 1,
+            "extended_bounds": {
+            }
           }
         }
       ],
@@ -56,7 +47,7 @@
 ENDOFFJSON
 %>",
   "description": "",
-  "savedSearchId": "Redis-logs-from-redis-and-redis-broker",
+  "savedSearchId": "Rabbitmq-logs-from-rabbitmq,-HAProxy-and-rabbit-broker",
   "version": 1,
   "kibanaSavedObjectMeta": {
     "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }

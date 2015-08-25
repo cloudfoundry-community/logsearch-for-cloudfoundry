@@ -1,42 +1,42 @@
 <% require 'json' %>
 {
-  "title": "LogMessages - ERROR - by cf_app_name",
+  "title": "RabbitMQ source hosts",
   "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
-      "type": "pie",
-      "params": {
-        "shareYAxis": true,
-        "addTooltip": true,
-        "addLegend": true,
-        "isDonut": false
-      },
       "aggs": [
         {
           "id": "1",
-          "type": "count",
-          "schema": "metric",
           "params": {
-          }
+          },
+          "schema": "metric",
+          "type": "count"
         },
         {
           "id": "2",
-          "type": "terms",
-          "schema": "segment",
           "params": {
-            "field": "cf_app_name",
-            "size": 25,
+            "field": "host",
             "order": "desc",
-            "orderBy": "1"
-          }
+            "orderBy": "1",
+            "size": 5
+          },
+          "schema": "segment",
+          "type": "terms"
         }
       ],
       "listeners": {
-      }
+      },
+      "params": {
+        "addLegend": true,
+        "addTooltip": true,
+        "isDonut": false,
+        "shareYAxis": true
+      },
+      "type": "pie"
     }
 ENDOFFJSON
 %>",
   "description": "",
-  "savedSearchId": "LogMessages-ERROR",
+  "savedSearchId": "Rabbitmq-logs-from-rabbitmq,-HAProxy-and-rabbit-broker",
   "version": 1,
   "kibanaSavedObjectMeta": {
     "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }

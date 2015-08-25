@@ -12,8 +12,8 @@ def fetch_kibana_config ( es_host, type, name )
 end
 
 def erb_to_render_stringified_json( json )
-  "<%= JSON.parse(<<ENDOFFJSON).to_json.gsub(/\"/){ '\\\"' }\n#{JSON.pretty_generate(json).gsub(/^/,'    ')}
-ENDOFFJSON\n%>"
+  %Q[<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/\"/) { '\\"' }\n#{JSON.pretty_generate(json).gsub(/^/,'    ')}
+ENDOFFJSON\n%>]
 end
 
 def convert_to_erb ( type, doc )
@@ -58,7 +58,8 @@ def export_kibana_config ( es_host, type, name )
   File.write( "#{type}/#{name}.json.erb", convert_to_erb( type, fetch_kibana_config( es_host, type, name ) ) )
 end
 
-export_kibana_config es_host, 'index-pattern' ,'[logstash-]YYYY.MM.DD'
+export_kibana_config es_host, 'index-pattern' ,'[logstash-]YYYY.MM.DD' # For CF App dashboards
+# export_kibana_config es_host, 'index-pattern' ,'logstash-*' # For CF component dashboards
 
 export_kibana_config es_host, 'search', 'LogMessages'
 export_kibana_config es_host, 'search', 'LogMessages-RTR'
@@ -75,3 +76,9 @@ export_kibana_config es_host, 'visualization', 'Redis-log-severity'
 export_kibana_config es_host, 'visualization', 'Redis-source-hosts'
 export_kibana_config es_host, 'visualization', 'Redis-syslog-programs'
 export_kibana_config es_host, 'search', 'Redis-logs-from-redis-and-redis-broker'
+
+# RabbitMQ
+export_kibana_config es_host, 'dashboard', 'RabbitMQ-dashboard'
+export_kibana_config es_host, 'search', 'Rabbitmq-logs-from-rabbitmq,-HAProxy-and-rabbit-broker'
+export_kibana_config es_host, 'visualization', 'RabbitMQ-source-hosts'
+export_kibana_config es_host, 'visualization', 'RabbitMQ-all-logs'

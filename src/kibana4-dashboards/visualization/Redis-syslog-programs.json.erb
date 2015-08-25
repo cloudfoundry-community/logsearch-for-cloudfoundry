@@ -1,7 +1,7 @@
 <% require 'json' %>
 {
   "title": "Redis syslog programs",
-  "visState": "<%= JSON.parse(<<ENDOFFJSON).to_json.gsub(/"/){ '\"' }
+  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
       "type": "histogram",
       "params": {
@@ -48,7 +48,7 @@ ENDOFFJSON
   "savedSearchId": "Redis-logs-from-redis-and-redis-broker",
   "version": 1,
   "kibanaSavedObjectMeta": {
-    "searchSourceJSON": "<%= JSON.parse(<<ENDOFFJSON).to_json.gsub(/"/){ '\"' }
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
       "filter": [
     

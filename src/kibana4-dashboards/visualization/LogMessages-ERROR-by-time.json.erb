@@ -1,7 +1,7 @@
 <% require 'json' %>
 {
   "title": "LogMessages - ERROR - by time",
-  "visState": "<%= JSON.parse(<<ENDOFFJSON).to_json.gsub(/"/){ '\"' }
+  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
       "type": "histogram",
       "params": {
@@ -61,7 +61,7 @@ ENDOFFJSON
   "savedSearchId": "LogMessages-ERROR",
   "version": 1,
   "kibanaSavedObjectMeta": {
-    "searchSourceJSON": "<%= JSON.parse(<<ENDOFFJSON).to_json.gsub(/"/){ '\"' }
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
       "filter": [
     

@@ -14,7 +14,7 @@
   "description": "",
   "hits": 0,
   "kibanaSavedObjectMeta": {
-    "searchSourceJSON": "<%= JSON.parse(<<ENDOFFJSON).to_json.gsub(/"/){ '\"' }
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
       "index": "[logstash-]YYYY.MM.DD",
       "highlight": {

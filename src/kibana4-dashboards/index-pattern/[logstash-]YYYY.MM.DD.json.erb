@@ -3,7 +3,7 @@
   "title": "[logstash-]YYYY.MM.DD",
   "timeFieldName": "@timestamp",
   "intervalName": "days",
-  "fields": "<%= JSON.parse(<<ENDOFFJSON).to_json.gsub(/"/){ '\"' }
+  "fields": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     [
       {
         "name": "_index",

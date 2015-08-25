@@ -13,9 +13,9 @@
   ],
   "version": 1,
   "kibanaSavedObjectMeta": {
-    "searchSourceJSON": "<%= JSON.parse(<<ENDOFFJSON).to_json.gsub(/"/){ '\"' }
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
-      "index": "[logstash-]YYYY.MM.DD",
+      "index": "logstash-*",
       "highlight": {
         "pre_tags": [
           "@kibana-highlighted-field@"
@@ -33,7 +33,7 @@
         {
           "meta": {
             "disabled": false,
-            "index": "[logstash-]YYYY.MM.DD",
+            "index": "logstash-*",
             "key": "syslog_program",
             "negate": true,
             "value": "vmsvc"
@@ -50,7 +50,7 @@
         {
           "meta": {
             "disabled": false,
-            "index": "[logstash-]YYYY.MM.DD",
+            "index": "logstash-*",
             "key": "syslog_program",
             "negate": true,
             "value": "CRON"
@@ -67,7 +67,7 @@
         {
           "meta": {
             "disabled": false,
-            "index": "[logstash-]YYYY.MM.DD",
+            "index": "logstash-*",
             "key": "syslog_program",
             "negate": true,
             "value": "crontab"
@@ -84,7 +84,7 @@
         {
           "meta": {
             "disabled": false,
-            "index": "[logstash-]YYYY.MM.DD",
+            "index": "logstash-*",
             "key": "syslog_program",
             "negate": true,
             "value": "kernel"
@@ -101,7 +101,7 @@
         {
           "meta": {
             "disabled": false,
-            "index": "[logstash-]YYYY.MM.DD",
+            "index": "logstash-*",
             "key": "syslog_program",
             "negate": true,
             "value": "anacron"
@@ -118,7 +118,7 @@
         {
           "meta": {
             "negate": true,
-            "index": "[logstash-]YYYY.MM.DD",
+            "index": "logstash-*",
             "key": "query",
             "value": "{\"prefix\":{\"syslog_program\":\"rsyslogd\"}}",
             "disabled": false
