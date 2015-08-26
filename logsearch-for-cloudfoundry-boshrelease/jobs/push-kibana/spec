@@ -16,6 +16,12 @@ properties:
   push-kibana.kibana_index:
     description: "Elasticsearch index to store Kibana settings and dashboards"
     default: ".kibana"
+  push-kibana.app_memory:
+    description: "The Kibana log dashboard app memory quota"
+    default: 256M
+  push-kibana.app_instances:
+    description: "The Kibana log dashboard app number of instances"
+    default: 2
 
   push-kibana.oauth2_client_id:
     description: "The UAA kibana oauth2 client id"
