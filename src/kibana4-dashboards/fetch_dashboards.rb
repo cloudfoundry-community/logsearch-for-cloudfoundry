@@ -58,7 +58,7 @@ def export_kibana_config ( es_host, type, name )
   File.write( "#{type}/#{name}.json.erb", convert_to_erb( type, fetch_kibana_config( es_host, type, name ) ) )
 end
 
-export_kibana_config es_host, 'index-pattern' ,'[logstash-]YYYY.MM.DD' # For CF App dashboards
+# export_kibana_config es_host, 'index-pattern' ,'[logstash-]YYYY.MM.DD' # For CF App dashboards
 # export_kibana_config es_host, 'index-pattern' ,'logstash-*' # For CF component dashboards
 
 export_kibana_config es_host, 'search', 'LogMessages'
@@ -82,3 +82,9 @@ export_kibana_config es_host, 'dashboard', 'RabbitMQ-dashboard'
 export_kibana_config es_host, 'search', 'Rabbitmq-logs-from-rabbitmq,-HAProxy-and-rabbit-broker'
 export_kibana_config es_host, 'visualization', 'RabbitMQ-source-hosts'
 export_kibana_config es_host, 'visualization', 'RabbitMQ-all-logs'
+
+#UAA Audit
+export_kibana_config es_host, 'dashboard', 'UAA-Audit'
+export_kibana_config es_host, 'search', 'UAA-Audit-*'
+export_kibana_config es_host, 'visualization', 'UAA-Audit'
+export_kibana_config es_host, 'visualization', 'UAA-Audit-audit_event_type'

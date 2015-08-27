@@ -1,0 +1,51 @@
+<% require 'json' %>
+{
+  "title": "UAA - Audit - audit_event_type",
+  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "type": "pie",
+      "params": {
+        "shareYAxis": true,
+        "addTooltip": true,
+        "addLegend": false,
+        "isDonut": true
+      },
+      "aggs": [
+        {
+          "id": "1",
+          "type": "count",
+          "schema": "metric",
+          "params": {
+          }
+        },
+        {
+          "id": "2",
+          "type": "terms",
+          "schema": "segment",
+          "params": {
+            "field": "audit_event_type",
+            "size": 25,
+            "order": "desc",
+            "orderBy": "1"
+          }
+        }
+      ],
+      "listeners": {
+      }
+    }
+ENDOFFJSON
+%>",
+  "description": "",
+  "savedSearchId": "UAA-Audit-*",
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "filter": [
+    
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}
