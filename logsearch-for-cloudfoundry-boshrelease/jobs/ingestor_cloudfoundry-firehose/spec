@@ -7,7 +7,7 @@ packages:
 templates:
   bin/ingestor_cloudfoundry-firehose_ctl: bin/ingestor_cloudfoundry-firehose_ctl
   bin/monit_debugger: bin/monit_debugger
-  config/syslog_to_redis.conf: config/syslog_to_redis.conf
+  config/logstash.conf.erb: config/logstash.conf
   data/properties.sh.erb: data/properties.sh
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
@@ -42,3 +42,16 @@ properties:
   redis.key: 
     description: Name of queue to pull messages from
     default: logstash
+  ingestor.outputs:
+    description: |
+      A list of output plugins, with a hash of options for each of them. Please refer to example below.
+    example:
+      outputs:
+        - plugin: rabbitmq
+          options:
+            host: 192.168.1.1
+            user: logsearch
+            password: c1oudbunny
+            exchange_type: "direct"
+    default: [ { plugin: "redis", options : {} } ]
+
