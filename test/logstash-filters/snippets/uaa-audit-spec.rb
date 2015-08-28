@@ -100,9 +100,27 @@ describe LogStash::Filters::Grok do
         insist { subject["audit_event_identity_zone_id"] } == "uaa"
       end
     end
+    
+    describe "extract remoteAddress" do
+      sample("@type" => "syslog", "@message" => %q{<14>2015-08-28T05:57:02.867064+00:00 10.0.16.19 vcap.uaa [job=uaa-partition-7c53ed3ae2e7f5543b91 index=0]  [2015-08-28 05:57:02.866] uaa - 4181 [http-bio-8080-exec-10] ....  INFO --- Audit: ClientAuthenticationSuccess ('Client authentication success'): principal=null, origin=[remoteAddress=52.19.1.74], identityZoneId=[uaa]}) do
 
+puts subject.to_hash.to_yaml
 
-#<14>2015-08-26T06:44:05.744726+00:00 10.0.16.19 vcap.uaa [job=uaa-partition-7c53ed3ae2e7f5543b91 index=0]  [2015-08-26 06:44:05.744] uaa - 4159 [http-bio-8080-exec-7] ....  INFO --- Audit: UserNotFound (''): principal=1S0lQEF695QPAYN7mnBqQ0HpJVc=, origin=[remoteAddress=80.229.7.108], identityZoneId=[uaa]
+        insist { subject["tags"] }.does_not_include?("fail/cloudfoundry/uaa-audit")
+
+        insist { subject["audit_event_remote_address"] } == "52.19.1.74"
+        insist { subject["geoip"]["ip"] } == "52.19.1.74"
+      end
+
+      sample("@type" => "syslog", "@message" => %q{<14>2015-08-26T06:44:05.744726+00:00 10.0.16.19 vcap.uaa [job=uaa-partition-7c53ed3ae2e7f5543b91 index=0]  [2015-08-26 06:44:05.744] uaa - 4159 [http-bio-8080-exec-7] ....  INFO --- Audit: UserNotFound (''): principal=1S0lQEF695QPAYN7mnBqQ0HpJVc=, origin=[remoteAddress=80.229.7.108], identityZoneId=[uaa]}) do
+
+#puts subject.to_hash.to_yaml
+
+        insist { subject["tags"] }.does_not_include?("fail/cloudfoundry/uaa-audit")
+
+        insist { subject["audit_event_remote_address"] } == "80.229.7.108"
+      end
+   end
 
   end
 end
