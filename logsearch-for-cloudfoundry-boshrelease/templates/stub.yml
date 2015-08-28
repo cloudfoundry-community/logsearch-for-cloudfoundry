@@ -29,6 +29,7 @@ properties:
     admin_client_secret: "admin-secret"
     firehose_user: admin
     firehose_password: admin
+    firehose_events: LogMessage,Error,ContainerMetric
   elasticsearch:
     admin_ip: "10.244.10.2"
     admin_port: 9200

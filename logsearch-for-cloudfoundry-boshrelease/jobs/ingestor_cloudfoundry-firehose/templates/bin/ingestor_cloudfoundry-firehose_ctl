@@ -9,6 +9,8 @@ source /var/vcap/jobs/ingestor_cloudfoundry-firehose/helpers/ctl_setup.sh 'inges
 export PORT=${PORT:-5000}
 export LANG=en_US.UTF-8
 
+export JAVA_HOME="/var/vcap/packages/firehose-to-syslog-java8"
+
 # 1 logstash worker / CPU core
 export LOGSTASH_WORKERS=`grep -c ^processor /proc/cpuinfo`
 
@@ -22,7 +24,7 @@ case $1 in
     # store this processes pid in $PIDFILE, since the exec below doesn't daemonize
     echo $$ > $PIDFILE_syslog
 
-    exec /var/vcap/packages/logstash/logstash/bin/logstash agent \
+    exec /var/vcap/packages/firehose-to-syslog-logstash/logstash/bin/logstash agent \
          -f ${JOB_DIR}/config/logstash.conf -w ${LOGSTASH_WORKERS} \
          >>$LOG_DIR/$JOB_NAME_syslog.stdout.log \
          2>>$LOG_DIR/$JOB_NAME_syslog.stderr.log

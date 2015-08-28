@@ -1,0 +1,4 @@
+---
+name: firehose-to-syslog-java8
+files:
+- firehose-to-syslog-java8/openjdk-1.8.0_40.tar.gz

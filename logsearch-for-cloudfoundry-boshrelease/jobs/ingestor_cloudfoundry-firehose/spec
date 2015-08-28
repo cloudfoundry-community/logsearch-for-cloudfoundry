@@ -2,8 +2,8 @@
 name: ingestor_cloudfoundry-firehose
 packages:
 - firehose-to-syslog
-- logstash
-- java8
+- firehose-to-syslog-logstash
+- firehose-to-syslog-java8
 templates:
   bin/ingestor_cloudfoundry-firehose_ctl: bin/ingestor_cloudfoundry-firehose_ctl
   bin/monit_debugger: bin/monit_debugger
