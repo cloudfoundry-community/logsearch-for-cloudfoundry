@@ -5,14 +5,14 @@
     {
       "type": "tile_map",
       "params": {
-        "mapType": "Scaled Circle Markers",
-        "isDesaturated": true,
+        "addTooltip": true,
+        "heatBlur": 15,
         "heatMaxZoom": 16,
         "heatMinOpacity": 0.1,
-        "heatRadius": 25,
-        "heatBlur": 15,
         "heatNormalizeData": true,
-        "addTooltip": true
+        "heatRadius": 25,
+        "isDesaturated": true,
+        "mapType": "Scaled Circle Markers"
       },
       "aggs": [
         {
@@ -29,19 +29,12 @@
           "params": {
             "field": "geoip.location",
             "autoPrecision": true,
+            "mapZoom": 2,
+            "mapCenter": [
+              14.944784875088372,
+              5.09765625
+            ],
             "precision": 2
-          }
-        },
-        {
-          "id": "3",
-          "type": "terms",
-          "schema": "split",
-          "params": {
-            "field": "audit_event_type",
-            "size": 5,
-            "order": "desc",
-            "orderBy": "1",
-            "row": false
           }
         }
       ],
