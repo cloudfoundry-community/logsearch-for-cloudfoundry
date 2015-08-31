@@ -1,0 +1,85 @@
+<% require 'json' %>
+{
+  "description": "",
+  "hits": 0,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "filter": [
+        {
+          "query": {
+            "query_string": {
+              "analyze_wildcard": true,
+              "query": "*"
+            }
+          }
+        }
+      ]
+    }
+ENDOFFJSON
+%>"
+  },
+  "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    [
+      {
+        "col": 1,
+        "id": "LogMessages-RTR:-Count",
+        "row": 1,
+        "size_x": 8,
+        "size_y": 3,
+        "type": "visualization"
+      },
+      {
+        "col": 9,
+        "id": "LogMessages-RTR:-App-names",
+        "row": 1,
+        "size_x": 2,
+        "size_y": 3,
+        "type": "visualization"
+      },
+      {
+        "col": 1,
+        "id": "LogMessages-RTR",
+        "row": 7,
+        "size_x": 12,
+        "size_y": 5,
+        "type": "search"
+      },
+      {
+        "col": 1,
+        "id": "LogMessages-RTR:-Latency",
+        "row": 4,
+        "size_x": 8,
+        "size_y": 3,
+        "type": "visualization"
+      },
+      {
+        "col": 9,
+        "id": "LogMessages-RTR:-HTTP-status",
+        "row": 4,
+        "size_x": 2,
+        "size_y": 3,
+        "type": "visualization"
+      },
+      {
+        "col": 11,
+        "id": "LogMessages-RTR:-Source-IP",
+        "row": 1,
+        "size_x": 2,
+        "size_y": 3,
+        "type": "visualization"
+      },
+      {
+        "col": 11,
+        "id": "LogMessages-RTR:-Top-25-UserAgents",
+        "row": 4,
+        "size_x": 2,
+        "size_y": 3,
+        "type": "visualization"
+      }
+    ]
+ENDOFFJSON
+%>",
+  "title": "CF App - RTR",
+  "version": 1
+}

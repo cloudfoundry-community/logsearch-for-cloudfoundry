@@ -1,0 +1,36 @@
+<% require 'json' %>
+{
+  "title": "Overview CF logs",
+  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "type": "markdown",
+      "params": {
+        "markdown": "* [All CF componenets](/#/dashboard/CF)\n* [All NATS messages](/#/dashboard/CF-NATS)"
+      },
+      "aggs": [
+    
+      ],
+      "listeners": {
+      }
+    }
+ENDOFFJSON
+%>",
+  "description": "",
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "query": {
+        "query_string": {
+          "query": "*",
+          "analyze_wildcard": true
+        }
+      },
+      "filter": [
+    
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}

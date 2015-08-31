@@ -58,17 +58,37 @@ def export_kibana_config ( es_host, type, name )
   File.write( "#{type}/#{name}.json.erb", convert_to_erb( type, fetch_kibana_config( es_host, type, name ) ) )
 end
 
-# export_kibana_config es_host, 'index-pattern' ,'[logstash-]YYYY.MM.DD' # For CF App dashboards
-# export_kibana_config es_host, 'index-pattern' ,'logstash-*' # For CF component dashboards
+export_kibana_config es_host, 'index-pattern' ,'[logstash-]YYYY.MM.DD' # For CF App dashboards
+export_kibana_config es_host, 'index-pattern' ,'logstash-*' # For CF component dashboards
 
-export_kibana_config es_host, 'search', 'LogMessages'
+# CF App location
+export_kibana_config es_host, 'dashboard', 'CF-App-Location'
+export_kibana_config es_host, 'visualization', 'LogMessages-RTR-Map'
+export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-App-names'
+export_kibana_config es_host, 'visualization', 'LogMessages-RTR-by-IP-timezone'
+
+# CF App RTR
+export_kibana_config es_host, 'dashboard', 'CF-App-RTR'
+export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-Count'
+export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-App-names'
+export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-Source-IP'
+export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-Latency'
+export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-HTTP-status'
+export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-Top-25-UserAgents'
 export_kibana_config es_host, 'search', 'LogMessages-RTR'
-export_kibana_config es_host, 'search', 'LogMessages-ERROR'
 
+# CF App ERRORS
 export_kibana_config es_host, 'visualization', 'LogMessages-ERROR-by-cf_app_name'
 export_kibana_config es_host, 'visualization', 'LogMessages-ERROR-by-time'
-
 export_kibana_config es_host, 'dashboard', 'CF-App-ERRORs'
+export_kibana_config es_host, 'search', 'LogMessages-ERROR'
+
+# CF
+export_kibana_config es_host, 'dashboard', 'CF'
+export_kibana_config es_host, 'visualization', 'CF:-Job-by-Log-Level'
+export_kibana_config es_host, 'visualization', 'CF:-Jobs'
+export_kibana_config es_host, 'visualization', 'CF:-Log-Level-by-Job-by-Template'
+export_kibana_config es_host, 'search', 'tags:cloudfoundry_vcap'
 
 # Redis
 export_kibana_config es_host, 'dashboard', 'Redis-dashboard'
@@ -89,3 +109,25 @@ export_kibana_config es_host, 'search', 'UAA-Audit-*'
 export_kibana_config es_host, 'visualization', 'UAA-Audit'
 export_kibana_config es_host, 'visualization', 'UAA-Audit-audit_event_type'
 export_kibana_config es_host, 'visualization', 'UAA-Audit-geoip-login'
+
+# Overview
+export_kibana_config es_host, 'dashboard', 'Overview'
+export_kibana_config es_host, 'visualization', 'Overview-welcome'
+export_kibana_config es_host, 'visualization', 'Overview-Data-services'
+export_kibana_config es_host, 'visualization', 'Overview-app-logs'
+export_kibana_config es_host, 'visualization', 'Overview-CF-logs'
+
+# Mysql
+export_kibana_config es_host, 'dashboard', 'Mysql-dashboard'
+export_kibana_config es_host, 'search', 'Mysql-logs-from-mysql-and-mysql-broker'
+export_kibana_config es_host, 'visualization', 'Mysql-syslog-programs'
+export_kibana_config es_host, 'visualization', 'Mysql-source-hosts'
+export_kibana_config es_host, 'visualization', 'Mysql-log-severity'
+
+# CF Apps
+export_kibana_config es_host, 'dashboard', 'CF-Apps'
+export_kibana_config es_host, 'search', 'LogMessages'
+export_kibana_config es_host, 'visualization', 'LogMessages-Count-by-source_type'
+export_kibana_config es_host, 'visualization', 'LogMessages-response_time'
+export_kibana_config es_host, 'visualization', 'LogMessages-by-cf_app_name'
+export_kibana_config es_host, 'search', 'LogMessages'

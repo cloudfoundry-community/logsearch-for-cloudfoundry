@@ -2,7 +2,7 @@
 {
   "title": "logstash-*",
   "timeFieldName": "@timestamp",
-  "fields": "<%= JSON.parse(<<ENDOFFJSON).to_json.gsub(/"/){ '\"' }
+  "fields": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     [
       {
         "name": "_index",
@@ -689,6 +689,15 @@
         "doc_values": false
       },
       {
+        "name": "timestamp",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
         "name": "data.endpoint",
         "type": "string",
         "count": 0,
@@ -726,6 +735,15 @@
       },
       {
         "name": "data.response.limit_in_shares",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "fiber_id",
         "type": "number",
         "count": 0,
         "scripted": false,
@@ -2003,6 +2021,15 @@
         "doc_values": false
       },
       {
+        "name": "data.responses.05c0e34f-fc43-42c0-9863-997c9fe370de.version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
         "name": "data.message.index",
         "type": "number",
         "count": 0,
@@ -2040,6 +2067,33 @@
       },
       {
         "name": "data.response.detected_buildpack",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.instance_heartbeats.dea_guid",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.05c0e34f-fc43-42c0-9863-997c9fe370de.instance_heartbeats.instance",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.instance_heartbeats.version",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -2102,6 +2156,15 @@
         "doc_values": false
       },
       {
+        "name": "data.responses.bd61fbc2-caea-4a48-99d1-9476f02092bf.instance_heartbeats.state",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
         "name": "data.attributes.environment_json.SPRING_PROFILES_DEFAULT",
         "type": "string",
         "count": 0,
@@ -2122,6 +2185,42 @@
       {
         "name": "data.response.task_streaming_log_url",
         "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.desired.version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.credentials.password",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.credentials.hostname",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.desired.instances",
+        "type": "number",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -2165,7 +2264,25 @@
         "doc_values": false
       },
       {
+        "name": "data.responses.8b4a9c3c-98aa-428b-8bb9-c38bb7b9c693.desired.instances",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
         "name": "data.properties.services.credentials.tag",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.05c0e34f-fc43-42c0-9863-997c9fe370de.desired.state",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -2192,8 +2309,44 @@
         "doc_values": false
       },
       {
+        "name": "data.responses.8b4a9c3c-98aa-428b-8bb9-c38bb7b9c693.instance_heartbeats.state",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
         "name": "data.size",
         "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.instance_heartbeats.state_timestamp",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.desired.state",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.8b4a9c3c-98aa-428b-8bb9-c38bb7b9c693.instance_heartbeats.dea_guid",
+        "type": "string",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -2220,6 +2373,15 @@
       },
       {
         "name": "data.droplet_sha1",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.8dad5950-8ca2-4834-b599-a7ff8078cd77.desired.id",
         "type": "string",
         "count": 0,
         "scripted": false,

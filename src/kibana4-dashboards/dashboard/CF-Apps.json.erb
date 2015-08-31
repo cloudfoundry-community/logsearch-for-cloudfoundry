@@ -1,0 +1,61 @@
+<% require 'json' %>
+{
+  "description": "",
+  "hits": 0,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "filter": [
+        {
+          "query": {
+            "query_string": {
+              "analyze_wildcard": true,
+              "query": "*"
+            }
+          }
+        }
+      ]
+    }
+ENDOFFJSON
+%>"
+  },
+  "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    [
+      {
+        "col": 1,
+        "id": "LogMessages-Count-by-source_type",
+        "row": 1,
+        "size_x": 9,
+        "size_y": 2,
+        "type": "visualization"
+      },
+      {
+        "col": 1,
+        "id": "LogMessages",
+        "row": 5,
+        "size_x": 12,
+        "size_y": 5,
+        "type": "search"
+      },
+      {
+        "col": 1,
+        "id": "LogMessages-response_time",
+        "row": 3,
+        "size_x": 12,
+        "size_y": 2,
+        "type": "visualization"
+      },
+      {
+        "id": "LogMessages-by-cf_app_name",
+        "type": "visualization",
+        "size_x": 3,
+        "size_y": 2,
+        "col": 10,
+        "row": 1
+      }
+    ]
+ENDOFFJSON
+%>",
+  "title": "CF Apps",
+  "version": 1
+}

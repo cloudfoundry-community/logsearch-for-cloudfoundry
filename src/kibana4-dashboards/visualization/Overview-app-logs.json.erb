@@ -1,0 +1,36 @@
+<% require 'json' %>
+{
+  "title": "Overview app logs",
+  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "type": "markdown",
+      "params": {
+        "markdown": "* [App logs](/#/dashboard/CF-Apps)\n* [Routing logs](/#/dashboard/CF-App-RTR)\n* [Blue/Green deployment example](/#/dashboard/CF-App-Health)"
+      },
+      "aggs": [
+    
+      ],
+      "listeners": {
+      }
+    }
+ENDOFFJSON
+%>",
+  "description": "",
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "query": {
+        "query_string": {
+          "query": "*",
+          "analyze_wildcard": true
+        }
+      },
+      "filter": [
+    
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}
