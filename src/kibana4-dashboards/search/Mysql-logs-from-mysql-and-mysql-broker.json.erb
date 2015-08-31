@@ -13,7 +13,7 @@
   ],
   "version": 1,
   "kibanaSavedObjectMeta": {
-    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/\\"/) { '\\\"' }.gsub(/"/) { '\"' }
     {
       "index": "logstash-*",
       "query": {

@@ -12,7 +12,7 @@ def fetch_kibana_config ( es_host, type, name )
 end
 
 def erb_to_render_stringified_json( json )
-  %Q[<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/\"/) { '\\"' }\n#{JSON.pretty_generate(json).gsub(/^/,'    ')}
+  %Q[<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/\\"/) { '\\\"' }.gsub(/\"/) { '\\"' }\n#{JSON.pretty_generate(json).gsub(/^/,'    ')}
 ENDOFFJSON\n%>]
 end
 
