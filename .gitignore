@@ -30,3 +30,6 @@ vendor/logstash*
 
 #logsearch-workspace artifact
 .bosh_config
+
+#VIM artifacts
+*.swp
