@@ -29,6 +29,10 @@ def convert_to_erb ( type, doc )
     searchSourceJSON = JSON.parse(doc["kibanaSavedObjectMeta"]["searchSourceJSON"])
     doc["kibanaSavedObjectMeta"]["searchSourceJSON"] = "REPLACE_WITH_searchSourceJSON"
     visStateJSON = JSON.parse(doc["visState"])
+    if visStateJSON["type"] == "markdown"
+      #If we have a mardown viz on our hands, we must be sure to escape '\\n' in visStateJSON
+      visStateJSON["params"]["markdown"].gsub! "\n", "ESCAPEDNEWLINE"
+    end
     doc["visState"]= "REPLACE_WITH_visStateJSON"
     erb_string = "<% require 'json' %>\n#{JSON.pretty_generate(doc)}"
     erb_string = erb_string.sub(/REPLACE_WITH_searchSourceJSON/, erb_to_render_stringified_json(searchSourceJSON) )
@@ -49,8 +53,7 @@ def convert_to_erb ( type, doc )
   else
     erb_string = JSON.pretty_generate(doc)
   end
-
-  "#{erb_string}\n"
+  "#{erb_string}\n".gsub 'ESCAPEDNEWLINE', '\\\\\\\\n'
 end
 
 def export_kibana_config ( es_host, type, name )
