@@ -19,13 +19,18 @@ end
 desc "Runs unit tests against filters & dashboards"
 task :test, [:rspec_files] => :build do |t, args|
   args.with_defaults(:rspec_files => "$(find test -name *spec.rb)")
-	puts "===> Testing ..."
+  puts "===> Testing ..."
   sh %Q[ vendor/logstash/bin/rspec #{args[:rspec_files]} ]
+end
+
+def unescape_embedded_doublequote(str)
+  str.gsub("_eQT_", '\\\\\\\\\"')
 end
 
 def compile_erb(source_file, dest_file)
   if File.extname(source_file) == '.erb'
     output = ERB.new(File.read(source_file)).result(binding)
+    output = unescape_embedded_doublequote(output) 
     File.write(dest_file, output)
   else
     cp source_file, dest_file

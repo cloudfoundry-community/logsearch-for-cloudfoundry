@@ -12,7 +12,7 @@
   ],
   "version": 1,
   "kibanaSavedObjectMeta": {
-    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/\\"/) { '\\\"' }.gsub(/"/) { '\"' }
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
       "index": "logstash-*",
       "highlight": {
@@ -33,7 +33,7 @@
       ],
       "query": {
         "query_string": {
-          "query": "\"job=rabbitmq\"",
+          "query": "_eQT_job=rabbitmq_eQT_",
           "analyze_wildcard": true
         }
       }

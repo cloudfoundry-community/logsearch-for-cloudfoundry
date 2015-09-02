@@ -13,7 +13,7 @@
   ],
   "version": 1,
   "kibanaSavedObjectMeta": {
-    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/\\"/) { '\\\"' }.gsub(/"/) { '\"' }
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
       "index": "logstash-*",
       "highlight": {
@@ -120,7 +120,7 @@
             "negate": true,
             "index": "logstash-*",
             "key": "query",
-            "value": "{\"prefix\":{\"syslog_program\":\"rsyslogd\"}}",
+            "value": "{_eQT_prefix_eQT_:{_eQT_syslog_program_eQT_:_eQT_rsyslogd_eQT_}}",
             "disabled": false
           },
           "query": {
@@ -132,7 +132,7 @@
       ],
       "query": {
         "query_string": {
-          "query": "\"job=cf-redis-broker-partition\" OR \"job=dedicated-node-partition\"",
+          "query": "_eQT_job=cf-redis-broker-partition_eQT_ OR _eQT_job=dedicated-node-partition_eQT_",
           "analyze_wildcard": true
         }
       }

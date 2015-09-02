@@ -13,13 +13,13 @@
   ],
   "version": 1,
   "kibanaSavedObjectMeta": {
-    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/\\"/) { '\\\"' }.gsub(/"/) { '\"' }
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
       "index": "logstash-*",
       "query": {
         "query_string": {
           "analyze_wildcard": true,
-          "query": "\"job=mysql-partition\" OR  \"job=cf-mysql-broker-partition\""
+          "query": "_eQT_job=mysql-partition_eQT_ OR  _eQT_job=cf-mysql-broker-partition_eQT_"
         }
       },
       "highlight": {
@@ -93,7 +93,7 @@
             "index": "logstash-*",
             "key": "query",
             "negate": true,
-            "value": "{\"prefix\":{\"syslog_program\":\"rsyslogd\"}}"
+            "value": "{_eQT_prefix_eQT_:{_eQT_syslog_program_eQT_:_eQT_rsyslogd_eQT_}}"
           },
           "query": {
             "prefix": {
