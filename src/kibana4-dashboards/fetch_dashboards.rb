@@ -24,10 +24,6 @@ def escape_embedded_newline(str)
   str.gsub("\n", "_eLF_")
 end
 
-def unescape_embedded_newline(str)
-  str.gsub('_eLF_', '\\\\\\\\n')
-end
-
 def convert_to_erb ( type, doc )
   erb_string = ""
 
@@ -65,7 +61,7 @@ def convert_to_erb ( type, doc )
   else
     erb_string = JSON.pretty_generate(doc)
   end
-  unescape_embedded_newline("#{erb_string}\n")
+  "#{erb_string}\n"
 end
 
 def export_kibana_config ( es_host, type, name )

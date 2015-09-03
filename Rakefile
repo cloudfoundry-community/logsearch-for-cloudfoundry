@@ -27,10 +27,15 @@ def unescape_embedded_doublequote(str)
   str.gsub("_eQT_", '\\\\\\\\\"')
 end
 
+def unescape_embedded_newline(str)
+  str.gsub('_eLF_', '\\\\\\\\n')
+end
+
 def compile_erb(source_file, dest_file)
   if File.extname(source_file) == '.erb'
     output = ERB.new(File.read(source_file)).result(binding)
     output = unescape_embedded_doublequote(output) 
+    output = unescape_embedded_newline(output) 
     File.write(dest_file, output)
   else
     cp source_file, dest_file
