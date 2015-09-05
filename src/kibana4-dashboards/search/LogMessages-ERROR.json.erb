@@ -32,15 +32,15 @@
       "filter": [
         {
           "meta": {
-            "disabled": false,
-            "index": "[logstash-]YYYY.MM.DD",
-            "key": "@type",
             "negate": false,
-            "value": "cloudfoundry_doppler"
+            "index": "[logstash-]YYYY.MM.DD",
+            "key": "tags",
+            "value": "cloudfoundry_doppler",
+            "disabled": false
           },
           "query": {
             "match": {
-              "@type": {
+              "tags": {
                 "query": "cloudfoundry_doppler",
                 "type": "phrase"
               }
@@ -49,11 +49,11 @@
         },
         {
           "meta": {
-            "disabled": false,
+            "negate": true,
             "index": "[logstash-]YYYY.MM.DD",
             "key": "source_type",
-            "negate": true,
-            "value": "RTR"
+            "value": "RTR",
+            "disabled": false
           },
           "query": {
             "match": {
@@ -63,29 +63,12 @@
               }
             }
           }
-        },
-        {
-          "meta": {
-            "negate": true,
-            "index": "[logstash-]YYYY.MM.DD",
-            "key": "cf_org_name",
-            "value": "system",
-            "disabled": false
-          },
-          "query": {
-            "match": {
-              "cf_org_name": {
-                "query": "system",
-                "type": "phrase"
-              }
-            }
-          }
         }
       ],
       "query": {
         "query_string": {
-          "analyze_wildcard": true,
-          "query": "error"
+          "query": "error",
+          "analyze_wildcard": true
         }
       }
     }

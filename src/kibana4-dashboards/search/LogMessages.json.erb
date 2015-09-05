@@ -1,5 +1,8 @@
 <% require 'json' %>
 {
+  "title": "LogMessages",
+  "description": "",
+  "hits": 0,
   "columns": [
     "cf_app_name",
     "source_instance",
@@ -9,8 +12,11 @@
     "msg",
     "path"
   ],
-  "description": "",
-  "hits": 0,
+  "sort": [
+    "@timestamp",
+    "desc"
+  ],
+  "version": 1,
   "kibanaSavedObjectMeta": {
     "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
@@ -25,26 +31,10 @@
         "fields": {
           "*": {
           }
-        }
+        },
+        "fragment_size": 2147483647
       },
       "filter": [
-        {
-          "meta": {
-            "disabled": false,
-            "index": "logstash-*",
-            "key": "@type",
-            "negate": false,
-            "value": "cloudfoundry_doppler"
-          },
-          "query": {
-            "match": {
-              "@type": {
-                "query": "cloudfoundry_doppler",
-                "type": "phrase"
-              }
-            }
-          }
-        },
         {
           "meta": {
             "index": "logstash-*",
@@ -61,6 +51,23 @@
               }
             }
           }
+        },
+        {
+          "meta": {
+            "negate": false,
+            "index": "logstash-*",
+            "key": "tags",
+            "value": "cloudfoundry_doppler",
+            "disabled": false
+          },
+          "query": {
+            "match": {
+              "tags": {
+                "query": "cloudfoundry_doppler",
+                "type": "phrase"
+              }
+            }
+          }
         }
       ],
       "query": {
@@ -72,11 +79,5 @@
     }
 ENDOFFJSON
 %>"
-  },
-  "sort": [
-    "@timestamp",
-    "desc"
-  ],
-  "title": "LogMessages",
-  "version": 1
+  }
 }
