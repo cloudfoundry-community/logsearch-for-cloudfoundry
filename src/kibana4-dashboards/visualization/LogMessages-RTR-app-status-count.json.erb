@@ -1,0 +1,62 @@
+<% require 'json' %>
+{
+  "title": "LogMessages - RTR - app status count",
+  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "type": "table",
+      "params": {
+        "perPage": 10,
+        "showPartialRows": false,
+        "showMeticsAtAllLevels": false
+      },
+      "aggs": [
+        {
+          "id": "1",
+          "type": "count",
+          "schema": "metric",
+          "params": {
+          }
+        },
+        {
+          "id": "4",
+          "type": "terms",
+          "schema": "split",
+          "params": {
+            "field": "status",
+            "size": 5,
+            "order": "desc",
+            "orderBy": "1",
+            "row": false
+          }
+        },
+        {
+          "id": "3",
+          "type": "terms",
+          "schema": "bucket",
+          "params": {
+            "field": "cf_app_name",
+            "size": 10,
+            "order": "desc",
+            "orderBy": "1"
+          }
+        }
+      ],
+      "listeners": {
+      }
+    }
+ENDOFFJSON
+%>",
+  "description": "",
+  "savedSearchId": "LogMessages-RTR",
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "filter": [
+    
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}

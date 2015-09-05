@@ -1,0 +1,36 @@
+<% require 'json' %>
+{
+  "title": "Overview welcome",
+  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "type": "markdown",
+      "params": {
+        "markdown": "#### Welcome!_eLF__eLF_Here are some example dashboards that are helpful for showing off some of of the cool features that the tile provides out of the box."
+      },
+      "aggs": [
+    
+      ],
+      "listeners": {
+      }
+    }
+ENDOFFJSON
+%>",
+  "description": "",
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "query": {
+        "query_string": {
+          "query": "*",
+          "analyze_wildcard": true
+        }
+      },
+      "filter": [
+    
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}

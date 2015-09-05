@@ -10,7 +10,7 @@ desc "Builds filters & dashboards"
 task :build => :clean do
   puts "===> Building ..."
   compile_erb 'src/logstash-filters/default.conf.erb', 'target/logstash-filters-default.conf'
-  compile_erb 'src/kibana4-dashboards/kibana.json', 'target/kibana4-dashboards.json'
+  compile_erb 'src/kibana4-dashboards/kibana4-dashboards.json.erb', 'target/kibana4-dashboards.json'
 
   puts "===> Artifacts:"
   puts `tree target`
@@ -19,13 +19,23 @@ end
 desc "Runs unit tests against filters & dashboards"
 task :test, [:rspec_files] => :build do |t, args|
   args.with_defaults(:rspec_files => "$(find test -name *spec.rb)")
-	puts "===> Testing ..."
+  puts "===> Testing ..."
   sh %Q[ vendor/logstash/bin/rspec #{args[:rspec_files]} ]
+end
+
+def unescape_embedded_doublequote(str)
+  str.gsub("_eQT_", '\\\\\\\\\"')
+end
+
+def unescape_embedded_newline(str)
+  str.gsub('_eLF_', '\\\\\\\\n')
 end
 
 def compile_erb(source_file, dest_file)
   if File.extname(source_file) == '.erb'
     output = ERB.new(File.read(source_file)).result(binding)
+    output = unescape_embedded_doublequote(output) 
+    output = unescape_embedded_newline(output) 
     File.write(dest_file, output)
   else
     cp source_file, dest_file

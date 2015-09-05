@@ -1,0 +1,59 @@
+<% require 'json' %>
+{
+  "title": "UAA - Audit - geoip login",
+  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "type": "tile_map",
+      "params": {
+        "addTooltip": true,
+        "heatBlur": 15,
+        "heatMaxZoom": 16,
+        "heatMinOpacity": 0.1,
+        "heatNormalizeData": true,
+        "heatRadius": 25,
+        "isDesaturated": true,
+        "mapType": "Scaled Circle Markers"
+      },
+      "aggs": [
+        {
+          "id": "1",
+          "type": "count",
+          "schema": "metric",
+          "params": {
+          }
+        },
+        {
+          "id": "2",
+          "type": "geohash_grid",
+          "schema": "segment",
+          "params": {
+            "field": "geoip.location",
+            "autoPrecision": true,
+            "mapZoom": 2,
+            "mapCenter": [
+              14.944784875088372,
+              5.09765625
+            ],
+            "precision": 2
+          }
+        }
+      ],
+      "listeners": {
+      }
+    }
+ENDOFFJSON
+%>",
+  "description": "",
+  "savedSearchId": "UAA-Audit-*",
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "filter": [
+    
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}

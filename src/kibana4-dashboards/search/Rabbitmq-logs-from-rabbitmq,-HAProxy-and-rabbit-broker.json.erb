@@ -1,0 +1,44 @@
+<% require 'json' %>
+{
+  "title": "Rabbitmq logs from rabbitmq, HAProxy and rabbit-broker",
+  "description": "",
+  "hits": 0,
+  "columns": [
+    "@message"
+  ],
+  "sort": [
+    "@timestamp",
+    "desc"
+  ],
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "index": "logstash-*",
+      "highlight": {
+        "pre_tags": [
+          "@kibana-highlighted-field@"
+        ],
+        "post_tags": [
+          "@/kibana-highlighted-field@"
+        ],
+        "fields": {
+          "*": {
+          }
+        },
+        "fragment_size": 2147483647
+      },
+      "filter": [
+    
+      ],
+      "query": {
+        "query_string": {
+          "query": "_eQT_job=rabbitmq_eQT_",
+          "analyze_wildcard": true
+        }
+      }
+    }
+ENDOFFJSON
+%>"
+  }
+}

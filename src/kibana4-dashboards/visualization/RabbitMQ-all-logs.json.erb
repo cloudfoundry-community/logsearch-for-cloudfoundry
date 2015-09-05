@@ -1,0 +1,62 @@
+<% require 'json' %>
+{
+  "title": "RabbitMQ all logs",
+  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "type": "histogram",
+      "params": {
+        "shareYAxis": true,
+        "addTooltip": true,
+        "addLegend": true,
+        "scale": "linear",
+        "mode": "stacked",
+        "times": [
+    
+        ],
+        "addTimeMarker": false,
+        "defaultYExtents": false,
+        "setYExtents": false,
+        "yAxis": {
+        }
+      },
+      "aggs": [
+        {
+          "id": "1",
+          "type": "count",
+          "schema": "metric",
+          "params": {
+          }
+        },
+        {
+          "id": "2",
+          "type": "date_histogram",
+          "schema": "segment",
+          "params": {
+            "field": "@timestamp",
+            "interval": "auto",
+            "customInterval": "2h",
+            "min_doc_count": 1,
+            "extended_bounds": {
+            }
+          }
+        }
+      ],
+      "listeners": {
+      }
+    }
+ENDOFFJSON
+%>",
+  "description": "",
+  "savedSearchId": "Rabbitmq-logs-from-rabbitmq,-HAProxy-and-rabbit-broker",
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "filter": [
+    
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}

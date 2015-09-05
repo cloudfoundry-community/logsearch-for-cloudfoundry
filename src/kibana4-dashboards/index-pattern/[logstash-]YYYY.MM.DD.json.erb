@@ -1,0 +1,3692 @@
+<% require 'json' %>
+{
+  "title": "[logstash-]YYYY.MM.DD",
+  "timeFieldName": "@timestamp",
+  "intervalName": "days",
+  "fields": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    [
+      {
+        "name": "_index",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": false,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@tags",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@type",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "_type",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "message",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": true,
+        "doc_values": false
+      },
+      {
+        "name": "@message",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": true,
+        "doc_values": false
+      },
+      {
+        "name": "@timestamp",
+        "type": "date",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "_source",
+        "type": "_source",
+        "count": 0,
+        "scripted": false,
+        "indexed": false,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": false,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "syslog_program",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "syslog_severity",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "received_from",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "host",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "syslog_pri",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "syslog_severity_code",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "syslog_facility",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "syslog_facility_code",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "syslog_message",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "tags",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "received_at",
+        "type": "date",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@source.host",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.destination_key",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.vcap_application.version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.method",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.d1368232-2ec6-46c2-8dc4-f144fd46a154.desired.id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.request.protocol",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.ced331e4-43d8-42ff-9a16-5126a7ae9d3a.desired.package_state",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.detected_buildpack",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.request.privileged",
+        "type": "boolean",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.14fecac8-6f06-4eed-b4fb-bbeabea8efec.desired.instances",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.instance_heartbeats.dea_guid",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.bandwidth_stat",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.instance_index",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.application_version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@shipper.name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.14fecac8-6f06-4eed-b4fb-bbeabea8efec.instance_heartbeats.state",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.request.script",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.buildpack_key",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.backtrace",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.environment_json.EUREKA_CLIENT_SERVICEURL_DEFAULTZONE",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.request.dst_path",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.droplet_sha1",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.ced331e4-43d8-42ff-9a16-5126a7ae9d3a.droplet",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.environment_json.SPRING_PROFILES_DEFAULT",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.vcap_application.space_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.request.handle",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.vcap_application.space_name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.handle",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.instance_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.exit_status",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.include_stats",
+        "type": "boolean",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.task_streaming_log_url",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.vcap_application.limits.mem",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.destination",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.cc_partition",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.instance_path",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.desired.version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.inode",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.credentials.password",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.credentials.hostname",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.egress_network_rules.ports",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.container_ip",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.payload.version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.script",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.properties.services.credentials.tag",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.14fecac8-6f06-4eed-b4fb-bbeabea8efec.instance_heartbeats.instance",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.ced331e4-43d8-42ff-9a16-5126a7ae9d3a.version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.properties.resources.disk",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.app_guid",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.info",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.vcap_application.limits.fds",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.endpoint",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "timestamp",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.size",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.byte_soft",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.ced331e4-43d8-42ff-9a16-5126a7ae9d3a.instance_heartbeats.dea_guid",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.limit_in_shares",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.desired.state",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "fiber_id",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.ced331e4-43d8-42ff-9a16-5126a7ae9d3a.instance_heartbeats.index",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.credentials.CF_CLIENT_SECRET",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.environment_json.JAVA_OPTS",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.procfile.web",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.application_name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.state_born_timestamp",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.application_uris",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.properties.services.vendor",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.stack",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.payload.droplet",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.ced331e4-43d8-42ff-9a16-5126a7ae9d3a.instance_heartbeats.state_timestamp",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.d1368232-2ec6-46c2-8dc4-f144fd46a154.desired.package_state",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.tags",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.class",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@job.name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.state",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.properties.services.credentials.uri",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.droplet_sha1",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.application_version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.properties.services.name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.14fecac8-6f06-4eed-b4fb-bbeabea8efec.instance_heartbeats.dea_guid",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.instance_heartbeats.state_timestamp",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.subject",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "source",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.error",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.droplet",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.d1368232-2ec6-46c2-8dc4-f144fd46a154.instance_heartbeats.version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.state_stopped_timestamp",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.14fecac8-6f06-4eed-b4fb-bbeabea8efec.desired.package_state",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.app_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.executableFile",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.state_starting_timestamp",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.buildpacks.key",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.properties.services.credentials.username",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.ced331e4-43d8-42ff-9a16-5126a7ae9d3a.desired.version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.14fecac8-6f06-4eed-b4fb-bbeabea8efec.version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.inode_hard",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.14fecac8-6f06-4eed-b4fb-bbeabea8efec.desired.id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "log_level",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.d1368232-2ec6-46c2-8dc4-f144fd46a154.instance_heartbeats.droplet",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.limits.fds",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.syslog_drain_url",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.source",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.14fecac8-6f06-4eed-b4fb-bbeabea8efec.instance_heartbeats.version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.d1368232-2ec6-46c2-8dc4-f144fd46a154.instance_heartbeats.index",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.@shipper.priority",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.egress_network_rules.destination",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.vcap_application.uris",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.instances",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.properties.resources.memory",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.application_name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.properties.services.credentials.jdbcUrl",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.vcap_application.name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.ced331e4-43d8-42ff-9a16-5126a7ae9d3a.instance_heartbeats.instance",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.14fecac8-6f06-4eed-b4fb-bbeabea8efec.droplet",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.limits.mem",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.limit_in_bytes",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.request.job_id",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@job.index",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.prod",
+        "type": "boolean",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.job_ids",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.ced331e4-43d8-42ff-9a16-5126a7ae9d3a.crash_counts.crash_count",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.egress_network_rules.destination",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.14fecac8-6f06-4eed-b4fb-bbeabea8efec.desired.state",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.droplet_sha1",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.vcap_application.limits.fds",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.properties.resources.fds",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.file",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.warden_job_id",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.instance_heartbeats.instance",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.error",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.block_limit",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.credentials.CF_LOGIN_SERVER_URL",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.application_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.inode_limit",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.request.rootfs",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.job_id",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "lineno",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.host",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.payload.message_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.@job.host",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.instance_heartbeats.state",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.detected_start_command",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.response",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.payload.instance_index",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.request.owner",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.14fecac8-6f06-4eed-b4fb-bbeabea8efec.instance_heartbeats.droplet",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.process_id",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.health_check_timeout",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.ced331e4-43d8-42ff-9a16-5126a7ae9d3a.desired.instances",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.message.version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.d1368232-2ec6-46c2-8dc4-f144fd46a154.desired.version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.ced331e4-43d8-42ff-9a16-5126a7ae9d3a.desired.id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.properties.services.credentials.password",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.d1368232-2ec6-46c2-8dc4-f144fd46a154.droplet",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.properties.services.credentials.hostname",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.disk_stat",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.health_check_timeout",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.instance_heartbeats.index",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.stack",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.d1368232-2ec6-46c2-8dc4-f144fd46a154.desired.instances",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.ced331e4-43d8-42ff-9a16-5126a7ae9d3a.crash_counts.version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.instance_heartbeats.version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.instance_heartbeats.droplet",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.credentials.port",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.vcap_application.space_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.bucket",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.credentials.name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.properties.services.tags",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.state",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.state_stopping_timestamp",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.d1368232-2ec6-46c2-8dc4-f144fd46a154.instance_heartbeats.dea_guid",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.ced331e4-43d8-42ff-9a16-5126a7ae9d3a.crash_counts.droplet",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.vcap_application.limits.disk",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.credentials.username",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "method",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.instance_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.container_port",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.reason",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.byte_hard",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.request.src_path",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@shipper.priority",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.private_instance_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.ced331e4-43d8-42ff-9a16-5126a7ae9d3a.instance_heartbeats.state",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.vcap_application.application_version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.cc_partition",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.args",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.label",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.uris",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.d1368232-2ec6-46c2-8dc4-f144fd46a154.instance_heartbeats.state_timestamp",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.ced331e4-43d8-42ff-9a16-5126a7ae9d3a.instance_heartbeats.droplet",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.ced331e4-43d8-42ff-9a16-5126a7ae9d3a.desired.state",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.start_command",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.block",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.d1368232-2ec6-46c2-8dc4-f144fd46a154.instance_heartbeats.state",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.request.rlimits",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.app",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.ced331e4-43d8-42ff-9a16-5126a7ae9d3a.crash_counts.instance_index",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.executableFile",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.egress_network_rules.ports",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.limits.disk",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.14fecac8-6f06-4eed-b4fb-bbeabea8efec.instance_heartbeats.index",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "file",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.ced331e4-43d8-42ff-9a16-5126a7ae9d3a.crash_counts.created_at",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@job.host",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.d1368232-2ec6-46c2-8dc4-f144fd46a154.instance_heartbeats.instance",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.lineno",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.states",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.credentials.CF_UAA_SERVER_URL",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.block_hard",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.request.byte",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.@shipper.name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.service_instance_guid",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.desired.instances",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.plan",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.droplet",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.desired.id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.model",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.vcap_application.application_uris",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.inode_soft",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.vcap_application.application_name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.limits.mem",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.fiber_id",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.cpu_stat",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.executableUri",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.vcap_application.application_name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.credentials.tag",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.vcap_application.limits.mem",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.vcap_application.application_uris",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.vcap_application.limits.disk",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.ced331e4-43d8-42ff-9a16-5126a7ae9d3a.instance_heartbeats.version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.app_guid",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.14fecac8-6f06-4eed-b4fb-bbeabea8efec.instance_heartbeats.state_timestamp",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.egress_network_rules.protocol",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.task_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.credentials.uri",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.container_path",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.stderr",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.request.limit_in_shares",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.buildpacks.url",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.limits.disk",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "thread_id",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.prod",
+        "type": "boolean",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.limits.fds",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.block_soft",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.properties.services.syslog_drain_url",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.egress_network_rules.protocol",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.source_path",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.stdout",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.request.discard_output",
+        "type": "boolean",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.credentials.CF_CLIENT_ID",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.console",
+        "type": "boolean",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.include",
+        "type": "boolean",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.14fecac8-6f06-4eed-b4fb-bbeabea8efec.desired.version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.thread_id",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.index",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.properties.environment",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.request.limit_in_bytes",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.request_guid",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.host_port",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.credentials.jdbcUrl",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.uri",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.application_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.env",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.sha1",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "process_id",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.vcap_application.name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.exit_status",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.properties.meta.console",
+        "type": "boolean",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.task_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "line",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.request.network",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.association",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.state_running_timestamp",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.vcap_application.uris",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.start_command",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.properties.services.credentials.name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.guid",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.stderr",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.properties.services.credentials.port",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.console",
+        "type": "boolean",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.duration",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.message.droplet",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.handle",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.request.inode",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.request.port",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.duration_seconds",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.properties.services.plan",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.port",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.state_crashed_timestamp",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.constrained_resource",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.stdout",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.state_timestamp",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.byte_limit",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.exit_description",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.d1368232-2ec6-46c2-8dc4-f144fd46a154.version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.memory",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.properties.services.label",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.polling_destination",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.warden_handle",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.desired.package_state",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.vendor",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.byte",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.d1368232-2ec6-46c2-8dc4-f144fd46a154.desired.state",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.memory_stat",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.host_ip",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.request.bind_mounts",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.vcap_application.version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.vcap_application.application_version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.vcap_application.space_name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "msg",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "geoip.timezone",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "referer",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "body_bytes_sent",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "geoip.area_code",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "cf_org_name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "path",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "hostname",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "event_type",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "vcap_request_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "geoip.longitude",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "level",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "http_spec",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "source_instance",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "verb",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "message_type",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "geoip.region_name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "source_type",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "x_forwarded_for",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "geoip.real_region_name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "geoip.latitude",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "geoip.continent_code",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "status",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "origin",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "cf_org_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "geoip.ip",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "http_user_agent",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "geoip.dma_code",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "geoip.country_code3",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "geoip.country_code2",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "geoip.location",
+        "type": "geo_point",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "cf_app_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "geoip.country_name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "remote_addr",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "cf_space_name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "geoip.city_name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "geoip.postal_code",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "cf_space_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "cf_app_name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "response_time",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@source.job.index",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "pid",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@source.job.name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@source.syslog_program",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "thread_name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "audit_event_identity_zone_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@loglevel",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "audit_event_type",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "audit_event_origin",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "audit_event_principal",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "audit_event_remote_address",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "audit_event_data",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.Host",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.assocation",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.RemoteAddr",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.existing_quota_name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.X-Forwarded-For",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.X-Forwarded-Proto",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.admin",
+        "type": "boolean",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.Path",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.other_guid",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.guid",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "spring_cloud_loglevel",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "spring_cloud_logmessage",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "trace",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "spring_cloud_classname",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "spring_cloud_logtime",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "spring_cloud_pid",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "spring_cloud_threadname",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "span",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.events",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.uptime",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "uaa_logtime",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "_score",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": false,
+        "analyzed": false,
+        "doc_values": false
+      }
+    ]
+ENDOFFJSON
+%>"
+}

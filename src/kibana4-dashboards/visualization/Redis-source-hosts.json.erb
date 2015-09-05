@@ -1,0 +1,51 @@
+<% require 'json' %>
+{
+  "title": "Redis source hosts",
+  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "type": "pie",
+      "params": {
+        "shareYAxis": true,
+        "addTooltip": true,
+        "addLegend": true,
+        "isDonut": false
+      },
+      "aggs": [
+        {
+          "id": "1",
+          "type": "count",
+          "schema": "metric",
+          "params": {
+          }
+        },
+        {
+          "id": "2",
+          "type": "terms",
+          "schema": "segment",
+          "params": {
+            "field": "@source.host",
+            "size": 5,
+            "order": "desc",
+            "orderBy": "1"
+          }
+        }
+      ],
+      "listeners": {
+      }
+    }
+ENDOFFJSON
+%>",
+  "description": "",
+  "savedSearchId": "Redis-logs-from-redis-and-redis-broker",
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "filter": [
+    
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}
