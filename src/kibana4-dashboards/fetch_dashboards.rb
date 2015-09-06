@@ -72,6 +72,8 @@ end
 export_kibana_config es_host, 'index-pattern' ,'[logstash-]YYYY.MM.DD' # For CF App dashboards
 export_kibana_config es_host, 'index-pattern' ,'logstash-*' # For CF component dashboards
 
+export_kibana_config es_host, 'config' ,'4.2.0-snapshot'
+
 # CF App location
 export_kibana_config es_host, 'dashboard', 'CF-App-Location'
 export_kibana_config es_host, 'visualization', 'LogMessages-RTR-Map'
