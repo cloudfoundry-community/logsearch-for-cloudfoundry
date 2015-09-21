@@ -64,6 +64,14 @@ properties:
     description: "IP address of Graphite"
   collector.graphite.port:
     description: "TCP port of Graphite"
+  collector.use_gelf:
+    description: "enable GELF plugin"
+    default: false
+  collector.gelf.address:
+    description: "IP address of GELF endpoint"
+  collector.gelf.port:
+    description: "UDP port of GELF"
+    default: 12201
   collector.memory_threshold:
     description: "Memory threshold for collector restart (Mb)"
     default: 800

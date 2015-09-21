@@ -18,6 +18,12 @@ graphite:
   port: <%= properties.collector.graphite.port %>
 <% end %>
 
+<% if properties.collector && properties.collector.use_gelf %>
+gelf:
+  host: <%= properties.collector.gelf.address %>
+  port: <%= properties.collector.gelf.port %>
+<% end %>
+
 <% if properties.collector && properties.collector.use_aws_cloudwatch %>
 aws_cloud_watch:
   access_key_id: <%= properties.collector.aws.access_key_id %>
