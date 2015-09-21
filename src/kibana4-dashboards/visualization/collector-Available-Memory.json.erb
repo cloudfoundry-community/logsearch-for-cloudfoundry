@@ -1,0 +1,78 @@
+<% require 'json' %>
+{
+  "title": "collector - Available Memory",
+  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "type": "line",
+      "params": {
+        "shareYAxis": true,
+        "addTooltip": true,
+        "addLegend": true,
+        "showCircles": true,
+        "smoothLines": false,
+        "interpolate": "linear",
+        "scale": "linear",
+        "drawLinesBetweenPoints": true,
+        "radiusRatio": 9,
+        "times": [
+    
+        ],
+        "addTimeMarker": false,
+        "defaultYExtents": false,
+        "setYExtents": false,
+        "yAxis": {
+        }
+      },
+      "aggs": [
+        {
+          "id": "1",
+          "type": "min",
+          "schema": "metric",
+          "params": {
+            "field": "value_percentage"
+          }
+        },
+        {
+          "id": "2",
+          "type": "date_histogram",
+          "schema": "segment",
+          "params": {
+            "field": "@timestamp",
+            "interval": "auto",
+            "customInterval": "2h",
+            "min_doc_count": 1,
+            "extended_bounds": {
+            }
+          }
+        },
+        {
+          "id": "3",
+          "type": "terms",
+          "schema": "group",
+          "params": {
+            "field": "@source.name",
+            "size": 50,
+            "order": "desc",
+            "orderBy": "1"
+          }
+        }
+      ],
+      "listeners": {
+      }
+    }
+ENDOFFJSON
+%>",
+  "description": "",
+  "savedSearchId": "collector-available_memory_ratio",
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "filter": [
+    
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}

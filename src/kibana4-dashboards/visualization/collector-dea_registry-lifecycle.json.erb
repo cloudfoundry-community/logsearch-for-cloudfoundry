@@ -1,0 +1,86 @@
+<% require 'json' %>
+{
+  "title": "collector - dea_registry lifecycle",
+  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "type": "histogram",
+      "params": {
+        "shareYAxis": true,
+        "addTooltip": true,
+        "addLegend": true,
+        "scale": "linear",
+        "mode": "stacked",
+        "times": [
+    
+        ],
+        "addTimeMarker": false,
+        "defaultYExtents": false,
+        "setYExtents": false,
+        "yAxis": {
+        }
+      },
+      "aggs": [
+        {
+          "id": "1",
+          "type": "max",
+          "schema": "metric",
+          "params": {
+            "field": "value"
+          }
+        },
+        {
+          "id": "2",
+          "type": "date_histogram",
+          "schema": "segment",
+          "params": {
+            "field": "@timestamp",
+            "interval": "custom",
+            "customInterval": "3m",
+            "min_doc_count": 1,
+            "extended_bounds": {
+            }
+          }
+        },
+        {
+          "id": "3",
+          "type": "terms",
+          "schema": "group",
+          "params": {
+            "field": "key",
+            "size": 10,
+            "order": "desc",
+            "orderBy": "1"
+          }
+        },
+        {
+          "id": "4",
+          "type": "terms",
+          "schema": "split",
+          "params": {
+            "field": "@source.name",
+            "size": 10,
+            "order": "desc",
+            "orderBy": "1",
+            "row": false
+          }
+        }
+      ],
+      "listeners": {
+      }
+    }
+ENDOFFJSON
+%>",
+  "description": "",
+  "savedSearchId": "collector-dea_registry_(lifecycle)",
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "filter": [
+    
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}
