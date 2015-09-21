@@ -1,0 +1,44 @@
+---
+logging:
+  file: /var/vcap/sys/log/collector/collector.log
+  syslog: vcap.collector
+  level: <%= properties.collector.logging_level %>
+
+deployment_name: <%= properties.collector.deployment_name %>
+
+<% if properties.collector && properties.collector.use_tsdb %>
+tsdb:
+  host: <%= properties.collector.opentsdb.address %>
+  port: <%= properties.collector.opentsdb.port %>
+<% end %>
+
+<% if properties.collector && properties.collector.use_graphite %>
+graphite:
+  host: <%= properties.collector.graphite.address %>
+  port: <%= properties.collector.graphite.port %>
+<% end %>
+
+<% if properties.collector && properties.collector.use_aws_cloudwatch %>
+aws_cloud_watch:
+  access_key_id: <%= properties.collector.aws.access_key_id %>
+  secret_access_key: <%= properties.collector.aws.secret_access_key %>
+<% end %>
+
+<% if properties.collector && properties.collector.use_datadog %>
+datadog:
+  api_key: <%= properties.collector.datadog.api_key %>
+  application_key: <%= properties.collector.datadog.application_key %>
+<% end %>
+
+message_bus_uris:
+<% p("nats.machines").each do |address| %>
+  - nats://<%= p("nats.user") %>:<%= p("nats.password") %>@<%= address %>:<%= p("nats.port") %>
+<% end %>
+
+intervals:
+  discover: <%= properties.collector.intervals.discover %>
+  varz: <%= properties.collector.intervals.varz %>
+  healthz: <%= properties.collector.intervals.healthz %>
+  local_metrics: <%= properties.collector.intervals.local_metrics %>
+  prune: <%= properties.collector.intervals.prune %>
+  nats_ping: <%= properties.collector.intervals.nats_ping %>

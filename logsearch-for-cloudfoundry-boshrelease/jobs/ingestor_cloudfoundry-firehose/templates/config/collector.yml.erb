@@ -1,0 +1,25 @@
+---
+logging:
+  file: /var/vcap/sys/log/collector/collector.log
+  syslog: vcap.collector
+  level: INFO 
+
+deployment_name: CF 
+
+gelf:
+  host: 127.0.0.1 
+  port: 12201 
+
+message_bus_uris:
+<% p("cloudfoundry.nats.machines").each do |address| %>
+  - nats://<%= p("cloudfoundry.nats.user") %>:<%= p("cloudfoundry.nats.password") %>@<%= address %>:<%= p("cloudfoundry.nats.port") %>
+<% end %>
+
+intervals:
+  discover: 60
+  varz: 30 
+  healthz: 30 
+  local_metrics: 30
+  prune: 300
+  nats_ping: 30
+
