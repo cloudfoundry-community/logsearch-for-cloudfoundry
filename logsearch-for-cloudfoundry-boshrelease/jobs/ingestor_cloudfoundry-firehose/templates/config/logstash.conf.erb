@@ -1,8 +1,16 @@
 input {
+	# Receive logs from firehose-to-syslog
 	tcp {
 		add_field => [ "type", "syslog" ]
 		host => "127.0.0.1"
 		port => "514"
+	}
+
+	# Receive logs from CF collector
+	gelf {
+                add_field => [ "type", "gelf" ]
+                tags => ["collector"]
+                port => 12201
 	}
 }
 
