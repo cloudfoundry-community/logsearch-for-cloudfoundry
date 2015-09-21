@@ -35,3 +35,15 @@ firehose-to-syslog-java8/openjdk-1.8.0_40.tar.gz:
   object_id: 2a24f27d-3fab-4c38-970d-b454e8952f39
   sha: 590be5c6337753b28acc81d4843e98e6245b5261
   size: 39630740
+ruby-2.1.7/ruby-2.1.7.tar.gz:
+  object_id: cb1d8be8-3fae-4807-96d5-f994641e8fd5
+  sha: e2e195a4a58133e3ad33b955c829bb536fa3c075
+  size: 15151458
+ruby-2.1.7/yaml-0.1.6.tar.gz:
+  object_id: c33ede9f-a15a-4b9d-b3e0-b3de675c54d1
+  sha: f3d404e11bec3c4efcddfd14c42d46f1aabe0b5d
+  size: 503012
+ruby-2.1.7/bundler-1.9.4.gem:
+  object_id: e88d06c9-45fb-4517-925c-f0ee1d116056
+  sha: ea3f17a76a8249049b5589c9b5421af72189babc
+  size: 244224
