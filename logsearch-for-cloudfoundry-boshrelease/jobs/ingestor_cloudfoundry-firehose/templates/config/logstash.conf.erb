@@ -8,10 +8,20 @@ input {
 
 	# Receive logs from CF collector
 	gelf {
-                add_field => [ "type", "gelf" ]
-                tags => ["collector"]
-                port => 12201
+                host => "127.0.0.1" 
+		port => 12201
 	}
+}
+
+filter {
+   # Cleanup collector gelf logs so they don't break downstream parsers
+	   if [facility] == "gelf-rb" {
+		   mutate {
+		     rename => { "tags" => "attributes" }
+		     add_field => { "type" => "gelf" }
+		     add_tag => "collector"
+		   }
+	   }
 }
 
 <% if 'DEBUG' == p('logstash.metadata_level') %>
