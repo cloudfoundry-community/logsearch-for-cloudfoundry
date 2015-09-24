@@ -1,0 +1,19 @@
+---
+meta:
+  environment: (( name ))
+
+name: logsearch
+director_uuid: BOSH_DIRECTOR_UUID 
+
+properties:
+  push-kibana:
+    oauth2_client_secret: "c1oudc0w"
+  cloudfoundry:
+    skip_ssl_validation: true
+    system_domain: 10.244.0.34.xip.io
+    firehose_port: 443
+    firehose_user: admin
+    firehose_password: admin
+    admin_username: admin
+    admin_password: admin
+    admin_client_secret: "c1oudc0w"

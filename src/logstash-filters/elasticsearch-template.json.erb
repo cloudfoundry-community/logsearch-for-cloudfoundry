@@ -1,0 +1,98 @@
+{
+    "template" : "logstash-*",
+    "order" : 50,
+    "settings" : {
+	"number_of_shards" : 5,
+	"number_of_replicas" : 1,
+	"index" : {
+            "search" : {
+		"slowlog" : {
+                    "threshold" : {
+			"query" : {
+                            "warn" : "15s",
+                            "info" : "10s",
+                            "debug" : "5s",
+                            "trace" : "500ms"
+			}
+                    }
+		}
+            },
+            "query" : {
+		"default_field" : "@message"
+            },
+            "store" : {
+		"compress" : {
+                    "stored" : true,
+                    "tv": true
+		}
+            }
+	}
+    },
+    "mappings": {
+	"_default_": {
+            "_all": {
+		"enabled": false
+            },
+            "_source": {
+		"compress": true
+            },
+            "dynamic_templates": [
+		{
+                    "string_template" : {
+			"match" : "*",
+			"mapping": {
+                            "type": "string",
+                            "index": "not_analyzed",
+                            "norms" : {
+				"enabled" : false
+                            }
+			},
+			"match_mapping_type" : "string"
+                    }
+		}
+            ],
+            "properties" : {
+		"@message" : {
+                    "type" : "string",
+                    "index" : "analyzed",
+                    "norms" : {
+			"enabled" : false
+                    }
+		},
+		"@tags": {
+                    "type": "string",
+                    "index" : "not_analyzed",
+                    "norms" : {
+			"enabled" : false
+                    }
+		},
+		"@timestamp" : {
+                    "type" : "date",
+                    "index" : "not_analyzed"
+		},
+		"@type" : {
+                    "type" : "string",
+                    "index" : "not_analyzed",
+                    "norms" : {
+			"enabled" : false
+                    }
+		},
+		"message" : {
+                    "type" : "string",
+                    "index" : "analyzed",
+                    "norms" : {
+			"enabled" : false
+                    }
+		},
+		"geoip" : {
+                    "properties" : {
+			"location" : {
+			    "type" : "geo_point"
+			}
+		    }
+		}
+            }
+	}
+    }
+}
+
