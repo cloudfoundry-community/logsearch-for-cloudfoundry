@@ -1,0 +1,69 @@
+<% require 'json' %>
+{
+  "description": "",
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "filter": [
+    
+      ]
+    }
+ENDOFFJSON
+%>"
+  },
+  "savedSearchId": "LogMessages",
+  "title": "LogMessages - response_time",
+  "version": 1,
+  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "type": "line",
+      "params": {
+        "shareYAxis": true,
+        "addTooltip": true,
+        "addLegend": false,
+        "defaultYExtents": false
+      },
+      "aggs": [
+        {
+          "id": "1",
+          "type": "percentiles",
+          "schema": "metric",
+          "params": {
+            "field": "response_time",
+            "percents": [
+              50,
+              95
+            ]
+          }
+        },
+        {
+          "id": "3",
+          "type": "terms",
+          "schema": "split",
+          "params": {
+            "field": "cf_app_name",
+            "size": 5,
+            "order": "desc",
+            "orderBy": "1.50",
+            "row": false
+          }
+        },
+        {
+          "id": "2",
+          "type": "date_histogram",
+          "schema": "segment",
+          "params": {
+            "field": "@timestamp",
+            "interval": "auto",
+            "min_doc_count": 1,
+            "extended_bounds": {
+            }
+          }
+        }
+      ],
+      "listeners": {
+      }
+    }
+ENDOFFJSON
+%>"
+}

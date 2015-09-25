@@ -1,0 +1,62 @@
+<% require 'json' %>
+{
+  "title": "LogMessages - RTR - response_time percentiles",
+  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "type": "table",
+      "params": {
+        "perPage": 10,
+        "showPartialRows": false,
+        "showMeticsAtAllLevels": false
+      },
+      "aggs": [
+        {
+          "id": "1",
+          "type": "count",
+          "schema": "metric",
+          "params": {
+          }
+        },
+        {
+          "id": "2",
+          "type": "terms",
+          "schema": "bucket",
+          "params": {
+            "field": "cf_app_name",
+            "size": 10,
+            "order": "desc",
+            "orderBy": "1"
+          }
+        },
+        {
+          "id": "3",
+          "type": "percentiles",
+          "schema": "metric",
+          "params": {
+            "field": "response_time",
+            "percents": [
+              50,
+              95
+            ]
+          }
+        }
+      ],
+      "listeners": {
+      }
+    }
+ENDOFFJSON
+%>",
+  "description": "",
+  "savedSearchId": "LogMessages-RTR",
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "filter": [
+    
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}

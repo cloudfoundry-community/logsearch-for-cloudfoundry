@@ -1,0 +1,126 @@
+<% require 'json' %>
+{
+  "title": "Mysql logs from mysql and mysql-broker",
+  "description": "",
+  "hits": 0,
+  "columns": [
+    "syslog_program",
+    "syslog_message"
+  ],
+  "sort": [
+    "@timestamp",
+    "desc"
+  ],
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "index": "logstash-*",
+      "query": {
+        "query_string": {
+          "analyze_wildcard": true,
+          "query": "_eQT_job=mysql-partition_eQT_ OR  _eQT_job=cf-mysql-broker-partition_eQT_"
+        }
+      },
+      "highlight": {
+        "pre_tags": [
+          "@kibana-highlighted-field@"
+        ],
+        "post_tags": [
+          "@/kibana-highlighted-field@"
+        ],
+        "fields": {
+          "*": {
+          }
+        },
+        "fragment_size": 2147483647
+      },
+      "filter": [
+        {
+          "meta": {
+            "disabled": false,
+            "index": "logstash-*",
+            "key": "syslog_program",
+            "negate": true,
+            "value": "vmsvc"
+          },
+          "query": {
+            "match": {
+              "syslog_program": {
+                "query": "vmsvc",
+                "type": "phrase"
+              }
+            }
+          }
+        },
+        {
+          "meta": {
+            "disabled": false,
+            "index": "logstash-*",
+            "key": "syslog_program",
+            "negate": true,
+            "value": "CRON"
+          },
+          "query": {
+            "match": {
+              "syslog_program": {
+                "query": "CRON",
+                "type": "phrase"
+              }
+            }
+          }
+        },
+        {
+          "meta": {
+            "disabled": false,
+            "index": "logstash-*",
+            "key": "syslog_program",
+            "negate": true,
+            "value": "anacron"
+          },
+          "query": {
+            "match": {
+              "syslog_program": {
+                "query": "anacron",
+                "type": "phrase"
+              }
+            }
+          }
+        },
+        {
+          "meta": {
+            "disabled": false,
+            "index": "logstash-*",
+            "key": "query",
+            "negate": true,
+            "value": "{_eQT_prefix_eQT_:{_eQT_syslog_program_eQT_:_eQT_rsyslogd_eQT_}}"
+          },
+          "query": {
+            "prefix": {
+              "syslog_program": "rsyslogd"
+            }
+          }
+        },
+        {
+          "meta": {
+            "disabled": false,
+            "index": "logstash-*",
+            "key": "syslog_program",
+            "negate": true,
+            "value": "kernel"
+          },
+          "query": {
+            "match": {
+              "syslog_program": {
+                "query": "kernel",
+                "type": "phrase"
+              }
+            }
+          }
+        }
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}

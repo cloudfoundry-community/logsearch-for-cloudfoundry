@@ -1,0 +1,91 @@
+<% require 'json' %>
+{
+  "title": "LogMessages-RTR: Latency",
+  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "type": "line",
+      "params": {
+        "shareYAxis": true,
+        "addTooltip": true,
+        "addLegend": false,
+        "defaultYExtents": false,
+        "showCircles": true,
+        "smoothLines": false,
+        "interpolate": "linear",
+        "scale": "linear",
+        "drawLinesBetweenPoints": true,
+        "radiusRatio": 9,
+        "times": [
+    
+        ],
+        "addTimeMarker": false,
+        "setYExtents": false,
+        "yAxis": {
+        }
+      },
+      "aggs": [
+        {
+          "id": "1",
+          "type": "percentiles",
+          "schema": "metric",
+          "params": {
+            "field": "response_time",
+            "percents": [
+              50,
+              95
+            ]
+          }
+        },
+        {
+          "id": "3",
+          "type": "terms",
+          "schema": "split",
+          "params": {
+            "field": "cf_app_name",
+            "size": 25,
+            "order": "desc",
+            "orderBy": "custom",
+            "orderAgg": {
+              "id": "3-orderAgg",
+              "type": "cardinality",
+              "schema": "orderAgg",
+              "params": {
+                "field": "cf_app_name"
+              }
+            },
+            "row": false
+          }
+        },
+        {
+          "id": "2",
+          "type": "date_histogram",
+          "schema": "segment",
+          "params": {
+            "field": "@timestamp",
+            "interval": "auto",
+            "customInterval": "2h",
+            "min_doc_count": 1,
+            "extended_bounds": {
+            }
+          }
+        }
+      ],
+      "listeners": {
+      }
+    }
+ENDOFFJSON
+%>",
+  "description": "",
+  "savedSearchId": "LogMessages-RTR",
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "filter": [
+    
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}

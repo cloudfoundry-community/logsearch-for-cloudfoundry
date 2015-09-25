@@ -1,0 +1,143 @@
+<% require 'json' %>
+{
+  "title": "Redis logs from redis and redis-broker",
+  "description": "",
+  "hits": 0,
+  "columns": [
+    "syslog_program",
+    "syslog_message"
+  ],
+  "sort": [
+    "@timestamp",
+    "desc"
+  ],
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "index": "logstash-*",
+      "highlight": {
+        "pre_tags": [
+          "@kibana-highlighted-field@"
+        ],
+        "post_tags": [
+          "@/kibana-highlighted-field@"
+        ],
+        "fields": {
+          "*": {
+          }
+        },
+        "fragment_size": 2147483647
+      },
+      "filter": [
+        {
+          "meta": {
+            "disabled": false,
+            "index": "logstash-*",
+            "key": "syslog_program",
+            "negate": true,
+            "value": "vmsvc"
+          },
+          "query": {
+            "match": {
+              "syslog_program": {
+                "query": "vmsvc",
+                "type": "phrase"
+              }
+            }
+          }
+        },
+        {
+          "meta": {
+            "disabled": false,
+            "index": "logstash-*",
+            "key": "syslog_program",
+            "negate": true,
+            "value": "CRON"
+          },
+          "query": {
+            "match": {
+              "syslog_program": {
+                "query": "CRON",
+                "type": "phrase"
+              }
+            }
+          }
+        },
+        {
+          "meta": {
+            "disabled": false,
+            "index": "logstash-*",
+            "key": "syslog_program",
+            "negate": true,
+            "value": "crontab"
+          },
+          "query": {
+            "match": {
+              "syslog_program": {
+                "query": "crontab",
+                "type": "phrase"
+              }
+            }
+          }
+        },
+        {
+          "meta": {
+            "disabled": false,
+            "index": "logstash-*",
+            "key": "syslog_program",
+            "negate": true,
+            "value": "kernel"
+          },
+          "query": {
+            "match": {
+              "syslog_program": {
+                "query": "kernel",
+                "type": "phrase"
+              }
+            }
+          }
+        },
+        {
+          "meta": {
+            "disabled": false,
+            "index": "logstash-*",
+            "key": "syslog_program",
+            "negate": true,
+            "value": "anacron"
+          },
+          "query": {
+            "match": {
+              "syslog_program": {
+                "query": "anacron",
+                "type": "phrase"
+              }
+            }
+          }
+        },
+        {
+          "meta": {
+            "negate": true,
+            "index": "logstash-*",
+            "key": "query",
+            "value": "{_eQT_prefix_eQT_:{_eQT_syslog_program_eQT_:_eQT_rsyslogd_eQT_}}",
+            "disabled": false
+          },
+          "query": {
+            "prefix": {
+              "syslog_program": "rsyslogd"
+            }
+          }
+        }
+      ],
+      "query": {
+        "query_string": {
+          "query": "_eQT_job=cf-redis-broker-partition_eQT_ OR _eQT_job=dedicated-node-partition_eQT_",
+          "analyze_wildcard": true
+        }
+      }
+    }
+ENDOFFJSON
+%>"
+  }
+}

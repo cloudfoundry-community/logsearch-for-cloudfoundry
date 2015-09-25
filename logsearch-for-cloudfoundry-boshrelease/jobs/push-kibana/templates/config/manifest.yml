@@ -1,9 +1,9 @@
 ---
 applications:
 - name: <%= p('push-kibana.app_name')%>
+  memory: <%= p('push-kibana.app_memory')%>
+  instances: <%= p('push-kibana.app_instances')%>
   domain: <%= p('cloudfoundry.system_domain')%>
-  memory: 256M
-  instances: 2
   buildpack: nodejs_buildpack
   command: CONFIG_PATH=$HOME/kibana.yml exec node $HOME/bin/kibana.js --port $PORT
   env:

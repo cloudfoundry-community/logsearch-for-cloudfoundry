@@ -1,0 +1,61 @@
+<% require 'json' %>
+{
+  "title": "collector - DEA - can_stage",
+  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "type": "histogram",
+      "params": {
+        "shareYAxis": true,
+        "addTooltip": true,
+        "addLegend": false,
+        "scale": "linear",
+        "mode": "stacked",
+        "times": [
+    
+        ],
+        "addTimeMarker": false,
+        "defaultYExtents": false,
+        "setYExtents": false,
+        "yAxis": {
+        }
+      },
+      "aggs": [
+        {
+          "id": "1",
+          "type": "avg",
+          "schema": "metric",
+          "params": {
+            "field": "value_as_percentage"
+          }
+        },
+        {
+          "id": "2",
+          "type": "terms",
+          "schema": "segment",
+          "params": {
+            "field": "@source.job_name",
+            "size": 5,
+            "order": "asc",
+            "orderBy": "1"
+          }
+        }
+      ],
+      "listeners": {
+      }
+    }
+ENDOFFJSON
+%>",
+  "description": "",
+  "savedSearchId": "collector-DEA-can_stage",
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "filter": [
+    
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}

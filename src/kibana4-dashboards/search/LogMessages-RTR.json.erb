@@ -1,0 +1,102 @@
+<% require 'json' %>
+{
+  "title": "LogMessages - RTR",
+  "description": "",
+  "hits": 0,
+  "columns": [
+    "cf_app_name",
+    "source_instance",
+    "verb",
+    "path",
+    "status",
+    "body_bytes_sent",
+    "response_time",
+    "http_user_agent",
+    "geoip.ip"
+  ],
+  "sort": [
+    "@timestamp",
+    "desc"
+  ],
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "index": "[logstash-]YYYY.MM.DD",
+      "highlight": {
+        "pre_tags": [
+          "@kibana-highlighted-field@"
+        ],
+        "post_tags": [
+          "@/kibana-highlighted-field@"
+        ],
+        "fields": {
+          "*": {
+          }
+        },
+        "fragment_size": 2147483647
+      },
+      "filter": [
+        {
+          "meta": {
+            "disabled": false,
+            "index": "[logstash-]YYYY.MM.DD",
+            "key": "event_type",
+            "negate": false,
+            "value": "LogMessage"
+          },
+          "query": {
+            "match": {
+              "event_type": {
+                "query": "LogMessage",
+                "type": "phrase"
+              }
+            }
+          }
+        },
+        {
+          "meta": {
+            "index": "[logstash-]YYYY.MM.DD",
+            "negate": false,
+            "key": "source_type",
+            "value": "RTR",
+            "disabled": false
+          },
+          "query": {
+            "match": {
+              "source_type": {
+                "query": "RTR",
+                "type": "phrase"
+              }
+            }
+          }
+        },
+        {
+          "meta": {
+            "negate": false,
+            "index": "[logstash-]YYYY.MM.DD",
+            "key": "tags",
+            "value": "cloudfoundry_doppler",
+            "disabled": false
+          },
+          "query": {
+            "match": {
+              "tags": {
+                "query": "cloudfoundry_doppler",
+                "type": "phrase"
+              }
+            }
+          }
+        }
+      ],
+      "query": {
+        "query_string": {
+          "query": "*",
+          "analyze_wildcard": true
+        }
+      }
+    }
+ENDOFFJSON
+%>"
+  }
+}

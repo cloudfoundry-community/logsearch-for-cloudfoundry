@@ -1,0 +1,50 @@
+<% require 'json' %>
+{
+  "description": "",
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "filter": [
+    
+      ]
+    }
+ENDOFFJSON
+%>"
+  },
+  "savedSearchId": "tags:cloudfoundry_vcap",
+  "title": "CF: Jobs",
+  "version": 1,
+  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "type": "table",
+      "params": {
+        "perPage": 10,
+        "showPartialRows": false,
+        "showMeticsAtAllLevels": false
+      },
+      "aggs": [
+        {
+          "id": "1",
+          "type": "count",
+          "schema": "metric",
+          "params": {
+          }
+        },
+        {
+          "id": "2",
+          "type": "terms",
+          "schema": "bucket",
+          "params": {
+            "field": "@job.name",
+            "size": 25,
+            "order": "desc",
+            "orderBy": "1"
+          }
+        }
+      ],
+      "listeners": {
+      }
+    }
+ENDOFFJSON
+%>"
+}
