@@ -68,6 +68,15 @@
         "doc_values": false
       },
       {
+        "name": "geoip.location",
+        "type": "geo_point",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
         "name": "_source",
         "type": "_source",
         "count": 0,
@@ -203,8 +212,332 @@
         "doc_values": false
       },
       {
-        "name": "data.attributes.health_check_timeout",
+        "name": "msg",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "spring_cloud_loglevel",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "origin",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "cf_org_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "cf_org_name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "spring_cloud_logmessage",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "trace",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "event_type",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "spring_cloud_classname",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "cf_app_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "timestamp",
         "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "cf_space_name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "level",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "source_instance",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "spring_cloud_logtime",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "message_type",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "source_type",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "spring_cloud_pid",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "cf_space_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "cf_app_name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "spring_cloud_threadname",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "span",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@source.stack",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@source.role",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@source.ip",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@source.index",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "value",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@source.dea_index",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "key",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@source.job_name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@source.status",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@source.component",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@source.job",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@source.level",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@source.deployment",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@source.appId",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.destination_key",
+        "type": "string",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -221,16 +554,7 @@
         "doc_values": false
       },
       {
-        "name": "data.data.health_check_timeout",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.response.disk_stat",
+        "name": "data.method",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -248,7 +572,25 @@
         "doc_values": false
       },
       {
-        "name": "data.attributes.stack",
+        "name": "data.data.minimumRegisterIntervalInSeconds",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.key",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.buildpack",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -259,6 +601,15 @@
       {
         "name": "data.request.privileged",
         "type": "boolean",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.desired.version",
+        "type": "string",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -284,17 +635,8 @@
         "doc_values": false
       },
       {
-        "name": "data.data.version",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.vcap_application.space_id",
-        "type": "string",
+        "name": "data.attributes.billing_enabled",
+        "type": "boolean",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -303,15 +645,6 @@
       },
       {
         "name": "data.application_version",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.state",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -329,6 +662,24 @@
         "doc_values": false
       },
       {
+        "name": "data.properties.buildpack_key",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.instance_heartbeats.version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
         "name": "@shipper.name",
         "type": "string",
         "count": 0,
@@ -338,25 +689,7 @@
         "doc_values": false
       },
       {
-        "name": "data.data.vcap_application.limits.disk",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "method",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.instance_id",
+        "name": "data.response.buildpack_key",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -374,8 +707,8 @@
         "doc_values": false
       },
       {
-        "name": "data.response.container_port",
-        "type": "number",
+        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.instance_heartbeats.state",
+        "type": "string",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -383,7 +716,16 @@
         "doc_values": false
       },
       {
-        "name": "data.reason",
+        "name": "data.backtrace",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.id",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -410,15 +752,6 @@
         "doc_values": false
       },
       {
-        "name": "data.response.byte_hard",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
         "name": "data.attributes.vcap_application.space_id",
         "type": "string",
         "count": 0,
@@ -437,16 +770,7 @@
         "doc_values": false
       },
       {
-        "name": "data.request.src_path",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.handle",
+        "name": "data.attributes.rules.ports",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -464,6 +788,33 @@
         "doc_values": false
       },
       {
+        "name": "data.handle",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.class",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.instance_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
         "name": "data.response.exit_status",
         "type": "number",
         "count": 0,
@@ -473,7 +824,1213 @@
         "doc_values": false
       },
       {
-        "name": "data.attributes.instance_id",
+        "name": "data.data.include_stats",
+        "type": "boolean",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.task_streaming_log_url",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.destination",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.vcap_application.limits.mem",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.cc_partition",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.instance_path",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.inode",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.credentials.hostname",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.credentials.password",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.desired.instances",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.egress_network_rules.ports",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.state_evacuating_timestamp",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.container_ip",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.assocation",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.payload.version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.properties.meta.command",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.script",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.payload.instance_guid",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.properties.resources.disk",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.server.container_grace_time",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.vcap_application.limits.fds",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.info",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.endpoint",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.size",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.byte_soft",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.instance_heartbeats.state_timestamp",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.RemoteAddr",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.limit_in_shares",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "fiber_id",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.credentials.CF_CLIENT_SECRET",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.environment_json.KIBANA_OAUTH2_CLIENT_SECRET",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.application_uris",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.state_born_timestamp",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.application_name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.server.pidfile",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.stack",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.payload.droplet",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.network.allow_host_access",
+        "type": "boolean",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.tags",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.state",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@job.name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.droplet_sha1",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.application_version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.server.unix_domain_permissions",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.subject",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "source",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.warden_container_path",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.logging.level",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.state_stopped_timestamp",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.app_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.existing_quota_name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.executableFile",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.state_starting_timestamp",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.hosts",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.buildpacks.key",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.organization_guid",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.X-Forwarded-For",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.inode_hard",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "log_level",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.network.pool_network",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.X-Forwarded-Proto",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.limits.fds",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.server.allow_nested_warden",
+        "type": "boolean",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.syslog_drain_url",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.source",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.warden_container_ip",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.servers",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.@shipper.priority",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.instance_heartbeats.instance",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.egress_network_rules.destination",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.pruneThresholdInSeconds",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.vcap_application.uris",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.properties.resources.memory",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.instances",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.application_name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.vcap_application.name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.limits.mem",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.limit_in_bytes",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.request.job_id",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.prod",
+        "type": "boolean",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@job.index",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.job_ids",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.egress_network_rules.destination",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.instance_heartbeats.droplet",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.rules.destination",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.droplet_sha1",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.vcap_application.limits.fds",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.instance_host_port",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.network.mtu",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.file",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.allow_ssh",
+        "type": "boolean",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.properties.resources.fds",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.warden_job_id",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.error",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.block_limit",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.request.url",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.credentials.CF_LOGIN_SERVER_URL",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.application_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.inode_limit",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.request.rootfs",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.job_id",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.host",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "lineno",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.payload.message_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.@job.host",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.logging.file",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.detected_start_command",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.request.owner",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.payload.instance_index",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.process_id",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.health_check_timeout",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.message.version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.health_check_timeout",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.disk_stat",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.stack",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.credentials.port",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.bucket",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.vcap_application.space_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.credentials.name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.state",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.state_stopping_timestamp",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.vcap_application.limits.disk",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.credentials.username",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.instances",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "method",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.instance_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.container_port",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.reason",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.environment_json.KIBANA_OAUTH2_CLIENT_ID",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.byte_hard",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.request.src_path",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -527,16 +2084,7 @@
         "doc_values": false
       },
       {
-        "name": "data.data.vcap_application.limits.mem",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.destination",
+        "name": "data.args",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -545,7 +2093,16 @@
         "doc_values": false
       },
       {
-        "name": "data.data.cc_partition",
+        "name": "data.server.container_klass",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.url",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -563,8 +2120,17 @@
         "doc_values": false
       },
       {
-        "name": "data.response.inode",
-        "type": "number",
+        "name": "data.payload.is_duplicate",
+        "type": "boolean",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.start_command",
+        "type": "string",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -574,15 +2140,6 @@
       {
         "name": "data.response.block",
         "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.uptime",
-        "type": "string",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -608,8 +2165,8 @@
         "doc_values": false
       },
       {
-        "name": "data.response.container_ip",
-        "type": "string",
+        "name": "data.attributes.environment_json.SKIP_SSL_VALIDATION",
+        "type": "boolean",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -617,7 +2174,7 @@
         "doc_values": false
       },
       {
-        "name": "data.payload.version",
+        "name": "data.attributes.warden_host_ip",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -627,6 +2184,15 @@
       },
       {
         "name": "data.attributes.executableFile",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.egress_network_rules.ports",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -653,7 +2219,43 @@
         "doc_values": false
       },
       {
+        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.desired.package_state",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
         "name": "@job.host",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.lineno",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.states",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.credentials.CF_UAA_SERVER_URL",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -671,34 +2273,7 @@
         "doc_values": false
       },
       {
-        "name": "data.response.info",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.vcap_application.limits.fds",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "timestamp",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.endpoint",
+        "name": "data.attributes.syslog_drain_urls",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -716,16 +2291,7 @@
         "doc_values": false
       },
       {
-        "name": "data.response.byte_soft",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.RemoteAddr",
+        "name": "data.@shipper.name",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -734,8 +2300,8 @@
         "doc_values": false
       },
       {
-        "name": "data.response.limit_in_shares",
-        "type": "number",
+        "name": "data.attributes.command",
+        "type": "string",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -743,8 +2309,26 @@
         "doc_values": false
       },
       {
-        "name": "fiber_id",
-        "type": "number",
+        "name": "data.attributes.environment_json.CF_API_URI",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.droplet",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.plan",
+        "type": "string",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -761,8 +2345,35 @@
         "doc_values": false
       },
       {
+        "name": "data.model",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
         "name": "data.data.vcap_application.application_uris",
         "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.logging.syslog",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.server.job_output_limit",
+        "type": "number",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -797,26 +2408,8 @@
         "doc_values": false
       },
       {
-        "name": "data.attributes.application_uris",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.state_born_timestamp",
+        "name": "data.fiber_id",
         "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.application_name",
-        "type": "string",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -834,6 +2427,15 @@
       },
       {
         "name": "data.data.executableUri",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.vcap_application.application_name",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -860,33 +2462,6 @@
         "doc_values": false
       },
       {
-        "name": "data.data.vcap_application.application_name",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.stack",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.payload.droplet",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
         "name": "data.attributes.vcap_application.application_uris",
         "type": "string",
         "count": 0,
@@ -905,16 +2480,7 @@
         "doc_values": false
       },
       {
-        "name": "data.response.state",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "@job.name",
+        "name": "data.app_guid",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -932,7 +2498,7 @@
         "doc_values": false
       },
       {
-        "name": "data.attributes.application_version",
+        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.desired.state",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -941,7 +2507,16 @@
         "doc_values": false
       },
       {
-        "name": "data.subject",
+        "name": "data.attributes.instance_container_port",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.response.task_id",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -950,7 +2525,7 @@
         "doc_values": false
       },
       {
-        "name": "source",
+        "name": "data.server.container_depot_path",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -995,6 +2570,24 @@
         "doc_values": false
       },
       {
+        "name": "data.attributes.environment_json.NODE_ENV",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.buildpacks.url",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
         "name": "data.data.limits.disk",
         "type": "number",
         "count": 0,
@@ -1031,7 +2624,7 @@
         "doc_values": false
       },
       {
-        "name": "data.data.executableFile",
+        "name": "data.request.key",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -1049,25 +2642,7 @@
         "doc_values": false
       },
       {
-        "name": "data.attributes.state_starting_timestamp",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
         "name": "data.Path",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.X-Forwarded-For",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -1094,6 +2669,15 @@
         "doc_values": false
       },
       {
+        "name": "data.source_path",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
         "name": "data.request.discard_output",
         "type": "boolean",
         "count": 0,
@@ -1103,26 +2687,17 @@
         "doc_values": false
       },
       {
-        "name": "data.response.inode_hard",
+        "name": "data.data.services.credentials.CF_CLIENT_ID",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.server.container_rlimits.core",
         "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "log_level",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.X-Forwarded-Proto",
-        "type": "string",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -1139,8 +2714,8 @@
         "doc_values": false
       },
       {
-        "name": "data.data.limits.fds",
-        "type": "number",
+        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.instance_heartbeats.dea_guid",
+        "type": "string",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -1148,8 +2723,8 @@
         "doc_values": false
       },
       {
-        "name": "data.data.services.syslog_drain_url",
-        "type": "string",
+        "name": "data.thread_id",
+        "type": "number",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -1166,7 +2741,7 @@
         "doc_values": false
       },
       {
-        "name": "data.request_guid",
+        "name": "data.properties.environment",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -1184,6 +2759,15 @@
         "doc_values": false
       },
       {
+        "name": "data.request_guid",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
         "name": "data.response.host_port",
         "type": "number",
         "count": 0,
@@ -1193,7 +2777,16 @@
         "doc_values": false
       },
       {
-        "name": "data.data.egress_network_rules.destination",
+        "name": "data.data.services.credentials.jdbcUrl",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.uri",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -1220,8 +2813,17 @@
         "doc_values": false
       },
       {
-        "name": "data.data.vcap_application.uris",
+        "name": "data.other_guid",
         "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.state_resuming_timestamp",
+        "type": "number",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -1265,7 +2867,25 @@
         "doc_values": false
       },
       {
-        "name": "data.application_name",
+        "name": "data.task_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "line",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.server.unix_domain_path",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -1283,26 +2903,17 @@
         "doc_values": false
       },
       {
-        "name": "data.data.services.name",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.vcap_application.name",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
         "name": "data.attributes.state_running_timestamp",
         "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.association",
+        "type": "string",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -1319,34 +2930,7 @@
         "doc_values": false
       },
       {
-        "name": "data.data.limits.mem",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.response.limit_in_bytes",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.request.job_id",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "@job.index",
+        "name": "data.attributes.start_command",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -1355,17 +2939,8 @@
         "doc_values": false
       },
       {
-        "name": "data.attributes.prod",
-        "type": "boolean",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.response.job_ids",
-        "type": "number",
+        "name": "data.guid",
+        "type": "string",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -1374,15 +2949,6 @@
       },
       {
         "name": "data.response.stderr",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.egress_network_rules.destination",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -1400,7 +2966,7 @@
         "doc_values": false
       },
       {
-        "name": "data.attributes.vcap_application.limits.fds",
+        "name": "data.duration",
         "type": "number",
         "count": 0,
         "scripted": false,
@@ -1409,8 +2975,8 @@
         "doc_values": false
       },
       {
-        "name": "data.duration",
-        "type": "number",
+        "name": "data.message.droplet",
+        "type": "string",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -1436,7 +3002,7 @@
         "doc_values": false
       },
       {
-        "name": "data.attributes.warden_job_id",
+        "name": "data.request.port",
         "type": "number",
         "count": 0,
         "scripted": false,
@@ -1445,8 +3011,26 @@
         "doc_values": false
       },
       {
-        "name": "data.response.block_limit",
+        "name": "data.duration_seconds",
         "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.desired.id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.include",
+        "type": "boolean",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -1463,8 +3047,35 @@
         "doc_values": false
       },
       {
-        "name": "data.application_id",
+        "name": "data.attributes.rules.protocol",
         "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.server.quota.disk_quota_enabled",
+        "type": "boolean",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.attributes.state_crashed_timestamp",
+        "type": "number",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -1481,35 +3092,8 @@
         "doc_values": false
       },
       {
-        "name": "data.response.inode_limit",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
         "name": "data.attributes.state_timestamp",
         "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.request.rootfs",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.exit_description",
-        "type": "string",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -1526,25 +3110,7 @@
         "doc_values": false
       },
       {
-        "name": "data.response.job_id",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "lineno",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.host",
+        "name": "data.exit_description",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -1553,7 +3119,16 @@
         "doc_values": false
       },
       {
-        "name": "data.payload.message_id",
+        "name": "data.attributes.memory",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.polling_destination",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -1571,8 +3146,44 @@
         "doc_values": false
       },
       {
+        "name": "data.attributes.status",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.server.container_rootfs_path",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.instance_heartbeats.index",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
         "name": "data.response.byte",
         "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "data.data.services.vendor",
+        "type": "string",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -1598,15 +3209,6 @@
         "doc_values": false
       },
       {
-        "name": "data.response.host_ip",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
         "name": "data.request.bind_mounts",
         "type": "string",
         "count": 0,
@@ -1616,25 +3218,7 @@
         "doc_values": false
       },
       {
-        "name": "data.payload.instance_index",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.vcap_application.application_version",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.request.owner",
+        "name": "data.response.host_ip",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -1652,7 +3236,7 @@
         "doc_values": false
       },
       {
-        "name": "msg",
+        "name": "data.data.vcap_application.application_version",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -1679,15 +3263,6 @@
         "doc_values": false
       },
       {
-        "name": "body_bytes_sent",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
         "name": "geoip.area_code",
         "type": "number",
         "count": 0,
@@ -1697,8 +3272,8 @@
         "doc_values": false
       },
       {
-        "name": "cf_org_name",
-        "type": "string",
+        "name": "body_bytes_sent",
+        "type": "number",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -1716,15 +3291,6 @@
       },
       {
         "name": "hostname",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "event_type",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -1760,24 +3326,6 @@
         "doc_values": false
       },
       {
-        "name": "level",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "source_instance",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
         "name": "verb",
         "type": "string",
         "count": 0,
@@ -1788,24 +3336,6 @@
       },
       {
         "name": "geoip.region_name",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "message_type",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "source_type",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -1859,24 +3389,6 @@
         "doc_values": false
       },
       {
-        "name": "origin",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "cf_org_id",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
         "name": "geoip.ip",
         "type": "string",
         "count": 0,
@@ -1913,25 +3425,7 @@
         "doc_values": false
       },
       {
-        "name": "geoip.location",
-        "type": "geo_point",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
         "name": "geoip.country_code2",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "cf_app_id",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -1958,15 +3452,6 @@
         "doc_values": false
       },
       {
-        "name": "cf_space_name",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
         "name": "geoip.city_name",
         "type": "string",
         "count": 0,
@@ -1985,24 +3470,6 @@
         "doc_values": false
       },
       {
-        "name": "cf_space_id",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "cf_app_name",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
         "name": "response_time",
         "type": "number",
         "count": 0,
@@ -2012,7 +3479,16 @@
         "doc_values": false
       },
       {
-        "name": "line",
+        "name": "@source.job.index",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "pid",
         "type": "number",
         "count": 0,
         "scripted": false,
@@ -2021,7 +3497,7 @@
         "doc_values": false
       },
       {
-        "name": "data.responses.05c0e34f-fc43-42c0-9863-997c9fe370de.version",
+        "name": "@source.job.name",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -2030,2258 +3506,8 @@
         "doc_values": false
       },
       {
-        "name": "data.message.index",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.host",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.minimumRegisterIntervalInSeconds",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.key",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.response.detected_buildpack",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.instance_heartbeats.dea_guid",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.05c0e34f-fc43-42c0-9863-997c9fe370de.instance_heartbeats.instance",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.instance_heartbeats.version",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.vcap_application.version",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.vcap_application.space_id",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.response.buildpack_key",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.limits.mem",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.id",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.backtrace",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.bd61fbc2-caea-4a48-99d1-9476f02092bf.instance_heartbeats.state",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.environment_json.SPRING_PROFILES_DEFAULT",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.include_stats",
-        "type": "boolean",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.response.task_streaming_log_url",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.desired.version",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.services.credentials.password",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.services.credentials.hostname",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.desired.instances",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.egress_network_rules.ports",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.state_evacuating_timestamp",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.assocation",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.script",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8b4a9c3c-98aa-428b-8bb9-c38bb7b9c693.desired.instances",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.properties.services.credentials.tag",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.05c0e34f-fc43-42c0-9863-997c9fe370de.desired.state",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.server.container_grace_time",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.app_guid",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8b4a9c3c-98aa-428b-8bb9-c38bb7b9c693.instance_heartbeats.state",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.size",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.instance_heartbeats.state_timestamp",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.desired.state",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8b4a9c3c-98aa-428b-8bb9-c38bb7b9c693.instance_heartbeats.dea_guid",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.environment_json.JAVA_OPTS",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.RouteEndpoint.ApplicationId",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.droplet_sha1",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8dad5950-8ca2-4834-b599-a7ff8078cd77.desired.id",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.properties.services.name",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.server.unix_domain_permissions",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.executableFile",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.logging.level",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8dad5950-8ca2-4834-b599-a7ff8078cd77.instance_heartbeats.state",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.state_stopped_timestamp",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.vcap_application.uris",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.name",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.hosts",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8b4a9c3c-98aa-428b-8bb9-c38bb7b9c693.droplet",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.network.pool_network",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.server.allow_nested_warden",
-        "type": "boolean",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.servers",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.egress_network_rules.destination",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.pruneThresholdInSeconds",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.Error",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.version",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.domain_guid",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.version",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8b4a9c3c-98aa-428b-8bb9-c38bb7b9c693.instance_heartbeats.version",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8dad5950-8ca2-4834-b599-a7ff8078cd77.droplet",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.rules.destination",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.response.droplet_sha1",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.network.mtu",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.egress_network_rules.protocol",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.services.credentials.CF_LOGIN_SERVER_URL",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.vcap_application.space_name",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.bd61fbc2-caea-4a48-99d1-9476f02092bf.version",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.@job.host",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.logging.file",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.response.detected_start_command",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.version",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.instance_heartbeats.index",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.instance_heartbeats.droplet",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.enable_ssh",
-        "type": "boolean",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.sha1",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.services.credentials.name",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.services.credentials.username",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.environment_json.KIBANA_OAUTH2_CLIENT_ID",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8b4a9c3c-98aa-428b-8bb9-c38bb7b9c693.desired.id",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.vcap_application.application_uris",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.url",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.payload.is_duplicate",
-        "type": "boolean",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.start_command",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8dad5950-8ca2-4834-b599-a7ff8078cd77.instance_heartbeats.dea_guid",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.environment_json.SKIP_SSL_VALIDATION",
-        "type": "boolean",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.05c0e34f-fc43-42c0-9863-997c9fe370de.instance_heartbeats.state",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.desired.package_state",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.admin",
-        "type": "boolean",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.05c0e34f-fc43-42c0-9863-997c9fe370de.instance_heartbeats.state_timestamp",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.@shipper.name",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.environment_json.CF_API_URI",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.vcap_application.limits.mem",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.droplet",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.desired.instances",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.desired.id",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.logging.syslog",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.server.job_output_limit",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.port.pool_start_port",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.health_check_timeout",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.app_guid",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.desired.state",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.limits.fds",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.05c0e34f-fc43-42c0-9863-997c9fe370de.instance_heartbeats.droplet",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.buildpacks.url",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.request.key",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.properties.services.syslog_drain_url",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.05c0e34f-fc43-42c0-9863-997c9fe370de.instance_heartbeats.index",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.services.credentials.CF_CLIENT_ID",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8dad5950-8ca2-4834-b599-a7ff8078cd77.instance_heartbeats.droplet",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.server.container_rlimits.core",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.response.include",
-        "type": "boolean",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.start_command",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.bd61fbc2-caea-4a48-99d1-9476f02092bf.desired.version",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.services.credentials.jdbcUrl",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.space_guids",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.other_guid",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.properties.meta.console",
-        "type": "boolean",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.task_id",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.association",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.guid",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.cc_partition",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8dad5950-8ca2-4834-b599-a7ff8078cd77.desired.state",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.request.port",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.RouteEndpoint.Tags.component",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.bd61fbc2-caea-4a48-99d1-9476f02092bf.instance_heartbeats.version",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.production",
-        "type": "boolean",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.server.quota.disk_quota_enabled",
-        "type": "boolean",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.health_check_type",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.05c0e34f-fc43-42c0-9863-997c9fe370de.desired.package_state",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.status",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.desired.package_state",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.destination_key",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.method",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.RouteEndpoint.Addr",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.buildpack",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.05c0e34f-fc43-42c0-9863-997c9fe370de.desired.id",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.desired.version",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.billing_enabled",
-        "type": "boolean",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.05c0e34f-fc43-42c0-9863-997c9fe370de.instance_heartbeats.dea_guid",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.properties.buildpack_key",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.05c0e34f-fc43-42c0-9863-997c9fe370de.droplet",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.instance_heartbeats.state",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.vcap_application.limits.disk",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.rules.ports",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.vcap_application.application_version",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.console",
-        "type": "boolean",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.properties.meta.command",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.bd61fbc2-caea-4a48-99d1-9476f02092bf.desired.package_state",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.properties.resources.disk",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.payload.instance_guid",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8dad5950-8ca2-4834-b599-a7ff8078cd77.desired.instances",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.05c0e34f-fc43-42c0-9863-997c9fe370de.desired.version",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.services.credentials.CF_CLIENT_SECRET",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.environment_json.KIBANA_OAUTH2_CLIENT_SECRET",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.response.procfile.web",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.server.pidfile",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.services.tags",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.network.allow_host_access",
-        "type": "boolean",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.response.class",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.properties.services.credentials.uri",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8b4a9c3c-98aa-428b-8bb9-c38bb7b9c693.desired.package_state",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.instance_heartbeats.state_timestamp",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8b4a9c3c-98aa-428b-8bb9-c38bb7b9c693.version",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.uris",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.droplet",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.app_id",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.existing_quota_name",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8dad5950-8ca2-4834-b599-a7ff8078cd77.instance_heartbeats.instance",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.organization_guid",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.buildpacks.key",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.bd61fbc2-caea-4a48-99d1-9476f02092bf.desired.id",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.source",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.bd61fbc2-caea-4a48-99d1-9476f02092bf.droplet",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.@shipper.priority",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.instance_heartbeats.instance",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.properties.resources.memory",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.instances",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8dad5950-8ca2-4834-b599-a7ff8078cd77.instance_heartbeats.index",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.bd61fbc2-caea-4a48-99d1-9476f02092bf.desired.state",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.space_guid",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8b4a9c3c-98aa-428b-8bb9-c38bb7b9c693.instance_heartbeats.droplet",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.instance_heartbeats.droplet",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.bd61fbc2-caea-4a48-99d1-9476f02092bf.desired.instances",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8b4a9c3c-98aa-428b-8bb9-c38bb7b9c693.instance_heartbeats.instance",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.properties.resources.fds",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.file",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.allow_ssh",
-        "type": "boolean",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.instance_heartbeats.instance",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.port.port",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.egress_network_rules.ports",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.vcap_application.name",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.request.url",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.bd61fbc2-caea-4a48-99d1-9476f02092bf.instance_heartbeats.dea_guid",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8dad5950-8ca2-4834-b599-a7ff8078cd77.version",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.instance_heartbeats.state",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.response.response",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.process_id",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.bd61fbc2-caea-4a48-99d1-9476f02092bf.instance_heartbeats.index",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.96cb1abe-1de1-44e6-824c-881285bd2d42.instance_heartbeats.version",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.services.credentials.port",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.bucket",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.state_stopping_timestamp",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8b4a9c3c-98aa-428b-8bb9-c38bb7b9c693.instance_heartbeats.state_timestamp",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.args",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.vcap_application.application_name",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.server.container_klass",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.user.pool_start_uid",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8dad5950-8ca2-4834-b599-a7ff8078cd77.instance_heartbeats.version",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.app",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.egress_network_rules.ports",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8dad5950-8ca2-4834-b599-a7ff8078cd77.instance_heartbeats.state_timestamp",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.lineno",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8dad5950-8ca2-4834-b599-a7ff8078cd77.desired.version",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.states",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.services.credentials.CF_UAA_SERVER_URL",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.limits.disk",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.user.pool_size",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8b4a9c3c-98aa-428b-8bb9-c38bb7b9c693.desired.state",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.service_instance_guid",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.command",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.bd61fbc2-caea-4a48-99d1-9476f02092bf.instance_heartbeats.instance",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.data.services.plan",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.model",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.fiber_id",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.bd61fbc2-caea-4a48-99d1-9476f02092bf.instance_heartbeats.droplet",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.vcap_application.limits.fds",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.response.task_id",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8dad5950-8ca2-4834-b599-a7ff8078cd77.desired.package_state",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.server.container_depot_path",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.8b4a9c3c-98aa-428b-8bb9-c38bb7b9c693.instance_heartbeats.index",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.environment_json.NODE_ENV",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.source_path",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.instance_heartbeats.dea_guid",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.thread_id",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.port.pool_size",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.properties.environment",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.uri",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.organization_guids",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.server.unix_domain_path",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.start_command",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.bd61fbc2-caea-4a48-99d1-9476f02092bf.instance_heartbeats.state_timestamp",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.droplet",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.duration_seconds",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.desired.id",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.message.prod",
-        "type": "boolean",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.name",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.rules.protocol",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.guid",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.05c0e34f-fc43-42c0-9863-997c9fe370de.instance_heartbeats.version",
+        "name": "@source.syslog_program",
         "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.attributes.memory",
-        "type": "number",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -4289,7 +3515,7 @@
         "doc_values": false
       },
       {
-        "name": "data.message.stack",
+        "name": "thread_name",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -4298,7 +3524,7 @@
         "doc_values": false
       },
       {
-        "name": "data.responses.8b4a9c3c-98aa-428b-8bb9-c38bb7b9c693.desired.version",
+        "name": "audit_event_identity_zone_id",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -4307,7 +3533,7 @@
         "doc_values": false
       },
       {
-        "name": "data.polling_destination",
+        "name": "@loglevel",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -4316,7 +3542,7 @@
         "doc_values": false
       },
       {
-        "name": "data.properties.services.label",
+        "name": "audit_event_type",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -4325,7 +3551,7 @@
         "doc_values": false
       },
       {
-        "name": "data.server.container_rootfs_path",
+        "name": "audit_event_origin",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -4334,26 +3560,8 @@
         "doc_values": false
       },
       {
-        "name": "data.data.services.vendor",
+        "name": "audit_event_principal",
         "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.2dfe25d8-070c-46f0-8821-bf7d397de01e.instance_heartbeats.index",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": false
-      },
-      {
-        "name": "data.responses.05c0e34f-fc43-42c0-9863-997c9fe370de.desired.instances",
-        "type": "number",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -4361,7 +3569,7 @@
         "doc_values": false
       },
       {
-        "name": "data.data.droplet_uri",
+        "name": "audit_event_remote_address",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -4370,7 +3578,7 @@
         "doc_values": false
       },
       {
-        "name": "data.error",
+        "name": "audit_event_data",
         "type": "string",
         "count": 0,
         "scripted": false,

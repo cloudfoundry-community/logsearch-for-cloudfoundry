@@ -1,0 +1,79 @@
+<% require 'json' %>
+{
+  "title": "collector - cpu_load_avg",
+  "description": "",
+  "hits": 0,
+  "columns": [
+    "@source.job_name",
+    "key",
+    "value_as_percentage"
+  ],
+  "sort": [
+    "@timestamp",
+    "desc"
+  ],
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "index": "[logstash-]YYYY.MM.DD",
+      "query": {
+        "query_string": {
+          "analyze_wildcard": true,
+          "query": "*"
+        }
+      },
+      "highlight": {
+        "pre_tags": [
+          "@kibana-highlighted-field@"
+        ],
+        "post_tags": [
+          "@/kibana-highlighted-field@"
+        ],
+        "fields": {
+          "*": {
+          }
+        },
+        "fragment_size": 2147483647
+      },
+      "filter": [
+        {
+          "meta": {
+            "disabled": false,
+            "index": "[logstash-]YYYY.MM.DD",
+            "key": "_type",
+            "negate": false,
+            "value": "gelf"
+          },
+          "query": {
+            "match": {
+              "_type": {
+                "query": "gelf",
+                "type": "phrase"
+              }
+            }
+          }
+        },
+        {
+          "meta": {
+            "disabled": false,
+            "index": "[logstash-]YYYY.MM.DD",
+            "key": "key",
+            "negate": false,
+            "value": "cpu_load_avg"
+          },
+          "query": {
+            "match": {
+              "key": {
+                "query": "cpu_load_avg",
+                "type": "phrase"
+              }
+            }
+          }
+        }
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}

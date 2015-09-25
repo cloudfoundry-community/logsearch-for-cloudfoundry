@@ -1,9 +1,27 @@
 input {
+	# Receive logs from firehose-to-syslog
 	tcp {
 		add_field => [ "type", "syslog" ]
 		host => "127.0.0.1"
 		port => "514"
 	}
+
+	# Receive logs from CF collector
+	gelf {
+                host => "127.0.0.1" 
+		port => 12201
+	}
+}
+
+filter {
+   # Cleanup collector gelf logs so they don't break downstream parsers
+	   if [facility] == "gelf-rb" {
+		   mutate {
+		     rename => { "tags" => "attributes" }
+		     add_field => { "type" => "gelf" }
+		     add_tag => "collector"
+		   }
+	   }
 }
 
 <% if 'DEBUG' == p('logstash.metadata_level') %>

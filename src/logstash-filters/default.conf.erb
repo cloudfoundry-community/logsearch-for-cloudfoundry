@@ -7,6 +7,8 @@ if [@type] in ["syslog", "relp"] and [syslog_program] == "doppler" {
 <%= File.read('src/logstash-filters/snippets/loggregator.conf') %>
 } else if [@type] in ["syslog", "relp"] and [syslog_program] == "vcap.uaa" {
 <%= File.read('src/logstash-filters/snippets/uaa.conf') %>
+} else if "collector" in [tags] {
+<%= File.read('src/logstash-filters/snippets/collector.conf') %>
 } else if [@type] in ["syslog", "relp"] and [syslog_program] =~ /vcap\..*/ {
 <%= File.read('src/logstash-filters/snippets/vcap.conf') %>
 }

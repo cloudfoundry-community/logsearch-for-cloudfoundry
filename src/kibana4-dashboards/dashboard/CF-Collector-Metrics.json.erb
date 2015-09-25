@@ -1,0 +1,124 @@
+<% require 'json' %>
+{
+  "title": "CF - Collector Metrics",
+  "hits": 0,
+  "description": "",
+  "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    [
+      {
+        "col": 1,
+        "id": "Collector-Value",
+        "row": 1,
+        "size_x": 9,
+        "size_y": 7,
+        "type": "visualization"
+      },
+      {
+        "col": 10,
+        "id": "Collector-Keys",
+        "row": 3,
+        "size_x": 3,
+        "size_y": 5,
+        "type": "visualization"
+      },
+      {
+        "col": 1,
+        "columns": [
+          "@source.name",
+          "key",
+          "value",
+          "value_percentage",
+          "value_as_time"
+        ],
+        "id": "collector",
+        "row": 8,
+        "size_x": 12,
+        "size_y": 7,
+        "sort": [
+          "@timestamp",
+          "desc"
+        ],
+        "type": "search"
+      },
+      {
+        "id": "collector-Jobs",
+        "type": "visualization",
+        "size_x": 3,
+        "size_y": 2,
+        "col": 10,
+        "row": 1
+      }
+    ]
+ENDOFFJSON
+%>",
+  "version": 1,
+  "timeRestore": false,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "filter": [
+        {
+          "meta": {
+            "disabled": false,
+            "index": "[logstash-]YYYY.MM.DD",
+            "key": "@source.job",
+            "negate": false,
+            "value": "DEA"
+          },
+          "query": {
+            "match": {
+              "@source.job": {
+                "query": "DEA",
+                "type": "phrase"
+              }
+            }
+          }
+        },
+        {
+          "meta": {
+            "disabled": true,
+            "index": "[logstash-]YYYY.MM.DD",
+            "key": "@source.job",
+            "negate": false,
+            "value": "CloudController"
+          },
+          "query": {
+            "match": {
+              "@source.job": {
+                "query": "CloudController",
+                "type": "phrase"
+              }
+            }
+          }
+        },
+        {
+          "meta": {
+            "disabled": true,
+            "index": "[logstash-]YYYY.MM.DD",
+            "key": "@source.job",
+            "negate": false,
+            "value": "Router"
+          },
+          "query": {
+            "match": {
+              "@source.job": {
+                "query": "Router",
+                "type": "phrase"
+              }
+            }
+          }
+        },
+        {
+          "query": {
+            "query_string": {
+              "analyze_wildcard": true,
+              "query": "*"
+            }
+          }
+        }
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}
