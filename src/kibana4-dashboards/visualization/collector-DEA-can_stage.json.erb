@@ -25,7 +25,7 @@
           "type": "avg",
           "schema": "metric",
           "params": {
-            "field": "value_percentage"
+            "field": "value_as_percentage"
           }
         },
         {
@@ -33,7 +33,7 @@
           "type": "terms",
           "schema": "segment",
           "params": {
-            "field": "@source.name",
+            "field": "@source.job_name",
             "size": 5,
             "order": "asc",
             "orderBy": "1"

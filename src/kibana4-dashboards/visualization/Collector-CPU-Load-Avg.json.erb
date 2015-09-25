@@ -29,7 +29,7 @@
           "type": "max",
           "schema": "metric",
           "params": {
-            "field": "value_percentage"
+            "field": "value_as_percentage"
           }
         },
         {
@@ -50,7 +50,7 @@
           "type": "terms",
           "schema": "group",
           "params": {
-            "field": "@source.name",
+            "field": "@source.job_name",
             "size": 5,
             "order": "desc",
             "orderBy": "1"

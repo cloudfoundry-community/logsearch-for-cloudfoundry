@@ -24,25 +24,25 @@
       {
         "col": 9,
         "id": "collector-Available-disk",
-        "row": 5,
+        "row": 3,
         "size_x": 4,
-        "size_y": 2,
+        "size_y": 3,
         "type": "visualization"
       },
       {
         "col": 1,
         "id": "Collector-CPU-Load-Avg",
-        "row": 5,
+        "row": 3,
         "size_x": 4,
-        "size_y": 2,
+        "size_y": 3,
         "type": "visualization"
       },
       {
         "col": 5,
         "id": "collector-Available-Memory",
-        "row": 5,
+        "row": 3,
         "size_x": 4,
-        "size_y": 2,
+        "size_y": 3,
         "type": "visualization"
       },
       {
@@ -54,25 +54,17 @@
         "type": "visualization"
       },
       {
-        "col": 1,
-        "id": "collector-dea_registry-lifecycle",
-        "row": 3,
-        "size_x": 12,
-        "size_y": 2,
-        "type": "visualization"
-      },
-      {
         "id": "collector",
         "type": "search",
         "size_x": 12,
         "size_y": 6,
         "col": 1,
-        "row": 7,
+        "row": 6,
         "columns": [
-          "@source.name",
+          "@source.job_name",
           "key",
           "value",
-          "value_percentage",
+          "value_as_percentage",
           "value_as_time"
         ],
         "sort": [
