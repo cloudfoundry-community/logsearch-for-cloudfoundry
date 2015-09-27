@@ -5,6 +5,16 @@ name: (( merge ))
 
 properties:
   <<: (( merge ))
+  collector:
+    deployment_name: CF
+    use_gelf: true
+    gelf:
+      address: 127.0.0.1
+  nats:
+    password: (( merge ))
+    user: (( merge ))
+    port: (( merge || 4222 ))
+    machines: (( merge ))
   curator:
     <<: (( merge ))
     elasticsearch_host: (( jobs.elasticsearch_master.networks.default.static_ips.[0] ))
@@ -113,6 +123,7 @@ jobs:
 - name: ingestor_firehose
   templates:
   - { release: logsearch-for-cloudfoundry, name: ingestor_cloudfoundry-firehose }
+  - { release: logsearch-for-cloudfoundry, name: collector }
   instances: 1
   resource_pool: medium
   networks:
