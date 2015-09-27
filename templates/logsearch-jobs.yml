@@ -35,6 +35,7 @@ properties:
   cloudfoundry:
     skip_ssl_validation: true
     system_domain: (( merge )) 
+    api_access_security_group: (( merge )) 
     firehose_port: (( merge ))
     firehose_user: (( merge ))
     firehose_password: (( merge ))

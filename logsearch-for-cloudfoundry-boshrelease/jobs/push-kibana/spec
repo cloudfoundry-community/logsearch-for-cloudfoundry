@@ -31,9 +31,14 @@ properties:
 
   cloudfoundry.system_domain:
     description: "The Elastic Runtime system domain ( eg: system.10.244.0.34.xip.io )"
+  cloudfoundry.api_access_security_group:
+    description: "Name of the CF app security group that allows access to the CF API"
   cloudfoundry.system_org:
     description: "The organisation that owns the CF system domain"
     default: system
+  cloudfoundry.logsearch_space:
+    description: "Space where Kibana will be deployed"
+    default: logsearch
   cloudfoundry.skip_ssl_validation:
     description: "Set to true to skip SSL validation when connecting to CF (defaults to false)"
     default: false

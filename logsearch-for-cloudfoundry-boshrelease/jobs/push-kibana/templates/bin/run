@@ -32,14 +32,18 @@ cf create-org "$org" || true
 cf target -o "$org"
 
 # Create a new space, don't fail if it already exists
-cf create-space "elk-for-pcf" -o "$org" || true
+space=<%= p('cloudfoundry.logsearch_space') %>
+cf create-space "$space" -o "$org" || true
 
 # Target new space.
-cf target -o "$org" -s "elk-for-pcf"
+cf target -o "$org" -s "$space"
 
-# Ensure apps in elk-for-pcf have firewall access to elasticsearch
+# Ensure apps in $space have firewall access to elasticsearch
 cf create-security-group allow_access_to_elasticsearch /var/vcap/jobs/push-kibana/config/allow_access_to_elasticsearch.rules.json
-cf bind-security-group allow_access_to_elasticsearch "$org" elk-for-pcf
+cf bind-security-group allow_access_to_elasticsearch "$org" "$space"
+
+# Ensure apps in $space have firewall access to CF api 
+cf bind-security-group "<%= p('cloudfoundry.api_access_security_group') %>" "$org" "$space"
 
 # Create UAA client: <%= p('push-kibana.oauth2_client_id')%> if not already exists
 ACCESS_TOKEN=$(\
