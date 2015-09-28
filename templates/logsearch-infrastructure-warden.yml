@@ -6,6 +6,16 @@ meta:
     name: bosh-warden-boshlite-ubuntu-trusty-go_agent
     version: latest
 
+properties:
+  <<: (( merge ))
+  elasticsearch:
+    <<: (( merge ))
+    exec:
+      <<: (( merge ))
+      environment:
+        <<: (( merge ))
+        ES_HEAP_SIZE: 256M
+
 update:
   canaries: 1
   max_in_flight: 50

@@ -41,7 +41,6 @@ properties:
       minimum_master_nodes: 1
     host: (( jobs.elasticsearch_master.networks.default.static_ips.[0] ))  #NB This should contain all the elasticsearch_master IPs
     cluster_name: (( name ))
-    exec: ~
   cloudfoundry:
     skip_ssl_validation: true
     system_domain: (( merge )) 
