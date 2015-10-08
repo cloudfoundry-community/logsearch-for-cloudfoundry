@@ -7,6 +7,7 @@ meta:
     version: latest
   - name: logsearch-for-cloudfoundry
     version: latest
+  - <<: (( merge ))
   default_env:
     # Default vcap & root password on deployed VMs (ie c1oudc0w)
     # Generated using mkpasswd -m sha-512

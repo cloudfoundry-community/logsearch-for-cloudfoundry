@@ -24,6 +24,7 @@ properties:
     <<: (( merge ))
     debug: false
   logstash_ingestor:
+    <<: (( merge ))
     debug: false
     syslog:
       port: 514
@@ -136,3 +137,5 @@ jobs:
   resource_pool: tiny
   networks:
   - name: default
+
+- <<: ((merge))
