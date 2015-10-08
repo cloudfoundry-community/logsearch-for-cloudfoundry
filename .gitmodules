@@ -1,6 +1,9 @@
-[submodule "logsearch-for-cloudfoundry-boshrelease/src/firehose-to-syslog"]
-	path = logsearch-for-cloudfoundry-boshrelease/src/firehose-to-syslog
+[submodule "src/firehose-to-syslog"]
+	path = src/firehose-to-syslog
 	url = https://github.com/cloudfoundry-community/firehose-to-syslog.git
-[submodule "logsearch-for-cloudfoundry-boshrelease/src/collector"]
-	path = logsearch-for-cloudfoundry-boshrelease/src/collector
+[submodule "src/collector"]
+	path = src/collector
 	url = https://github.com/stayup-io/collector.git
+[submodule "src/logsearch-config/vendor/logsearch-boshrelease"]
+	path = src/logsearch-config/vendor/logsearch-boshrelease
+	url = https://github.com/logsearch/logsearch-boshrelease.git

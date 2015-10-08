@@ -9,7 +9,7 @@ describe LogStash::Filters::Grok do
 
   config <<-CONFIG
     filter {
-      #{File.read("vendor/logsearch-boshrelease/logstash-filters-default.conf")} # This simulates the default parsing that logsearch v19+ does
+      #{File.read("vendor/logsearch-boshrelease/src/logsearch-filters-common/target/logstash-filters-default.conf")}
       #{File.read("src/logstash-filters/snippets/vcap.conf")}
     }
   CONFIG

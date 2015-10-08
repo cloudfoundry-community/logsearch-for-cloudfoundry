@@ -1,3 +1,24 @@
+#BOSH ignores
+config/dev.yml
+config/private.yml
+config/settings.yml
+releases/*.tgz
+dev_releases
+blobs/*
+.blobs
+.dev_builds
+.vagrant
+.idea
+.DS_Store
+.final_builds/jobs/**/*.tgz
+.final_builds/packages/**/*.tgz
+*.swp
+*~
+*#
+#*
+tmp
+my*.yml
+
 #Ignore emacs jazz
 .#*
 #*
@@ -26,7 +47,7 @@ _yardoc
 doc/
 
 #This should be downloaded / linked
-vendor/logstash*
+src/logsearch-config/vendor/logstash*
 
 #logsearch-workspace artifact
 .bosh_config
