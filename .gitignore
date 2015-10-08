@@ -47,7 +47,7 @@ _yardoc
 doc/
 
 #This should be downloaded / linked
-vendor/logstash*
+src/logsearch-config/vendor/logstash*
 
 #logsearch-workspace artifact
 .bosh_config

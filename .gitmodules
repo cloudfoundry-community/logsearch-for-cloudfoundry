@@ -4,3 +4,6 @@
 [submodule "src/collector"]
 	path = src/collector
 	url = https://github.com/stayup-io/collector.git
+[submodule "src/logsearch-config/vendor/logsearch-boshrelease"]
+	path = src/logsearch-config/vendor/logsearch-boshrelease
+	url = https://github.com/logsearch/logsearch-boshrelease.git
