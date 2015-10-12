@@ -7,26 +7,6 @@ cli/cf-linux-amd64.tgz:
   object_id: 9dca5de1-de2c-442d-91d5-8c14a510a371
   sha: a5296502c3258d6e1701adfcce5f33b091f6d018
   size: 4939902
-cf-app-logs/cf-app-logs-0.0.2-SNAPSHOT.jar:
-  object_id: 8b258f61-9ad0-44f2-9522-b69212009095
-  sha: ff0847ab8b2e31198ca8dc161fb27beb9c9782ba
-  size: 34281013
-kibana-for-cf/kibana-4.1.0-snapshot-linux-x64.tar.gz:
-  object_id: 0fa871c7-a7bd-4afe-8d83-11c262cb4041
-  sha: 99949ff3c2e3486f62ff4f2998725b8863aac7ed
-  size: 25238338
-kibana-for-cf/kibana-4.1.1-snapshot-linux-x86.tar.gz:
-  object_id: 351cee49-f1d1-4268-9137-ee2786b3ac87
-  sha: 467ac079fe81e8eeaf54cf4551b2be003f0572fe
-  size: 10429710
-kibana-for-cf/kibana-4.2.0-snapshot-linux-x64-with-cf-authentication.tar.gz:
-  object_id: 8e596ad6-5060-43b8-a6ed-a433fcf095be
-  sha: 2bc5b5fa73e9775bfdb81d465508f29a7cf69c6e
-  size: 13699041
-kibana-for-cf/kibana-4.2.0-snapshot-linux-x64.tar.gz:
-  object_id: aa5e83fb-f81b-4cb9-bb47-604766672044
-  sha: 201e90d88142474db1fd2816ca15d79f147c9a3b
-  size: 13453492
 firehose-to-syslog-logstash/logstash-1.5.2.tar.gz:
   object_id: 0968e974-fe94-43d3-a78e-91d160d91de9
   sha: 92e4ce646ca6a1868bac56def5ddf096349ec0a6
@@ -47,3 +27,7 @@ ruby-2.1.7/bundler-1.9.4.gem:
   object_id: e88d06c9-45fb-4517-925c-f0ee1d116056
   sha: ea3f17a76a8249049b5589c9b5421af72189babc
   size: 244224
+kibana-for-cf/kibana-4.2.0-beta2-linux-x64.tar.gz:
+  object_id: 7ef004e1-287b-4478-be09-694ecc9c4550
+  sha: c320cfa81859d17e9e79cb6a84ab54f3539bdc10
+  size: 30325541

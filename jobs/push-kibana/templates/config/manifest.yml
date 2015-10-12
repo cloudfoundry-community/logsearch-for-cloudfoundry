@@ -5,7 +5,7 @@ applications:
   instances: <%= p('push-kibana.app_instances')%>
   domain: <%= p('cloudfoundry.system_domain')%>
   buildpack: nodejs_buildpack
-  command: CONFIG_PATH=$HOME/kibana.yml exec node $HOME/bin/kibana.js --port $PORT
+  command: $HOME/bin/kibana --port $PORT 
   env:
     NODE_ENV: production
     KIBANA_OAUTH2_CLIENT_ID: "<%= p('push-kibana.oauth2_client_id')%>"

@@ -12,8 +12,17 @@ export TMPDIR=/var/vcap/data/tmp
 # Assemble kibana + config files for pushing
 rm -rf $TMPDIR/kibana-for-cf
 mkdir -p $TMPDIR/kibana-for-cf
-cp -R /var/vcap/packages/kibana-for-cf/src/. $TMPDIR/kibana-for-cf
-cp /var/vcap/jobs/push-kibana/config/*.yml $TMPDIR/kibana-for-cf
+cp -R /var/vcap/packages/kibana-for-cf/. $TMPDIR/kibana-for-cf
+cp /var/vcap/jobs/push-kibana/config/manifest.yml $TMPDIR/kibana-for-cf/manifest.yml
+cp /var/vcap/jobs/push-kibana/config/kibana.yml $TMPDIR/kibana-for-cf/config/kibana.yml
+
+echo "Dumping kibana-for-cf/manifest.yml ... "
+cat $TMPDIR/kibana-for-cf/manifest.yml
+
+echo ""
+
+echo "Dumping kibana-for-cf/config/kibana.yml..."
+cat $TMPDIR/kibana-for-cf/config/kibana.yml
 
 # Change to assembled kibana deploy folder
 cd $TMPDIR/kibana-for-cf
