@@ -138,4 +138,3 @@ jobs:
   networks:
   - name: default
 
-- <<: ((merge))
