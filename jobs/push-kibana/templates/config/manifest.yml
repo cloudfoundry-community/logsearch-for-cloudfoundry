@@ -4,7 +4,7 @@ applications:
   memory: <%= p('push-kibana.app_memory')%>
   instances: <%= p('push-kibana.app_instances')%>
   domain: <%= p('cloudfoundry.system_domain')%>
-  buildpack: nodejs_buildpack
+  buildpack: binary_buildpack 
   command: $HOME/bin/kibana --port $PORT 
   env:
     NODE_ENV: production
