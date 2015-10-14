@@ -11,7 +11,9 @@ end
 properties:
   <<: (( merge ))
   logstash_parser:
-    filters: <%= files_to_escaped_string('target/logstash-filters-default.conf')  %>
+    <<: (( merge ))
+    filters: <%= files_to_escaped_string(['target/logstash-filters-default.conf','../../../logsearch-for-bosh/src/logsearch-addon/target/logstash-filters-default.conf'])  %>
   elasticsearch_config:
+    <<: (( merge ))
     templates:
       - logsearch-for-cloudfoundry: <%= files_to_escaped_string('target/elasticsearch-template.json') %> 

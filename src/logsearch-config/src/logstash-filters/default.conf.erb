@@ -1,14 +1,27 @@
-# Parse Cloud Foundry logs from loggregator (syslog)
-# see https://github.com/cloudfoundry/loggregator/blob/master/src/loggregator/sinks/syslogwriter/syslog_writer.go#L156
+# All logs start being sent to the unparsed index.  
+# The filters below will route them to the @index=app or @index=platform
+mutate {
+    add_field => { "[@metadata][index]" => "unparsed" }
+    add_field => { "[@metadata][type]" => "%{[@type]}" }
+    remove_field => "@type" 
+}
 
-if [@type] in ["syslog", "relp"] and [syslog_program] == "doppler" {
+if [@metadata][type] in ["syslog", "relp"] and [syslog_program] == "doppler" {
 <%= File.read('src/logstash-filters/snippets/doppler.conf') %>
-} else if [@type] in ["syslog", "relp"] and [@source.host] == "loggregator" {
+  if "cloudfoundry_doppler" in [tags] {
+    <%= File.read('src/logstash-filters/snippets/app_event.conf') %>
+  }
+} else if [@metadata][type] in ["syslog", "relp"] and [@source.host] == "loggregator" {
 <%= File.read('src/logstash-filters/snippets/loggregator.conf') %>
-} else if [@type] in ["syslog", "relp"] and [syslog_program] == "vcap.uaa" {
+} else if [@metadata][type] in ["syslog", "relp"] and [syslog_program] == "vcap.uaa" {
 <%= File.read('src/logstash-filters/snippets/uaa.conf') %>
 } else if "collector" in [tags] {
 <%= File.read('src/logstash-filters/snippets/collector.conf') %>
-} else if [@type] in ["syslog", "relp"] and [syslog_program] =~ /vcap\..*/ {
+} else if [@metadata][type] in ["syslog", "relp"] and [syslog_program] =~ /vcap\..*/ {
 <%= File.read('src/logstash-filters/snippets/vcap.conf') %>
+}
+
+#Drop unused fields
+mutate {
+  remove_field => [ "@version" ]
 }
