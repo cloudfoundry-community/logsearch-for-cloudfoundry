@@ -16,12 +16,13 @@ if [@metadata][type] in ["syslog", "relp"] and [syslog_program] == "doppler" {
 } else if [@metadata][type] in ["syslog", "relp"] and [syslog_program] == "vcap.uaa" {
 <%= File.read('src/logstash-filters/snippets/uaa.conf') %>
 } else if "collector" in [tags] {
-<%= File.read('src/logstash-filters/snippets/collector.conf') %>
+<%= File.read('src/logstash-filters/snippets/metrics-collector.conf') %>
 } else if [@metadata][type] in ["syslog", "relp"] and [syslog_program] =~ /vcap\..*/ {
 <%= File.read('src/logstash-filters/snippets/vcap.conf') %>
 }
 
-#Drop unused fields
+#Cleanup
 mutate {
+  rename => { "[tags]" => "[@tags]" }
   remove_field => [ "@version" ]
 }

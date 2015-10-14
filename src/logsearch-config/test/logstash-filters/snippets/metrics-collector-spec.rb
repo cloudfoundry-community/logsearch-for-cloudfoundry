@@ -69,22 +69,46 @@ describe LogStash::Filters::Grok do
 
     end # describe drop unused fields
 
+    describe "data should go in [metric]" do
+
+      sample(deepcopy(sample_msg)) do
+        metric = subject['metric']
+
+        insist { metric['key'] } == 'MetronAgent.memoryStats.numBytesAllocated'
+        insist { metric['value_int'] } == 641952 
+        insist { metric['value_float'] }.nil? 
+
+        insist { subject["key"] }.nil?
+        insist { subject["value"] }.nil?
+      end
+    
+      msg = deepcopy(sample_msg)
+      msg["value"] = "123.4"
+
+      sample(msg) do
+        metric = subject['metric']
+        insist { metric['key'] } == 'MetronAgent.memoryStats.numBytesAllocated'
+        insist { metric['value_int'] }.nil?
+        insist { metric['value_float'] } == 123.4 
+      end
+
+    end # describe data should go in [metric]
+
     describe "attributes should go in @source" do
 
       sample(deepcopy(sample_msg)) do
         source = subject['@source']
 
-        insist { source['job'] } == 'MetronAgent'
-        insist { source['index'] } == 0
+        insist { source['name'] } == 'MetronAgent/0'
+        insist { source['component'] } == 'MetronAgent'
+        insist { source['instance'] } == 0
         insist { source['deployment'] } == 'CF'
-        insist { source['ip'] } == '10.0.16.16'
-        insist { source['job_name'] } == 'MetronAgent/0'
-        insist { source['host'] } == '9903c27c-5209-4e38-a17b-3fb8693e6b7a'
-        insist { source['name'] }.nil?
-        insist { subject['host'] }.nil?
+        insist { source['host'] } == '10.0.16.16'
+
+        insist { subject["attributes"] }.nil?
       end
 
-    end # describe drop unused fields
+    end #describe attributes should go in @source 
 
     describe "When source['name'] doesn't exist" do
       msg = deepcopy(sample_msg)
@@ -92,11 +116,22 @@ describe LogStash::Filters::Grok do
 
       sample(msg) do
         source = subject['@source']
-        insist { source['job_name'] } == 'MetronAgent/0'
-        insist { source['name'] }.nil?
+        insist { source['name'] } == 'MetronAgent/0'
       end
 
-    end # describe drop unused fields
+    end # describe When source['name'] doesn't exist 
+
+    describe "index and type" do
+
+      sample(deepcopy(sample_msg)) do
+
+        insist { subject["@metadata"]["index"] } == "platform"
+        insist { subject["@metadata"]["type"] } == "metric"
+        insist { subject["@tags"] } == [ "collector", "metric" ] 
+
+      end
+
+    end # describe index and type
 
   end
 end
