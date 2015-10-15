@@ -18,7 +18,7 @@ properties:
     default: ".kibana"
   push-kibana.app_memory:
     description: "The Kibana log dashboard app memory quota"
-    default: 256M
+    default: "384M"
   push-kibana.app_instances:
     description: "The Kibana log dashboard app number of instances"
     default: 2
