@@ -7,8 +7,8 @@ mutate {
 }
 
 if [@metadata][type] in ["syslog", "relp"] and [syslog_program] == "doppler" {
-<%= File.read('src/logstash-filters/snippets/doppler.conf') %>
-  if "cloudfoundry_doppler" in [tags] {
+<%= File.read('src/logstash-filters/snippets/firehose.conf') %>
+  if "firehose" in [tags] {
     <%= File.read('src/logstash-filters/snippets/app_event.conf') %>
   }
 } else if [@metadata][type] in ["syslog", "relp"] and [@source.host] == "loggregator" {
