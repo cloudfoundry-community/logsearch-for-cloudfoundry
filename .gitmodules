@@ -7,3 +7,6 @@
 [submodule "src/logsearch-config/vendor/logsearch-boshrelease"]
 	path = src/logsearch-config/vendor/logsearch-boshrelease
 	url = https://github.com/logsearch/logsearch-boshrelease.git
+[submodule "src/kibana-cf_authentication"]
+	path = src/kibana-cf_authentication
+	url = https://github.com/stayup-io/kibana-cf_authentication.git

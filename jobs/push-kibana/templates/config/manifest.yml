@@ -6,6 +6,7 @@ applications:
   domain: <%= p('cloudfoundry.system_domain')%>
   buildpack: binary_buildpack 
   command: $HOME/bin/kibana --port $PORT 
+  timeout: 180 
   env:
     NODE_ENV: production
     KIBANA_OAUTH2_CLIENT_ID: "<%= p('push-kibana.oauth2_client_id')%>"
