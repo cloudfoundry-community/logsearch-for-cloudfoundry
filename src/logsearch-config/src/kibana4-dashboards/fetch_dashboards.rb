@@ -69,99 +69,103 @@ def export_kibana_config ( es_host, type, name )
   File.write( "#{type}/#{name}.json.erb", convert_to_erb( type, fetch_kibana_config( es_host, type, name ) ) )
 end
 
-export_kibana_config es_host, 'index-pattern' ,'[logstash-]YYYY.MM.DD' # For CF App dashboards
-export_kibana_config es_host, 'index-pattern' ,'logstash-*' # For CF component dashboards
+export_kibana_config es_host, 'index-pattern' ,'[logs-app-]YYYY.MM.DD' 
+export_kibana_config es_host, 'index-pattern' ,'[logs-platform-]YYYY.MM.DD' 
 
-export_kibana_config es_host, 'config' ,'4.2.0-snapshot'
+export_kibana_config es_host, 'config' ,'4.2.0-beta2'
 
-# CF App location
-export_kibana_config es_host, 'dashboard', 'CF-App-Location'
-export_kibana_config es_host, 'visualization', 'LogMessages-RTR-Map'
-export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-App-names'
-export_kibana_config es_host, 'visualization', 'LogMessages-RTR-by-IP-timezone'
+## CF App location
+#export_kibana_config es_host, 'dashboard', 'CF-App-Location'
+#export_kibana_config es_host, 'visualization', 'LogMessages-RTR-Map'
+#export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-App-names'
+#export_kibana_config es_host, 'visualization', 'LogMessages-RTR-by-IP-timezone'
+#
+## CF App RTR
+#export_kibana_config es_host, 'dashboard', 'CF-App-RTR'
+#export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-Count'
+#export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-App-names'
+#export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-Source-IP'
+#export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-Latency'
+#export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-HTTP-status'
+#export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-Top-25-UserAgents'
+#export_kibana_config es_host, 'search', 'LogMessages-RTR'
+#
+## CF App ERRORS
+#export_kibana_config es_host, 'visualization', 'LogMessages-ERROR-by-cf_app_name'
+#export_kibana_config es_host, 'visualization', 'LogMessages-ERROR-by-time'
+#export_kibana_config es_host, 'dashboard', 'CF-App-ERRORs'
+#export_kibana_config es_host, 'search', 'LogMessages-ERROR'
+#
+## CF
+#export_kibana_config es_host, 'dashboard', 'CF'
+#export_kibana_config es_host, 'visualization', 'CF:-Job-by-Log-Level'
+#export_kibana_config es_host, 'visualization', 'CF:-Jobs'
+#export_kibana_config es_host, 'visualization', 'CF:-Log-Level-by-Job-by-Template'
+#export_kibana_config es_host, 'search', 'tags:cloudfoundry_vcap'
+#
+## Redis
+#export_kibana_config es_host, 'dashboard', 'Redis-dashboard'
+#export_kibana_config es_host, 'visualization', 'Redis-log-severity'
+#export_kibana_config es_host, 'visualization', 'Redis-source-hosts'
+#export_kibana_config es_host, 'visualization', 'Redis-syslog-programs'
+#export_kibana_config es_host, 'search', 'Redis-logs-from-redis-and-redis-broker'
+#
+## RabbitMQ
+#export_kibana_config es_host, 'dashboard', 'RabbitMQ-dashboard'
+#export_kibana_config es_host, 'search', 'Rabbitmq-logs-from-rabbitmq,-HAProxy-and-rabbit-broker'
+#export_kibana_config es_host, 'visualization', 'RabbitMQ-source-hosts'
+#export_kibana_config es_host, 'visualization', 'RabbitMQ-all-logs'
+#
+##UAA Audit
+#export_kibana_config es_host, 'dashboard', 'UAA-Audit'
+#export_kibana_config es_host, 'search', 'UAA-Audit-*'
+#export_kibana_config es_host, 'visualization', 'UAA-Audit'
+#export_kibana_config es_host, 'visualization', 'UAA-Audit-audit_event_type'
+#export_kibana_config es_host, 'visualization', 'UAA-Audit-geoip-login'
+#
+## Overview
+#export_kibana_config es_host, 'dashboard', 'Overview'
+#export_kibana_config es_host, 'visualization', 'Overview-welcome'
+#export_kibana_config es_host, 'visualization', 'Overview-Data-services'
+#export_kibana_config es_host, 'visualization', 'Overview-app-logs'
+#export_kibana_config es_host, 'visualization', 'Overview-CF-logs'
+#
+## Mysql
+#export_kibana_config es_host, 'dashboard', 'Mysql-dashboard'
+#export_kibana_config es_host, 'search', 'Mysql-logs-from-mysql-and-mysql-broker'
+#export_kibana_config es_host, 'visualization', 'Mysql-syslog-programs'
+#export_kibana_config es_host, 'visualization', 'Mysql-source-hosts'
+#export_kibana_config es_host, 'visualization', 'Mysql-log-severity'
+#
+## CF Apps
+#export_kibana_config es_host, 'dashboard', 'CF-Apps'
+#export_kibana_config es_host, 'search', 'LogMessages'
+#export_kibana_config es_host, 'visualization', 'LogMessages-Count-by-source_type'
+#export_kibana_config es_host, 'visualization', 'LogMessages-response_time'
+#export_kibana_config es_host, 'visualization', 'LogMessages-by-cf_app_name'
+#
+# Platform - Metrics 
+export_kibana_config es_host, 'dashboard', 'Platform-Metrics'
+export_kibana_config es_host, 'search', 'metric'
+export_kibana_config es_host, 'visualization', 'metric-components'
+export_kibana_config es_host, 'visualization', 'metric-keys'
+export_kibana_config es_host, 'visualization', 'metric-median-of-value_int'
 
-# CF App RTR
-export_kibana_config es_host, 'dashboard', 'CF-App-RTR'
-export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-Count'
-export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-App-names'
-export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-Source-IP'
-export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-Latency'
-export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-HTTP-status'
-export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-Top-25-UserAgents'
-export_kibana_config es_host, 'search', 'LogMessages-RTR'
+# Platform - DEA Health 
+export_kibana_config es_host, 'dashboard', 'Platform-DEA-Health'
+export_kibana_config es_host, 'search', 'platform-metrics-available_disk_ratio'
+export_kibana_config es_host, 'search', 'platform-metrics-available_memory_ratio'
+export_kibana_config es_host, 'search', 'platform-metrics-cpu_load_avg'
+export_kibana_config es_host, 'search', 'platform-metrics-DEA-can_stage'
+export_kibana_config es_host, 'search', 'platform-metrics-DEA-reservable_stagers'
+export_kibana_config es_host, 'visualization', 'DEA-can-stage-questionmark-'
+export_kibana_config es_host, 'visualization', 'DEA-reservable-stagers'
+export_kibana_config es_host, 'visualization', 'CPU-load-average'
+export_kibana_config es_host, 'visualization', 'Available-memory-%'
+export_kibana_config es_host, 'visualization', 'Available-disk-%'
 
-# CF App ERRORS
-export_kibana_config es_host, 'visualization', 'LogMessages-ERROR-by-cf_app_name'
-export_kibana_config es_host, 'visualization', 'LogMessages-ERROR-by-time'
-export_kibana_config es_host, 'dashboard', 'CF-App-ERRORs'
-export_kibana_config es_host, 'search', 'LogMessages-ERROR'
+# App - Events 
+export_kibana_config es_host, 'dashboard', 'App-Events'
+export_kibana_config es_host, 'search', 'AppEvent'
+export_kibana_config es_host, 'visualization', 'App-events'
 
-# CF
-export_kibana_config es_host, 'dashboard', 'CF'
-export_kibana_config es_host, 'visualization', 'CF:-Job-by-Log-Level'
-export_kibana_config es_host, 'visualization', 'CF:-Jobs'
-export_kibana_config es_host, 'visualization', 'CF:-Log-Level-by-Job-by-Template'
-export_kibana_config es_host, 'search', 'tags:cloudfoundry_vcap'
-
-# Redis
-export_kibana_config es_host, 'dashboard', 'Redis-dashboard'
-export_kibana_config es_host, 'visualization', 'Redis-log-severity'
-export_kibana_config es_host, 'visualization', 'Redis-source-hosts'
-export_kibana_config es_host, 'visualization', 'Redis-syslog-programs'
-export_kibana_config es_host, 'search', 'Redis-logs-from-redis-and-redis-broker'
-
-# RabbitMQ
-export_kibana_config es_host, 'dashboard', 'RabbitMQ-dashboard'
-export_kibana_config es_host, 'search', 'Rabbitmq-logs-from-rabbitmq,-HAProxy-and-rabbit-broker'
-export_kibana_config es_host, 'visualization', 'RabbitMQ-source-hosts'
-export_kibana_config es_host, 'visualization', 'RabbitMQ-all-logs'
-
-#UAA Audit
-export_kibana_config es_host, 'dashboard', 'UAA-Audit'
-export_kibana_config es_host, 'search', 'UAA-Audit-*'
-export_kibana_config es_host, 'visualization', 'UAA-Audit'
-export_kibana_config es_host, 'visualization', 'UAA-Audit-audit_event_type'
-export_kibana_config es_host, 'visualization', 'UAA-Audit-geoip-login'
-
-# Overview
-export_kibana_config es_host, 'dashboard', 'Overview'
-export_kibana_config es_host, 'visualization', 'Overview-welcome'
-export_kibana_config es_host, 'visualization', 'Overview-Data-services'
-export_kibana_config es_host, 'visualization', 'Overview-app-logs'
-export_kibana_config es_host, 'visualization', 'Overview-CF-logs'
-
-# Mysql
-export_kibana_config es_host, 'dashboard', 'Mysql-dashboard'
-export_kibana_config es_host, 'search', 'Mysql-logs-from-mysql-and-mysql-broker'
-export_kibana_config es_host, 'visualization', 'Mysql-syslog-programs'
-export_kibana_config es_host, 'visualization', 'Mysql-source-hosts'
-export_kibana_config es_host, 'visualization', 'Mysql-log-severity'
-
-# CF Apps
-export_kibana_config es_host, 'dashboard', 'CF-Apps'
-export_kibana_config es_host, 'search', 'LogMessages'
-export_kibana_config es_host, 'visualization', 'LogMessages-Count-by-source_type'
-export_kibana_config es_host, 'visualization', 'LogMessages-response_time'
-export_kibana_config es_host, 'visualization', 'LogMessages-by-cf_app_name'
-
-# CF Collector Metrics
-export_kibana_config es_host, 'dashboard', 'CF-Collector-Metrics'
-export_kibana_config es_host, 'search', 'collector'
-export_kibana_config es_host, 'visualization', 'Collector-Value'
-export_kibana_config es_host, 'visualization', 'collector-Jobs'
-export_kibana_config es_host, 'visualization', 'Collector-Keys'
-
-# CF DEA Health 
-export_kibana_config es_host, 'dashboard', 'CF-DEA-Health'
-export_kibana_config es_host, 'search', 'collector'
-export_kibana_config es_host, 'search', 'collector-DEA-can_stage'
-export_kibana_config es_host, 'search', 'collector-DEA-reservable_stagers'
-export_kibana_config es_host, 'search', 'collector-available_disk_ratio'
-export_kibana_config es_host, 'search', 'collector-cpu_load_avg'
-export_kibana_config es_host, 'search', 'collector-available_memory_ratio'
-export_kibana_config es_host, 'visualization', 'collector-DEA-can_stage'
-export_kibana_config es_host, 'visualization', 'collector-DEA-reservable_stagers'
-export_kibana_config es_host, 'visualization', 'collector-Available-disk'
-export_kibana_config es_host, 'visualization', 'Collector-CPU-Load-Avg'
-export_kibana_config es_host, 'visualization', 'collector-Available-Memory'
-export_kibana_config es_host, 'visualization', 'collector-Job-Names'

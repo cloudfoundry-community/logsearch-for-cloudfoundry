@@ -83,13 +83,13 @@ describe LogStash::Filters::Grok do
       end
     
       msg = deepcopy(sample_msg)
-      msg["value"] = "123.4"
+      msg["value"] = "0.9583333333333334"
 
       sample(msg) do
         metric = subject['metric']
         insist { metric['key'] } == 'MetronAgent.memoryStats.numBytesAllocated'
         insist { metric['value_int'] }.nil?
-        insist { metric['value_float'] } == 123.4 
+        insist { metric['value_float'] } == 0.9583333333333334 
       end
 
     end # describe data should go in [metric]

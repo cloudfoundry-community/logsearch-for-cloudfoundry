@@ -1,0 +1,59 @@
+<% require 'json' %>
+{
+  "title": "App - Events",
+  "hits": 0,
+  "description": "",
+  "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    [
+      {
+        "col": 1,
+        "columns": [
+          "app_event.app_name",
+          "@message",
+          "app_event.actor_type",
+          "app_event.actor_name",
+          "app_event.actee_type",
+          "app_event.actee_name"
+        ],
+        "id": "AppEvent",
+        "row": 3,
+        "size_x": 12,
+        "size_y": 6,
+        "sort": [
+          "@timestamp",
+          "desc"
+        ],
+        "type": "search"
+      },
+      {
+        "col": 1,
+        "id": "App-events",
+        "row": 1,
+        "size_x": 12,
+        "size_y": 2,
+        "type": "visualization"
+      }
+    ]
+ENDOFFJSON
+%>",
+  "optionsJSON": "{\"darkTheme\":false}",
+  "version": 1,
+  "timeRestore": false,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "filter": [
+        {
+          "query": {
+            "query_string": {
+              "analyze_wildcard": true,
+              "query": "*"
+            }
+          }
+        }
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}

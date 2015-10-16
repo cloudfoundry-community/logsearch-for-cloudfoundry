@@ -1,0 +1,92 @@
+<% require 'json' %>
+{
+  "title": "metric - median value",
+  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "type": "line",
+      "params": {
+        "shareYAxis": true,
+        "addTooltip": true,
+        "addLegend": true,
+        "showCircles": true,
+        "smoothLines": false,
+        "interpolate": "linear",
+        "scale": "linear",
+        "drawLinesBetweenPoints": true,
+        "radiusRatio": 9,
+        "times": [
+    
+        ],
+        "addTimeMarker": false,
+        "defaultYExtents": false,
+        "setYExtents": false,
+        "yAxis": {
+        }
+      },
+      "aggs": [
+        {
+          "id": "1",
+          "type": "median",
+          "schema": "metric",
+          "params": {
+            "field": "metric.value_int",
+            "percents": [
+              50
+            ]
+          }
+        },
+        {
+          "id": "2",
+          "type": "date_histogram",
+          "schema": "segment",
+          "params": {
+            "field": "@timestamp",
+            "interval": "auto",
+            "customInterval": "2h",
+            "min_doc_count": 1,
+            "extended_bounds": {
+            }
+          }
+        },
+        {
+          "id": "3",
+          "type": "terms",
+          "schema": "group",
+          "params": {
+            "field": "@source.name",
+            "size": 25,
+            "order": "desc",
+            "orderBy": "_term"
+          }
+        },
+        {
+          "id": "4",
+          "type": "median",
+          "schema": "metric",
+          "params": {
+            "field": "metric.value_float",
+            "percents": [
+              50
+            ]
+          }
+        }
+      ],
+      "listeners": {
+      }
+    }
+ENDOFFJSON
+%>",
+  "description": "",
+  "savedSearchId": "metric",
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "filter": [
+    
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}

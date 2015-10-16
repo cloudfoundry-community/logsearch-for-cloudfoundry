@@ -1,0 +1,173 @@
+<% require 'json' %>
+{
+  "title": "[logs-platform-]YYYY.MM.DD",
+  "timeFieldName": "@timestamp",
+  "intervalName": "days",
+  "fields": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    [
+      {
+        "name": "_index",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": false,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@message",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": true,
+        "doc_values": false
+      },
+      {
+        "name": "geoip.location",
+        "type": "geo_point",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "@version",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": true
+      },
+      {
+        "name": "_source",
+        "type": "_source",
+        "count": 0,
+        "scripted": false,
+        "indexed": false,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "metric.value_int",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": true
+      },
+      {
+        "name": "@source.name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": true
+      },
+      {
+        "name": "metric.value_float",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": true
+      },
+      {
+        "name": "@tags",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": true
+      },
+      {
+        "name": "metric.key",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": true
+      },
+      {
+        "name": "@source.component",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": true
+      },
+      {
+        "name": "@timestamp",
+        "type": "date",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": true
+      },
+      {
+        "name": "@source.instance",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": true
+      },
+      {
+        "name": "@source.host",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": true
+      },
+      {
+        "name": "@source.deployment",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": true
+      },
+      {
+        "name": "_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": false,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "_type",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": false,
+        "analyzed": false,
+        "doc_values": false
+      },
+      {
+        "name": "_score",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": false,
+        "analyzed": false,
+        "doc_values": false
+      }
+    ]
+ENDOFFJSON
+%>"
+}

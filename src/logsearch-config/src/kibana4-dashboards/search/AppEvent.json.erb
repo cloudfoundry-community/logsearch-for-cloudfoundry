@@ -1,0 +1,66 @@
+<% require 'json' %>
+{
+  "title": "AppEvent",
+  "description": "",
+  "hits": 0,
+  "columns": [
+    "app_event.app_name",
+    "@message",
+    "app_event.actor_type",
+    "app_event.actor_name",
+    "app_event.actee_type",
+    "app_event.actee_name"
+  ],
+  "sort": [
+    "@timestamp",
+    "desc"
+  ],
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "index": "[logs-app-]YYYY.MM.DD",
+      "query": {
+        "query_string": {
+          "analyze_wildcard": true,
+          "query": "*"
+        }
+      },
+      "highlight": {
+        "pre_tags": [
+          "@kibana-highlighted-field@"
+        ],
+        "post_tags": [
+          "@/kibana-highlighted-field@"
+        ],
+        "fields": {
+          "*": {
+          }
+        },
+        "require_field_match": false,
+        "fragment_size": 2147483647
+      },
+      "filter": [
+        {
+          "meta": {
+            "negate": false,
+            "index": "[logs-app-]YYYY.MM.DD",
+            "key": "@source.component",
+            "value": "AppEvent",
+            "disabled": false
+          },
+          "query": {
+            "match": {
+              "@source.component": {
+                "query": "AppEvent",
+                "type": "phrase"
+              }
+            }
+          }
+        }
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}

@@ -1,0 +1,76 @@
+<% require 'json' %>
+{
+  "title": "DEA reservable stagers",
+  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "type": "area",
+      "params": {
+        "shareYAxis": true,
+        "addTooltip": true,
+        "addLegend": false,
+        "smoothLines": false,
+        "scale": "linear",
+        "interpolate": "linear",
+        "mode": "stacked",
+        "times": [
+    
+        ],
+        "addTimeMarker": false,
+        "defaultYExtents": false,
+        "setYExtents": false,
+        "yAxis": {
+        }
+      },
+      "aggs": [
+        {
+          "id": "1",
+          "type": "min",
+          "schema": "metric",
+          "params": {
+            "field": "metric.value_int"
+          }
+        },
+        {
+          "id": "2",
+          "type": "date_histogram",
+          "schema": "segment",
+          "params": {
+            "field": "@timestamp",
+            "interval": "auto",
+            "customInterval": "2h",
+            "min_doc_count": 1,
+            "extended_bounds": {
+            }
+          }
+        },
+        {
+          "id": "3",
+          "type": "terms",
+          "schema": "group",
+          "params": {
+            "field": "@source.name",
+            "size": 25,
+            "order": "desc",
+            "orderBy": "_term"
+          }
+        }
+      ],
+      "listeners": {
+      }
+    }
+ENDOFFJSON
+%>",
+  "description": "",
+  "savedSearchId": "platform-metrics-DEA-reservable_stagers",
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "filter": [
+    
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}
