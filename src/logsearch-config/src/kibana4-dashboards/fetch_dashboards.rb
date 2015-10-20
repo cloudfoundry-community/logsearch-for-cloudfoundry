@@ -74,11 +74,11 @@ export_kibana_config es_host, 'index-pattern' ,'[logs-platform-]YYYY.MM.DD'
 
 export_kibana_config es_host, 'config' ,'4.2.0-beta2'
 
-## CF App location
-#export_kibana_config es_host, 'dashboard', 'CF-App-Location'
-#export_kibana_config es_host, 'visualization', 'LogMessages-RTR-Map'
-#export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-App-names'
-#export_kibana_config es_host, 'visualization', 'LogMessages-RTR-by-IP-timezone'
+## App location
+export_kibana_config es_host, 'dashboard', 'CF-App-Location'
+export_kibana_config es_host, 'visualization', 'RTR-requests-map'
+export_kibana_config es_host, 'search', 'app-all'
+
 #
 ## CF App RTR
 #export_kibana_config es_host, 'dashboard', 'CF-App-RTR'
