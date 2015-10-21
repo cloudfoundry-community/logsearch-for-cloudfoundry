@@ -77,6 +77,8 @@ export_kibana_config es_host, 'config' ,'4.2.0-beta2'
 ## App location
 export_kibana_config es_host, 'dashboard', 'CF-App-Location'
 export_kibana_config es_host, 'visualization', 'RTR-requests-map'
+export_kibana_config es_host, 'visualization', 'Top-25-Apps-by-log-count'
+export_kibana_config es_host, 'visualization', 'RTR-requests-by-timezone'
 export_kibana_config es_host, 'search', 'app-all'
 
 #

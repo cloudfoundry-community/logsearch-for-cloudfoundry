@@ -60,6 +60,15 @@
         "doc_values": true
       },
       {
+        "name": "@source.org.id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": true
+      },
+      {
         "name": "@source.org.name",
         "type": "string",
         "count": 0,
@@ -69,7 +78,7 @@
         "doc_values": true
       },
       {
-        "name": "app_event.space_name",
+        "name": "app_event.event_type",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -78,7 +87,7 @@
         "doc_values": true
       },
       {
-        "name": "app_event.event_type",
+        "name": "app_event.space_name",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -114,8 +123,8 @@
         "doc_values": true
       },
       {
-        "name": "app_event.metadata.exit_status",
-        "type": "number",
+        "name": "@source.name",
+        "type": "string",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -123,7 +132,7 @@
         "doc_values": true
       },
       {
-        "name": "@source.name",
+        "name": "app_event.actee",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -141,7 +150,7 @@
         "doc_values": true
       },
       {
-        "name": "app_event.metadata.request.environment_json",
+        "name": "app_event.app_name",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -151,6 +160,15 @@
       },
       {
         "name": "app_event.actee_type",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": true
+      },
+      {
+        "name": "@source.space.id",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -169,141 +187,6 @@
       },
       {
         "name": "app_event.organization_guid",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": true
-      },
-      {
-        "name": "app_event.metadata.index",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": true
-      },
-      {
-        "name": "app_event.events_space_name",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": true
-      },
-      {
-        "name": "@source.app.name",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": true
-      },
-      {
-        "name": "@source.space.name",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": true
-      },
-      {
-        "name": "@source.component",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": true
-      },
-      {
-        "name": "app_event.metadata.instance",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": true
-      },
-      {
-        "name": "app_event.actor_name",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": true
-      },
-      {
-        "name": "app_event.app_id",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": true
-      },
-      {
-        "name": "@source.instance",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": true
-      },
-      {
-        "name": "app_event.metadata.request.instances",
-        "type": "number",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": true
-      },
-      {
-        "name": "app_event.metadata.request.name",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": true
-      },
-      {
-        "name": "@source.org.id",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": true
-      },
-      {
-        "name": "app_event.actee",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": true
-      },
-      {
-        "name": "app_event.app_name",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": true
-      },
-      {
-        "name": "@source.space.id",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -348,7 +231,7 @@
         "doc_values": true
       },
       {
-        "name": "app_event.metadata.reason",
+        "name": "@source.app.name",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -366,7 +249,7 @@
         "doc_values": true
       },
       {
-        "name": "app_event.metadata.exit_description",
+        "name": "@source.space.name",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -375,7 +258,16 @@
         "doc_values": true
       },
       {
-        "name": "app_event.events_actee_name",
+        "name": "@source.component",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": true
+      },
+      {
+        "name": "app_event.actor_name",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -402,7 +294,7 @@
         "doc_values": true
       },
       {
-        "name": "app_event.events_org_name",
+        "name": "app_event.app_id",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -411,7 +303,16 @@
         "doc_values": true
       },
       {
-        "name": "app_event.metadata.request.command",
+        "name": "@source.instance",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": true
+      },
+      {
+        "name": "geoip.timezone",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -438,15 +339,6 @@
         "doc_values": true
       },
       {
-        "name": "RTR.path",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": true
-      },
-      {
         "name": "RTR.status",
         "type": "number",
         "count": 0,
@@ -465,16 +357,7 @@
         "doc_values": true
       },
       {
-        "name": "RTR.vcap_request_id",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": true
-      },
-      {
-        "name": "RTR.response_time_sec",
+        "name": "geoip.longitude",
         "type": "number",
         "count": 0,
         "scripted": false,
@@ -484,15 +367,6 @@
       },
       {
         "name": "RTR.verb",
-        "type": "string",
-        "count": 0,
-        "scripted": false,
-        "indexed": true,
-        "analyzed": false,
-        "doc_values": true
-      },
-      {
-        "name": "RTR.referer",
         "type": "string",
         "count": 0,
         "scripted": false,
@@ -519,8 +393,8 @@
         "doc_values": true
       },
       {
-        "name": "RTR.hostname",
-        "type": "string",
+        "name": "RTR.body_bytes_sent",
+        "type": "number",
         "count": 0,
         "scripted": false,
         "indexed": true,
@@ -528,7 +402,7 @@
         "doc_values": true
       },
       {
-        "name": "RTR.body_bytes_sent",
+        "name": "geoip.latitude",
         "type": "number",
         "count": 0,
         "scripted": false,
@@ -539,6 +413,96 @@
       {
         "name": "RTR.response_time_ms",
         "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": true
+      },
+      {
+        "name": "geoip.continent_code",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": true
+      },
+      {
+        "name": "geoip.ip",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": true
+      },
+      {
+        "name": "geoip.country_code3",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": true
+      },
+      {
+        "name": "geoip.country_code2",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": true
+      },
+      {
+        "name": "RTR.path",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": true
+      },
+      {
+        "name": "geoip.country_name",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": true
+      },
+      {
+        "name": "RTR.vcap_request_id",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": true
+      },
+      {
+        "name": "RTR.response_time_sec",
+        "type": "number",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": true
+      },
+      {
+        "name": "RTR.referer",
+        "type": "string",
+        "count": 0,
+        "scripted": false,
+        "indexed": true,
+        "analyzed": false,
+        "doc_values": true
+      },
+      {
+        "name": "RTR.hostname",
+        "type": "string",
         "count": 0,
         "scripted": false,
         "indexed": true,
