@@ -1,13 +1,10 @@
 <% require 'json' %>
 {
-  "title": "app-all",
+  "title": "app-errors",
   "description": "",
   "hits": 0,
   "columns": [
-    "@level",
-    "@source.name",
-    "@source.app.name",
-    "@message"
+    "_source"
   ],
   "sort": [
     "@timestamp",
@@ -18,12 +15,6 @@
     "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
       "index": "[logs-app-]YYYY.MM.DD",
-      "query": {
-        "query_string": {
-          "analyze_wildcard": true,
-          "query": "*"
-        }
-      },
       "highlight": {
         "pre_tags": [
           "@kibana-highlighted-field@"
@@ -40,7 +31,13 @@
       },
       "filter": [
     
-      ]
+      ],
+      "query": {
+        "query_string": {
+          "query": "@level:(_eQT_INFO_eQT_,_eQT_ERROR_eQT_,_eQT_FATAL_eQT_)",
+          "analyze_wildcard": true
+        }
+      }
     }
 ENDOFFJSON
 %>"

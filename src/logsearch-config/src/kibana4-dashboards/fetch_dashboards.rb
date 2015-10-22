@@ -74,30 +74,45 @@ export_kibana_config es_host, 'index-pattern' ,'[logs-platform-]YYYY.MM.DD'
 
 export_kibana_config es_host, 'config' ,'4.2.0-beta2'
 
-## App location
+## App Overview 
+export_kibana_config es_host, 'dashboard', 'App-Overview'
+export_kibana_config es_host, 'visualization', 'App-links'
+export_kibana_config es_host, 'visualization', 'App-logs-by-type'
+export_kibana_config es_host, 'visualization', 'App-names'
+export_kibana_config es_host, 'search', 'app-all'
+
+## App Location
 export_kibana_config es_host, 'dashboard', 'CF-App-Location'
 export_kibana_config es_host, 'visualization', 'RTR-requests-map'
 export_kibana_config es_host, 'visualization', 'Top-25-Apps-by-log-count'
 export_kibana_config es_host, 'visualization', 'RTR-requests-by-timezone'
 export_kibana_config es_host, 'search', 'app-all'
 
-#
-## CF App RTR
-#export_kibana_config es_host, 'dashboard', 'CF-App-RTR'
-#export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-Count'
-#export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-App-names'
-#export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-Source-IP'
-#export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-Latency'
-#export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-HTTP-status'
-#export_kibana_config es_host, 'visualization', 'LogMessages-RTR:-Top-25-UserAgents'
-#export_kibana_config es_host, 'search', 'LogMessages-RTR'
-#
-## CF App ERRORS
-#export_kibana_config es_host, 'visualization', 'LogMessages-ERROR-by-cf_app_name'
-#export_kibana_config es_host, 'visualization', 'LogMessages-ERROR-by-time'
-#export_kibana_config es_host, 'dashboard', 'CF-App-ERRORs'
-#export_kibana_config es_host, 'search', 'LogMessages-ERROR'
-#
+# App - Events 
+export_kibana_config es_host, 'dashboard', 'App-Events'
+export_kibana_config es_host, 'search', 'AppEvent'
+export_kibana_config es_host, 'visualization', 'HTTP-traffic-by-response_time_ms-(first-10-apps)'
+export_kibana_config es_host, 'visualization', 'HTTP-response-times-(top-10-apps)'
+export_kibana_config es_host, 'visualization', 'HTTP-response-time-distribution-(-top-10-apps-)'
+export_kibana_config es_host, 'search', 'app-RTR'
+export_kibana_config es_host, 'search', 'app-RTR-response_time_ms-lt-2000'
+
+## App Performance
+export_kibana_config es_host, 'dashboard', 'App-Performance'
+export_kibana_config es_host, 'visualization', 'RTR-requests-map'
+export_kibana_config es_host, 'visualization', 'Top-25-Apps-by-log-count'
+export_kibana_config es_host, 'visualization', 'RTR-requests-by-timezone'
+export_kibana_config es_host, 'search', 'app-all'
+export_kibana_config es_host, 'search', 'app-RTR'
+
+## App Errors
+export_kibana_config es_host, 'dashboard', 'App-Errors'
+export_kibana_config es_host, 'visualization', 'Apps-with-errors'
+export_kibana_config es_host, 'visualization', 'HTTP-traffic-by-status-code'
+export_kibana_config es_host, 'search', 'app-errors'
+export_kibana_config es_host, 'search', 'app-RTR'
+export_kibana_config es_host, 'search', 'app-all'
+
 ## CF
 #export_kibana_config es_host, 'dashboard', 'CF'
 #export_kibana_config es_host, 'visualization', 'CF:-Job-by-Log-Level'
@@ -166,8 +181,4 @@ export_kibana_config es_host, 'visualization', 'CPU-load-average'
 export_kibana_config es_host, 'visualization', 'Available-memory-%'
 export_kibana_config es_host, 'visualization', 'Available-disk-%'
 
-# App - Events 
-export_kibana_config es_host, 'dashboard', 'App-Events'
-export_kibana_config es_host, 'search', 'AppEvent'
-export_kibana_config es_host, 'visualization', 'App-events'
 

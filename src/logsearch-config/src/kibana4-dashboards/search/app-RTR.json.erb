@@ -1,13 +1,14 @@
 <% require 'json' %>
 {
-  "title": "app-all",
+  "title": "app-RTR",
   "description": "",
   "hits": 0,
   "columns": [
-    "@level",
-    "@source.name",
     "@source.app.name",
-    "@message"
+    "RTR.verb",
+    "RTR.response_time_ms",
+    "RTR.status",
+    "RTR.path"
   ],
   "sort": [
     "@timestamp",
@@ -39,7 +40,23 @@
         "fragment_size": 2147483647
       },
       "filter": [
-    
+        {
+          "meta": {
+            "negate": false,
+            "index": "[logs-app-]YYYY.MM.DD",
+            "key": "@source.component",
+            "value": "RTR",
+            "disabled": false
+          },
+          "query": {
+            "match": {
+              "@source.component": {
+                "query": "RTR",
+                "type": "phrase"
+              }
+            }
+          }
+        }
       ]
     }
 ENDOFFJSON
