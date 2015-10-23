@@ -133,12 +133,6 @@ export_kibana_config es_host, 'search', 'app-all'
 #export_kibana_config es_host, 'visualization', 'RabbitMQ-source-hosts'
 #export_kibana_config es_host, 'visualization', 'RabbitMQ-all-logs'
 #
-##UAA Audit
-#export_kibana_config es_host, 'dashboard', 'UAA-Audit'
-#export_kibana_config es_host, 'search', 'UAA-Audit-*'
-#export_kibana_config es_host, 'visualization', 'UAA-Audit'
-#export_kibana_config es_host, 'visualization', 'UAA-Audit-audit_event_type'
-#export_kibana_config es_host, 'visualization', 'UAA-Audit-geoip-login'
 #
 ## Overview
 #export_kibana_config es_host, 'dashboard', 'Overview'
@@ -181,4 +175,9 @@ export_kibana_config es_host, 'visualization', 'CPU-load-average'
 export_kibana_config es_host, 'visualization', 'Available-memory-%'
 export_kibana_config es_host, 'visualization', 'Available-disk-%'
 
-
+#Platform - UAA Audit
+export_kibana_config es_host, 'dashboard', 'Platform-UAA-Audit'
+export_kibana_config es_host, 'search', 'platform-uaa-audit'
+export_kibana_config es_host, 'visualization', 'UAA-Audit-event-types'
+export_kibana_config es_host, 'visualization', 'UAA-Audit-Events-by-type'
+export_kibana_config es_host, 'visualization', 'UAA-Audit-event-locations'

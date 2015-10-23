@@ -1,0 +1,63 @@
+<% require 'json' %>
+{
+  "title": "platform-uaa-audit",
+  "description": "",
+  "hits": 0,
+  "columns": [
+    "UAA.type",
+    "UAA.origin",
+    "UAA.data"
+  ],
+  "sort": [
+    "@timestamp",
+    "desc"
+  ],
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "index": "[logs-platform-]YYYY.MM.DD",
+      "query": {
+        "query_string": {
+          "analyze_wildcard": true,
+          "query": "*"
+        }
+      },
+      "highlight": {
+        "pre_tags": [
+          "@kibana-highlighted-field@"
+        ],
+        "post_tags": [
+          "@/kibana-highlighted-field@"
+        ],
+        "fields": {
+          "*": {
+          }
+        },
+        "require_field_match": false,
+        "fragment_size": 2147483647
+      },
+      "filter": [
+        {
+          "meta": {
+            "disabled": false,
+            "index": "[logs-platform-]YYYY.MM.DD",
+            "key": "@tags",
+            "negate": false,
+            "value": "uaa-audit"
+          },
+          "query": {
+            "match": {
+              "@tags": {
+                "query": "uaa-audit",
+                "type": "phrase"
+              }
+            }
+          }
+        }
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}
