@@ -1,45 +1,38 @@
 <% require 'json' %>
 {
-  "title": "CF App ERRORs",
+  "title": "App - Location",
   "hits": 0,
   "description": "",
   "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     [
       {
-        "id": "LogMessages-ERROR-by-time",
+        "id": "RTR-requests-map",
         "type": "visualization",
         "size_x": 9,
-        "size_y": 3,
+        "size_y": 8,
         "col": 1,
         "row": 1
       },
       {
-        "id": "LogMessages-ERROR",
-        "type": "search",
-        "size_x": 12,
-        "size_y": 5,
-        "col": 1,
-        "row": 4,
-        "columns": [
-          "cf_app_name",
-          "msg"
-        ],
-        "sort": [
-          "@timestamp",
-          "desc"
-        ]
-      },
-      {
-        "id": "LogMessages-ERROR-by-cf_app_name",
+        "id": "RTR-requests-by-timezone",
         "type": "visualization",
         "size_x": 3,
         "size_y": 3,
+        "col": 10,
+        "row": 6
+      },
+      {
+        "id": "App-names",
+        "type": "visualization",
+        "size_x": 3,
+        "size_y": 5,
         "col": 10,
         "row": 1
       }
     ]
 ENDOFFJSON
 %>",
+  "optionsJSON": "{\"darkTheme\":false}",
   "version": 1,
   "timeRestore": false,
   "kibanaSavedObjectMeta": {
