@@ -82,7 +82,7 @@ export_kibana_config es_host, 'visualization', 'App-names'
 export_kibana_config es_host, 'search', 'app-all'
 
 ## App Location
-export_kibana_config es_host, 'dashboard', 'CF-App-Location'
+export_kibana_config es_host, 'dashboard', 'App-Location'
 export_kibana_config es_host, 'visualization', 'RTR-requests-map'
 export_kibana_config es_host, 'visualization', 'Top-25-Apps-by-log-count'
 export_kibana_config es_host, 'visualization', 'RTR-requests-by-timezone'
@@ -99,8 +99,8 @@ export_kibana_config es_host, 'search', 'app-RTR-response_time_ms-lt-2000'
 
 ## App Performance
 export_kibana_config es_host, 'dashboard', 'App-Performance'
+export_kibana_config es_host, 'visualization', 'App-names-and-response-times'
 export_kibana_config es_host, 'visualization', 'RTR-requests-map'
-export_kibana_config es_host, 'visualization', 'Top-25-Apps-by-log-count'
 export_kibana_config es_host, 'visualization', 'RTR-requests-by-timezone'
 export_kibana_config es_host, 'search', 'app-all'
 export_kibana_config es_host, 'search', 'app-RTR'
