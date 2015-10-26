@@ -113,6 +113,11 @@ export_kibana_config es_host, 'search', 'app-errors'
 export_kibana_config es_host, 'search', 'app-RTR'
 export_kibana_config es_host, 'search', 'app-all'
 
+## Bosh alerts
+export_kibana_config es_host, 'dashboard', 'Platform-BOSH-alerts'
+export_kibana_config es_host, 'search', 'platform-nats-hm_alert'
+export_kibana_config es_host, 'visualization', 'BOSH-Health-Monitor-Alerts'
+
 ## CF
 #export_kibana_config es_host, 'dashboard', 'CF'
 #export_kibana_config es_host, 'visualization', 'CF:-Job-by-Log-Level'
