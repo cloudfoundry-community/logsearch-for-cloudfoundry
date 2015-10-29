@@ -186,3 +186,12 @@ export_kibana_config es_host, 'search', 'platform-uaa-audit'
 export_kibana_config es_host, 'visualization', 'UAA-Audit-event-types'
 export_kibana_config es_host, 'visualization', 'UAA-Audit-Events-by-type'
 export_kibana_config es_host, 'visualization', 'UAA-Audit-event-locations'
+
+## Platform - Instance Metrics
+export_kibana_config es_host, 'dashboard', 'Platform-Instance-metrics'
+export_kibana_config es_host, 'search', 'platform-nats-hm_agent_heartbeat'
+export_kibana_config es_host, 'visualization', 'Instance-state'
+export_kibana_config es_host, 'visualization', 'Instance-load'
+export_kibana_config es_host, 'visualization', 'Instance-CPU'
+export_kibana_config es_host, 'visualization', 'Instance-memory'
+export_kibana_config es_host, 'visualization', 'Instance-disk'
