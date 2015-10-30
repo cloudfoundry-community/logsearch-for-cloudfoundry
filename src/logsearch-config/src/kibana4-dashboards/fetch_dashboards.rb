@@ -167,6 +167,13 @@ export_kibana_config es_host, 'visualization', 'metric-components'
 export_kibana_config es_host, 'visualization', 'metric-keys'
 export_kibana_config es_host, 'visualization', 'metric-median-of-value_int'
 
+# Platform - Health 
+export_kibana_config es_host, 'dashboard', 'Platform-Health'
+export_kibana_config es_host, 'search', 'platform-metrics-healthy'
+export_kibana_config es_host, 'search', 'platform-metrics-router.requests_per_sec'
+export_kibana_config es_host, 'visualization', 'Component-health'
+export_kibana_config es_host, 'visualization', 'Router-requests-slash-sec'
+
 # Platform - DEA Health 
 export_kibana_config es_host, 'dashboard', 'Platform-DEA-Health'
 export_kibana_config es_host, 'search', 'platform-metrics-available_disk_ratio'
