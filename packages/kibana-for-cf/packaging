@@ -5,7 +5,7 @@ set -u # report the usage of uninitialized variables
 # $BOSH_COMPILE_TARGET - where this package & spec'd source files are available
 # $BOSH_INSTALL_TARGET - where you copy/install files to be included in package
 
-tar -xzf kibana-for-cf/kibana-4.2.0-beta2-linux-x64.tar.gz --strip 1 -C ${BOSH_INSTALL_TARGET}
+tar -xzf kibana-for-cf/kibana-4.2.0-linux-x64.tar.gz --strip 1 -C ${BOSH_INSTALL_TARGET}
 
 #We've packaged the plugin source files from a git submodule, but Kibana will only install them from a .tgz.  So make one.
 tar czf $BOSH_COMPILE_TARGET/kibana-cf_authentication.tgz kibana-cf_authentication
