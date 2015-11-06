@@ -27,7 +27,7 @@ ruby-2.1.7/bundler-1.9.4.gem:
   object_id: e88d06c9-45fb-4517-925c-f0ee1d116056
   sha: ea3f17a76a8249049b5589c9b5421af72189babc
   size: 244224
-kibana-for-cf/kibana-4.2.0-beta2-linux-x64.tar.gz:
-  object_id: 7ef004e1-287b-4478-be09-694ecc9c4550
-  sha: c320cfa81859d17e9e79cb6a84ab54f3539bdc10
-  size: 30325541
+kibana-for-cf/kibana-4.2.0-linux-x64.tar.gz:
+  object_id: 925dc967-350d-452b-9942-174a4d93a25d
+  sha: 094e197c687012211ae0e291faf3111d47e714d9
+  size: 30647841
