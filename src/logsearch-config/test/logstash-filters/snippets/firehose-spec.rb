@@ -106,12 +106,12 @@ describe LogStash::Filters::Grok do
          sample("@type" => "syslog", "@message" => '<6>2015-03-17T01:22:43Z jumpbox.xxxxxxx.com doppler[6375]: {"cf_app_id":"ec2d33f6-fd1c-49a5-9a90-031454d1f1ac","level":"info","message_type":"OUT","msg":"cf-env-test.xxxxxxx.com - [17/03/2015:01:21:42 +0000] \"GET / HTTP/1.1\" 401 5087 \"-\" \"Mozilla/5.0\" 10.10.0.71:45298 x_forwarded_for:\"-\" vcap_request_id:c66716aa-fef1-482f-55c3-133be3ed8de7 response_time:0.003644458 app_id:ec2d33f6-fd1c-49a5-9a90-031454d1f1ac\n","source_instance":"0","source_type":"RTR","time":"2015-03-17T01:22:43Z"}') do
            #puts subject.to_hash.to_yaml
            insist { subject["@tags"] } == [ 'syslog_standard', 'firehose' ]
-           insist { subject['@level'] } == "WARN" 
+           insist { subject['@level'] } == "WARN"
          end
          sample("@type" => "syslog", "@message" => '<6>2015-03-17T01:22:43Z jumpbox.xxxxxxx.com doppler[6375]: {"cf_app_id":"ec2d33f6-fd1c-49a5-9a90-031454d1f1ac","level":"info","message_type":"OUT","msg":"cf-env-test.xxxxxxx.com - [17/03/2015:01:21:42 +0000] \"GET / HTTP/1.1\" 503 5087 \"-\" \"Mozilla/5.0\" 10.10.0.71:45298 x_forwarded_for:\"-\" vcap_request_id:c66716aa-fef1-482f-55c3-133be3ed8de7 response_time:0.003644458 app_id:ec2d33f6-fd1c-49a5-9a90-031454d1f1ac\n","source_instance":"0","source_type":"RTR","time":"2015-03-17T01:22:43Z"}') do
            #puts subject.to_hash.to_yaml
            insist { subject["@tags"] } == [ 'syslog_standard', 'firehose' ]
-           insist { subject['@level'] } == "ERROR" 
+           insist { subject['@level'] } == "ERROR"
          end
      end
    end
@@ -173,7 +173,7 @@ describe LogStash::Filters::Grok do
     end
 
     describe "Handle unicode newline character - \u2028" do
-	sample("@type"=>"syslog", "@message" => "<6>2015-08-18T10:01:35Z 15875963-9c45-4544-a5e8-f34bcd84c8a2 doppler[4241]: {\"cf_app_id\":\"ced331e4-43d8-42ff-9a16-5126a7ae9d3a\",\"cf_app_name\":\"quotes\",\"cf_org_id\":\"1e91cfa1-c754-4759-ae80-ce172b89ffd2\",\"cf_org_name\":\"stayUp\",\"cf_space_id\":\"1aba7f55-79f3-464b-8e53-9348c9e48997\",\"cf_space_name\":\"development\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"2015-08-18 10:01:35.834  WARN 33 --- [io-61013-exec-9] i.p.quotes.controller.QuoteController    : Handle Error: io.pivotal.quotes.exception.SymbolNotFoundException: Symbol not found: FOOBAR\\u2028\\tat io.pivotal.quotes.service.QuoteService.getQuote(QuoteService.java:52) ~[app/:na]\\u2028\\tat io.pivotal.quotes.controller.QuoteController.getQuote(QuoteController.java:58) ~[app/:na]\\u2028\\tat sun.reflect.GeneratedMethodAccessor38.invoke(Unknown Source) ~[na:na]\\u2028\\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_51-]\\u2028\\tat org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-embed-core-8.0.23.jar!/:8.0.23]\\u2028\\tat java.lang.Thread.run(Thread.java:745) [na:1.8.0_51-]\\u2028\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"App\",\"time\":\"2015-08-18T10:01:35Z\",\"timestamp\":1439892095835415236}") do
+	     sample("@type"=>"syslog", "@message" => "<6>2015-08-18T10:01:35Z 15875963-9c45-4544-a5e8-f34bcd84c8a2 doppler[4241]: {\"cf_app_id\":\"ced331e4-43d8-42ff-9a16-5126a7ae9d3a\",\"cf_app_name\":\"quotes\",\"cf_org_id\":\"1e91cfa1-c754-4759-ae80-ce172b89ffd2\",\"cf_org_name\":\"stayUp\",\"cf_space_id\":\"1aba7f55-79f3-464b-8e53-9348c9e48997\",\"cf_space_name\":\"development\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"2015-08-18 10:01:35.834  WARN 33 --- [io-61013-exec-9] i.p.quotes.controller.QuoteController    : Handle Error: io.pivotal.quotes.exception.SymbolNotFoundException: Symbol not found: FOOBAR\\u2028\\tat io.pivotal.quotes.service.QuoteService.getQuote(QuoteService.java:52) ~[app/:na]\\u2028\\tat io.pivotal.quotes.controller.QuoteController.getQuote(QuoteController.java:58) ~[app/:na]\\u2028\\tat sun.reflect.GeneratedMethodAccessor38.invoke(Unknown Source) ~[na:na]\\u2028\\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.8.0_51-]\\u2028\\tat org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-embed-core-8.0.23.jar!/:8.0.23]\\u2028\\tat java.lang.Thread.run(Thread.java:745) [na:1.8.0_51-]\\u2028\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"App\",\"time\":\"2015-08-18T10:01:35Z\",\"timestamp\":1439892095835415236}") do
 
         #puts subject.to_hash.to_yaml
 
@@ -183,6 +183,20 @@ describe LogStash::Filters::Grok do
       end
 
     end
-  end
 
+    describe "ContainerMetric" do
+      sample("@type"=>"syslog", "@message" => '<6>2015-11-11T17:09:08Z bc3ebfbe-e131-49d4-85e5-04eccc44e1ce doppler[5154]: {"cf_app_id":"9120a7f2-8a2d-4b86-bb1a-6d5a08c5f7c4","cf_app_name":"apps-manager-blue","cf_org_id":"0a7e5b2e-acb2-4d1c-ae1b-fc77b9abafc2","cf_org_name":"system","cf_space_id":"9698aaeb-1b0c-4a5b-9a31-739c752d990e","cf_space_name":"apps-manager","cpu_percentage":0.02542316766514131,"disk_bytes":286732288,"event_type":"ContainerMetric","instance_index":0,"level":"info","memory_bytes":111882240,"msg":"","origin":"rep","time":"2015-11-11T17:09:08Z"}') do
+
+       insist { subject["@tags"].sort } == [ 'syslog_standard', 'firehose', 'ContainerMetric' ].sort
+
+       insist { subject["@source"]["name"] } == "METRIC/0"
+
+       insist { subject["container"]["cpu_percentage"] } == 0.02542316766514131
+       insist { subject["container"]["disk_bytes"] } == 286732288
+       insist { subject["container"]["memory_bytes"] } == 111882240
+
+       insist { subject["instance_index"] }.nil?
+     end
+    end
+  end
 end
