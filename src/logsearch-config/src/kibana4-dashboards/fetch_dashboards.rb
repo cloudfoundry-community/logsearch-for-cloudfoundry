@@ -69,12 +69,12 @@ def export_kibana_config ( es_host, type, name )
   File.write( "#{type}/#{name}.json.erb", convert_to_erb( type, fetch_kibana_config( es_host, type, name ) ) )
 end
 
-export_kibana_config es_host, 'index-pattern' ,'[logs-app-]YYYY.MM.DD' 
-export_kibana_config es_host, 'index-pattern' ,'[logs-platform-]YYYY.MM.DD' 
+export_kibana_config es_host, 'index-pattern' ,'[logs-app-]YYYY.MM.DD'
+export_kibana_config es_host, 'index-pattern' ,'[logs-platform-]YYYY.MM.DD'
 
 export_kibana_config es_host, 'config' ,'4.2.0'
 
-## App Overview 
+## App Overview
 export_kibana_config es_host, 'dashboard', 'App-Overview'
 export_kibana_config es_host, 'visualization', 'App-links'
 export_kibana_config es_host, 'visualization', 'App-logs-by-type'
@@ -88,7 +88,7 @@ export_kibana_config es_host, 'visualization', 'Top-25-Apps-by-log-count'
 export_kibana_config es_host, 'visualization', 'RTR-requests-by-timezone'
 export_kibana_config es_host, 'search', 'app-all'
 
-# App - Events 
+# App - Events
 export_kibana_config es_host, 'dashboard', 'App-Events'
 export_kibana_config es_host, 'search', 'AppEvent'
 export_kibana_config es_host, 'visualization', 'HTTP-traffic-by-response_time_ms-(first-10-apps)'
@@ -117,6 +117,14 @@ export_kibana_config es_host, 'search', 'app-all'
 export_kibana_config es_host, 'dashboard', 'Platform-BOSH-alerts'
 export_kibana_config es_host, 'search', 'platform-nats-hm_alert'
 export_kibana_config es_host, 'visualization', 'BOSH-Health-Monitor-Alerts'
+
+## App container metrics
+export_kibana_config es_host, 'dashboard', 'App-Metrics'
+export_kibana_config es_host, 'search', 'app-containerMetric'
+export_kibana_config es_host, 'visualization', 'BOSH-Health-Monitor-Alerts'
+export_kibana_config es_host, 'visualization', 'App-CPU-Usage'
+export_kibana_config es_host, 'visualization', 'App-Disk-Usage'
+export_kibana_config es_host, 'visualization', 'App-Memory-Usage'
 
 ## CF
 #export_kibana_config es_host, 'dashboard', 'CF'
@@ -160,21 +168,21 @@ export_kibana_config es_host, 'visualization', 'BOSH-Health-Monitor-Alerts'
 #export_kibana_config es_host, 'visualization', 'LogMessages-response_time'
 #export_kibana_config es_host, 'visualization', 'LogMessages-by-cf_app_name'
 #
-# Platform - Metrics 
+# Platform - Metrics
 export_kibana_config es_host, 'dashboard', 'Platform-Metrics'
 export_kibana_config es_host, 'search', 'metric'
 export_kibana_config es_host, 'visualization', 'metric-components'
 export_kibana_config es_host, 'visualization', 'metric-keys'
 export_kibana_config es_host, 'visualization', 'metric-median-of-value_int'
 
-# Platform - Health 
+# Platform - Health
 export_kibana_config es_host, 'dashboard', 'Platform-Health'
 export_kibana_config es_host, 'search', 'platform-metrics-healthy'
 export_kibana_config es_host, 'search', 'platform-metrics-router.requests_per_sec'
 export_kibana_config es_host, 'visualization', 'Component-health'
 export_kibana_config es_host, 'visualization', 'Router-requests-slash-sec'
 
-# Platform - DEA Health 
+# Platform - DEA Health
 export_kibana_config es_host, 'dashboard', 'Platform-DEA-Health'
 export_kibana_config es_host, 'search', 'platform-metrics-available_disk_ratio'
 export_kibana_config es_host, 'search', 'platform-metrics-available_memory_ratio'

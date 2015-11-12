@@ -1,0 +1,65 @@
+<% require 'json' %>
+{
+  "title": "app-containerMetric",
+  "description": "",
+  "hits": 0,
+  "columns": [
+    "@source.app.name",
+    "@source.instance",
+    "container.cpu_percentage",
+    "container.disk_bytes",
+    "container.memory_bytes"
+  ],
+  "sort": [
+    "@timestamp",
+    "desc"
+  ],
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "index": "[logs-app-]YYYY.MM.DD",
+      "highlight": {
+        "pre_tags": [
+          "@kibana-highlighted-field@"
+        ],
+        "post_tags": [
+          "@/kibana-highlighted-field@"
+        ],
+        "fields": {
+          "*": {
+          }
+        },
+        "require_field_match": false,
+        "fragment_size": 2147483647
+      },
+      "filter": [
+        {
+          "meta": {
+            "negate": false,
+            "index": "[logs-app-]YYYY.MM.DD",
+            "key": "@source.component",
+            "value": "METRIC",
+            "disabled": false
+          },
+          "query": {
+            "match": {
+              "@source.component": {
+                "query": "METRIC",
+                "type": "phrase"
+              }
+            }
+          }
+        }
+      ],
+      "query": {
+        "query_string": {
+          "query": "*",
+          "analyze_wildcard": true
+        }
+      }
+    }
+ENDOFFJSON
+%>"
+  }
+}
