@@ -1,17 +1,42 @@
 <%
 require 'json'
 
-def render_insert_queries(type)
+def render_upsert_queries(type)
   combined = ""
   Dir.glob("src/kibana4-dashboards/#{type}/*.json.erb").each do |erb_file|
     name = File.basename(erb_file, ".json.erb")
-    combined += "{\"index\":{\"_index\":\".kibana\",\"_type\":\"#{type}\",\"_id\":\"#{name}\"}}\n#{JSON.parse(ERB.new(File.read(erb_file)).result(binding)).to_json}\n"
+    combined += "{\"delete\":{\"_index\":\".kibana\",\"_type\":\"#{type}\",\"_id\":\"#{name}\"}}\n"
+    combined += "{\"index\":{\"_index\":\".kibana\",\"_type\":\"#{type}\",\"_id\":\"#{name}\"}}\n"
+    combined += "#{JSON.parse(ERB.new(File.read(erb_file)).result(binding)).to_json}\n"
   end
   combined.chomp
 end
+def render_delete_queries(type, names)
+    combined = ""
+    names.each do |name|
+        combined += "{\"delete\":{\"_index\":\".kibana\",\"_type\":\"#{type}\",\"_id\":\"#{name}\"}}\n"
+    end
+    combined.chomp
+end
 %>
-<%= render_insert_queries('index-pattern') %>
-<%= render_insert_queries('config') %>
-<%= render_insert_queries('search') %>
-<%= render_insert_queries('dashboard') %>
-<%= render_insert_queries('visualization') %>
+<%= render_delete_queries('index-pattern', ['[logstash-]YYYY.MM.DD','logstash-*']) %>
+<%= render_delete_queries('dashboard', ['CF'\
+                                        ,'UAA-Audit'\
+                                        ,'Health-Monitor-Heartbeats'\
+                                        ,'Mysql-dashboard', 'Overview', 'RabbitMQ-dashboard', 'Redis-dashboard'\
+                                        ]) %>
+<%= render_delete_queries('search',    ['tags:cloudfoundryi'\
+                                        ,'UAA-Audit-*'\
+                                        ,'hm_agent_heartbeat'\
+                                        ,'AppEvent', 'metric'\
+                                        ]) %>
+<%= render_delete_queries('visualization', ['CF:-Jobs', 'CF:-Job-by-Log-Level', 'CF:-Log-Level-by-Job-by-Template'\
+                                            ,'UAA-Audit', 'UAA-Audit-audit_event_type','UAA-Audit-geoip-login'\
+                                            ,'hm_agent_hearbeat-jobs-and-job_state', 'hm_agent_heartbeat-job-load','hm_agent_heartbeat-vitals.mem.percent','hm_agent_hearbeat-disk-usage-percent'\
+                                            ,'hm_agent_hearbeat-non-running-jobs', 'hm_agent_hearbeat-vitals.cpu'\
+                                            ]) %>
+<%= render_upsert_queries('index-pattern') %>
+<%= render_upsert_queries('config') %>
+<%= render_upsert_queries('search') %>
+<%= render_upsert_queries('dashboard') %>
+<%= render_upsert_queries('visualization') %>

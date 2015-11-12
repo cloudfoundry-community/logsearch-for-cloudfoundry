@@ -167,6 +167,13 @@ export_kibana_config es_host, 'visualization', 'metric-components'
 export_kibana_config es_host, 'visualization', 'metric-keys'
 export_kibana_config es_host, 'visualization', 'metric-median-of-value_int'
 
+# Platform - Health 
+export_kibana_config es_host, 'dashboard', 'Platform-Health'
+export_kibana_config es_host, 'search', 'platform-metrics-healthy'
+export_kibana_config es_host, 'search', 'platform-metrics-router.requests_per_sec'
+export_kibana_config es_host, 'visualization', 'Component-health'
+export_kibana_config es_host, 'visualization', 'Router-requests-slash-sec'
+
 # Platform - DEA Health 
 export_kibana_config es_host, 'dashboard', 'Platform-DEA-Health'
 export_kibana_config es_host, 'search', 'platform-metrics-available_disk_ratio'
@@ -186,3 +193,13 @@ export_kibana_config es_host, 'search', 'platform-uaa-audit'
 export_kibana_config es_host, 'visualization', 'UAA-Audit-event-types'
 export_kibana_config es_host, 'visualization', 'UAA-Audit-Events-by-type'
 export_kibana_config es_host, 'visualization', 'UAA-Audit-event-locations'
+
+## Platform - Instance Metrics
+export_kibana_config es_host, 'dashboard', 'Platform-Instance-metrics'
+export_kibana_config es_host, 'search', 'platform-nats-hm_agent_heartbeat'
+export_kibana_config es_host, 'visualization', 'Instance-state'
+export_kibana_config es_host, 'visualization', 'Instance-load'
+export_kibana_config es_host, 'visualization', 'Instance-CPU'
+export_kibana_config es_host, 'visualization', 'Instance-memory'
+export_kibana_config es_host, 'visualization', 'Instance-disk'
+export_kibana_config es_host, 'visualization', 'Instance-names'
