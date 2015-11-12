@@ -19,6 +19,7 @@ def render_delete_queries(type, names)
     combined.chomp
 end
 %>
+<%= render_delete_queries('config', ['4.2.0-beta2']) %>
 <%= render_delete_queries('index-pattern', ['[logstash-]YYYY.MM.DD','logstash-*']) %>
 <%= render_delete_queries('dashboard', ['CF'\
                                         ,'UAA-Audit'\
