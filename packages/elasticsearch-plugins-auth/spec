@@ -1,0 +1,5 @@
+---
+name: elasticsearch-plugins-auth
+dependencies: []
+files:
+  - elasticsearch-plugins-auth/elasticsearch-authorization.zip
