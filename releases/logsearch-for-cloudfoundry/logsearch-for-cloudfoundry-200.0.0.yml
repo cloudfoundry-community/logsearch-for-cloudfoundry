@@ -1,0 +1,79 @@
+---
+packages:
+- name: cli
+  version: 2bb59769970d6b9c5c478984e622d4bd24ea4750
+  fingerprint: 2bb59769970d6b9c5c478984e622d4bd24ea4750
+  sha1: 0e7a305a3036bb26eca79f27d8c128242b022435
+  dependencies: []
+- name: collector
+  version: c9f77b6f84d393722c82fd081a46b8fd404c3459
+  fingerprint: c9f77b6f84d393722c82fd081a46b8fd404c3459
+  sha1: 42c3af2cd21bfa85072a1d2a329d2c45c28963a9
+  dependencies:
+  - ruby-2.1.7
+- name: common
+  version: e401816a4748292163679fafcbd8f818ed8154a5
+  fingerprint: e401816a4748292163679fafcbd8f818ed8154a5
+  sha1: 085c2febd4a6865e13ab0f8b5ed4c5e18c74e7e4
+  dependencies: []
+- name: elasticsearch-plugins-auth
+  version: 4931d96ae6af81feb4e28f2435a2d021a538a41b
+  fingerprint: 4931d96ae6af81feb4e28f2435a2d021a538a41b
+  sha1: ee6db652b4263408ab92f40ff28312552b3fb7a3
+  dependencies: []
+- name: firehose-to-syslog
+  version: 20ee03cda5e56d1ee122dcacc42cbbe405ea3993
+  fingerprint: 20ee03cda5e56d1ee122dcacc42cbbe405ea3993
+  sha1: b20c378d18293b1e8a6c187d1e51f4bfd32afb22
+  dependencies:
+  - golang1.4
+- name: firehose-to-syslog-java8
+  version: 2c1395e9bb8d610e2afaa7c2c39d1f373527ffb4
+  fingerprint: 2c1395e9bb8d610e2afaa7c2c39d1f373527ffb4
+  sha1: bacd479840d9eca813575fff5f467959ed12aa7e
+  dependencies: []
+- name: firehose-to-syslog-logstash
+  version: 2f9bd4c4cf1e4951bf97b12d2e4c65db2b407478
+  fingerprint: 2f9bd4c4cf1e4951bf97b12d2e4c65db2b407478
+  sha1: 15f745719b195b0071aa73971bdf9789f1b198bd
+  dependencies: []
+- name: golang1.4
+  version: f57ddbc8d55d7a0f08775bf76bb6a27dc98c7ea7
+  fingerprint: f57ddbc8d55d7a0f08775bf76bb6a27dc98c7ea7
+  sha1: 1514f2765093eb9e912469fbf9887e73ae2d2412
+  dependencies: []
+- name: kibana-for-cf
+  version: 16e1ec39023e8946783c6bdd7e6b8c37858eef4d
+  fingerprint: 16e1ec39023e8946783c6bdd7e6b8c37858eef4d
+  sha1: e9c8a3d1e1477ed34e870cc64266ddf358bade99
+  dependencies: []
+- name: ruby-2.1.7
+  version: c977026b967eab6fad2b03a820dca6f84a900f92
+  fingerprint: c977026b967eab6fad2b03a820dca6f84a900f92
+  sha1: 49f22e4751fa67823a8a166645f3aa153fde65b9
+  dependencies: []
+jobs:
+- name: collector
+  version: 5df62055d21a346ece38e1bd72b39a6facc9c7a5
+  fingerprint: 5df62055d21a346ece38e1bd72b39a6facc9c7a5
+  sha1: 5b87fbc48a009e670e4f8ade84d2f024cea0a61c
+- name: elasticsearch-plugins-auth
+  version: d9c21aa10e9576e5b108e011416a36cd8b18bffb
+  fingerprint: d9c21aa10e9576e5b108e011416a36cd8b18bffb
+  sha1: a900d2dfb5b90582adeb2ce03bbec6984f7b98f8
+- name: ingestor_cloudfoundry-firehose
+  version: 104d1e30ec3049d2be11c426cc07014f13dba29f
+  fingerprint: 104d1e30ec3049d2be11c426cc07014f13dba29f
+  sha1: fcd50cb6af38d30f5612b9e68735a699a9047882
+- name: push-kibana
+  version: d4484cf9886d6d51dd34de04b6a8089ed05ea759
+  fingerprint: d4484cf9886d6d51dd34de04b6a8089ed05ea759
+  sha1: 6702e7165bc664d442df721327f9546861d50b34
+license:
+  version: 45ba225fe5790e0633fb9a8e20be9efeea888f51
+  fingerprint: 45ba225fe5790e0633fb9a8e20be9efeea888f51
+  sha1: 2918df5d475946a84e10f336bba645a1154cc4d0
+commit_hash: 7d525f6e
+uncommitted_changes: true
+name: logsearch-for-cloudfoundry
+version: 200.0.0
