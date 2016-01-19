@@ -1,0 +1,11 @@
+---
+platform: linux
+
+image: docker:///logsearch/logsearch-testrunner
+
+inputs:
+- name: logsearch-for-cloudfoundry
+
+run:
+  path: logsearch-for-cloudfoundry/ci/test-filters.sh
+
