@@ -12,7 +12,7 @@ properties:
   <<: (( merge ))
   logstash_parser:
     <<: (( merge ))
-    filters: <%= files_to_escaped_string(['target/logstash-filters-default.conf','../../../logsearch-for-bosh/src/logsearch-addon/target/logstash-filters-default.conf'])  %>
+    filters: <%= files_to_escaped_string(['target/logstash-filters-default.conf'])  %>
   elasticsearch_config:
     <<: (( merge ))
     templates:
