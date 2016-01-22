@@ -1,0 +1,5 @@
+# abort script on any command that exits with a non zero value
+set -e
+set -x
+
+tar -czf $BOSH_INSTALL_TARGET/kibana-auth-plugin.tar.gz kibana-cf_authentication/*

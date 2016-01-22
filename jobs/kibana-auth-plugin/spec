@@ -1,0 +1,8 @@
+---
+name: kibana-auth-plugin
+templates: {}
+
+packages:
+- kibana-auth-plugin
+
+properties: {}

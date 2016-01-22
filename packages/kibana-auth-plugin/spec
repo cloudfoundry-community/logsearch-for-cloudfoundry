@@ -1,0 +1,7 @@
+---
+name: kibana-auth-plugin
+
+dependencies:
+
+files:
+- kibana-cf_authentication/**/*
