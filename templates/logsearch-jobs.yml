@@ -30,7 +30,7 @@ properties:
     debug: false
     syslog:
       port: 514
-  push-kibana:
+  create-uaa-client:
     app_name: logs
     oauth2_client_id: logsearch-for-cloudfoundry
     oauth2_client_secret: (( merge )) 
@@ -131,9 +131,9 @@ jobs:
   networks:
   - name: default
 
-- name: push-kibana
+- name: create-uaa-client
   templates:
-  - { release: logsearch-for-cloudfoundry, name: push-kibana }
+  - { release: logsearch-for-cloudfoundry, name: create-uaa-client }
   lifecycle: errand
   instances: 1
   resource_pool: tiny

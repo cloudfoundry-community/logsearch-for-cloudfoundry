@@ -6,7 +6,7 @@ name: logsearch
 director_uuid: BOSH_DIRECTOR_UUID 
 
 properties:
-  push-kibana:
+  create-uaa-client:
     oauth2_client_secret: "c1oudc0w"
   cloudfoundry:
     skip_ssl_validation: true

@@ -4,12 +4,12 @@ set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
 set -x
 
-# Create UAA client: <%= p('push-kibana.oauth2_client_id')%> if not already exists
+# Create UAA client: <%= p('create-uaa-client.oauth2_client_id')%> if not already exists
 ACCESS_TOKEN=$(\
 curl -s -D - -k \
 -u admin:<%= p('cloudfoundry.admin_client_secret')%> \
 -H "Accept:application/json" \
--X POST 'https://uaa.<%= p('cloudfoundry.system_domain')%>/oauth/token?grant_type=client_credentials&response_type=token&client_id=admin&redirect_uri=http://dummy.com' \
+-X POST 'https://uaa.<%= p('cloudfoundry.system_domain') %>/oauth/token?grant_type=client_credentials&response_type=token&client_id=admin&redirect_uri=http://dummy.com' \
 | sed -n 's/.*access_token":"\([^"]*\).*/\1/p' \
 )
 
@@ -18,32 +18,32 @@ curl -s -k -w "%{http_code}" -o /dev/null \
 -H "Authorization:Bearer $ACCESS_TOKEN" \
 -H"Content-Type:application/json" \
 -H"Accept:application/json" \
--X GET https://uaa.<%= p('cloudfoundry.system_domain')%>/oauth/clients/<%= p('push-kibana.oauth2_client_id')%> \
+-X GET https://uaa.<%= p('cloudfoundry.system_domain') %>/oauth/clients/<%= p('create-uaa-client.oauth2_client_id') %> \
 )
 
 # Since we cannot update client_id and client_secret without keeping track of previous state we delete the old client, and recreate it.
 if [ $CLIENT_EXISTS != "404" ]; then
-   echo "Deleting old OAuth2 client: <%= p('push-kibana.oauth2_client_id')%>"
+   echo "Deleting old OAuth2 client: <%= p('create-uaa-client.oauth2_client_id')%>"
    curl -s -k -w "%{http_code}" \
 	-H "Authorization:Bearer $ACCESS_TOKEN" \
 	-H"Content-Type:application/json" \
 	-H"Accept:application/json" \
 	-XDELETE \
-	https://uaa.<%= p('cloudfoundry.system_domain') %>/oauth/clients/<%= p('push-kibana.oauth2_client_id') %>
+	https://uaa.<%= p('cloudfoundry.system_domain') %>/oauth/clients/<%= p('create-uaa-client.oauth2_client_id') %>
 fi
-echo "Creating new OAuth2 client: <%= p('push-kibana.oauth2_client_id')%>"
+echo "Creating new OAuth2 client: <%= p('create-uaa-client.oauth2_client_id') %>"
 	curl -s -k -H "Authorization:Bearer $ACCESS_TOKEN" \
 -H"Content-Type:application/json" \
 -H"Accept:application/json" \
 -d '{
-  "client_id" : "<%= p('push-kibana.oauth2_client_id')%>",
-  "client_secret" : "<%= p('push-kibana.oauth2_client_secret')%>",
+  "client_id" : "<%= p('create-uaa-client.oauth2_client_id') %>",
+  "client_secret" : "<%= p('create-uaa-client.oauth2_client_secret') %>",
   "scope" : ["openid","oauth.approvals","scim.userids","cloud_controller.read"],
   "authorities" : ["uaa.none"],
   "resource_ids" : ["none"],
   "authorized_grant_types" : ["authorization_code", "refresh_token"],
   "access_token_validity": 43200,
-  "redirect-uri": "https://<%= p('push-kibana.app_name')%>.<%= p('cloudfoundry.system_domain')%>/login"
+  "redirect-uri": "https://<%= p('create-uaa-client.app_name') %>.<%= p('cloudfoundry.system_domain') %>/login"
 }' \
--X POST https://uaa.<%= p('cloudfoundry.system_domain')%>/oauth/clients
+-X POST https://uaa.<%= p('cloudfoundry.system_domain') %>/oauth/clients
 
