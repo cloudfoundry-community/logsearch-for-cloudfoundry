@@ -14,8 +14,8 @@ properties:
   create-uaa-client.oauth2_client_secret:
     description: "The UAA kibana oauth2 client id's secret"
 
-  cloudfoundry.system_domain:
+  create-uaa-client.cloudfoundry.system_domain:
     description: "The Elastic Runtime system domain ( eg: system.10.244.0.34.xip.io )"
-  cloudfoundry.admin_client_secret:
+  create-uaa-client.cloudfoundry.admin_client_secret:
     description: "The UAA Admin client id's secret"
 
