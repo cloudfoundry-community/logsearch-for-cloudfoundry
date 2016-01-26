@@ -3,18 +3,6 @@ golang/go1.4.2.linux-amd64.tar.gz:
   object_id: d2a6c165-7467-4587-acf3-6bc44a1bd2df
   sha: 5020af94b52b65cc9b6f11d50a67e4bae07b0aff
   size: 62442704
-cli/cf-linux-amd64.tgz:
-  object_id: 9dca5de1-de2c-442d-91d5-8c14a510a371
-  sha: a5296502c3258d6e1701adfcce5f33b091f6d018
-  size: 4939902
-firehose-to-syslog-logstash/logstash-1.5.2.tar.gz:
-  object_id: 0968e974-fe94-43d3-a78e-91d160d91de9
-  sha: 92e4ce646ca6a1868bac56def5ddf096349ec0a6
-  size: 91217160
-firehose-to-syslog-java8/openjdk-1.8.0_40.tar.gz:
-  object_id: 2a24f27d-3fab-4c38-970d-b454e8952f39
-  sha: 590be5c6337753b28acc81d4843e98e6245b5261
-  size: 39630740
 ruby-2.1.7/ruby-2.1.7.tar.gz:
   object_id: cb1d8be8-3fae-4807-96d5-f994641e8fd5
   sha: e2e195a4a58133e3ad33b955c829bb536fa3c075

@@ -6,35 +6,9 @@ set -u # report the usage of uninitialized variables
 # Setup env vars and folders for the webapp_ctl script
 source /var/vcap/jobs/ingestor_cloudfoundry-firehose/helpers/ctl_setup.sh 'ingestor_cloudfoundry-firehose'
 
-export PORT=${PORT:-5000}
 export LANG=en_US.UTF-8
 
-export JAVA_HOME="/var/vcap/packages/firehose-to-syslog-java8"
-
-# 1 logstash worker / CPU core
-export LOGSTASH_WORKERS=`grep -c ^processor /proc/cpuinfo`
-
 case $1 in
-
-  start_syslog)
-    echo "Starting Logstash syslog ingestor on 127.0.0.1:514..."
-
-    pid_guard $PIDFILE_syslog $JOB_NAME_syslog
-
-    # store this processes pid in $PIDFILE, since the exec below doesn't daemonize
-    echo $$ > $PIDFILE_syslog
-
-    exec /var/vcap/packages/firehose-to-syslog-logstash/logstash/bin/logstash agent \
-         -f ${JOB_DIR}/config/logstash.conf -w ${LOGSTASH_WORKERS} \
-         >>$LOG_DIR/$JOB_NAME_syslog.stdout.log \
-         2>>$LOG_DIR/$JOB_NAME_syslog.stderr.log
-
-    ;;
-
-  stop_syslog)
-    kill_and_wait $PIDFILE_syslog
-
-    ;;
 
   start)
     echo "Starting CF firehose-to-syslog ingestor..."
@@ -47,19 +21,19 @@ case $1 in
        echo "net.ipv6.conf.lo.disable_ipv6 = 1" >> /etc/sysctl.conf
        sysctl -p
     fi
-
-    echo "Waiting 1m for syslog ingestor on: 127.0.0.1:514 to accept connections..."
+    
+    echo "Waiting 1m for syslog ingestor to accept connections..."
     n=0
     until [ $n -ge 12 ]
     do
-      nc -4 -z -v 127.0.0.1 514 2>&1 && break
+      nc -4 -z -v <%= p("ingestor_cloudfoundry-firehose.syslog.host") %> <%= p("ingestor_cloudfoundry-firehose.syslog.port") %> 2>&1 && break
       n=$[$n+1]
-      echo "Waiting for 127.0.0.1:514 to accept connections ($n of 12)..."
+      echo "Waiting for syslog to accept connections ($n of 12)..."
       sleep 5
     done
 
     if [ "$n" -ge "12" ]; then
-       echo "ERROR:  Cannot connect to syslog ingestor on: 127.0.0.1:514  Exiting..."
+       echo "ERROR:  Cannot connect to syslog ingestor. Exiting..."
        exit 1
     fi
 
@@ -74,7 +48,7 @@ case $1 in
         <% if p("cloudfoundry.skip_ssl_validation") %>--skip-ssl-validation <% end %> \
         --user=<%= p("cloudfoundry.firehose_user") %> \
         --password=<%= p("cloudfoundry.firehose_password") %> \
-        --syslog-server=127.0.0.1:514 \
+        --syslog-server=<%= p("ingestor_cloudfoundry-firehose.syslog.host") %>:<%= p("ingestor_cloudfoundry-firehose.syslog.port") %>\
         --events=<%= p("cloudfoundry.firehose_events") %> \
         --boltdb-path=$TMP_DIR/firehose-to-syslog.cache.db \
         --cc-pull-time=60s \<% if p("ingestor_cloudfoundry-firehose.debug") %>
@@ -89,7 +63,7 @@ case $1 in
 
     ;;
   *)
-    echo "Usage: ingestor_cloudfoundry-firehose_ctl {start|stop|start_syslog|stop_syslog}"
+    echo "Usage: ingestor_cloudfoundry-firehose_ctl {start|stop}"
 
     ;;
 

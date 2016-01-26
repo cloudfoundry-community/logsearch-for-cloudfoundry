@@ -1,8 +1,3 @@
-check process ingestor_cloudfoundry-firehose_syslog
-  with pidfile /var/vcap/sys/run/ingestor_cloudfoundry-firehose/ingestor_cloudfoundry-firehose_syslog.pid
-  start program "/var/vcap/jobs/ingestor_cloudfoundry-firehose/bin/monit_debugger ingestor_cloudfoundry-firehose_ctl '/var/vcap/jobs/ingestor_cloudfoundry-firehose/bin/ingestor_cloudfoundry-firehose_ctl start_syslog'"
-  stop program "/var/vcap/jobs/ingestor_cloudfoundry-firehose/bin/monit_debugger ingestor_cloudfoundry-firehose_ctl '/var/vcap/jobs/ingestor_cloudfoundry-firehose/bin/ingestor_cloudfoundry-firehose_ctl stop_syslog'"
-  group vcap
 check process ingestor_cloudfoundry-firehose
   with pidfile /var/vcap/sys/run/ingestor_cloudfoundry-firehose/ingestor_cloudfoundry-firehose.pid
   start program "/var/vcap/jobs/ingestor_cloudfoundry-firehose/bin/monit_debugger ingestor_cloudfoundry-firehose_ctl '/var/vcap/jobs/ingestor_cloudfoundry-firehose/bin/ingestor_cloudfoundry-firehose_ctl start'"
