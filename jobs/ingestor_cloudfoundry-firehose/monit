@@ -2,5 +2,4 @@ check process ingestor_cloudfoundry-firehose
   with pidfile /var/vcap/sys/run/ingestor_cloudfoundry-firehose/ingestor_cloudfoundry-firehose.pid
   start program "/var/vcap/jobs/ingestor_cloudfoundry-firehose/bin/monit_debugger ingestor_cloudfoundry-firehose_ctl '/var/vcap/jobs/ingestor_cloudfoundry-firehose/bin/ingestor_cloudfoundry-firehose_ctl start'"
   stop program "/var/vcap/jobs/ingestor_cloudfoundry-firehose/bin/monit_debugger ingestor_cloudfoundry-firehose_ctl '/var/vcap/jobs/ingestor_cloudfoundry-firehose/bin/ingestor_cloudfoundry-firehose_ctl stop'"
-  depends on ingestor_cloudfoundry-firehose_syslog
   group vcap
