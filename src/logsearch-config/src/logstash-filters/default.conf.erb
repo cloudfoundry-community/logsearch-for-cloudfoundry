@@ -12,8 +12,6 @@ if [@metadata][type] in ["syslog", "relp"] and [syslog_program] == "doppler" {
   if "firehose" in [tags] {
     <%= File.read('src/logstash-filters/snippets/app_event.conf') %>
   }
-} else if [@metadata][type] in ["syslog", "relp"] and [@source.host] == "loggregator" {
-<%= File.read('src/logstash-filters/snippets/loggregator.conf') %>
 } else if [@metadata][type] in ["syslog", "relp"] and [syslog_program] == "vcap.uaa" {
 <%= File.read('src/logstash-filters/snippets/uaa.conf') %>
 } else if "collector" in [tags] {
