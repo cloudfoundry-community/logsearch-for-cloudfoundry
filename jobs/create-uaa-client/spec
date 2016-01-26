@@ -1,5 +1,5 @@
 ---
-name: enable-authentication
+name: create-uaa-client
 packages: []
 templates:
   bin/run: bin/run
