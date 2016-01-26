@@ -1,7 +1,0 @@
----
-name: kibana-for-cf
-dependencies: []
-files: 
-  - kibana-for-cf/kibana-4.2.1-linux-x64.tar.gz
-  - kibana-patches/**/*
-  - kibana-cf_authentication/**/*
