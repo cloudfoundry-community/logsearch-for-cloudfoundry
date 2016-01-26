@@ -32,8 +32,8 @@ properties:
     description: "Comma seperated list of events you would like. Valid options are HttpStop, CounterEvent, Error, Heartbeat, HttpStart, HttpStartStop, LogMessage, ValueMetric, ContainerMetric"
     default: "LogMessage,Error,ContainerMetric"
 
-  ingestor_cloudfoundry-firehose.syslog.host:
+  syslog.host:
     description: IP or hostname of the syslog drain
-  ingestor_cloudfoundry-firehose.syslog.port:
+  syslog.port:
     description: port of the syslog drain
     default: 514

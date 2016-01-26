@@ -26,7 +26,7 @@ case $1 in
     n=0
     until [ $n -ge 12 ]
     do
-      nc -4 -z -v <%= p("ingestor_cloudfoundry-firehose.syslog.host") %> <%= p("ingestor_cloudfoundry-firehose.syslog.port") %> 2>&1 && break
+      nc -4 -z -v <%= p("syslog.host") %> <%= p("syslog.port") %> 2>&1 && break
       n=$[$n+1]
       echo "Waiting for syslog to accept connections ($n of 12)..."
       sleep 5
@@ -48,7 +48,7 @@ case $1 in
         <% if p("cloudfoundry.skip_ssl_validation") %>--skip-ssl-validation <% end %> \
         --user=<%= p("cloudfoundry.firehose_user") %> \
         --password=<%= p("cloudfoundry.firehose_password") %> \
-        --syslog-server=<%= p("ingestor_cloudfoundry-firehose.syslog.host") %>:<%= p("ingestor_cloudfoundry-firehose.syslog.port") %>\
+        --syslog-server=<%= p("syslog.host") %>:<%= p("syslog.port") %>\
         --events=<%= p("cloudfoundry.firehose_events") %> \
         --boltdb-path=$TMP_DIR/firehose-to-syslog.cache.db \
         --cc-pull-time=60s \<% if p("ingestor_cloudfoundry-firehose.debug") %>
