@@ -6,9 +6,10 @@ description: "The collector will discover the various components on the message 
 templates:
   collector_ctl.erb: bin/collector_ctl
   config.yml.erb: config/config.yml
+  helpers/ctl_setup.sh: helpers/ctl_setup.sh
+  helpers/ctl_utils.sh: helpers/ctl_utils.sh
 
 packages:
-- common
 - collector
 - ruby-2.1.7
 

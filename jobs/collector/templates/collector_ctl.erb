@@ -8,7 +8,7 @@ JOB_DIR=/var/vcap/jobs/collector
 
 PIDFILE=$RUN_DIR/collector.pid
 
-source /var/vcap/packages/common/utils.sh
+source $JOB_DIR/helpers/ctl_utils.sh
 
 case $1 in
 
