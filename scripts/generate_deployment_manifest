@@ -1,15 +1,16 @@
 #!/bin/sh
 
-templates=$(dirname $0)/templates
+templates=$(dirname $0)/../templates
 
 infrastructure=$1
 
 shift
 
 if [ "$infrastructure" != "aws" ] && \
+    [ "$infrastructure" != "openstack" ] && \
     [ "$infrastructure" != "warden" ] && \
     [ "$infrastructure" != "vsphere" ] ; then
-  echo "usage: ./generate_deployment_manifest <aws|warden|vsphere> [stubs...]"
+  echo "usage: ./generate_deployment_manifest <aws|openstack|warden|vsphere> [stubs...]"
   exit 1
 fi
 

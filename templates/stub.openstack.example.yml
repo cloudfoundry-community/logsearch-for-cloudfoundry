@@ -1,0 +1,44 @@
+---
+meta:
+  environment: (( name ))
+
+name: logsearch
+director_uuid: BOSH_DIRECTOR_UUID
+
+properties:
+  push-kibana:
+    oauth2_client_secret: "c1oudc0w"
+  cloudfoundry:
+    skip_ssl_validation: true
+    system_domain: 10.244.0.34.xip.io
+    firehose_port: 443
+    firehose_user: admin
+    firehose_password: admin
+    admin_username: admin
+    admin_password: admin
+    admin_client_secret: "admin-secret"
+    api_access_security_group: null
+  nats:
+    machines: null
+    user: null
+    password: null
+
+networks:
+- name: default
+  type: manual
+  subnets:
+  - range: 10.0.1.0/24
+    gateway: 10.0.1.1
+    cloud_properties:
+      net_id: NET-ID
+      security_groups: [bosh]
+    dns:
+    - 8.8.8.8
+    reserved:
+    - 10.0.1.2 - 10.0.1.6
+    static:
+    - 10.0.1.10 - 10.0.1.40
+
+- name: elastic
+  type: vip
+

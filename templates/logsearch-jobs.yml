@@ -39,11 +39,16 @@ properties:
   elasticsearch:
     <<: (( merge ))
     admin_ip: (( jobs.elasticsearch_master.networks.default.static_ips.[0] )) 
+    master_hosts: 
+    - (( jobs.elasticsearch_master.networks.default.static_ips.[0] ))
     log_level: INFO
     discovery:
       minimum_master_nodes: 1
     host: (( jobs.elasticsearch_master.networks.default.static_ips.[0] ))  #NB This should contain all the elasticsearch_master IPs
     cluster_name: (( name ))
+  elasticsearch_config:
+    elasticsearch:
+      host: (( jobs.elasticsearch_master.networks.default.static_ips.[0] ))
   cloudfoundry:
     skip_ssl_validation: true
     system_domain: (( merge )) 
@@ -125,7 +130,7 @@ jobs:
 - name: ingestor_firehose
   templates:
   - { release: logsearch-for-cloudfoundry, name: ingestor_cloudfoundry-firehose }
-  - { release: logsearch-for-cloudfoundry, name: collector }
+#  - { release: logsearch-for-cloudfoundry, name: collector }
   instances: 1
   resource_pool: medium
   networks:

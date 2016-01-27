@@ -1,0 +1,47 @@
+---
+meta:
+  environment: (( merge ))
+
+  stemcell:
+    name: bosh-openstack-kvm-ubuntu-trusty-go_agent
+    version: latest
+
+properties:
+  <<: (( merge ))
+  elasticsearch:
+    <<: (( merge ))
+    exec:
+      <<: (( merge ))
+      environment:
+        <<: (( merge ))
+        ES_HEAP_SIZE: 256M
+
+update:
+  canaries: 1
+  max_in_flight: 50
+  canary_watch_time: 1000-600000
+  update_watch_time: 1000-600000
+  serial: false
+
+compilation:
+  cloud_properties:
+    instance_type: (( meta.instance_type.compilation || "m1.small" ))
+
+resource_pools:
+- name: tiny
+  cloud_properties:
+    instance_type: (( meta.instance_type.tiny || "m1.tiny" ))
+    availability_zone: nova
+- name: medium
+  cloud_properties:
+    instance_type: (( meta.instance_type.medium || "m1.medium" ))
+    availability_zone: nova
+- name: high_memory
+  cloud_properties:
+    instance_type: (( meta.instance_type.high_mem || "m1.large" ))
+    availability_zone: nova
+- name: high_cpu
+  cloud_properties:
+    instance_type: (( meta.instance_type.high_cpu || "m1.large" ))
+    availability_zone: nova
+
