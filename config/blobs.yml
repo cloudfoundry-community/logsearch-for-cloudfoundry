@@ -1,8 +1,4 @@
 ---
-golang/go1.4.2.linux-amd64.tar.gz:
-  object_id: d2a6c165-7467-4587-acf3-6bc44a1bd2df
-  sha: 5020af94b52b65cc9b6f11d50a67e4bae07b0aff
-  size: 62442704
 ruby-2.1.7/ruby-2.1.7.tar.gz:
   object_id: cb1d8be8-3fae-4807-96d5-f994641e8fd5
   sha: e2e195a4a58133e3ad33b955c829bb536fa3c075
