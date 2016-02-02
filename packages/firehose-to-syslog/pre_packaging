@@ -18,8 +18,8 @@ go build -x
 
 popd
 
-mkdir bin
-cp src/github.com/cloudfoundry-community/firehose-to-syslog/firehose-to-syslog bin/
+mkdir -p firehose-to-syslog/bin
+cp src/github.com/cloudfoundry-community/firehose-to-syslog/firehose-to-syslog firehose-to-syslog/bin/
 
 # clean up
 rm -rf src
