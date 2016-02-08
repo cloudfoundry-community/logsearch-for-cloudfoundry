@@ -35,9 +35,9 @@ describe LogStash::Filters::Grok do
         insist { subject["syslog_pri"] }.nil?
         insist { subject["syslog_facility"] }.nil?
         insist { subject["syslog_facility_code"] }.nil?
-        insist { subject["syslog_message"] }.nil?
         insist { subject["syslog_severity"] }.nil?
         insist { subject["syslog_severity_code"] }.nil?
+        insist { subject["@message"] }.nil?
 
         insist { subject["@source"]["component"] } == "UAA"
         insist { subject["@source"]["host"] } == "10.0.16.19"
