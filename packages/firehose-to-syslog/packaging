@@ -2,18 +2,5 @@ set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
 set -x # be verbose
 
-REPO_NAME=github.com/cloudfoundry-community/firehose-to-syslog
+cp -r firehose-to-syslog/* $BOSH_INSTALL_TARGET
 
-REPO_DIR=${BOSH_INSTALL_TARGET}/src/${REPO_NAME}
-
-rm -rf $(dirname $REPO_DIR)
-mkdir -p $(dirname $REPO_DIR)
-mkdir -p $BOSH_INSTALL_TARGET/bin
-
-cp -a $(basename $REPO_NAME)/ $REPO_DIR
-
-export GOROOT=$(readlink -nf /var/vcap/packages/golang1.4)
-export GOPATH=$BOSH_INSTALL_TARGET:${REPO_DIR}/Godeps/_workspace
-export PATH=$GOROOT/bin:$PATH
-
-go install $REPO_NAME

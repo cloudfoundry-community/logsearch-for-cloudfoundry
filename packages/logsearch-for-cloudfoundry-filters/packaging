@@ -1,0 +1,6 @@
+# abort script on any command that exits with a non zero value
+set -e
+set -x
+
+cp logsearch-config/target/logstash-filters-default.conf $BOSH_INSTALL_TARGET
+

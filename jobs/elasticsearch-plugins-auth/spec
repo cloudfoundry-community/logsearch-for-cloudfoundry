@@ -1,8 +1,0 @@
----
-name: elasticsearch-plugins-auth
-templates: {}
-
-packages:
-- elasticsearch-plugins-auth
-
-properties: {}

@@ -2,12 +2,9 @@
 name: ingestor_cloudfoundry-firehose
 packages:
 - firehose-to-syslog
-- firehose-to-syslog-logstash
-- firehose-to-syslog-java8
 templates:
   bin/ingestor_cloudfoundry-firehose_ctl: bin/ingestor_cloudfoundry-firehose_ctl
   bin/monit_debugger: bin/monit_debugger
-  config/logstash.conf.erb: config/logstash.conf
   data/properties.sh.erb: data/properties.sh
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
@@ -34,24 +31,9 @@ properties:
   cloudfoundry.firehose_events:
     description: "Comma seperated list of events you would like. Valid options are HttpStop, CounterEvent, Error, Heartbeat, HttpStart, HttpStartStop, LogMessage, ValueMetric, ContainerMetric"
     default: "LogMessage,Error,ContainerMetric"
-  redis.host: 
-    description: Redis host of queue
-  redis.port: 
-    description: Redis port of queue
-    default: 6379
-  redis.key: 
-    description: Name of queue to pull messages from
-    default: logstash
-  ingestor.outputs:
-    description: |
-      A list of output plugins, with a hash of options for each of them. Please refer to example below.
-    example:
-      outputs:
-        - plugin: rabbitmq
-          options:
-            host: 192.168.1.1
-            user: logsearch
-            password: c1oudbunny
-            exchange_type: "direct"
-    default: [ { plugin: "redis", options : {} } ]
 
+  syslog.host:
+    description: IP or hostname of the syslog drain
+  syslog.port:
+    description: port of the syslog drain
+    default: 514
