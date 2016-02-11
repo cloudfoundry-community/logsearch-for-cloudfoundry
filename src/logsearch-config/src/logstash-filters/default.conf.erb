@@ -18,7 +18,6 @@ if [@metadata][type] in ["syslog", "relp"] and [syslog_program] == "doppler" {
 <%= File.read('src/logstash-filters/snippets/metrics-collector.conf') %>
 } else if "haproxy" in [tags] {
 <%= File.read('src/logstash-filters/snippets/haproxy.conf') %>
-}
 } else if [@metadata][type] in ["syslog", "relp"] and [syslog_program] =~ /vcap\..*/ {
 <%= File.read('src/logstash-filters/snippets/vcap.conf') %>
 }
