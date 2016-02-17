@@ -1,4 +1,4 @@
-# All logs start being sent to the unparsed index.  
+# All logs start being sent to the unparsed index.
 # The filters below will route them to the @index=app or @index=platform
 if ! [@metadata][index] {
     mutate {
@@ -22,7 +22,5 @@ if [@metadata][type] in ["syslog", "relp"] and [syslog_program] == "doppler" {
 
 #Cleanup
 mutate {
-  rename => { "[tags]" => "[@tags]" }
   remove_field => [ "@version" ]
-  remove_field => "@type" 
 }

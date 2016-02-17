@@ -13,7 +13,7 @@ describe LogStash::Filters::Grok do
 
   config <<-CONFIG
     filter {
-      #{File.read("vendor/logsearch-boshrelease/src/logsearch-filters-common/target/logstash-filters-default.conf")}
+      #{File.read("vendor/logsearch-boshrelease/src/logsearch-config/target/logstash-filters-default.conf")}
       #{File.read("target/logstash-filters-default.conf")}
     }
   CONFIG
@@ -24,8 +24,8 @@ describe LogStash::Filters::Grok do
       sample("@type" => "syslog", "@message" => %q{<14>2015-08-25T04:57:46.033329+00:00 10.0.16.19 vcap.uaa [job=uaa-partition-7c53ed3ae2e7f5543b91 index=0]  [2015-08-25 04:57:46.033] uaa - 4176 [http-bio-8080-exec-4] ....  INFO --- Audit: UserAuthenticationSuccess ('admin'): principal=f63e0165-b85a-40d3-9ef7-78c6698ccb2c, origin=[remoteAddress=52.19.1.74, clientId=cf], identityZoneId=[uaa]}) do
 
         insist { subject["@metadata"]["type"] } == "uaa-audit"
-        insist { subject["@tags"] }.include?("uaa-audit")
-        insist { subject["@tags"] }.does_not_include?("fail/cloudfoundry/uaa-audit")
+        insist { subject["tags"] }.include?("uaa-audit")
+        insist { subject["tags"] }.does_not_include?("fail/cloudfoundry/uaa-audit")
 
         insist { subject["@timestamp"] } == Time.iso8601("2015-08-25T04:57:46.033Z")
         insist { subject["@level"] } == "INFO"
@@ -50,8 +50,8 @@ describe LogStash::Filters::Grok do
     describe "UserAuthenticationSuccess" do
       sample("@type" => "syslog", "@message" => %q{<14>2015-08-25T04:57:46.033329+00:00 10.0.16.19 vcap.uaa [job=uaa-partition-7c53ed3ae2e7f5543b91 index=0]  [2015-08-25 04:57:46.033] uaa - 4176 [http-bio-8080-exec-4] ....  INFO --- Audit: UserAuthenticationSuccess ('admin'): principal=f63e0165-b85a-40d3-9ef7-78c6698ccb2c, origin=[remoteAddress=52.19.1.74, clientId=cf], identityZoneId=[uaa]}) do
 
-        insist { subject["@tags"] }.does_not_include?("fail/cloudfoundry/uaa-audit")
-        
+        insist { subject["tags"] }.does_not_include?("fail/cloudfoundry/uaa-audit")
+
         insist { subject["@timestamp"] } == Time.iso8601("2015-08-25T04:57:46.033Z")
         insist { subject["@level"] } == "INFO"
 
@@ -68,7 +68,7 @@ describe LogStash::Filters::Grok do
     describe "TokenIssuedEvent" do
       sample("@type" => "syslog", "@message" => %q{<14>2015-08-25T04:57:46.144106+00:00 10.0.16.19 vcap.uaa [job=uaa-partition-7c53ed3ae2e7f5543b91 index=0]  [2015-08-25 04:57:46.143] uaa - 4176 [http-bio-8080-exec-4] ....  INFO --- Audit: TokenIssuedEvent ('["cloud_controller.admin","cloud_controller.write","doppler.firehose","openid","scim.read","cloud_controller.read","password.write","scim.write"]'): principal=f63e0165-b85a-40d3-9ef7-78c6698ccb2c, origin=[client=cf, user=admin], identityZoneId=[uaa]}) do
 
-        insist { subject["@tags"] }.does_not_include?("fail/cloudfoundry/uaa-audit")
+        insist { subject["tags"] }.does_not_include?("fail/cloudfoundry/uaa-audit")
 
         insist { subject["@timestamp"] } == Time.iso8601("2015-08-25T04:57:46.143Z")
         insist { subject["@level"] } == "INFO"
@@ -86,7 +86,7 @@ describe LogStash::Filters::Grok do
     describe "UserNotFound" do
       sample("@type" => "syslog", "@message" => %q{<14>2015-08-26T06:44:05.744726+00:00 10.0.16.19 vcap.uaa [job=uaa-partition-7c53ed3ae2e7f5543b91 index=0]  [2015-08-26 06:44:05.744] uaa - 4159 [http-bio-8080-exec-7] ....  INFO --- Audit: UserNotFound (''): principal=1S0lQEF695QPAYN7mnBqQ0HpJVc=, origin=[remoteAddress=80.229.7.108], identityZoneId=[uaa]}) do
 
-        insist { subject["@tags"] }.does_not_include?("fail/cloudfoundry/uaa-audit")
+        insist { subject["tags"] }.does_not_include?("fail/cloudfoundry/uaa-audit")
 
         insist { subject["@timestamp"] } == Time.iso8601("2015-08-26T06:44:05.744Z")
         insist { subject["@level"] } == "INFO"
@@ -100,11 +100,11 @@ describe LogStash::Filters::Grok do
         insist { subject["UAA"]["identity_zone_id"] } == "uaa"
       end
     end
-    
+
     describe "extract remoteAddress" do
       sample("@type" => "syslog", "@message" => %q{<14>2015-08-28T05:57:02.867064+00:00 10.0.16.19 vcap.uaa [job=uaa-partition-7c53ed3ae2e7f5543b91 index=0]  [2015-08-28 05:57:02.866] uaa - 4181 [http-bio-8080-exec-10] ....  INFO --- Audit: ClientAuthenticationSuccess ('Client authentication success'): principal=null, origin=[remoteAddress=52.19.1.74], identityZoneId=[uaa]}) do
 
-        insist { subject["@tags"] }.does_not_include?("fail/cloudfoundry/uaa-audit")
+        insist { subject["tags"] }.does_not_include?("fail/cloudfoundry/uaa-audit")
 
         insist { subject["UAA"]["remote_address"] } == "52.19.1.74"
         insist { subject["geoip"]["ip"] } == "52.19.1.74"
@@ -114,7 +114,7 @@ describe LogStash::Filters::Grok do
 
 	#puts subject.to_hash.to_yaml
 
-        insist { subject["@tags"] }.does_not_include?("fail/cloudfoundry/uaa-audit")
+        insist { subject["tags"] }.does_not_include?("fail/cloudfoundry/uaa-audit")
 
         insist { subject["UAA"]["remote_address"] } == "80.229.7.108"
         insist { subject["geoip"]["ip"] } == "80.229.7.108"
@@ -124,7 +124,7 @@ describe LogStash::Filters::Grok do
 
 	#puts subject.to_hash.to_yaml
 
-        insist { subject["@tags"] }.does_not_include?("fail/cloudfoundry/uaa-audit")
+        insist { subject["tags"] }.does_not_include?("fail/cloudfoundry/uaa-audit")
 
         insist { subject["UAA"]["remote_address"] } == "52.17.158.141"
         insist { subject["geoip"]["ip"] } == "52.17.158.141"

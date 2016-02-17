@@ -47,7 +47,7 @@ describe LogStash::Filters::Grok do
 
   config <<-CONFIG
     filter {
-      #{File.read("vendor/logsearch-boshrelease/src/logsearch-filters-common/target/logstash-filters-default.conf")} 
+      #{File.read("vendor/logsearch-boshrelease/src/logsearch-config/target/logstash-filters-default.conf")}
       #{File.read("target/logstash-filters-default.conf")}
     }
   CONFIG
@@ -75,13 +75,13 @@ describe LogStash::Filters::Grok do
         metric = subject['metric']
 
         insist { metric['key'] } == 'MetronAgent.memoryStats.numBytesAllocated'
-        insist { metric['value_int'] } == 641952 
-        insist { metric['value_float'] }.nil? 
+        insist { metric['value_int'] } == 641952
+        insist { metric['value_float'] }.nil?
 
         insist { subject["key"] }.nil?
         insist { subject["value"] }.nil?
       end
-    
+
       msg = deepcopy(sample_msg)
       msg["value"] = "0.9583333333333334"
 
@@ -89,7 +89,7 @@ describe LogStash::Filters::Grok do
         metric = subject['metric']
         insist { metric['key'] } == 'MetronAgent.memoryStats.numBytesAllocated'
         insist { metric['value_int'] }.nil?
-        insist { metric['value_float'] } == 0.9583333333333334 
+        insist { metric['value_float'] } == 0.9583333333333334
       end
 
     end # describe data should go in [metric]
@@ -108,7 +108,7 @@ describe LogStash::Filters::Grok do
         insist { subject["attributes"] }.nil?
       end
 
-    end #describe attributes should go in @source 
+    end #describe attributes should go in @source
 
     describe "When source['name'] doesn't exist" do
       msg = deepcopy(sample_msg)
@@ -119,7 +119,7 @@ describe LogStash::Filters::Grok do
         insist { source['name'] } == 'MetronAgent/0'
       end
 
-    end # describe When source['name'] doesn't exist 
+    end # describe When source['name'] doesn't exist
 
     describe "index and type" do
 
@@ -127,7 +127,7 @@ describe LogStash::Filters::Grok do
 
         insist { subject["@metadata"]["index"] } == "platform"
         insist { subject["@metadata"]["type"] } == "metric"
-        insist { subject["@tags"] } == [ "collector", "metric" ] 
+        insist { subject["tags"] } == [ "collector", "metric" ]
 
       end
 
