@@ -83,7 +83,6 @@ describe "Firehose logs parsing rules" do
         #puts subject.to_hash.to_yaml
 
         it "adds firehose tag" do
-          ap subject
           expect(subject["tags"]).to include "firehose"
         end
 
