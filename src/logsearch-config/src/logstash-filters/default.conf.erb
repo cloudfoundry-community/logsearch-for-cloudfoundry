@@ -1,13 +1,5 @@
 <%= File.read('src/logstash-filters/snippets/firehose.conf') %>
-  if "firehose" in [tags] {
-    <%= File.read('src/logstash-filters/snippets/app_event.conf') %>
-  }
 <%= File.read('src/logstash-filters/snippets/uaa.conf') %>
-} else if "collector" in [tags] {
-<%= File.read('src/logstash-filters/snippets/metrics-collector.conf') %>
-} else if [@metadata][type] in ["syslog", "relp"] and [syslog_program] =~ /vcap\..*/ {
-<%= File.read('src/logstash-filters/snippets/vcap.conf') %>
-}
 
 #Cleanup
 mutate {
