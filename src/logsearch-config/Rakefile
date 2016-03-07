@@ -9,7 +9,6 @@ end
 desc "Builds filters & dashboards"
 task :build => :clean do
   puts "===> Building ..."
-  compile_erb 'src/logstash-filters/elasticsearch-template.json.erb', 'target/elasticsearch-template.json'
   compile_erb 'src/logstash-filters/default.conf.erb', 'target/logstash-filters-default.conf'
 
   puts "===> Artifacts:"
