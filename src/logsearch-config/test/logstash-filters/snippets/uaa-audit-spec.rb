@@ -89,7 +89,6 @@ describe "UAA Audit Spec Logs" do
         end
 
         it "sets @source.name" do
-          ap subject
           expect(subject["@source"]["name"]).to eq "uaa-partition-7c53ed3ae2e7f5543b91/0"
         end
         it "sets @source.instance" do
