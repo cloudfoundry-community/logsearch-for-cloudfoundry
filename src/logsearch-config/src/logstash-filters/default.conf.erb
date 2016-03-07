@@ -2,7 +2,6 @@
   if "firehose" in [tags] {
     <%= File.read('src/logstash-filters/snippets/app_event.conf') %>
   }
-} else if [@metadata][type] in ["syslog", "relp"] and [syslog_program] == "vcap.uaa" {
 <%= File.read('src/logstash-filters/snippets/uaa.conf') %>
 } else if "collector" in [tags] {
 <%= File.read('src/logstash-filters/snippets/metrics-collector.conf') %>
