@@ -1,13 +1,3 @@
-# All logs start being sent to the unparsed index.
-# The filters below will route them to the @index=app or @index=platform
-if ! [@metadata][index] {
-    mutate {
-        add_field => { "[@metadata][index]" => "unparsed" }
-        add_field => { "[@metadata][type]" => "%{[@type]}" }
-    }
-}
-
-if [@metadata][type] in ["syslog", "relp"] and [syslog_program] == "doppler" {
 <%= File.read('src/logstash-filters/snippets/firehose.conf') %>
   if "firehose" in [tags] {
     <%= File.read('src/logstash-filters/snippets/app_event.conf') %>
@@ -24,3 +14,4 @@ if [@metadata][type] in ["syslog", "relp"] and [syslog_program] == "doppler" {
 mutate {
   remove_field => [ "@version" ]
 }
+
