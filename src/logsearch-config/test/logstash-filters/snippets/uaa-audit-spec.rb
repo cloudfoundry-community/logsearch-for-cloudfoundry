@@ -1,135 +1,187 @@
 # encoding: utf-8
-require "logstash/devutils/rspec/spec_helper"
-require "logstash/filters/grok"
-require 'tempfile'
+require 'test/filter_test_helpers'
 
-module Enumerable
-  def does_not_include?(item)
-    !include?(item)
+describe "UAA Audit Spec Logs" do
+
+  before(:all) do
+    load_filters <<-CONFIG
+      filter {
+        #{File.read("src/logstash-filters/snippets/uaa.conf")}
+      }
+    CONFIG
   end
-end
-
-describe LogStash::Filters::Grok do
-
-  config <<-CONFIG
-    filter {
-      #{File.read("vendor/logsearch-boshrelease/src/logsearch-config/target/logstash-filters-default.conf")}
-      #{File.read("target/logstash-filters-default.conf")}
-    }
-  CONFIG
 
   describe "UAA Audit events" do
-
     describe "common fields" do
-      sample("@type" => "syslog", "@message" => %q{<14>2015-08-25T04:57:46.033329+00:00 10.0.16.19 vcap.uaa [job=uaa-partition-7c53ed3ae2e7f5543b91 index=0]  [2015-08-25 04:57:46.033] uaa - 4176 [http-bio-8080-exec-4] ....  INFO --- Audit: UserAuthenticationSuccess ('admin'): principal=f63e0165-b85a-40d3-9ef7-78c6698ccb2c, origin=[remoteAddress=52.19.1.74, clientId=cf], identityZoneId=[uaa]}) do
+      when_parsing_log(
+        "@type" => "syslog",
+        "syslog_program" => "vcap.uaa",
+        "@message" => "[2015-08-25 04:57:46.033] uaa - 4176 [http-bio-8080-exec-4] ....  INFO --- Audit: UserAuthenticationSuccess ('admin'): principal=f63e0165-b85a-40d3-9ef7-78c6698ccb2c, origin=[remoteAddress=52.19.1.74, clientId=cf], identityZoneId=[uaa]"
+      ) do
 
-        insist { subject["@metadata"]["type"] } == "uaa-audit"
-        insist { subject["tags"] }.include?("uaa-audit")
-        insist { subject["tags"] }.does_not_include?("fail/cloudfoundry/uaa-audit")
+        it "adds the uaa-audit tag" do
+          expect(subject["tags"]).to include "uaa-audit"
+        end
 
-        insist { subject["@timestamp"] } == Time.iso8601("2015-08-25T04:57:46.033Z")
-        insist { subject["@level"] } == "INFO"
+        it "sets @type to uaa-audit" do
+          expect(subject["@type"]).to eq "uaa-audit"
+        end
 
-        insist { subject["uaa_timestamp"] }.nil?
+        it "sets @level to the loglevel" do
+          expect(subject["@level"]).to eq "INFO"
+        end
 
-        insist { subject["syslog_pri"] }.nil?
-        insist { subject["syslog_facility"] }.nil?
-        insist { subject["syslog_facility_code"] }.nil?
-        insist { subject["syslog_severity"] }.nil?
-        insist { subject["syslog_severity_code"] }.nil?
-        insist { subject["@message"] }.nil?
+        it "sets @timestamp" do
+          expect(subject["@timestamp"]).to eq Time.iso8601("2015-08-25T03:57:46.033Z")
+        end
 
-        insist { subject["@source"]["component"] } == "UAA"
-        insist { subject["@source"]["host"] } == "10.0.16.19"
-        insist { subject["@source"]["name"] } == "uaa-partition-7c53ed3ae2e7f5543b91/0"
-        insist { subject["@source"]["instance"] } == 0
+        it "removes the original timestamp field" do
+          expect(subject["uaa_timestamp"]).to be_nil
+        end
 
+        it "sets @source.component" do
+          expect(subject["@source"]["component"]).to eq "UAA"
+        end
+
+        it "sets @source.name" do
+          expect(subject["@source"]["name"]).to eq "uaa-partition-7c53ed3ae2e7f5543b91/0"
+        end
+
+        it "sets @source.instance" do
+          expect(subject["@source"]["instance"]).to eq 0
+        end
+
+        it "extracts remote address" do
+          expect(subject["UAA"]["remote_address"]).to eq "52.19.1.74"
+        end
       end
     end
 
     describe "UserAuthenticationSuccess" do
-      sample("@type" => "syslog", "@message" => %q{<14>2015-08-25T04:57:46.033329+00:00 10.0.16.19 vcap.uaa [job=uaa-partition-7c53ed3ae2e7f5543b91 index=0]  [2015-08-25 04:57:46.033] uaa - 4176 [http-bio-8080-exec-4] ....  INFO --- Audit: UserAuthenticationSuccess ('admin'): principal=f63e0165-b85a-40d3-9ef7-78c6698ccb2c, origin=[remoteAddress=52.19.1.74, clientId=cf], identityZoneId=[uaa]}) do
+      when_parsing_log(
+        "@type" => "syslog",
+        "syslog_program" => "vcap.uaa",
+        "@message" => "[2015-08-25 04:57:46.033] uaa - 4176 [http-bio-8080-exec-4] ....  INFO --- Audit: UserAuthenticationSuccess ('admin'): principal=f63e0165-b85a-40d3-9ef7-78c6698ccb2c, origin=[remoteAddress=52.19.1.74, clientId=cf], identityZoneId=[uaa]"
+      ) do
 
-        insist { subject["tags"] }.does_not_include?("fail/cloudfoundry/uaa-audit")
+        it "adds the uaa-audit tag" do
+          expect(subject["tags"]).to include "uaa-audit"
+        end
 
-        insist { subject["@timestamp"] } == Time.iso8601("2015-08-25T04:57:46.033Z")
-        insist { subject["@level"] } == "INFO"
+        it "sets @type to uaa-audit" do
+          expect(subject["@type"]).to eq "uaa-audit"
+        end
 
-        insist { subject["UAA"]["pid"] } == 4176
-        insist { subject["UAA"]["thread_name"] } == "http-bio-8080-exec-4"
-        insist { subject["UAA"]["type"] } == "UserAuthenticationSuccess"
-        insist { subject["UAA"]["data"] } == "admin"
-        insist { subject["UAA"]["principal"] } == "f63e0165-b85a-40d3-9ef7-78c6698ccb2c"
-        insist { subject["UAA"]["origin"] } == ["remoteAddress=52.19.1.74", "clientId=cf"]
-        insist { subject["UAA"]["identity_zone_id"] } == "uaa"
+        it "sets @level to the loglevel" do
+          expect(subject["@level"]).to eq "INFO"
+        end
+
+        it "sets @timestamp" do
+          expect(subject["@timestamp"]).to eq Time.iso8601("2015-08-25T03:57:46.033Z")
+        end
+
+        it "removes the original timestamp field" do
+          expect(subject["uaa_timestamp"]).to be_nil
+        end
+
+        it "sets @source.component" do
+          expect(subject["@source"]["component"]).to eq "UAA"
+        end
+
+        it "sets @source.name" do
+          ap subject
+          expect(subject["@source"]["name"]).to eq "uaa-partition-7c53ed3ae2e7f5543b91/0"
+        end
+        it "sets @source.instance" do
+          expect(subject["@source"]["instance"]).to eq 0
+        end
+
+        it "extracts the UAA PID" do
+          expect(subject["UAA"]["pid"]).to eq 4176
+        end
+
+        it "extracts the thread name" do
+          expect(subject["UAA"]["thread_name"]).to eq "http-bio-8080-exec-4"
+        end
+
+        it "extracts the UAA log type" do
+          expect(subject["UAA"]["type"]).to eq "UserAuthenticationSuccess"
+        end
+
+        it "extracts the auth request data" do
+          expect(subject["UAA"]["data"]).to eq "admin"
+        end
+
+        it "extracts the principal" do
+          expect(subject["UAA"]["principal"]).to eq "f63e0165-b85a-40d3-9ef7-78c6698ccb2c"
+        end
+
+        it "extracts the request origin" do
+          expect(subject["UAA"]["origin"]).to eq ["remoteAddress=52.19.1.74", "clientId=cf"]
+        end
+
+        it "extracts the identity zone" do
+          expect(subject["UAA"]["identity_zone_id"]).to eq "uaa"
+        end
       end
     end
 
     describe "TokenIssuedEvent" do
-      sample("@type" => "syslog", "@message" => %q{<14>2015-08-25T04:57:46.144106+00:00 10.0.16.19 vcap.uaa [job=uaa-partition-7c53ed3ae2e7f5543b91 index=0]  [2015-08-25 04:57:46.143] uaa - 4176 [http-bio-8080-exec-4] ....  INFO --- Audit: TokenIssuedEvent ('["cloud_controller.admin","cloud_controller.write","doppler.firehose","openid","scim.read","cloud_controller.read","password.write","scim.write"]'): principal=f63e0165-b85a-40d3-9ef7-78c6698ccb2c, origin=[client=cf, user=admin], identityZoneId=[uaa]}) do
+      when_parsing_log(
+        "@type" => "syslog",
+        "syslog_program" => "vcap.uaa",
+        "@message" => '[2015-08-25 04:57:46.143] uaa - 4176 [http-bio-8080-exec-4] ....  INFO --- Audit: TokenIssuedEvent (\'["cloud_controller.admin","cloud_controller.write","doppler.firehose","openid","scim.read","cloud_controller.read","password.write","scim.write"]\'): principal=f63e0165-b85a-40d3-9ef7-78c6698ccb2c, origin=[client=cf, user=admin], identityZoneId=[uaa]'
+      ) do
 
-        insist { subject["tags"] }.does_not_include?("fail/cloudfoundry/uaa-audit")
+        it "extracts the UAA log type" do
+          expect(subject["UAA"]["type"]).to eq "TokenIssuedEvent"
+        end
 
-        insist { subject["@timestamp"] } == Time.iso8601("2015-08-25T04:57:46.143Z")
-        insist { subject["@level"] } == "INFO"
+        it "extracts the auth request data" do
+          expect(subject["UAA"]["data"]).to eq '["cloud_controller.admin","cloud_controller.write","doppler.firehose","openid","scim.read","cloud_controller.read","password.write","scim.write"]'
+        end
 
-        insist { subject["UAA"]["pid"] } == 4176
-        insist { subject["UAA"]["thread_name"] } == "http-bio-8080-exec-4"
-        insist { subject["UAA"]["type"] } == "TokenIssuedEvent"
-        insist { subject["UAA"]["data"] } == '["cloud_controller.admin","cloud_controller.write","doppler.firehose","openid","scim.read","cloud_controller.read","password.write","scim.write"]'
-        insist { subject["UAA"]["principal"] } == "f63e0165-b85a-40d3-9ef7-78c6698ccb2c"
-        insist { subject["UAA"]["origin"] } == ["client=cf", "user=admin"]
-        insist { subject["UAA"]["identity_zone_id"] } == "uaa"
+        it "extracts the principal" do
+          expect(subject["UAA"]["principal"]).to eq "f63e0165-b85a-40d3-9ef7-78c6698ccb2c"
+        end
+
+        it "extracts the request origin" do
+          expect(subject["UAA"]["origin"]).to eq ["client=cf", "user=admin"]
+        end
+
+        it "extracts the identity zone" do
+          expect(subject["UAA"]["identity_zone_id"]).to eq "uaa"
+        end
       end
     end
 
     describe "UserNotFound" do
-      sample("@type" => "syslog", "@message" => %q{<14>2015-08-26T06:44:05.744726+00:00 10.0.16.19 vcap.uaa [job=uaa-partition-7c53ed3ae2e7f5543b91 index=0]  [2015-08-26 06:44:05.744] uaa - 4159 [http-bio-8080-exec-7] ....  INFO --- Audit: UserNotFound (''): principal=1S0lQEF695QPAYN7mnBqQ0HpJVc=, origin=[remoteAddress=80.229.7.108], identityZoneId=[uaa]}) do
+      when_parsing_log(
+        "@type" => "syslog",
+        "syslog_program" => "vcap.uaa",
+        "@message" => "<14>2015-08-26T06:44:05.744726+00:00 10.0.16.19 vcap.uaa [job=uaa-partition-7c53ed3ae2e7f5543b91 index=0]  [2015-08-26 06:44:05.744] uaa - 4159 [http-bio-8080-exec-7] ....  INFO --- Audit: UserNotFound (''): principal=1S0lQEF695QPAYN7mnBqQ0HpJVc=, origin=[remoteAddress=80.229.7.108], identityZoneId=[uaa]"
+      ) do
 
-        insist { subject["tags"] }.does_not_include?("fail/cloudfoundry/uaa-audit")
+        it "extracts the UAA log type" do
+          expect(subject["UAA"]["type"]).to eq "UserNotFound"
+        end
 
-        insist { subject["@timestamp"] } == Time.iso8601("2015-08-26T06:44:05.744Z")
-        insist { subject["@level"] } == "INFO"
+        it "extracts the auth request data" do
+          expect(subject["UAA"]["data"]).nil?
+        end
 
-        insist { subject["UAA"]["pid"] } == 4159
-        insist { subject["UAA"]["thread_name"] } == "http-bio-8080-exec-7"
-        insist { subject["UAA"]["type"] } == "UserNotFound"
-        insist { subject["UAA"]["data"] }.nil?
-        insist { subject["UAA"]["principal"] } == "1S0lQEF695QPAYN7mnBqQ0HpJVc="
-        insist { subject["UAA"]["origin"] } == ["remoteAddress=80.229.7.108"]
-        insist { subject["UAA"]["identity_zone_id"] } == "uaa"
+        it "extracts the principal" do
+          expect(subject["UAA"]["principal"]).to eq "1S0lQEF695QPAYN7mnBqQ0HpJVc="
+        end
+
+        it "extracts the request origin" do
+          expect(subject["UAA"]["origin"]).to eq ["remoteAddress=80.229.7.108"]
+        end
+
+        it "extracts the identity zone" do
+          expect(subject["UAA"]["identity_zone_id"]).to eq "uaa"
+        end
       end
     end
-
-    describe "extract remoteAddress" do
-      sample("@type" => "syslog", "@message" => %q{<14>2015-08-28T05:57:02.867064+00:00 10.0.16.19 vcap.uaa [job=uaa-partition-7c53ed3ae2e7f5543b91 index=0]  [2015-08-28 05:57:02.866] uaa - 4181 [http-bio-8080-exec-10] ....  INFO --- Audit: ClientAuthenticationSuccess ('Client authentication success'): principal=null, origin=[remoteAddress=52.19.1.74], identityZoneId=[uaa]}) do
-
-        insist { subject["tags"] }.does_not_include?("fail/cloudfoundry/uaa-audit")
-
-        insist { subject["UAA"]["remote_address"] } == "52.19.1.74"
-        insist { subject["geoip"]["ip"] } == "52.19.1.74"
-      end
-
-      sample("@type" => "syslog", "@message" => %q{<14>2015-08-26T06:44:05.744726+00:00 10.0.16.19 vcap.uaa [job=uaa-partition-7c53ed3ae2e7f5543b91 index=0]  [2015-08-26 06:44:05.744] uaa - 4159 [http-bio-8080-exec-7] ....  INFO --- Audit: UserNotFound (''): principal=1S0lQEF695QPAYN7mnBqQ0HpJVc=, origin=[remoteAddress=80.229.7.108], identityZoneId=[uaa]}) do
-
-	#puts subject.to_hash.to_yaml
-
-        insist { subject["tags"] }.does_not_include?("fail/cloudfoundry/uaa-audit")
-
-        insist { subject["UAA"]["remote_address"] } == "80.229.7.108"
-        insist { subject["geoip"]["ip"] } == "80.229.7.108"
-      end
-
-      sample("@type" => "syslog", "@message" => %q{<14>2015-08-28T06:58:51.869603+00:00 10.0.16.19 vcap.uaa [job=uaa-partition-7c53ed3ae2e7f5543b91 index=0]  [2015-08-28 06:58:51.869] uaa - 4181 [http-bio-8080-exec-7] ....  INFO --- Audit: PrincipalAuthenticationFailure ('null'): principal=adas, origin=[52.17.158.141], identityZoneId=[uaa]}) do
-
-	#puts subject.to_hash.to_yaml
-
-        insist { subject["tags"] }.does_not_include?("fail/cloudfoundry/uaa-audit")
-
-        insist { subject["UAA"]["remote_address"] } == "52.17.158.141"
-        insist { subject["geoip"]["ip"] } == "52.17.158.141"
-      end
-   end
-
   end
 end
