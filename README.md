@@ -25,7 +25,22 @@ $ bosh upload release
 
 ### 2. Extend the LogSearch deployment manifest with LogSearch-for-CloudFoundry
 
+At this point there is a choice to make. If Kibana is publicly exposed in your deployment and you wish to protect it with authentication, you have 2 options.
+
 #### Without Kibana UAA authentication
+
+You can configure the haproxy job in logsearch-boshrelease to act as an authentication proxy in front of Kibana. Configuration for the haproxy job looks like this:
+
+```yaml
+properties:
+  haproxy:
+    kibana:
+      auth:
+        user: user
+        password: password
+```
+
+then:
 
 ```sh
 $ vim templates/logsearch-for-cf.example.yml
@@ -33,6 +48,8 @@ $ scripts/generate_deployment_manifest ~/workspace/logsearch.yml templates/logse
 ```
 
 #### With Kibana UAA authentication
+
+Alternatively, you can use the [kibana plugin](https://github.com/logsearch/logsearch-for-cloudfoundry/tree/master/src/kibana-cf_authentication) provided by this release to get kibana to ask the user for credentials and perform an OAuth handshake with the CloudFoundry UAA server before serving requests.
 
 ```sh
 $ vim templates/logsearch-for-cf.example-with-uaa-auth.yml
