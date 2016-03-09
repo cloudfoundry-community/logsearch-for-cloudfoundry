@@ -49,6 +49,8 @@ $ scripts/generate_deployment_manifest ~/workspace/logsearch.yml templates/logse
 
 #### UAA OAuth
 
+**WARNING** There are currently a set of known issues with the Kibana UAA auth.  See [#94](https://github.com/logsearch/logsearch-for-cloudfoundry/issues/94) for details
+
 Alternatively, you can use the [kibana plugin](https://github.com/logsearch/logsearch-for-cloudfoundry/tree/master/src/kibana-cf_authentication) provided by this release to get kibana to ask the user for credentials and perform an OAuth handshake with the CloudFoundry UAA server before serving requests.
 
 ```sh
