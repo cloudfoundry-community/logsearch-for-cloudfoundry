@@ -15,7 +15,7 @@ properties:
   logstash.metadata_level:
     description: "Whether to include additional metadata throughout the event lifecycle. NONE = disabled, DEBUG = fully enabled"
     default: "NONE"
-    
+
   cloudfoundry.system_domain:
     description: "The Elastic Runtime API system domain, eg: 10.244.0.34.xip.io "
   cloudfoundry.skip_ssl_validation:
@@ -36,4 +36,4 @@ properties:
     description: IP or hostname of the syslog drain
   syslog.port:
     description: port of the syslog drain
-    default: 514
+    default: 5514
