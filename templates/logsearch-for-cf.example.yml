@@ -1,0 +1,29 @@
+releases:
+- (( merge ))
+- name: logsearch-for-cloudfoundry
+  version: latest
+
+jobs:
+- (( merge ))
+- name: ingestor
+  templates:
+  - (( merge ))
+  - {name: ingestor_cloudfoundry-firehose, release: logsearch-for-cloudfoundry}
+  properties:
+    cloudfoundry:
+      system_domain: sys.cf.example.com
+      firehose_user: admin
+      firehose_password: admin_password
+    syslog:
+      host: ingestor_ip
+      port: 5514
+
+- name: parser
+  templates:
+  - (( merge ))
+  - {name: logsearch-for-cloudfoundry-filters, release: logsearch-for-cloudfoundry}
+  properties:
+    logstash_parser:
+      filters:
+      - logsearch-for-cf: /var/vcap/packages/logsearch-for-cloudfoundry-filters/logstash-filters-default.conf
+

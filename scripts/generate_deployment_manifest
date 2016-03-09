@@ -1,0 +1,6 @@
+#!/bin/sh
+
+spruce="$(dirname "$0")/../bin/spruce-$(uname -s)"
+
+$spruce merge --prune meta "$1" "$2"
+

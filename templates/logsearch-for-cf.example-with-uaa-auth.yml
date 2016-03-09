@@ -1,0 +1,59 @@
+releases:
+- (( merge ))
+- name: logsearch-for-cloudfoundry
+  version: latest
+
+jobs:
+- (( merge ))
+- name: ingestor
+  templates:
+  - (( merge ))
+  - {name: ingestor_cloudfoundry-firehose, release: logsearch-for-cloudfoundry}
+  properties:
+    cloudfoundry:
+      system_domain: sys.cf.example.com
+      firehose_user: admin
+      firehose_password: admin_password
+    syslog:
+      host: ingestor_ip
+      port: 5514
+
+- name: parser
+  templates:
+  - (( merge ))
+  - {name: logsearch-for-cloudfoundry-filters, release: logsearch-for-cloudfoundry}
+  properties:
+    logstash_parser:
+      filters:
+      - logsearch-for-cf: /var/vcap/packages/logsearch-for-cloudfoundry-filters/logstash-filters-default.conf
+
+- name: create-uaa-client
+  lifecycle: errand
+  release: logsearch-for-cloudfoundry
+  templates: {name: create-uaa-client, release: logsearch-for-cloudfoundry}
+  networks:
+  - name: default
+  resource_pool: errand
+  properties:
+    create-uaa-client:
+      oauth2_client_id: kibana
+      oauth2_client_secret: password
+      cloudfoundry:
+        system_domain: sys.cf.example.com
+        admin_client_secret: password_from_cf_manifest
+
+- name: kibana
+  templates:
+  - (( merge ))
+  - {name: kibana-auth-plugin, release: logsearch-for-cloudfoundry}
+  properties:
+    kibana:
+      env:
+        KIBANA_OAUTH2_CLIENT_ID: kibana
+        KIBANA_OAUTH2_CLIENT_SECRET: password
+        SKIP_SSL_VALIDATION: true
+        CF_API_URL: https://api.sys.cf.example.com
+
+
+
+
