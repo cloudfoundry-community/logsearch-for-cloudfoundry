@@ -1,0 +1,44 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+jar {
+    baseName = 'cf-authorization-elasticsearch-plugin'
+    version =  '0.1.0'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+    compile 'org.elasticsearch:elasticsearch:2.0.0' 
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+// no unit tests
+test.enabled = false
+
+compileJava.options.compilerArgs << "-Xlint:-rawtypes"
+
+// additional configuration to tag dependencies to be archived with plugin jar
+configurations {
+    includeJars
+}
+
+// task to archive plugin jars
+task buildPluginZip(type: Zip, dependsOn:[':jar']) {
+    from files(libsDir) // include output dirictory into archive
+    from files('plugin-descriptor.properties')
+    from { configurations.includeJars.collect { it } } // include dependencies to archive
+}
+
+// define artifacts
+artifacts {
+    archives buildPluginZip
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.8'
+}
