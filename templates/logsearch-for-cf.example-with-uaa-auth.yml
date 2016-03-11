@@ -30,7 +30,8 @@ jobs:
 - name: create-uaa-client
   lifecycle: errand
   release: logsearch-for-cloudfoundry
-  templates: {name: create-uaa-client, release: logsearch-for-cloudfoundry}
+  templates:
+  - {name: create-uaa-client, release: logsearch-for-cloudfoundry}
   networks:
   - name: default
   resource_pool: errand
@@ -53,7 +54,3 @@ jobs:
         KIBANA_OAUTH2_CLIENT_SECRET: password
         SKIP_SSL_VALIDATION: true
         CF_API_URL: https://api.sys.cf.example.com
-
-
-
-
