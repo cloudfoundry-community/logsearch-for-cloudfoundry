@@ -15,7 +15,7 @@ jobs:
       firehose_user: admin
       firehose_password: admin_password
     syslog:
-      host: ingestor_ip
+      host: (( grab jobs.ingestor.networks.default.static_ips.[0] ))
       port: 5514
 
 - name: parser
@@ -26,4 +26,3 @@ jobs:
     logstash_parser:
       filters:
       - logsearch-for-cf: /var/vcap/packages/logsearch-for-cloudfoundry-filters/logstash-filters-default.conf
-
