@@ -11,9 +11,11 @@ jobs:
   - {name: ingestor_cloudfoundry-firehose, release: logsearch-for-cloudfoundry}
   properties:
     cloudfoundry:
-      system_domain: sys.cf.example.com
+      api_endpoint: https://api.sys.cf.example
+      doppler_endpoint: wss://doppler.sys.cf.example
       firehose_user: admin
       firehose_password: admin_password
+      skip_ssl_validation: true
     syslog:
       host: ingestor_ip
       port: 5514
@@ -30,17 +32,19 @@ jobs:
 - name: create-uaa-client
   lifecycle: errand
   release: logsearch-for-cloudfoundry
-  templates: {name: create-uaa-client, release: logsearch-for-cloudfoundry}
+  instances: 1
+  templates:
+  - {name: create-uaa-client, release: logsearch-for-cloudfoundry}
   networks:
   - name: default
   resource_pool: errand
   properties:
     create-uaa-client:
-      oauth2_client_id: kibana
-      oauth2_client_secret: password
+      oauth2_client_id: kibana_client_id
+      oauth2_client_secret: kibana_client_password
       cloudfoundry:
-        system_domain: sys.cf.example.com
-        admin_client_secret: password_from_cf_manifest
+        system_domain: sys.cf.example
+        admin_client_secret: admin_client_secret
 
 - name: kibana
   templates:
@@ -49,10 +53,12 @@ jobs:
   properties:
     kibana:
       env:
-        KIBANA_OAUTH2_CLIENT_ID: kibana
-        KIBANA_OAUTH2_CLIENT_SECRET: password
-        SKIP_SSL_VALIDATION: true
-        CF_API_URL: https://api.sys.cf.example.com
+      - KIBANA_OAUTH2_CLIENT_ID: kibana_client_id
+      - KIBANA_OAUTH2_CLIENT_SECRET: kibana_client_password
+      - SKIP_SSL_VALIDATION: true
+      - CF_API_URI: https://api.sys.cf.example
+      plugins:
+      - auth: /var/vcap/packages/kibana-auth-plugin/kibana-auth-plugin.tar.gz
 
 
 
