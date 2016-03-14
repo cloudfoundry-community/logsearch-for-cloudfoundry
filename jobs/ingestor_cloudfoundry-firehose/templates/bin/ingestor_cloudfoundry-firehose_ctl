@@ -21,7 +21,7 @@ case $1 in
        echo "net.ipv6.conf.lo.disable_ipv6 = 1" >> /etc/sysctl.conf
        sysctl -p
     fi
-    
+
     echo "Waiting 1m for syslog ingestor to accept connections..."
     n=0
     until [ $n -ge 12 ]
@@ -43,8 +43,8 @@ case $1 in
     echo $$ > $PIDFILE
 
     exec chpst -u vcap:vcap firehose-to-syslog \
-        --domain=<%= p("cloudfoundry.system_domain") %> \
-        --doppler-port=<%= p("cloudfoundry.firehose_port") %> \
+        --api-endpoint=<%= p("cloudfoundry.api_endpoint") %> \
+        --doppler-endpoint=<%= p("cloudfoundry.doppler_endpoint") %> \
         <% if p("cloudfoundry.skip_ssl_validation") %>--skip-ssl-validation <% end %> \
         --user=<%= p("cloudfoundry.firehose_user") %> \
         --password=<%= p("cloudfoundry.firehose_password") %> \

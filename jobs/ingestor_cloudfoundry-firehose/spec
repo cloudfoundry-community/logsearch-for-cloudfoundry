@@ -16,8 +16,10 @@ properties:
     description: "Whether to include additional metadata throughout the event lifecycle. NONE = disabled, DEBUG = fully enabled"
     default: "NONE"
 
-  cloudfoundry.system_domain:
-    description: "The Elastic Runtime API system domain, eg: 10.244.0.34.xip.io "
+  cloudfoundry.api_endpoint:
+    description: "URI of the CF cloud controller"
+  cloudfoundry.doppler_endpoint:
+    description: "URI of the loggregator endpoint"
   cloudfoundry.skip_ssl_validation:
     description: "Set to true to skip SSL validation when connecting to CF (defaults to false)"
     default: false
