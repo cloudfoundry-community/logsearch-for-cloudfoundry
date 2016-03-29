@@ -4,4 +4,4 @@ name: logsearch-for-cloudfoundry-filters
 dependencies:
 
 files:
-- logsearch-config/target/logstash-filters-default.conf
+- logsearch-config/**/*
