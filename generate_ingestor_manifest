@@ -8,11 +8,14 @@ fi
 logsearch=$(dirname $0)/src/logsearch-config
 
 tmp1="/tmp/logstash_parser.yml"
-tmp2="/tmp/elasticsearch_config.yml"
+tmp2="/tmp/elasticsearch_app_mapping_config.yml"
+tmp3="/tmp/elasticsearch_platform_mapping_config.yml"
 echo -e "properties:\n  logstash_parser:\n    filters: |">$tmp1
-echo -e "properties:\n  elasticsearch_config:\n    templates:\n    - config: |">$tmp2
+echo -e "properties:\n  elasticsearch_config:\n    templates:\n    - <<: (( merge ))\n    - index_app_template: |">$tmp2
+echo -e "properties:\n  elasticsearch_config:\n    templates:\n    - index_platform_template: |">$tmp3
 ./$logsearch/bin/build >/dev/null 2>&1
 cat $logsearch/target/logstash-filters-default.conf | sed s/^/\ \ \ \ \ \ / >>$tmp1
-cat $logsearch/target/elasticsearch-template.json | sed s/^/\ \ \ \ \ \ \ \ / >>$tmp2
-spiff m $1 $tmp1 $tmp2
-rm $tmp1 $tmp2
+cat $logsearch/target/index-app-template.json | sed s/^/\ \ \ \ \ \ \ \ / >>$tmp2
+cat $logsearch/target/index-platform-template.json | sed s/^/\ \ \ \ \ \ \ \ / >>$tmp3
+spiff m $1 $tmp1 $tmp2 $tmp3
+rm $tmp1 $tmp2 $tmp3
