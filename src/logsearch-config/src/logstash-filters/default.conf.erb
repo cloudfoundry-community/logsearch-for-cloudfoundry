@@ -8,6 +8,7 @@ if ! [@metadata][index] {
 
 <%= File.read('src/logstash-filters/snippets/firehose.conf') %>
 <%= File.read('src/logstash-filters/snippets/uaa.conf') %>
+<%= File.read('src/logstash-filters/snippets/vcap.conf') %>
 
 #Cleanup
 mutate {
