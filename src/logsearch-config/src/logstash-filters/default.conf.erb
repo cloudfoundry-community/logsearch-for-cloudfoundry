@@ -7,6 +7,7 @@ if ! [@metadata][index] {
 }
 
 <%= File.read('src/logstash-filters/snippets/firehose.conf') %>
+<%= File.read('src/logstash-filters/snippets/haproxy.conf') %>
 <%= File.read('src/logstash-filters/snippets/uaa.conf') %>
 
 #Cleanup
