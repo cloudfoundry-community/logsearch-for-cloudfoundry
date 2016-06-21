@@ -2,5 +2,7 @@
 blobstore:
   provider: s3
   options:
-    bucket_name: logsearch-for-cloudfoundry-boshrelease
+    bucket_name: logsearch-for-cloudfoundry-blobs
+    region: eu-west-1
+    endpoint: https://s3-eu-west-1.amazonaws.com
 final_name: logsearch-for-cloudfoundry
