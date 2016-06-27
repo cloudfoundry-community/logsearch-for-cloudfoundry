@@ -2,6 +2,7 @@ var Bell = require('bell');
 var AuthCookie = require('hapi-auth-cookie');
 var Promise = require('bluebird');
 var request = Promise.promisify(require('request'));
+var uuid = require('uuid');
 
 module.exports = function (kibana) {
   return new kibana.Plugin({
@@ -31,7 +32,11 @@ module.exports = function (kibana) {
     var client_id = (process.env.KIBANA_OAUTH2_CLIENT_ID) ? process.env.KIBANA_OAUTH2_CLIENT_ID : 'client_id';
     var client_secret = (process.env.KIBANA_OAUTH2_CLIENT_SECRET) ? process.env.KIBANA_OAUTH2_CLIENT_SECRET : 'client_secret';
     var skip_ssl_validation = (process.env.SKIP_SSL_VALIDATION) ? (process.env.SKIP_SSL_VALIDATION.toLowerCase() === 'true') : false;
+    var cf_system_org = (process.env.CF_SYSTEM_ORG) ? process.env.CF_SYSTEM_ORG : 'system';
     var cloudFoundryApiUri = (process.env.CF_API_URI) ? process.env.CF_API_URI.replace(/\/$/, '') : 'unknown';
+    var use_redis_sessions = (process.env.REDIS_HOST) ? true : false;
+    var redis_host = (process.env.REDIS_HOST) ? process.env.REDIS_HOST : '127.0.0.1';
+    var redis_port = (process.env.REDIS_PORT) ? process.env.REDIS_PORT : '6379';
     var cfInfoUri = cloudFoundryApiUri + '/v2/info';
 
     if (skip_ssl_validation) {
@@ -48,10 +53,17 @@ module.exports = function (kibana) {
         client_id: Joi.string().default(client_id),
         client_secret: Joi.string().default(client_secret),
         skip_ssl_validation: Joi.boolean().default(skip_ssl_validation),
+        cf_system_org: Joi.string().default(cf_system_org),
         authorization_uri: Joi.string().default(cf_info.authorization_endpoint + '/oauth/authorize'),
         logout_uri: Joi.string().default(cf_info.authorization_endpoint + '/logout.do'),
         token_uri: Joi.string().default(cf_info.token_endpoint + '/oauth/token'),
         account_info_uri: Joi.string().default(cf_info.token_endpoint + '/userinfo'),
+        organizations_uri: Joi.string().default(cloudFoundryApiUri + '/v2/organizations'),
+        spaces_uri: Joi.string().default(cloudFoundryApiUri + '/v2/spaces'),
+        random_passphrase: Joi.string().default(client_secret.split('').reverse().join('')),
+        use_redis_sessions: Joi.boolean().default(use_redis_sessions),
+        redis_host: Joi.string().default(redis_host),
+        redis_port: Joi.string().default(redis_port)
       }).default();
 
     }).catch(function (error) {
@@ -68,6 +80,7 @@ module.exports = function (kibana) {
   */
   init: function (server, options) {
     var config = server.config();
+    var isSecure = process.env.NODE_ENV !== 'development';
 
     server.log(['debug', 'authentication'], JSON.stringify(config.get('authentication')));
 
@@ -78,10 +91,49 @@ module.exports = function (kibana) {
         return;
       }
 
+      // Setup the cache for session data
+      var cache_expiration = 30 * 60 * 1000; // 30 minutes
+      var cache_segment = 'sessions';
+      // Default to memory cache
+      var cache = server.cache({
+        segment: cache_segment,
+        expiresIn: cache_expiration
+      });
+      // If possible, use redis for cache. Requires REDIS_HOST defined in environment
+      if (config.get('authentication.use_redis_sessions')) {
+        var policy = { expiresIn: cache_expiration };
+        var options = {
+          host: config.get('authentication.redis_host'),
+          port: config.get('authentication.redis_port'),
+          partition: 'kibana'
+        };
+        var Catbox = require('catbox');
+        var client = new Catbox.Client(require('catbox-redis'), options);
+        client.start(function(err) {
+          if (err) {
+            server.log(['err', 'cache', 'redis'], err);
+          }
+          cache = new Catbox.Policy(policy, client, cache_segment)
+        });
+      }
+
       server.auth.strategy('uaa-cookie', 'cookie', {
-        password: '397hkjhdhshs3uy02hjsdfnlskdfio3', //Password used for encryption
+        password: config.get('authentication.random_passphrase'), //Password used for encryption
         cookie: 'uaa-auth', // Name of cookie to set
-        redirectTo: '/login'
+        redirectTo: '/login',
+        validateFunc: function(request, session, callback) {
+          cache.get(session.session_id, function(err, cached) {
+            if (err) {
+              server.log(['error', 'authentication', 'session:validation'], JSON.stringify(err));
+              return callback(err, false);
+            }
+            if (!cached) {
+              return callback(null, false);
+            }
+            return callback(null, true, cached.credentials);
+          });
+        },
+        isSecure: isSecure
       });
 
       var uaaProvider = {
@@ -91,9 +143,11 @@ module.exports = function (kibana) {
         scope: ['openid', 'oauth.approvals', 'scim.userids', 'cloud_controller.read'],
         profile: function (credentials, params, get, callback) {
           server.log(['debug', 'authentication'],  JSON.stringify({ thecredentials: credentials, theparams: params }));
+          var account = {};
+          credentials.session_id = uuid.v1();
           get(config.get('authentication.account_info_uri'), null, function (profile) {
             server.log(['debug', 'authentication'], JSON.stringify({ theprofile: profile }));
-            credentials.profile = {
+            account.profile = {
               id: profile.id,
               username: profile.username,
               displayName: profile.name,
@@ -101,17 +155,34 @@ module.exports = function (kibana) {
               raw: profile
             };
 
-            return callback();
+            get(config.get('authentication.organizations_uri'), null, function(orgs) {
+              server.log(['debug', 'authentication', 'orgs'], JSON.stringify(orgs));
+              account.orgIds = orgs.resources.map(function(resource) { return resource.metadata.guid; });
+              account.orgs = orgs.resources.map(function(resource) { return resource.entity.name; });
+
+              get(config.get('authentication.spaces_uri'), null, function(spaces) {
+                server.log(['debug', 'authentication', 'spaces'], JSON.stringify(spaces));
+                account.spaceIds = spaces.resources.map(function(resource) { return resource.metadata.guid; });
+                account.spaces = spaces.resources.map(function(resource) { return resource.entity.name; });
+                cache.set(credentials.session_id, {credentials: credentials, account: account}, 0, function(err) {
+                  if (err) {
+                    server.log(['error', 'authentication', 'session:set'], JSON.stringify(err));
+                  }
+                  return callback();
+                });
+              });
+            });
           });
         }
       };
 
       server.auth.strategy('uaa-oauth', 'bell', {
         provider: uaaProvider,
-        password: '397hkjhdhshs3uy02hjsdfnlskdfio3', //Password used for encryption
+        password: config.get('authentication.random_passphrase'), //Password used for encryption
         clientId: config.get('authentication.client_id'),
         clientSecret: config.get('authentication.client_secret'),
-        forceHttps: true
+        forceHttps: isSecure,
+        isSecure: isSecure
       });
 
       server.auth.default('uaa-cookie');
@@ -134,7 +205,12 @@ module.exports = function (kibana) {
           path: '/account',
           config: {
             handler: function (request, reply) {
-              reply(request.auth.credentials.profile);
+              cache.get(request.auth.credentials.session_id, function(err, cached) {
+                if (err) {
+                  server.log(['error', 'authentication', 'session:get:account'], JSON.stringify(err));
+                }
+                reply(cached.account.profile);
+              });
             }
           }
         }, {
@@ -147,10 +223,78 @@ module.exports = function (kibana) {
               reply.redirect(config.get('authentication.logout_uri'));
             }
           }
+        }, {
+          method: 'POST',
+          path: '/_filtered_msearch',
+          config: {
+            payload: {
+              parse: false
+            },
+            handler: function(request, reply) {
+              var options = {
+                method: 'POST',
+                url: '/elasticsearch/_msearch',
+                artifacts: true
+              };
+              cache.get(request.auth.credentials.session_id, function(err, cached) {
+                if (err) {
+                  server.log(['error', 'authentication', 'session:get:_filtered_msearch'], JSON.stringify(err));
+                }
+                if (cached.account.orgs.indexOf(config.get('authentication.cf_system_org')) !== -1) {
+                  options.payload = request.payload;
+                } else {
+                  var modified_payload = [];
+                  var lines = request.payload.toString().split('\n');
+                  var num_lines = lines.length;
+                  for (var i = 0; i < num_lines - 1; i+=2) {
+                    var indexes = lines[i];
+                    var query = JSON.parse(lines[i+1]);
+                    query.query.filtered.filter.bool.filter = [
+                      {
+                        "terms": {
+                          "@source.space.id": cached.account.spaceIds
+                        }
+                      },{
+                        "terms": {
+                          "@source.org.id": cached.account.orgIds
+                        }
+                      }
+                    ];
+                    modified_payload.push(indexes);
+                    modified_payload.push(JSON.stringify(query));
+                  }
+                  options.payload = new Buffer(modified_payload.join('\n') + '\n');
+                }
+                options.headers = request.headers;
+                delete options.headers.host;
+                delete options.headers['user-agent'];
+                delete options.headers['accept-encoding'];
+                options.headers['content-length'] = options.payload.length;
+                server.inject(options, (resp) => {
+                  reply(resp.result || resp.payload)
+                    .code(resp.statusCode)
+                    .type(resp.headers['content-type'])
+                    .passThrough(true);
+                });
+              });
+            }
+          }
         }
-    ]);
+      ]);
 
     }); // end: server.register
+
+    // Redirect _msearch through our own route so we can modify the payload
+    server.ext('onRequest', function (request, reply) {
+      if (/elasticsearch\/_msearch/.test(request.path) && !request.auth.artifacts) {
+        request.setUrl('/_filtered_msearch');
+      }
+      return reply.continue();
+
+    }); // end server.ext('onRequest')
+
+
   }
+
   });
 };

@@ -57,6 +57,8 @@ jobs:
       - KIBANA_OAUTH2_CLIENT_SECRET: kibana_client_password
       - SKIP_SSL_VALIDATION: true
       - CF_API_URI: https://api.sys.cf.example
+      - CF_SYSTEM_ORG: system # Org Managers of this org get admin access
+      - REDIS_HOST: my_redis_host # Redis host to use for sessions
       plugins:
       - auth: /var/vcap/packages/kibana-auth-plugin/kibana-auth-plugin.tar.gz
 

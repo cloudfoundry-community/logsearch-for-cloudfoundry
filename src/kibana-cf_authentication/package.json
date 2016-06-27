@@ -7,10 +7,13 @@
     "url": "http://guthub.com/stayup/kibana-cf_authentication.git"
   },
   "dependencies": {
-    "bluebird": "^2.9.30",
-    "request": "^2.40.0",
     "bell": "5.4.0",
-    "hapi-auth-cookie": "3.1.0"
+    "bluebird": "^2.9.30",
+    "catbox": "^6.0.0",
+    "catbox-redis": "^1.0.7",
+    "hapi-auth-cookie": "3.1.0",
+    "request": "^2.40.0",
+    "uuid": "^2.0.1"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
