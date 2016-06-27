@@ -1,10 +1,5 @@
-# Index
-if ! [@metadata][index] {
-    # All logs start being sent to the unparsed index. The filters below will route them to the @index=app* or @index=platform.
-    mutate {
-        add_field => { "[@metadata][index]" => "unparsed" }
-    }
-}
+# Setup snippet (should precede all other snippets)
+<%= File.read('src/logstash-filters/snippets/setup.conf') %>
 
 # Include snippets
 
@@ -16,10 +11,8 @@ if ! [@metadata][index] {
 
 <%= File.read('src/logstash-filters/snippets/vcap.conf') %>
 
+<%= File.read('src/logstash-filters/snippets/undefined.conf') %>
 
-# Cleanup
-mutate {
-  rename => { "[tags]" => "[@tags]" }
-  uppercase => [ "[@level]" ]
-  remove_field => [ "@version" ]
-}
+
+# Teardown snippet (should follow all other snippets)
+<%= File.read('src/logstash-filters/snippets/teardown.conf') %>
