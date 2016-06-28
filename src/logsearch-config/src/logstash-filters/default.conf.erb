@@ -3,6 +3,9 @@
 
 # Include snippets
 
+# NOTE: @timestamp for CF components logs is set in logsearch-boshrelease from syslog_timestamp (timestamp set by metron_agent).
+# Timestamp set by metron_agent for Firehose logs is <message JSON>.timestamp field. (Thats why Firehose snippet sets date with it).
+
 <%= File.read('src/logstash-filters/snippets/firehose.conf') %>
 
 <%= File.read('src/logstash-filters/snippets/haproxy.conf') %>
