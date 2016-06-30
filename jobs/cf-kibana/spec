@@ -1,0 +1,56 @@
+---
+name: cf-kibana
+packages:
+- cf-cli
+- cf-kibana
+templates:
+  errand.sh.erb: bin/run
+  manifest.yml.erb: config/manifest.yml
+  kibana.yml.erb: config/kibana.yml
+  allow-logsearch-access.json.erb: config/allow-logsearch-access.json
+properties:
+  cf-kibana.app_name:
+    description: "Kibana dashoboard app name"
+    default: logs
+  cf-kibana.app_memory:
+    description: "Kibana app memory"
+    default: 512M
+  cf-kibana.app_instances:
+    description: "Count of Kibana instances"
+    default: 1
+  cf-kibana.oauth2_client_id:
+    description: "The UAA kibana oauth2 client id"
+    default: kibana_oauth2_client
+  cf-kibana.oauth2_client_secret:
+    description: "The UAA kibana oauth2 client id's secret"
+  cf-kibana.logsearch_space:
+    description: "Space where Kibana will be deployed"
+    default: logsearch
+  cf-kibana.system_org:
+    description: "The organisation that owns the CF system domain"
+    default: admin
+  cf-kibana.system_domain:
+    description: "The Elastic Runtime system domain ( eg: system.10.244.0.34.xip.io )"
+  cf-kibana.apps_domain:
+    description: "The Elastic Runtime apps domain ( eg: apps.10.244.0.34.xip.io )"
+  cf-kibana.admin_client_secret:
+    description: "The UAA Admin client id's secret"
+  cf-kibana.elasticsearch.host:
+    description: "ElasticSearch master endpoint"
+  cf-kibana.elasticsearch.port:
+    description: "ElasticSearch master port"
+    default: 9200
+  cf-kibana.api_security_group:
+    description: "CF security group with API access"
+
+  cloudfoundry.api_endpoint:
+    description: "The Elastic Runtime API URL"
+  cloudfoundry.firehose_user:
+    description: "The Elastic Runtime API user"
+  cloudfoundry.firehose_password:
+    description: "The Elastic Runtime API user's password"
+  cloudfoundry.skip_ssl_validation:
+    description: "Toggles cli verification of the Elastic Runtime API SSL certificate"
+
+  redis.host:
+    description: "Redis endpoint"
