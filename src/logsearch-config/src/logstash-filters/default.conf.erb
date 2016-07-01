@@ -3,6 +3,8 @@
 
 # Include snippets
 
+# NOTE: All parsed data should include @message, @level and @source.component. Otherwise these fields are set from syslog_ fields in teardown script afterwards.
+
 # NOTE: @timestamp for CF components logs is set in logsearch-boshrelease from syslog_timestamp (timestamp set by metron_agent).
 # Timestamp set by metron_agent for Firehose logs is <message JSON>.timestamp field. (Thats why Firehose snippet sets date with it).
 
