@@ -25,7 +25,7 @@ jobs:
   properties:
     elasticsearch_config:
       templates:
-      - index_template: /var/vcap/packages/logsearch-for-cloudfoundry-filters/elasticsearch-template.json
+      - index_template: /var/vcap/packages/logsearch-for-cloudfoundry-filters/logs-template.json
 
 - name: cf-kibana
   templates:
