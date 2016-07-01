@@ -30,9 +30,9 @@ properties:
     description: "The organisation that owns the CF system domain"
     default: admin
   cf-kibana.system_domain:
-    description: "The Elastic Runtime system domain ( eg: system.10.244.0.34.xip.io )"
+    description: "The CF system domain ( eg: system.10.244.0.34.xip.io )"
   cf-kibana.apps_domain:
-    description: "The Elastic Runtime apps domain ( eg: apps.10.244.0.34.xip.io )"
+    description: "The CF apps domain ( eg: apps.10.244.0.34.xip.io )"
   cf-kibana.admin_client_secret:
     description: "The UAA Admin client id's secret"
   cf-kibana.elasticsearch.host:
@@ -44,13 +44,13 @@ properties:
     description: "CF security group with API access"
 
   cloudfoundry.api_endpoint:
-    description: "The Elastic Runtime API URL"
+    description: "The CF API URL"
   cloudfoundry.firehose_user:
-    description: "The Elastic Runtime API user"
+    description: "The CF API user"
   cloudfoundry.firehose_password:
-    description: "The Elastic Runtime API user's password"
+    description: "The CF API user's password"
   cloudfoundry.skip_ssl_validation:
-    description: "Toggles cli verification of the Elastic Runtime API SSL certificate"
+    description: "Toggles cli verification of the CF API SSL certificate"
 
   redis.host:
     description: "Redis endpoint"
