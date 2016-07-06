@@ -20,7 +20,7 @@ elif [ ! -e vendor/logstash-$LOGSTASH_VERSION ] ; then
     tar xz -C vendor/logstash-$LOGSTASH_VERSION --strip-components 1
   (
     cd vendor/logstash-$LOGSTASH_VERSION
-    bin/plugin install --development # so we can use logstash rspec
+    bin/logstash-plugin install --development # so we can use logstash rspec
   )
   ln -s $($getpath $SCRIPT_DIR/../vendor/logstash-$LOGSTASH_VERSION) vendor/logstash
 fi

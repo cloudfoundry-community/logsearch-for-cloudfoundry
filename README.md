@@ -1,5 +1,9 @@
 # Logsearch for Cloud Foundry
 
+### Build status
+
+[![Build Status](https://travis-ci.org/cloudfoundry-community/logsearch-for-cloudfoundry.svg?branch=master)](https://travis-ci.org/cloudfoundry-community/logsearch-for-cloudfoundry)
+
 LogStash parsing rules for some CloudFoundry-specific log formats:
 
 * App logs
