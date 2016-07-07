@@ -20,7 +20,7 @@ describe "UAA spec" do
 
       # Check that @message is parsed with no errors
       it "does not include grok fail tag" do
-        expect(subject["tags"]).not_to include "fail/cloudfoundry/uaa"
+        expect(subject["tags"]).not_to include "fail/cloudfoundry/uaa/grok"
       end
 
       # Check fields
@@ -73,7 +73,7 @@ describe "UAA spec" do
 
       # Check that @message is parsed with no errors
       it "not include grok fail tag" do
-        expect(subject["tags"]).not_to include "fail/cloudfoundry/uaa"
+        expect(subject["tags"]).not_to include "fail/cloudfoundry/uaa/grok"
       end
 
       # Check fields
@@ -126,7 +126,7 @@ describe "UAA spec" do
 
       # Check that fail tag is set
       it "include grok fail tag" do
-        expect(subject["tags"]).to include "fail/cloudfoundry/uaa"
+        expect(subject["tags"]).to include "fail/cloudfoundry/uaa/grok"
       end
 
       # Check @message is the same as before parsing
