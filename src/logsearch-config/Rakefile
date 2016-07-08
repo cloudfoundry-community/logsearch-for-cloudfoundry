@@ -15,10 +15,17 @@ task :build => :clean do
   puts `find target`
 end
 
-desc "Runs unit tests against filters & dashboards"
+desc "Runs tests against filters"
 task :test, [:rspec_files] => :build do |t, args|
   args.with_defaults(:rspec_files => "$(find test -name *spec.rb)")
   puts "===> Testing ..."
+  sh %Q[ vendor/logstash/bin/rspec #{args[:rspec_files]} --colour ]
+end
+
+desc "Runs integration tests against filters"
+task :itest, [:rspec_files] => :build do |t, args|
+  args.with_defaults(:rspec_files => "$(find test -name *it-spec.rb)")
+  puts "===> Integration Testing ..."
   sh %Q[ vendor/logstash/bin/rspec #{args[:rspec_files]} --colour ]
 end
 
