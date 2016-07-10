@@ -1,7 +1,8 @@
 ---
 name: firehose-to-syslog
-dependencies: 
+
+dependencies:
+  - golang
 
 files:
-- firehose-to-syslog/**/*
-
+  - firehose-to-syslog/**/*
