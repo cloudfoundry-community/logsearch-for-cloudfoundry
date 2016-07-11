@@ -11,7 +11,7 @@ describe "Platform Integration Test spec" do
     CONFIG
   end
 
-  describe "checks fields" do
+  describe "checks common fields" do
 
     context "when @message in plain text format" do
       when_parsing_log(
