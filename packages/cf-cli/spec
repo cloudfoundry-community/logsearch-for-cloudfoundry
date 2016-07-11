@@ -1,0 +1,4 @@
+---
+name: cf-cli
+files:
+- cf-cli/cf-cli_6.19.0_linux_x86-64.tgz

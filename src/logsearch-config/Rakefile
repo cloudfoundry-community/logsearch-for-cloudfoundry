@@ -10,6 +10,7 @@ desc "Builds filters & dashboards"
 task :build => :clean do
   puts "===> Building ..."
   compile_erb 'src/logstash-filters/default.conf.erb', 'target/logstash-filters-default.conf'
+  compile_erb 'src/es-mappings/logs-template.json.erb', 'target/logs-template.json'
 
   puts "===> Artifacts:"
   puts `find target`
