@@ -1,0 +1,17 @@
+---
+applications:
+- name: <%= p('cf-kibana.app_name')%>
+  memory: <%= p('cf-kibana.app_memory')%>
+  instances: <%= p('cf-kibana.app_instances')%>
+  domain: <%= p('cf-kibana.apps_domain')%>
+  buildpack: https://github.com/cloudfoundry/binary-buildpack.git
+  command: bash -c "\$HOME/bin/kibana --port \$PORT"
+  timeout: 180
+  env:
+    NODE_ENV: production
+    KIBANA_OAUTH2_CLIENT_ID: "<%= p('cf-kibana.oauth2_client_id')%>"
+    KIBANA_OAUTH2_CLIENT_SECRET: "<%= p('cf-kibana.oauth2_client_secret')%>"
+    CF_API_URI: "https://api.<%= p('cf-kibana.system_domain')%>"
+    CF_SYSTEM_ORG: "<%= p('cf-kibana.system_org')%>"
+    SKIP_SSL_VALIDATION: <%= p('cloudfoundry.skip_ssl_validation')%>
+    REDIS_HOST: <%= p('redis.host')%>

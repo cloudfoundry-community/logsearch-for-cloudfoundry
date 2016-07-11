@@ -1,0 +1,5 @@
+---
+name: cf-kibana
+files:
+- kibana-cf_authentication/**/*
+- cf-kibana/kibana-4.4.2-linux-x64.tar.gz

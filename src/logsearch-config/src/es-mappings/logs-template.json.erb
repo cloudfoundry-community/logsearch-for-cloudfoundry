@@ -1,0 +1,20 @@
+{
+  "template" : "logs-*",
+  "order": 100,
+  "mappings" : {
+    "_default_" : {
+      "dynamic_templates": [
+        {
+          "string_not_analyzed": {
+            "match_pattern": "regex",
+            "match": "^(\\S+_id)$",
+            "match_mapping_type": "string",
+            "mapping": {
+              "type" : "string", "index" : "not_analyzed", "omit_norms" : true
+            }
+          }
+        }
+      ]
+    }
+  }
+}

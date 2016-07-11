@@ -1,0 +1,12 @@
+[
+    {
+        "protocol":"tcp",
+        "destination":"<%= p('cf-kibana.elasticsearch.host') %>/32",
+        "ports":"<%= p('cf-kibana.elasticsearch.port') %>"
+    },
+    {
+        "protocol":"tcp",
+        "destination":"<%= p('redis.host') %>/32",
+        "ports":"6379"
+    }
+]

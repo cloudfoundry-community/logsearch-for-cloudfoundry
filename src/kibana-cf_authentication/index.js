@@ -68,7 +68,9 @@ module.exports = function (kibana) {
 
     }).catch(function (error) {
       console.log('ERROR fetching CF info from ' + cfInfoUri + ' : ' + error);
-      throw error;
+      return Joi.object({
+        enabled: Joi.boolean().default(true)
+      }).default();
     });
 
   },
@@ -252,11 +254,11 @@ module.exports = function (kibana) {
                     query.query.filtered.filter.bool.filter = [
                       {
                         "terms": {
-                          "@source.space.id": cached.account.spaceIds
+                          "@source.space_id": cached.account.spaceIds
                         }
                       },{
                         "terms": {
-                          "@source.org.id": cached.account.orgIds
+                          "@source.org_id": cached.account.orgIds
                         }
                       }
                     ];

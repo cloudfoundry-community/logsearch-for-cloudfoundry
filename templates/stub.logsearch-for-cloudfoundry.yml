@@ -1,0 +1,60 @@
+releases:
+- (( merge ))
+- name: logsearch-for-cloudfoundry
+  version: latest
+
+jobs:
+- name: ingestor
+  templates:
+  - (( merge ))
+  - {name: ingestor_cloudfoundry-firehose, release: logsearch-for-cloudfoundry}
+
+- name: parser
+  templates:
+  - (( merge ))
+  - {name: logsearch-for-cloudfoundry-filters, release: logsearch-for-cloudfoundry}
+  properties:
+    logstash_parser:
+      filters:
+      - logsearch-for-cf: /var/vcap/packages/logsearch-for-cloudfoundry-filters/logstash-filters-default.conf
+
+- name: maintenance
+  templates:
+  - (( merge ))
+  - {name: logsearch-for-cloudfoundry-filters, release: logsearch-for-cloudfoundry}
+  properties:
+    elasticsearch_config:
+      templates:
+      - index_template: /var/vcap/packages/logsearch-for-cloudfoundry-filters/logs-template.json
+
+- name: cf-kibana
+  templates:
+  - { release: logsearch-for-cloudfoundry, name: cf-kibana }
+  lifecycle: errand
+  instances: 1
+  resource_pool: errand
+  networks:
+  - name: default
+
+properties:
+  cloudfoundry:
+    api_endpoint: https://api.example.com
+    doppler_endpoint: wss://doppler.example.com
+    firehose_user: admin
+    firehose_password: admin
+    skip_ssl_validation: true
+  cf-kibana:
+    oauth2_client_secret: oauth2_client_secret
+    system_domain: example.com
+    admin_client_secret: admin-secret
+    apps_domain: example.com
+    api_security_group: a-group
+    elasticsearch:
+      host: (( grab jobs.elasticsearch_master.networks.default.static_ips.[0] ))
+  logstash_parser:
+    debug: false
+    elasticsearch_index: "logs-%{[@metadata][index]}-%{+YYYY.MM.dd}"
+    elasticsearch_index_type: "%{[@metadata][type]}"
+  syslog:
+    host: (( grab jobs.ingestor.networks.[0].static_ips.[0] ))
+    port: 5514

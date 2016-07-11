@@ -11,6 +11,14 @@ ruby-2.1.7/bundler-1.9.4.gem:
   object_id: e88d06c9-45fb-4517-925c-f0ee1d116056
   sha: ea3f17a76a8249049b5589c9b5421af72189babc
   size: 244224
+cf-cli/cf-cli_6.19.0_linux_x86-64.tgz:
+  object_id: 1f3ade0c-3103-4b4c-aa4f-648d73242e25
+  sha: 625170654ffa4568dae97b4d3915e87557b29261
+  size: 6450885
+cf-kibana/kibana-4.4.2-linux-x64.tar.gz:
+  object_id: 76bfb285-c84c-432e-9f9a-9d777b0047ff
+  sha: 6251dbab12722ea1a036d8113963183f077f9fa7
+  size: 32724112
 golang/go1.6.2.linux-amd64.tar.gz:
   object_id: 0ed97087-677d-4fb8-83ca-268184cf462f
   sha: b8318b09de06076d5397e6ec18ebef3b45cd315d

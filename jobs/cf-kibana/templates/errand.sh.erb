@@ -1,0 +1,81 @@
+#!/bin/sh
+
+set -e
+set -x
+
+export PATH=/var/vcap/packages/cf-cli/bin:${PATH}
+export CF_COLOR=false
+export WORKDIR=/var/vcap/data/tmp
+
+rm -rf $WORKDIR/kibana
+mkdir -p $WORKDIR/kibana
+cp -R /var/vcap/packages/cf-kibana/. $WORKDIR/kibana
+cp /var/vcap/jobs/cf-kibana/config/manifest.yml $WORKDIR/kibana/manifest.yml
+cp /var/vcap/jobs/cf-kibana/config/kibana.yml $WORKDIR/kibana/config/kibana.yml
+
+cd $WORKDIR/kibana
+
+cf --version
+<% if p("cloudfoundry.skip_ssl_validation") %>
+cf api --skip-ssl-validation <%= p("cloudfoundry.api_endpoint") %>
+<% else %>
+cf api <%= p("cloudfoundry.api_endpoint") %>
+<% end %>
+
+cf auth <%= p("cloudfoundry.firehose_user") %> <%= p("cloudfoundry.firehose_password") %>
+cf create-org <%= p("cf-kibana.system_org") %> || true
+cf target -o <%= p("cf-kibana.system_org") %>
+cf create-space <%= p("cf-kibana.logsearch_space") %> -o <%= p("cf-kibana.system_org") %> || true
+cf target -o <%= p("cf-kibana.system_org") %> -s <%= p("cf-kibana.logsearch_space") %>
+cf create-security-group logsearch-access /var/vcap/jobs/cf-kibana/config/allow-logsearch-access.json
+cf bind-security-group logsearch-access <%= p("cf-kibana.system_org") %> <%= p("cf-kibana.logsearch_space") %>
+cf bind-security-group <%= p("cf-kibana.api_security_group") %> <%= p("cf-kibana.system_org") %> <%= p("cf-kibana.logsearch_space") %>
+
+# Create UAA client
+ACCESS_TOKEN=$(\
+curl -s -D - -k \
+-u admin:<%= p("cf-kibana.admin_client_secret") %> \
+-H "Accept:application/json" \
+-X POST 'https://uaa.<%= p("cf-kibana.system_domain") %>/oauth/token?grant_type=client_credentials&response_type=token&client_id=admin&redirect_uri=http://dummy.com' \
+| sed -n 's/.*access_token":"\([^"]*\).*/\1/p' \
+)
+
+CLIENT_EXISTS=$(\
+curl -s -k -w "%{http_code}" -o /dev/null \
+-H "Authorization:Bearer $ACCESS_TOKEN" \
+-H"Content-Type:application/json" \
+-H"Accept:application/json" \
+-X GET https://uaa.<%= p("cf-kibana.system_domain") %>/oauth/clients/<%= p("cf-kibana.oauth2_client_id") %> \
+)
+
+if [ $CLIENT_EXISTS != "404" ]; then
+   echo "Deleting old OAuth2 client: <%= p("cf-kibana.oauth2_client_id") %>"
+   curl -s -k -w "%{http_code}" \
+  -H "Authorization:Bearer $ACCESS_TOKEN" \
+  -H"Content-Type:application/json" \
+  -H"Accept:application/json" \
+  -XDELETE \
+  https://uaa.<%= p("cf-kibana.system_domain") %>/oauth/clients/<%= p("cf-kibana.oauth2_client_id") %>
+fi
+
+echo "Creating new OAuth2 client: <%= p("cf-kibana.oauth2_client_id") %>"
+  curl -s -k -H "Authorization:Bearer $ACCESS_TOKEN" \
+-H"Content-Type:application/json" \
+-H"Accept:application/json" \
+-d '{
+  "client_id" : "<%= p("cf-kibana.oauth2_client_id") %>",
+  "client_secret" : "<%= p("cf-kibana.oauth2_client_secret") %>",
+  "scope" : ["openid","oauth.approvals","scim.userids","cloud_controller.read"],
+  "authorities" : ["uaa.none"],
+  "resource_ids" : ["none"],
+  "authorized_grant_types" : ["authorization_code", "refresh_token"],
+  "access_token_validity": 43200,
+  "redirect-uri": "https://<%= p("cf-kibana.app_name") %>.<%= p("cf-kibana.system_domain") %>/login"
+}' \
+-X POST https://uaa.<%= p("cf-kibana.system_domain") %>/oauth/clients
+
+cf push
+
+EXITSTATUS=0
+echo "Errand Complete; exit status: $EXITSTATUS"
+exit $EXITSTATUS
