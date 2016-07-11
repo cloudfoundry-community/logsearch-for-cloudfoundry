@@ -19,3 +19,7 @@ cf-kibana/kibana-4.4.2-linux-x64.tar.gz:
   object_id: 76bfb285-c84c-432e-9f9a-9d777b0047ff
   sha: 6251dbab12722ea1a036d8113963183f077f9fa7
   size: 32724112
+golang/go1.6.2.linux-amd64.tar.gz:
+  object_id: 0ed97087-677d-4fb8-83ca-268184cf462f
+  sha: b8318b09de06076d5397e6ec18ebef3b45cd315d
+  size: 84840658

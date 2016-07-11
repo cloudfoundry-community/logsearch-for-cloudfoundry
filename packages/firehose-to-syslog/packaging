@@ -1,6 +1,12 @@
-set -e # exit immediately if a simple command exits with a non-zero status
-set -u # report the usage of uninitialized variables
-set -x # be verbose
+set -e
 
-cp -r firehose-to-syslog/* $BOSH_INSTALL_TARGET
+mkdir -p ${BOSH_INSTALL_TARGET}/src/github.com/cloudfoundry-community
+mv firehose-to-syslog ${BOSH_INSTALL_TARGET}/src/github.com/cloudfoundry-community
+export GOPATH=$BOSH_INSTALL_TARGET
 
+export GOROOT=$(readlink -nf /var/vcap/packages/golang)
+export PATH=$GOROOT/bin:$PATH
+go install github.com/cloudfoundry-community/firehose-to-syslog
+
+# clean up source artifacts
+rm -rf ${BOSH_INSTALL_TARGET}/src ${BOSH_INSTALL_TARGET}/pkg
