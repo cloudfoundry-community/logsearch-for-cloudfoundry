@@ -38,22 +38,22 @@ def when_parsing_log(sample_event, &block)
 
     name = name[0..200] + "..." if name.length > 200
 
-    describe "given: \"#{name}\"" do
+    describe "[\"#{name}\"]" do
 
-    before(:all) do
-      event = LogStash::Event.new(sample_event)
+      before(:all) do
+        event = LogStash::Event.new(sample_event)
 
-      results = []
-      # filter call the block on all filtered events, included new events added by the filter
-      LogStashPipeline.instance.filter(event) { |filtered_event| results << filtered_event }
-      # flush makes sure to empty any buffered events in the filter
-      LogStashPipeline.instance.flush_filters(:final => true) { |flushed_event| results << flushed_event }
+        results = []
+        # filter call the block on all filtered events, included new events added by the filter
+        LogStashPipeline.instance.filter(event) { |filtered_event| results << filtered_event }
+        # flush makes sure to empty any buffered events in the filter
+        LogStashPipeline.instance.flush_filters(:final => true) { |flushed_event| results << flushed_event }
 
-      @parsed_results = results.select { |e| !e.cancelled? }
+        @parsed_results = results.select { |e| !e.cancelled? }
+      end
+
+      subject(:parsed_results) { @parsed_results.first }
+
+      describe("", &block)
     end
-
-    subject(:parsed_results) { @parsed_results.first }
-
-    describe("it", &block)
-  end
 end
