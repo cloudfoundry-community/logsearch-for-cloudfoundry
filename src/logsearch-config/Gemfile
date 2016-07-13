@@ -1,0 +1,7 @@
+source 'https://rubygems.org'
+
+group :test do
+  gem 'jsonlint'
+  gem 'rake'
+  gem 'rspec'
+end

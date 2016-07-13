@@ -5,5 +5,10 @@ BASE_DIR=$(cd $SCRIPT_DIR/.. ; pwd)
 
 cd $BASE_DIR
 
-bin/build
-rake test["$1"]
+if [ $# -eq 0 ]
+  then rake
+elif [ $# -eq 1 ]
+  then rake $1
+elif [ $# -eq 2 ]
+  then rake $1["$2"]
+fi
