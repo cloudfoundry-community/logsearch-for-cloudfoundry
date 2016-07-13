@@ -1,5 +1,7 @@
-# abort script on any command that exits with a non zero value
 set -e
-set -x
 
-cp logsearch-config/target/* $BOSH_INSTALL_TARGET
+export PATH=/var/vcap/packages/ruby-2.3/bin:$PATH
+
+logsearch-config/bin/build
+
+cp logsearch-config/target/* ${BOSH_INSTALL_TARGET}
