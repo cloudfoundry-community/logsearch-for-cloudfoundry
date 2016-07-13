@@ -2,6 +2,7 @@
 name: logsearch-for-cloudfoundry-filters
 
 dependencies:
+  - ruby-2.3
 
 files:
-- logsearch-config/**/*
+  - logsearch-config/**/*

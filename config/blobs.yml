@@ -23,3 +23,19 @@ golang/go1.6.2.linux-amd64.tar.gz:
   object_id: 0ed97087-677d-4fb8-83ca-268184cf462f
   sha: b8318b09de06076d5397e6ec18ebef3b45cd315d
   size: 84840658
+ruby-2.3/bundler-1.11.2.gem:
+  object_id: 49f1cda1-4099-445a-afce-1542e0ddfe74
+  sha: 8eb956dec72da753d3d2a2126c78508b17af434e
+  size: 263168
+ruby-2.3/rake-11.2.2.gem:
+  object_id: dccd98c7-85ee-4663-bb63-2346801763dc
+  sha: 879e7c02b1a0b37333a91f11621f798deb874b6e
+  size: 102400
+ruby-2.3/ruby-2.3.1.tar.gz:
+  object_id: 6f94d256-a798-4864-bd74-fef4bcef32cf
+  sha: c39b4001f7acb4e334cb60a0f4df72d434bef711
+  size: 17797997
+ruby-2.3/rubygems-2.6.4.tgz:
+  object_id: 40690581-ce13-473c-9cc5-3a459e67be3b
+  sha: 8ef39e536af2ecd20b0e7a95765fa6a485087ac8
+  size: 478582
