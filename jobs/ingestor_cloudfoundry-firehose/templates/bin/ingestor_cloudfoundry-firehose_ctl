@@ -53,6 +53,7 @@ case $1 in
         <% if p("cloudfoundry.skip_ssl_validation") %>--skip-ssl-validation <% end %> \
         --user=<%= p("cloudfoundry.firehose_user") %> \
         --password=<%= p("cloudfoundry.firehose_password") %> \
+        --syslog-protocol=<%= p("syslog.protocol") %>\
         --syslog-server=<%= p("syslog.host") %>:<%= p("syslog.port") %>\
         --events=<%= p("cloudfoundry.firehose_events") %> \
         --boltdb-path=$TMP_DIR/firehose-to-syslog.cache.db \
