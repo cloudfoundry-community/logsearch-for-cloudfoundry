@@ -11,11 +11,12 @@ describe "haproxy.conf" do
     CONFIG
   end
 
-  describe "when message format is" do
-    context "Http" do
+  describe "when message is" do
+    context "Http format" do
       when_parsing_log(
-        "@type" => "syslog_cf",
+        "@type" => "cf",
         "syslog_program" => "haproxy",
+        # http format
         "@message" => "64.78.155.208:60677 [06/Jul/2016:13:59:57.770] https-in~ http-routers/node0 59841/0/0/157/60000 200 144206 reqC respC ---- 3/4/1/2/0 5/6 {reqHeaders} {respHeaders} \"GET /v2/apps?inline-relations-depth=2 HTTP/1.1\""
       ) do
 
@@ -58,7 +59,7 @@ describe "haproxy.conf" do
           expect(subject["@level"]).to eq "INFO"
         end
 
-        it "should set basic fields" do
+        it "should set general fields" do
           expect(subject["@source"]["component"]).to eq "haproxy"
           expect(subject["@type"]).to eq "haproxy_cf"
           expect(subject["tags"]).to include "haproxy"
@@ -67,11 +68,13 @@ describe "haproxy.conf" do
       end
     end
 
-    context "Http (<BADREQ>)" do
+    context "Http format (<BADREQ>)" do
       when_parsing_log(
-          "@type" => "syslog_cf",
+          "@type" => "cf",
           "syslog_program" => "haproxy",
-          "@message" => "64.78.155.208:60677 [06/Jul/2016:13:59:57.770] https-in~ http-routers/node0 59841/0/0/157/60000 200 144206 reqC respC ---- 3/4/1/2/0 5/6 {reqHeaders} {respHeaders} \"<BADREQ>\""
+          # http format
+          "@message" => "64.78.155.208:60677 [06/Jul/2016:13:59:57.770] https-in~ http-routers/node0 59841/0/0/157/60000 " +
+              "200 144206 reqC respC ---- 3/4/1/2/0 5/6 {reqHeaders} {respHeaders} \"<BADREQ>\"" # <BADREQ>
       ) do
 
         it "should set [haproxy][request] to <BADREQ>" do
@@ -82,11 +85,13 @@ describe "haproxy.conf" do
       end
     end
 
-    context "Http (ERROR level)" do
+    context "Http format (ERROR level)" do
       when_parsing_log(
-          "@type" => "syslog_cf",
+          "@type" => "cf",
           "syslog_program" => "haproxy",
-          "@message" => "64.78.155.208:60677 [06/Jul/2016:13:59:57.770] https-in~ http-routers/node0 59841/0/0/157/60000 400 144206 reqC respC ---- 3/4/1/2/0 5/6 {reqHeaders} {respHeaders} \"GET /v2/apps?inline-relations-depth=2 HTTP/1.1\""
+          "@message" => "64.78.155.208:60677 [06/Jul/2016:13:59:57.770] https-in~ http-routers/node0 59841/0/0/157/60000 " +
+              "400" + # http status = 400 => ERROR level
+              " 144206 reqC respC ---- 3/4/1/2/0 5/6 {reqHeaders} {respHeaders} \"GET /v2/apps?inline-relations-depth=2 HTTP/1.1\""
       ) do
 
         # @level is set based on [haproxy][http_status_code]
@@ -97,10 +102,11 @@ describe "haproxy.conf" do
       end
     end
 
-    context "Error log" do
+    context "Error log format" do
       when_parsing_log(
-          "@type" => "syslog_cf",
+          "@type" => "cf",
           "syslog_program" => "haproxy",
+          # error log
           "@message" => "216.218.206.68:36743 [06/Jul/2016:07:16:34.605] https-in/1: SSL handshake failure"
       ) do
 
@@ -123,7 +129,7 @@ describe "haproxy.conf" do
 
         end
 
-        it "should set basic fields" do
+        it "should set general fields" do
           expect(subject["@source"]["component"]).to eq "haproxy"
           expect(subject["@type"]).to eq "haproxy_cf"
           expect(subject["tags"]).to include "haproxy"
@@ -134,37 +140,11 @@ describe "haproxy.conf" do
 
   end
 
-  describe "when 'if' condition" do
+  describe "when NOT haproxy case" do
 
-    context "passed (@type = syslog_cf)" do
+    context "(bad syslog_program)" do
       when_parsing_log(
-          "@type" => "syslog_cf", # syslog_cf
-          "syslog_program" => "haproxy",
-          "@message" => "Some message here"
-      ) do
-
-        # @type set => 'if' condition has succeeded
-        it { expect(subject["@type"]).to eq "haproxy_cf" }
-
-      end
-    end
-
-    context "passed (@type = relp_cf)" do
-      when_parsing_log(
-          "@type" => "relp_cf", # relp_cf
-          "syslog_program" => "haproxy",
-          "@message" => "Some message here"
-      ) do
-
-        # @type set => 'if' condition has succeeded
-        it { expect(subject["@type"]).to eq "haproxy_cf" }
-
-      end
-    end
-
-    context "failed (bad syslog_program)" do
-      when_parsing_log(
-          "@type" => "relp_cf",
+          "@type" => "cf",
           "syslog_program" => "Some program", # bad value
           "@message" => "Some message here"
       ) do
@@ -178,14 +158,14 @@ describe "haproxy.conf" do
         end
 
         it "shouldn't override fields" do
-          expect(subject["@type"]).to eq "relp_cf"
+          expect(subject["@type"]).to eq "cf"
           expect(subject["@message"]).to eq "Some message here"
         end
 
       end
     end
 
-    context "failed (bad @type)" do
+    context "(bad @type)" do
       when_parsing_log(
           "@type" => "Some type", # bad type
           "syslog_program" => "haproxy",
