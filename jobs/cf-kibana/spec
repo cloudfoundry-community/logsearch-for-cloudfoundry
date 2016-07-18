@@ -45,6 +45,9 @@ properties:
   cf-kibana.logging_quiet:
     description: "Set to true to suppress all logging output other than error messages"
     default: true
+  cf-kibana.session_expiration_ms:
+    description: "Kibana user session expiration period in milliseconds (default to 12h)"
+    default: 43200000
 
   cloudfoundry.api_endpoint:
     description: "The CF API URL"

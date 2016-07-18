@@ -38,6 +38,7 @@ module.exports = function (kibana) {
     var redis_host = (process.env.REDIS_HOST) ? process.env.REDIS_HOST : '127.0.0.1';
     var redis_port = (process.env.REDIS_PORT) ? process.env.REDIS_PORT : '6379';
     var cfInfoUri = cloudFoundryApiUri + '/v2/info';
+    var sessionExpirationMs = (process.env.SESSION_EXPIRATION_MS) ? process.env.SESSION_EXPIRATION_MS : 12 * 60 * 60 * 1000; // 12 hours by default
 
     if (skip_ssl_validation) {
       process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
@@ -63,7 +64,8 @@ module.exports = function (kibana) {
         random_passphrase: Joi.string().default(client_secret.split('').reverse().join('')),
         use_redis_sessions: Joi.boolean().default(use_redis_sessions),
         redis_host: Joi.string().default(redis_host),
-        redis_port: Joi.string().default(redis_port)
+        redis_port: Joi.string().default(redis_port),
+        session_expiration_ms: Joi.number().integer().default(sessionExpirationMs)
       }).default();
 
     }).catch(function (error) {
@@ -94,7 +96,7 @@ module.exports = function (kibana) {
       }
 
       // Setup the cache for session data
-      var cache_expiration = 30 * 60 * 1000; // 30 minutes
+      var cache_expiration = config.get('authentication.session_expiration_ms'); // session TTL (auth cache expiration)
       var cache_segment = 'sessions';
       // Default to memory cache
       var cache = server.cache({
@@ -135,7 +137,8 @@ module.exports = function (kibana) {
             return callback(null, true, cached.credentials);
           });
         },
-        isSecure: isSecure
+        isSecure: isSecure,
+        ttl: config.get('authentication.session_expiration_ms') // session TTL (cookie expiration)
       });
 
       var uaaProvider = {
