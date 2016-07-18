@@ -1,0 +1,26 @@
+releases:
+- name: logsearch-for-cloudfoundry
+  version: latest
+
+jobs:
+- instances: 1
+  name: ingestor_cf
+  networks:
+  - name: default
+  resource_pool: ingestor
+  templates:
+  - name: ingestor_cloudfoundry-firehose
+    release: logsearch-for-cloudfoundry
+
+properties:
+  cloudfoundry:
+    firehose_password: admin
+    firehose_port: 443
+    firehose_user: admin
+    skip_ssl_validation: true
+    system_domain: 10.244.0.34.xip.io
+  logstash_parser:
+    filters: (( merge ))
+  elasticsearch_config:
+    templates:
+    - <<: (( merge ))
