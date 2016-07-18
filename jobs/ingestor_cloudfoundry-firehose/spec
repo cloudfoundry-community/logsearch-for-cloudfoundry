@@ -39,3 +39,6 @@ properties:
   syslog.port:
     description: port of the syslog drain
     default: 5514
+  syslog.protocol:
+    description: Syslog protocol (tcp/udp).
+    default: tcp
