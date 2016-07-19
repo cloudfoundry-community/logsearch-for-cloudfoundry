@@ -12,10 +12,12 @@ describe "uaa.conf" do
   end
 
   describe "when message is" do
-    context "general event" do
+
+    context "general UAA event" do
       when_parsing_log(
-        "@type" => "syslog_cf",
+        "@type" => "cf",
         "syslog_program" => "vcap.uaa",
+        # general UAA event
         "@message" => "[2016-07-05 04:02:18.245] uaa - 15178 [http-bio-8080-exec-14] ....  INFO --- Audit: ClientAuthenticationSuccess ('Client authentication success'): principal=cf, origin=[remoteAddress=64.78.155.208, clientId=cf], identityZoneId=[uaa]"
       ) do
 
@@ -45,7 +47,7 @@ describe "uaa.conf" do
           expect(subject["uaa"]["identity_zone_id"]).to eq "uaa"
         end
 
-        it "should set basic fields" do
+        it "should set general fields" do
           expect(subject["@source"]["component"]).to eq "uaa"
           expect(subject["@type"]).to eq "uaa_cf"
           expect(subject["tags"]).to include "uaa"
@@ -56,9 +58,11 @@ describe "uaa.conf" do
 
     describe "PrincipalAuthFailure event" do
       when_parsing_log(
-          "@type" => "syslog_cf",
+          "@type" => "cf",
           "syslog_program" => "vcap.uaa",
-          "@message" => "[2016-07-06 09:18:43.397] uaa - 15178 [http-bio-8080-exec-6] ....  INFO --- Audit: PrincipalAuthenticationFailure ('null'): principal=admin, origin=[82.209.244.50], identityZoneId=[uaa]"
+          # PrincipalAuthFailure event
+          "@message" => "[2016-07-06 09:18:43.397] uaa - 15178 [http-bio-8080-exec-6] ....  INFO --- Audit: " +
+              "PrincipalAuthenticationFailure ('null'): principal=admin, origin=[82.209.244.50], identityZoneId=[uaa]"
       ) do
 
         # no parsing errors
@@ -87,7 +91,7 @@ describe "uaa.conf" do
           expect(subject["uaa"]["identity_zone_id"]).to eq "uaa"
         end
 
-        it "should set basic fields" do
+        it "should set general fields" do
           expect(subject["@source"]["component"]).to eq "uaa"
           expect(subject["@type"]).to eq "uaa_cf"
           expect(subject["tags"]).to include "uaa"
@@ -96,77 +100,30 @@ describe "uaa.conf" do
       end
     end
 
-    describe "bad format (failed grok)" do
+    describe "bad format" do
       when_parsing_log(
-          "@type" => "syslog_cf",
+          "@type" => "cf",
           "syslog_program" => "vcap.uaa",
-          "@message" => "Some incorrect message that doesn't match UAA grok patterns"
+          "@message" => "Some message" # bad format
       ) do
 
         # get parsing error
-        it "include grok fail tag" do
-          expect(subject["tags"]).to include "fail/cloudfoundry/uaa/grok"
-        end
+        it { expect(subject["tags"]).to include "fail/cloudfoundry/uaa/grok" }
 
         # fields
         it { expect(subject["@message"])
-          .to eq "Some incorrect message that doesn't match UAA grok patterns" } # the same as before parsing
+          .to eq "Some message" } # the same as before parsing
 
       end
     end
 
   end
 
-  describe "when 'if' condition" do
+  describe "when NOT uaa case" do
 
-    context "passed (@type = syslog_cf)" do
+    context "(bad @type)" do
       when_parsing_log(
-          "@type" => "syslog_cf", # syslog_cf
-          "syslog_program" => "vcap.uaa",
-          "@message" => "Some message here"
-      ) do
-
-        # @type set => 'if' condition has succeeded
-        it { expect(subject["@type"]).to eq "uaa_cf" }
-
-      end
-    end
-
-    context "passed (@type = relp_cf)" do
-      when_parsing_log(
-          "@type" => "relp_cf", # relp_cf
-          "syslog_program" => "vcap.uaa",
-          "@message" => "Some message here"
-      ) do
-
-        # @type set => 'if' condition has succeeded
-        it { expect(subject["@type"]).to eq "uaa_cf" }
-
-      end
-    end
-
-    context "failed (bad syslog_program)" do
-      when_parsing_log(
-          "@type" => "relp_cf",
-          "syslog_program" => "Some program", # bad value
-          "@message" => "Some message here"
-      ) do
-
-        # fields not set => 'if' condition has failed
-        it "shouldn't set fields" do
-          expect(subject["vcap"]).to be_nil
-          expect(subject["@source"]).to be_nil
-          expect(subject["tags"]).to be_nil
-          expect(subject["@type"]).to eq "relp_cf" # kept the same
-          expect(subject["@message"]).to eq "Some message here" # kept the same
-        end
-
-      end
-    end
-
-    context "failed (bad @type)" do
-      when_parsing_log(
-          "@type" => "Some type", # bad type
+          "@type" => "Some type", # bad value
           "syslog_program" => "vcap.uaa",
           "@message" => "Some message here"
       ) do
@@ -177,6 +134,25 @@ describe "uaa.conf" do
           expect(subject["@source"]).to be_nil
           expect(subject["tags"]).to be_nil
           expect(subject["@type"]).to eq "Some type" # kept the same
+          expect(subject["@message"]).to eq "Some message here" # kept the same
+        end
+
+      end
+    end
+
+    context "(bad syslog_program)" do
+      when_parsing_log(
+          "@type" => "cf",
+          "syslog_program" => "Some program", # bad value
+          "@message" => "Some message here"
+      ) do
+
+        # fields not set => 'if' condition has failed
+        it "shouldn't set fields" do
+          expect(subject["vcap"]).to be_nil
+          expect(subject["@source"]).to be_nil
+          expect(subject["tags"]).to be_nil
+          expect(subject["@type"]).to eq "cf" # kept the same
           expect(subject["@message"]).to eq "Some message here" # kept the same
         end
 

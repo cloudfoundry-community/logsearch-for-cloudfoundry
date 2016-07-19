@@ -23,7 +23,7 @@ describe "setup.conf" do
       end
     end
 
-    context "useless (blank)" do
+    context "is useless (blank)" do
       when_parsing_log(
           "@message" => "    " # blank
       ) do
@@ -36,22 +36,22 @@ describe "setup.conf" do
 
     context "contains unicode (\u0000)" do
       when_parsing_log(
-          "@message" => "a\u0000bc"
+          "@message" => "a\u0000bc" # unicode
       ) do
 
-        # event is dropped
+        # unicode removed
         it { expect(subject["@message"]).to eq "abc" }
 
       end
     end
 
-    context "is normal" do
+    context "is OK" do
       when_parsing_log(
           "@type" => "some-type",
           "syslog_program" => "some-program",
           "syslog_pri" => "5",
           "host" => "1.2.3.4",
-          "@message" => "Some message"
+          "@message" => "Some message" # OK
       ) do
 
         # event is not dropped

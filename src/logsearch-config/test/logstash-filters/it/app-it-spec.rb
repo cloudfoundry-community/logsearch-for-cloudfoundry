@@ -20,11 +20,13 @@ describe "App Integration Test" do
           "syslog_pri" => "6",
           "syslog_severity_code" => 3,
           "host" => "bed08922-4734-4d62-9eba-3291aed1b8ce",
-          "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"Some Message\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"App\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
+          "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\"," +
+              "\"msg\":\"Some Message\"," + # unknown format
+              "\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"App\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
       ) do
 
         # no parsing errors
-        it { expect(subject["@tags"]).not_to include "fail/cloudfoundry/firehose/json" }
+        it { expect(subject["@tags"]).not_to include "fail/cloudfoundry/app/json" }
 
         # fields
         it "should set common fields" do
@@ -44,11 +46,6 @@ describe "App Integration Test" do
           expect(subject["@tags"]).to include "app"
         end
 
-        it "should set mandatory fields" do
-          expect(subject["@message"]).to eq "Some Message"
-          expect(subject["@level"]).to eq "INFO"
-        end
-
         it "should set app specific fields" do
           expect(subject["@source"]["app"]).to eq "loggenerator"
           expect(subject["@source"]["app_id"]).to eq "31b928ee-4110-4e7b-996c-334c5d7ac2ac"
@@ -60,6 +57,12 @@ describe "App Integration Test" do
           expect(subject["@source"]["message_type"]).to eq "OUT"
         end
 
+        it "should set mandatory fields" do
+          expect(subject["@message"]).to eq "Some Message"
+          expect(subject["@level"]).to eq "INFO"
+        end
+
+        # format-specific
         it { expect(subject["@tags"]).to include "unknown_msg_format" }
 
       end
@@ -72,11 +75,13 @@ describe "App Integration Test" do
           "syslog_pri" => "6",
           "syslog_severity_code" => 3,
           "host" => "bed08922-4734-4d62-9eba-3291aed1b8ce",
-          "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"Some Message\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"App\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
+          "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\"," +
+              # JSON msg
+              "\"msg\":\"{\\\"timestamp\\\":\\\"2016-07-15 13:20:16.954\\\",\\\"level\\\":\\\"ERROR\\\",\\\"thread\\\":\\\"main\\\",\\\"logger\\\":\\\"com.abc.LogGenerator\\\",\\\"message\\\":\\\"Some message\\\"}\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"App\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
       ) do
 
         # no parsing errors
-        it { expect(subject["@tags"]).not_to include "fail/cloudfoundry/firehose/json" }
+        it { expect(subject["@tags"]).not_to include "fail/cloudfoundry/app/json" }
 
         # fields
         it "should set common fields" do
@@ -96,11 +101,6 @@ describe "App Integration Test" do
           expect(subject["@tags"]).to include "app"
         end
 
-        it "should set mandatory fields" do
-          expect(subject["@level"]).to eq "INFO"
-          expect(subject["@message"]).to eq "Some Message"
-        end
-
         it "should set app specific fields" do
           expect(subject["@source"]["app"]).to eq "loggenerator"
           expect(subject["@source"]["app_id"]).to eq "31b928ee-4110-4e7b-996c-334c5d7ac2ac"
@@ -112,7 +112,17 @@ describe "App Integration Test" do
           expect(subject["@source"]["message_type"]).to eq "OUT"
         end
 
-        it { expect(subject["@tags"]).to include "unknown_msg_format" }
+        # format-specific
+        it { expect(subject["@tags"]).to include "log" }
+        it { expect(subject["@tags"]).not_to include "unknown_msg_format" }
+
+        it "should set fields from JSON" do
+          expect(subject["@message"]).to eq "Some message"
+          expect(subject["@level"]).to eq "ERROR"
+          expect(subject["log"]["timestamp"]).to eq "2016-07-15 13:20:16.954"
+          expect(subject["log"]["thread"]).to eq "main"
+          expect(subject["log"]["logger"]).to eq "com.abc.LogGenerator"
+        end
 
       end
     end
@@ -124,11 +134,13 @@ describe "App Integration Test" do
           "syslog_pri" => "6",
           "syslog_severity_code" => 3,
           "host" => "bed08922-4734-4d62-9eba-3291aed1b8ce",
-          "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"[CONTAINER] org.apache.catalina.startup.Catalina               DEBUG    Server startup in 9775 ms\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"App\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
+          "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\"," +
+              # [CONTAINER]... msg
+              "\"msg\":\"[CONTAINER] org.apache.catalina.startup.Catalina               DEBUG    Server startup in 9775 ms\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"App\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
       ) do
 
         # no parsing errors
-        it { expect(subject["@tags"]).not_to include "fail/cloudfoundry/firehose/json" }
+        it { expect(subject["@tags"]).not_to include "fail/cloudfoundry/app/json" }
 
         # fields
         it "should set common fields" do
@@ -162,12 +174,9 @@ describe "App Integration Test" do
         # format-specific
         it { expect(subject["@tags"]).to_not include "unknown_msg_format" }
 
-        it "should override mandatory fields from JSON msg" do
+        it "should set fields from 'grok'" do
           expect(subject["@message"]).to eq "Server startup in 9775 ms"
           expect(subject["@level"]).to eq "DEBUG"
-        end
-
-        it "should set logger field" do
           expect(subject["log"]["logger"]).to eq "[CONTAINER] org.apache.catalina.startup.Catalina"
         end
 
@@ -181,11 +190,13 @@ describe "App Integration Test" do
           "syslog_pri" => "6",
           "syslog_severity_code" => 3,
           "host" => "bed08922-4734-4d62-9eba-3291aed1b8ce",
-          "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"16:41:17,033 |-DEBUG in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to WARN\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"App\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
+          "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\"," +
+              # Logback status log
+              "\"msg\":\"16:41:17,033 |-DEBUG in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to WARN\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"App\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
       ) do
 
         # no parsing errors
-        it { expect(subject["@tags"]).not_to include "fail/cloudfoundry/firehose/json" }
+        it { expect(subject["@tags"]).not_to include "fail/cloudfoundry/app/json" }
 
         # fields
         it "should set common fields" do
@@ -219,12 +230,9 @@ describe "App Integration Test" do
         # format-specific
         it { expect(subject["@tags"]).to_not include "unknown_msg_format" }
 
-        it "should override mandatory fields from JSON msg" do
+        it "should set fields from 'grok'" do
           expect(subject["@message"]).to eq "Setting level of ROOT logger to WARN"
           expect(subject["@level"]).to eq "DEBUG"
-        end
-
-        it "should set logger field" do
           expect(subject["log"]["logger"]).to eq "ch.qos.logback.classic.joran.action.RootLoggerAction"
         end
 

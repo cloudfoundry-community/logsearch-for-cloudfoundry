@@ -9,7 +9,12 @@
 # Timestamp set by metron_agent for Firehose logs is <message JSON>.timestamp field. (Thats why Firehose snippet sets date with it).
 
 ##-- App
-<%= File.read('src/logstash-filters/snippets/firehose.conf') %>
+<%= File.read('src/logstash-filters/snippets/app.conf') %>
+# special cases
+<%= File.read('src/logstash-filters/snippets/app-metric.conf') %>
+<%= File.read('src/logstash-filters/snippets/app-rtr.conf') %>
+<%= File.read('src/logstash-filters/snippets/app-log.conf') %>
+
 
 ##-- Platform
 <%= File.read('src/logstash-filters/snippets/platform.conf') %>

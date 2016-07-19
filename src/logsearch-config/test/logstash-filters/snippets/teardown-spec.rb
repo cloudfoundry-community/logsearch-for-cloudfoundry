@@ -11,7 +11,7 @@ describe "teardown.conf" do
     CONFIG
   end
 
-  describe "when @level is set from [syslog_severity_code]" do
+  describe "sets @level based on [syslog_severity_code]" do
 
     context "([syslog_severity_code] = 2)" do
       when_parsing_log( "syslog_severity_code" => 2 ) do
@@ -55,15 +55,58 @@ describe "teardown.conf" do
       end
     end
 
-  end
-
-  describe "when @level is not set" do
-
-    context "([syslog_severity_code] = 2)" do
+    context "(no [syslog_severity_code])" do
       when_parsing_log( "some_field" => "some_value" ) do
         it { expect(subject["@level"]).to be_nil }
       end
     end
+
+  end
+
+  describe "sets [@source][name]" do
+
+    context "when [@source]* fields are set" do
+      when_parsing_log(
+          "@source" => {"component" => "Abc", "instance" => "123"}
+      ) do
+        it { expect(subject["@source"]["name"]).to eq "Abc/123" }
+      end
+    end
+
+    context "when [@source][component] is missing" do
+      when_parsing_log(
+          "@source" => {"instance" => "123"}
+      ) do
+        it { expect(subject["@source"]["name"]).to be_nil }
+      end
+    end
+
+    context "when [@source][instance] is missing" do
+      when_parsing_log(
+          "@source" => {"component" => "Abc"}
+      ) do
+        it { expect(subject["@source"]["name"]).to be_nil }
+      end
+    end
+
+    context "when [@source]* fields are missing" do
+      when_parsing_log(
+          "@source" => {"some useless field" => "Abc"}
+      ) do
+        it { expect(subject["@source"]["name"]).to be_nil }
+      end
+    end
+
+  end
+
+  describe "converts [@source][instance]" do
+
+    when_parsing_log(
+        "@source" => {"instance" => "123"}
+    ) do
+      it { expect(subject["@source"]["instance"]).to eq 123 }
+    end
+
   end
 
   describe "cleanup" do
