@@ -42,6 +42,9 @@ properties:
     default: 9200
   cf-kibana.api_security_group:
     description: "CF security group with API access"
+  cf-kibana.logging_quiet:
+    description: "Set to true to suppress all logging output other than error messages"
+    default: true
 
   cloudfoundry.api_endpoint:
     description: "The CF API URL"
