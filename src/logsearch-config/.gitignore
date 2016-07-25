@@ -1,1 +1,2 @@
 target/logstash-filters-default.conf
+target/logs-template.json
