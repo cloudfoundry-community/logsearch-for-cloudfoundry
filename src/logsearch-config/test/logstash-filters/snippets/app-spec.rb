@@ -11,14 +11,76 @@ describe "app.conf" do
     CONFIG
   end
 
-  describe "when 'json'" do
+  # -- test snippet's 'if' condition --
+  describe "#if" do
+
+    describe "passed" do
+      context "when @type = relp" do
+        when_parsing_log(
+            "@type" => "relp", # good value
+            "syslog_program" => "doppler", # good value
+            "@message" => "Some invalid JSON here"
+        ) do
+
+          # app tag set => 'if' succeeded
+          it { expect(subject["tags"]).to include "fail/cloudfoundry/app/json" }
+
+        end
+      end
+
+      context "when @type = syslog" do
+        when_parsing_log(
+            "@type" => "syslog", # good value
+            "syslog_program" => "doppler", # good value
+            "@message" => "Some invalid JSON here"
+        ) do
+
+          # app tag set => 'if' succeeded
+          it { expect(subject["tags"]).to include "fail/cloudfoundry/app/json" }
+
+        end
+      end
+    end
+
+    describe "failed" do
+      context "when bad @type" do
+        when_parsing_log(
+            "@type" => "Some type", # bad value
+            "syslog_program" => "doppler",
+            "@message" => "Some message here"
+        ) do
+
+          # no tags set => 'if' failed
+          it { expect(subject["tags"]).to be_nil }
+
+        end
+      end
+
+      context "when bad syslog_program" do
+        when_parsing_log(
+            "@type" => "relp",
+            "syslog_program" => "some-value-but-not-doppler", # bad value
+            "@message" => "Some invalid JSON here"
+        ) do
+
+          # no tags set => 'if' failed
+          it { expect(subject["tags"]).to be_nil }
+
+        end
+      end
+    end
+
+  end
+
+  # -- test json success and failure cases (verify all fields) --
+  describe "#json" do
 
     context "succeeded" do
       when_parsing_log(
           "@type" => "relp",
           "syslog_program" => "doppler",
           # valid JSON
-          "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"Some Message\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"App\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
+          "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"Some Message\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"APP\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
       ) do
 
         # no parsing errors
@@ -43,7 +105,7 @@ describe "app.conf" do
         end
 
         it "should set general fields" do
-          expect(subject["@source"]["component"]).to eq "App"
+          expect(subject["@source"]["component"]).to eq "APP"
           expect(subject["@metadata"]["index"]).to eq "app-admin-demo"
           expect(subject["@type"]).to eq "LogMessage"
           expect(subject["tags"]).to include "app"
@@ -82,15 +144,16 @@ describe "app.conf" do
 
   end
 
-  describe "when 'msg'" do
+  # -- test special cases (verify specific fields) --
+  describe "mutates 'msg'" do
 
-    context "contains unicode (null)" do
+    context "when it contains unicode (null)" do
       when_parsing_log(
           "@type" => "relp",
           "syslog_program" => "doppler",
           "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\"," +
               "\"msg\":\"\\u0000\\u0000Some Message\"," + # contains unicode \u0000
-              "\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"App\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
+              "\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"APP\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
       ) do
 
         # message (unicode characters were removed)
@@ -99,13 +162,13 @@ describe "app.conf" do
       end
     end
 
-    context "contains unicode (new line)" do
+    context "when it contains unicode (new line)" do
       when_parsing_log(
           "@type" => "relp",
           "syslog_program" => "doppler",
           "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\"," +
               "\"msg\":\"Some Message\\u2028New line\"," + # contains unicode \u2028
-              "\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"App\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
+              "\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"APP\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
       ) do
 
         # message (unicode characters were replaced with \n)
@@ -115,13 +178,17 @@ New line" }
       end
     end
 
-    context "is useless (empty)" do
+  end
+
+  describe "drops event" do
+
+    context "when 'msg' is useless (empty)" do
       when_parsing_log(
           "@type" => "relp",
           "syslog_program" => "doppler",
           "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\"," +
               "\"msg\":\"\"" + # empty msg
-              ",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"App\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
+              ",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"APP\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
       ) do
 
         # useless event was dropped
@@ -130,13 +197,13 @@ New line" }
       end
     end
 
-    context "is useless (blank)" do
+    context "when 'msg' is useless (blank)" do
       when_parsing_log(
           "@type" => "relp",
           "syslog_program" => "doppler",
           "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\"," +
               "\"msg\":\"    \"," + # blank msg
-              "\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"App\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
+              "\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"APP\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
       ) do
 
         # useless event was dropped
@@ -147,30 +214,57 @@ New line" }
 
   end
 
-  describe "when event_type is missing" do
+  describe "sets @type" do
 
-    when_parsing_log(
-        "@type" => "relp",
-        "syslog_program" => "doppler",
-        # event_type property is missing from JSON
-        "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"Some Message\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"App\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
-    ) do
+    context "when event_type is missing" do
+      when_parsing_log(
+          "@type" => "relp",
+          "syslog_program" => "doppler",
+          # event_type property is missing from JSON
+          "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"Some Message\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"APP\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
+      ) do
 
-      # type is set to default value
-      it { expect(subject["@type"]).to eq "LogMessage" }
+        it { expect(subject["@type"]).to eq "LogMessage" } # is set to default value
 
+      end
+    end
+
+    context "when event_type is passed" do
+      when_parsing_log(
+          "@type" => "relp",
+          "syslog_program" => "doppler",
+          # event_type is passed
+          "@message" => "{\"event_type\":\"some event type value\", \"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"Some Message\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"APP\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
+      ) do
+
+        it { expect(subject["@type"]).to eq "some event type value" } # is set from event_type
+
+      end
     end
 
   end
 
-  describe "index name" do
+  describe "uppercases [@source][component]" do
+    when_parsing_log(
+        "@type" => "relp",
+        "syslog_program" => "doppler",
+        "@message" => "{\"source_type\":\"APP\"," + # lowercase source_type
+            " \"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"Some Message\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
+    ) do
+
+      it { expect(subject["@source"]["component"]).to eq "APP" } # uppercase
+
+    end
+  end
+
+  describe "sets index name" do
 
     context "when no cf_org_name" do
       when_parsing_log(
           "@type" => "relp",
           "syslog_program" => "doppler",
           # cf_org_name property is missing from JSON
-          "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"Some Message\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"App\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
+          "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"Some Message\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"APP\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
       ) do
 
         # index name doesn't include neither org nor space
@@ -185,68 +279,12 @@ New line" }
           "@type" => "relp",
           "syslog_program" => "doppler",
           # cf_space_name property is missing from JSON
-          "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"Some Message\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"App\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
+          "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"Some Message\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"APP\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
       ) do
 
         # index name includes org
         it { expect(subject["@source"]["space"]).to be_nil }
         it{ expect(subject["@metadata"]["index"]).to eq "app-admin" }
-
-      end
-    end
-
-  end
-
-  describe "when 'if' condition" do
-
-    context "passed (@type = relp)" do
-      when_parsing_log(
-          "@type" => "relp", # good value
-          "syslog_program" => "doppler", # good value
-          "@message" => "Some invalid JSON here"
-      ) do
-
-        # app tag set => 'if' succeeded
-        it { expect(subject["tags"]).to include "fail/cloudfoundry/app/json" }
-
-      end
-    end
-
-    context "passed (@type = syslog)" do
-      when_parsing_log(
-          "@type" => "syslog", # good value
-          "syslog_program" => "doppler", # good value
-          "@message" => "Some invalid JSON here"
-      ) do
-
-        # app tag set => 'if' succeeded
-        it { expect(subject["tags"]).to include "fail/cloudfoundry/app/json" }
-
-      end
-    end
-
-    context "failed (bad @type)" do
-      when_parsing_log(
-          "@type" => "Some type", # bad value
-          "syslog_program" => "doppler",
-          "@message" => "Some message here"
-      ) do
-
-        # no tags set => 'if' failed
-        it { expect(subject["tags"]).to be_nil }
-
-      end
-    end
-    
-    context "failed (bad syslog_program)" do
-      when_parsing_log(
-          "@type" => "relp",
-          "syslog_program" => "some-value-but-not-doppler", # bad value
-          "@message" => "Some invalid JSON here"
-      ) do
-
-        # no tags set => 'if' failed
-        it { expect(subject["tags"]).to be_nil }
 
       end
     end
