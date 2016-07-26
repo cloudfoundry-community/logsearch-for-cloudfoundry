@@ -33,7 +33,7 @@ end
 
 desc "Runs JSON validation tests"
 task :json, [:json_files] => :build do |t, args|
-  args.with_defaults(:json_files => "$(find target -name *.json)")
+  args.with_defaults(:json_files => "$(find target -name *.json ! -name kibana4-dashboards.json)")
   puts "===> Validating JSON data ..."
   sh %Q[ jsonlint #{args[:json_files]} ]
 end
