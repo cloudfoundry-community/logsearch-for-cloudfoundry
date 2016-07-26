@@ -60,7 +60,7 @@ jobs:
   resource_pool: errand
   properties:
     elasticsearch:
-      host: elastic_host
+      host: (( grab jobs.elasticsearch_master.networks.default.static_ips.[0] ))
       port: 9200
 
 - name: kibana
