@@ -1,0 +1,12 @@
+---
+name: upload-kibana-dashboards
+packages:
+- logsearch-for-cloudfoundry-filters
+templates:
+  bin/run: bin/run
+
+properties:
+  elasticsearch.host:
+    description: Elasticsearch host
+  elasticsearch.port:
+    description: Elasticsearch port

@@ -11,6 +11,7 @@ task :build => :clean do
   puts "===> Building ..."
   compile_erb 'src/logstash-filters/default.conf.erb', 'target/logstash-filters-default.conf'
   compile_erb 'src/es-mappings/logs-template.json.erb', 'target/logs-template.json'
+  compile_erb 'src/kibana4-dashboards/kibana4-dashboards.json.erb', 'target/kibana4-dashboards.json'
 
   puts "===> Artifacts:"
   puts `find target`

@@ -36,6 +36,20 @@ jobs:
   networks:
   - name: default
 
+- name: upload-kibana-dashboards
+  lifecycle: errand
+  release: logsearch-for-cloudfoundry
+  instances: 1
+  templates:
+  - {name: upload-kibana-dashboards, release: logsearch-for-cloudfoundry}
+  networks:
+  - name: default
+  resource_pool: errand
+  properties:
+    elasticsearch:
+      host: elastic_host
+      port: 9200
+
 properties:
   cloudfoundry:
     api_endpoint: https://api.example.com
