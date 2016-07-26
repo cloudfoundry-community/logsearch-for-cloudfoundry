@@ -19,6 +19,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
+    yaml-lint (0.0.9)
 
 PLATFORMS
   ruby
@@ -27,6 +28,7 @@ DEPENDENCIES
   jsonlint
   rake
   rspec
+  yaml-lint
 
 BUNDLED WITH
    1.12.5

@@ -37,10 +37,18 @@ task :json, [:json_files] => :build do |t, args|
   sh %Q[ jsonlint #{args[:json_files]} ]
 end
 
+desc "Runs YAML validation tests"
+task :yaml, [:yaml_files] => :build do |t, args|
+  args.with_defaults(:yaml_files => "$(find ../.. -path ../../src/logsearch-config/vendor -prune -o -name '*.yml' -print)")
+  puts "===> Validating YAML data ..."
+  sh %Q[ yaml-lint #{args[:yaml_files]} ]
+end
+
 task default: [
   :utest,
   :itest,
-  :json
+  :json,
+  :yaml
 ]
 
 def unescape_embedded_doublequote(str)
