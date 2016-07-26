@@ -67,13 +67,13 @@ describe "teardown.conf" do
 
     context "when [@source]* fields are set" do
       when_parsing_log(
-          "@source" => {"component" => "Abc", "instance" => "123"}
+          "@source" => {"job" => "Abc", "instance" => "123"}
       ) do
         it { expect(subject["@source"]["name"]).to eq "Abc/123" }
       end
     end
 
-    context "when [@source][component] is missing" do
+    context "when [@source][job] is missing" do
       when_parsing_log(
           "@source" => {"instance" => "123"}
       ) do
@@ -83,7 +83,7 @@ describe "teardown.conf" do
 
     context "when [@source][instance] is missing" do
       when_parsing_log(
-          "@source" => {"component" => "Abc"}
+          "@source" => {"job" => "Abc"}
       ) do
         it { expect(subject["@source"]["name"]).to be_nil }
       end
@@ -109,6 +109,40 @@ describe "teardown.conf" do
 
   end
 
+  describe "converts [@source][instance]" do
+
+    when_parsing_log(
+        "@source" => {"instance" => "123"}
+    ) do
+      it { expect(subject["@source"]["instance"]).to eq 123 }
+    end
+
+  end
+
+  describe "parse [host]" do
+
+    context "when [@source][host] is set" do
+      when_parsing_log(
+          "host" => "1.2.3.4",
+          "@source" => {"host" => "5.6.7.8"}
+      ) do
+        it { expect(subject["@source"]["host"]).to eq "5.6.7.8" }
+        it { expect(subject["host"]).to be_nil }
+      end
+    end
+
+    context "when [@source][host] is NOT set" do
+      when_parsing_log(
+          "host" => "1.2.3.4"
+      ) do
+        it { expect(subject["@source"]["host"]).to eq "1.2.3.4" }
+        it { expect(subject["host"]).to be_nil }
+      end
+    end
+
+  end
+
+
   describe "cleanup" do
 
     when_parsing_log(
@@ -124,7 +158,8 @@ describe "teardown.conf" do
       "syslog_pid" => "z",
       "tags" => ["t1", "t2"],
       "@level" => "lowercase value",
-      "@version" => "some version"
+      "@version" => "some version",
+      "host" => "1.2.3.4"
     ) do
 
       it "should remove syslog fields" do
@@ -148,6 +183,8 @@ describe "teardown.conf" do
       it { expect(subject["@level"]).to eq "LOWERCASE VALUE" }
 
       it { expect(subject["@version"]).to be_nil }
+
+      it { expect(subject["host"]).to be_nil }
 
     end
 

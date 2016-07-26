@@ -63,7 +63,7 @@ def construct_app_message (message_payload)
     "time":"2016-07-08T10:00:40Z", "timestamp":1467972040073786262 }'
 end
 
-def verify_fields (expected_origin, expected_type, expected_source, expected_level, expected_message)
+def verify_fields (expected_origin, expected_job, expected_type, expected_source, expected_level, expected_message)
 
   # no parsing errors
   it { expect(subject["@tags"]).not_to include "fail/cloudfoundry/app/json" }
@@ -73,9 +73,11 @@ def verify_fields (expected_origin, expected_type, expected_source, expected_lev
     expect(subject["@input"]).to eq "syslog"
     expect(subject["@shipper"]["priority"]).to eq "6"
     expect(subject["@shipper"]["name"]).to eq "doppler_syslog"
-    expect(subject["@source"]["host"]).to eq "bed08922-4734-4d62-9eba-3291aed1b8ce"
-    expect(subject["@source"]["name"]).to eq (expected_source + "/0")
+    expect(subject["@source"]["host"]).to eq "192.168.111.35"
+    expect(subject["@source"]["name"]).to eq (expected_job + "/0")
     expect(subject["@source"]["instance"]).to eq 0
+    expect(subject["@source"]["deployment"]).to eq "cf-full"
+    expect(subject["@source"]["job"]).to eq expected_job
 
     expect(subject["@metadata"]["index"]).to eq "app-admin-demo"
   end
