@@ -69,8 +69,8 @@ def export_kibana_config ( es_host, type, name )
   File.write( "#{type}/#{name}.json.erb", convert_to_erb( type, fetch_kibana_config( es_host, type, name ) ) )
 end
 
-export_kibana_config es_host, 'index-pattern' ,'[logs-app-]YYYY.MM.DD'
-export_kibana_config es_host, 'index-pattern' ,'[logs-platform-]YYYY.MM.DD'
+export_kibana_config es_host, 'index-pattern' ,'logs-app-*'
+export_kibana_config es_host, 'index-pattern' ,'logs-platform-*'
 
 export_kibana_config es_host, 'config' ,'4.2.0'
 

@@ -6,7 +6,7 @@
   "columns": [
     "@level",
     "@source.name",
-    "@source.app.name",
+    "@source.app",
     "@message"
   ],
   "sort": [
@@ -17,7 +17,7 @@
   "kibanaSavedObjectMeta": {
     "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
-      "index": "[logs-app-]YYYY.MM.DD",
+      "index": "logs-app-*",
       "query": {
         "query_string": {
           "analyze_wildcard": true,

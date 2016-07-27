@@ -19,7 +19,7 @@
   "kibanaSavedObjectMeta": {
     "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
-      "index": "[logs-app-]YYYY.MM.DD",
+      "index": "logs-app-*",
       "query": {
         "query_string": {
           "analyze_wildcard": true,
@@ -44,7 +44,7 @@
         {
           "meta": {
             "negate": false,
-            "index": "[logs-app-]YYYY.MM.DD",
+            "index": "logs-app-*",
             "key": "@source.component",
             "value": "AppEvent",
             "disabled": false
