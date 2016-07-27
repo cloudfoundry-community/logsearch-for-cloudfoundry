@@ -7,10 +7,6 @@ cf-kibana/kibana-4.4.2-linux-x64.tar.gz:
   object_id: 76bfb285-c84c-432e-9f9a-9d777b0047ff
   sha: 6251dbab12722ea1a036d8113963183f077f9fa7
   size: 32724112
-golang/go1.6.2.linux-amd64.tar.gz:
-  object_id: 0ed97087-677d-4fb8-83ca-268184cf462f
-  sha: b8318b09de06076d5397e6ec18ebef3b45cd315d
-  size: 84840658
 ruby-2.3/bundler-1.11.2.gem:
   object_id: 49f1cda1-4099-445a-afce-1542e0ddfe74
   sha: 8eb956dec72da753d3d2a2126c78508b17af434e
@@ -27,3 +23,7 @@ ruby-2.3/rubygems-2.6.4.tgz:
   object_id: 40690581-ce13-473c-9cc5-3a459e67be3b
   sha: 8ef39e536af2ecd20b0e7a95765fa6a485087ac8
   size: 478582
+golang/go1.6.3.linux-amd64.tar.gz:
+  object_id: 907ff470-c6df-4779-9e53-bfd2dcf5a613
+  sha: 5e916ba4dd8c2fc43beafca4c08b334c4d0686f3
+  size: 84856920
