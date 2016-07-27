@@ -58,7 +58,16 @@
             }
           }
         }
-      ]
+      ],
+      "properties" : {
+         "geoip"  : {
+           "type" : "object",
+             "dynamic": true,
+             "properties" : {
+               "location" : { "type" : "geo_point" }
+             }
+         }
+      }
     }
   }
 }
