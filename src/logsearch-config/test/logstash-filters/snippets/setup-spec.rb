@@ -50,7 +50,6 @@ describe "setup.conf" do
           "@type" => "some-type",
           "syslog_program" => "some-program",
           "syslog_pri" => "5",
-          "host" => "1.2.3.4",
           "@message" => "Some message" # OK
       ) do
 
@@ -63,8 +62,6 @@ describe "setup.conf" do
         it { expect(subject["@shipper"]["priority"]).to eq "5" }
         it { expect(subject["@shipper"]["name"]).to eq "some-program_some-type" }
         it { expect(subject["@source"]["component"]).to eq "some-program" }
-        it { expect(subject["@source"]["host"]).to eq "1.2.3.4" }
-        it { expect(subject["host"]).to be_nil }
 
       end
     end

@@ -26,7 +26,6 @@ describe "platform.conf" do
         # fields
         it "should set grok fields" do
           expect(subject["@message"]).to eq "Some message"
-          expect(subject["@source"]["name"]).to eq "nfs_z1/0"
           expect(subject["@source"]["job"]).to eq "nfs_z1"
           expect(subject["@source"]["instance"]).to eq "0"
         end
