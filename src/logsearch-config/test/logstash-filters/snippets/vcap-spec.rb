@@ -18,22 +18,21 @@ describe "vcap.conf" do
           "@type" => "cf",
           "syslog_program" => "vcap.consul-agent",
           "@source"=> { "component" => "vcap.consul-agent" }, # normally is set in platform.conf
+          "@level" => "Dummy level",
           # plain-text format
           "@message" => "2016/07/07 00:56:10 [WARN] agent: Check 'service:routing-api' is now critical"
       ) do
 
         # fields
-
-        it { expect(subject["vcap"]).to be_nil }
+        it { expect(subject["@source"]["component"]).to eq "consul-agent" }
+        it { expect(subject["@type"]).to eq "vcap_cf" }
+        it { expect(subject["tags"]).to eq ["vcap"] }
 
         it { expect(subject["@message"])
-          .to eq "2016/07/07 00:56:10 [WARN] agent: Check 'service:routing-api' is now critical" } # keeps the same value
+                 .to eq "2016/07/07 00:56:10 [WARN] agent: Check 'service:routing-api' is now critical" } # keeps the same value
+        it { expect(subject["@level"]).to eq "Dummy level" } # keeps the same
 
-        it "should set general fields" do
-          expect(subject["@source"]["component"]).to eq "consul-agent"
-          expect(subject["@type"]).to eq "vcap_cf"
-          expect(subject["tags"]).to include "vcap"
-        end
+        it { expect(subject["parsed_json_data"]).to be_nil } # no json fields
 
       end
     end
@@ -48,28 +47,27 @@ describe "vcap.conf" do
       ) do
 
         # fields
-        it "should set [vcap] fields from JSON" do
-          expect(subject["vcap"]).not_to be_nil
-          expect(subject["vcap"]["timestamp"]).to eq 1467852972.554088
-          expect(subject["vcap"]["source"]).to eq "NatsStreamForwarder"
-          expect(subject["vcap"]["data"]["nats_message"]).to eq "{\"uris\":[\"redis-broker.64.78.234.207.xip.io\"],\"host\":\"192.168.111.201\",\"port\":80}"
-          expect(subject["vcap"]["data"]["reply_inbox"]).to eq "_INBOX.7e93f2a1d5115844163cc930b5"
+        it { expect(subject["@source"]["component"]).to eq "nats" }
+        it { expect(subject["@type"]).to eq "vcap_cf" }
+        it { expect(subject["tags"]).to eq ["vcap"] }
+
+        # JSON fields
+        it "sets JSON fields" do
+          expect(subject["parsed_json_data"]).not_to be_nil
+          expect(subject["parsed_json_data"]["timestamp"]).to eq 1467852972.554088
+          expect(subject["parsed_json_data"]["source"]).to eq "NatsStreamForwarder"
+          expect(subject["parsed_json_data"]["data"]["nats_message"]).to eq "{\"uris\":[\"redis-broker.64.78.234.207.xip.io\"],\"host\":\"192.168.111.201\",\"port\":80}"
+          expect(subject["parsed_json_data"]["data"]["reply_inbox"]).to eq "_INBOX.7e93f2a1d5115844163cc930b5"
         end
 
-        it "should set @message from JSON" do
+        it "sets @message from JSON" do
           expect(subject["@message"]).to eq "router.register"
-          expect(subject["vcap"]["message"]).to be_nil
+          expect(subject["parsed_json_data"]["message"]).to be_nil
         end
 
-        it "should set @level from JSON" do
+        it "sets @level from JSON" do
           expect(subject["@level"]).to eq "info"
-          expect(subject["vcap"]["log_level"]).to be_nil
-        end
-
-        it "should set general fields" do
-          expect(subject["@source"]["component"]).to eq "nats"
-          expect(subject["@type"]).to eq "vcap_cf"
-          expect(subject["tags"]).to include "vcap"
+          expect(subject["parsed_json_data"]["log_level"]).to be_nil
         end
 
       end
@@ -81,58 +79,37 @@ describe "vcap.conf" do
   describe "when NOT vcap case" do
 
     context "(bad @type)" do
-      when_parsing_log(
+      event = when_parsing_log(
           "@type" => "Some type", # bad value
           "syslog_program" => "vcap.some_program",
           "@message" => "Some message"
       ) do
 
-        # fields not set => 'if' condition has failed
-        it "shouldn't set fields" do
-          expect(subject["vcap"]).to be_nil
-          expect(subject["@source"]).to be_nil
-          expect(subject["tags"]).to be_nil
-          expect(subject["@type"]).to eq "Some type" # kept the same
-          expect(subject["@message"]).to eq "Some message" # kept the same
-        end
+        it { expect(subject).to eq event } # kept the same
 
       end
     end
 
     context "(bad syslog_program)" do
-      when_parsing_log(
+      event = when_parsing_log(
           "@type" => "cf",
           "syslog_program" => "Some program", # bad value
           "@message" => "Some message"
       ) do
 
-        # fields not set => 'if' condition has failed
-        it "shouldn't set fields" do
-          expect(subject["vcap"]).to be_nil
-          expect(subject["@source"]).to be_nil
-          expect(subject["tags"]).to be_nil
-          expect(subject["@type"]).to eq "cf" # kept the same
-          expect(subject["@message"]).to eq "Some message" # kept the same
-        end
+        it { expect(subject).to eq event } # kept the same
 
       end
     end
 
     context "(uaa case)" do
-      when_parsing_log(
+      event = when_parsing_log(
           "@type" => "cf",
           "syslog_program" => "vcap.uaa", # bad value
           "@message" => "Some message"
       ) do
 
-        # fields not set => 'if' condition has failed
-        it "shouldn't set fields" do
-          expect(subject["vcap"]).to be_nil
-          expect(subject["@source"]).to be_nil
-          expect(subject["tags"]).to be_nil
-          expect(subject["@type"]).to eq "cf" # kept the same
-          expect(subject["@message"]).to eq "Some message" # kept the same
-        end
+        it { expect(subject).to eq event } # kept the same
 
       end
     end

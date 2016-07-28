@@ -58,7 +58,7 @@ def construct_app_message (message_payload)
     "message_type":"OUT",
     "msg":"' + message_payload.msg + '" ,
     "origin":"' + message_payload.origin + '" ,
-    "source_instance":"0",
+    "source_instance":"5",
     "source_type":"' + message_payload.source_type + '",
     "time":"2016-07-08T10:00:40Z", "timestamp":1467972040073786262 }'
 end
@@ -74,8 +74,8 @@ def verify_fields (expected_origin, expected_job, expected_type, expected_source
     expect(subject["@shipper"]["priority"]).to eq "6"
     expect(subject["@shipper"]["name"]).to eq "doppler_syslog"
     expect(subject["@source"]["host"]).to eq "192.168.111.35"
-    expect(subject["@source"]["name"]).to eq (expected_job + "/0")
-    expect(subject["@source"]["instance"]).to eq 0
+    expect(subject["@source"]["name"]).to eq (expected_job + "/5")
+    expect(subject["@source"]["instance"]).to eq 5
     expect(subject["@source"]["deployment"]).to eq "cf-full"
     expect(subject["@source"]["job"]).to eq expected_job
 

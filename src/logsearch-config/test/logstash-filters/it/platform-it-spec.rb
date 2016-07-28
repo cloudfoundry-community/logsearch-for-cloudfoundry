@@ -1,7 +1,8 @@
 # encoding: utf-8
 require 'test/filter_test_helpers'
+require 'test/logstash-filters/it_platform_helper' # platform it util
 
-describe "Platform Integration Test" do
+describe "Platform logs IT" do
 
   before(:all) do
     load_filters <<-CONFIG
@@ -11,96 +12,87 @@ describe "Platform Integration Test" do
     CONFIG
   end
 
-  describe "when message is platform log" do
+  # init event (dummy)
+  platform_event_dummy = {"@type" => "relp",
+                     "syslog_pri" => "14",
+                     "syslog_severity_code" => 3,
+                     "host" => "192.168.111.24",
+                     "syslog_program" => "Dummy program",
+                     "@message" => "Dummy message"}
 
-    context "(vcap)" do
-      when_parsing_log(
-          "@type" => "relp",
-          "syslog_program" => "vcap.consul-agent",
-          "syslog_pri" => "14",
-          "syslog_severity_code" => 3,
-          "host" => "192.168.111.24:44577",
-          "@message" => "[job=nfs_z1 index=0] {\"timestamp\":1467852972.554088,\"source\":\"NatsStreamForwarder\",\"log_level\":\"info\",\"message\":\"router.register\",\"data\":{\"nats_message\": \"{\\\"uris\\\":[\\\"redis-broker.64.78.234.207.xip.io\\\"],\\\"host\\\":\\\"192.168.111.201\\\",\\\"port\\\":80}\",\"reply_inbox\":\"_INBOX.7e93f2a1d5115844163cc930b5\"}}"
-      ) do
+  describe "when format is" do
 
-        # no parsing errors
-        it { expect(subject["@tags"]).not_to include "fail/cloudfoundry/platform/grok" }
+    context "vcap (plain text)" do
 
-        # fields
-        it "should set common fields" do
-          expect(subject["@input"]).to eq "relp"
-          expect(subject["@shipper"]["priority"]).to eq "14"
-          expect(subject["@shipper"]["name"]).to eq "vcap.consul-agent_relp"
-          expect(subject["@source"]["host"]).to eq "192.168.111.24:44577"
-          expect(subject["@source"]["name"]).to eq "nfs_z1/0"
-          expect(subject["@source"]["instance"]).to eq 0
+      message_payload = MessagePayloadBuilder.new
+          .job("nfs_z1")
+          .message_text('Some vcap plain text message') # plain text message
+          .build()
+      sample_event = platform_event_dummy.clone
+      sample_event["@message"] = construct_platform_message(message_payload)
+      sample_event["syslog_program"] = "vcap.consul-agent" # vcap
 
-          expect(subject["@metadata"]["index"]).to eq "platform"
-        end
+      when_parsing_log(sample_event) do
 
-        it "should override common fields" do
-          expect(subject["@source"]["component"]).to eq "consul-agent"
-          expect(subject["@type"]).to eq "vcap_cf"
-          expect(subject["@tags"]).to eq ["cf", "vcap"]
-        end
+        verify_fields("vcap.consul-agent_relp", "consul-agent", "nfs_z1",
+          "vcap_cf", ["cf", "vcap"], "Some vcap plain text message", "ERROR")
 
-        it "should set mandatory fields" do
-          expect(subject["@message"]).to eq "router.register"
-          expect(subject["vcap"]["message"]).to be_nil
-          expect(subject["@level"]).to eq "INFO"
-          expect(subject["vcap"]["log_level"]).to be_nil
-        end
-
-        # vcap-specific fields
-        it "should set [vcap] fields from JSON" do
-          expect(subject["vcap"]).not_to be_nil
-          expect(subject["vcap"]["timestamp"]).to eq 1467852972.554088
-          expect(subject["vcap"]["source"]).to eq "NatsStreamForwarder"
-          expect(subject["vcap"]["data"]["nats_message"]).to eq "{\"uris\":[\"redis-broker.64.78.234.207.xip.io\"],\"host\":\"192.168.111.201\",\"port\":80}"
-          expect(subject["vcap"]["data"]["reply_inbox"]).to eq "_INBOX.7e93f2a1d5115844163cc930b5"
-        end
+        # verify no JSON parsing
+        it { expect(subject["parsed_json_data"]).to be_nil }
+        it { expect(subject["consul_agent"]).to be_nil }
 
       end
     end
 
-    context "(haproxy)" do
-      when_parsing_log(
-          "@type" => "relp",
-          "syslog_program" => "haproxy",
-          "syslog_pri" => "14",
-          "syslog_severity_code" => 3,
-          "host" => "192.168.111.24:44577",
-          "@message" => "[job=ha_proxy_z1 index=0]  64.78.155.208:60677 [06/Jul/2016:13:59:57.770] https-in~ http-routers/node0 59841/0/0/157/60000 200 144206 reqC respC ---- 3/4/1/2/0 5/6 {reqHeaders} {respHeaders} \"GET /v2/apps?inline-relations-depth=2 HTTP/1.1\""
-      ) do
+    context "vcap (json)" do
 
-        # no parsing errors
-        it { expect(subject["@tags"]).not_to include "fail/cloudfoundry/platform/grok" }
+      message_payload = MessagePayloadBuilder.new
+                            .job("nfs_z1")
+                            .message_text('{"timestamp":1467852972.554088,"source":"NatsStreamForwarder", ' +
+                                              '"log_level":"info","message":"router.register", ' +
+                                              '"data":{"nats_message": "{\"uris\":[\"redis-broker.64.78.234.207.xip.io\"],\"host\":\"192.168.111.201\",\"port\":80}",' +
+                                              '"reply_inbox":"_INBOX.7e93f2a1d5115844163cc930b5"}}')
+                            .build() # JSON message
+      sample_event = platform_event_dummy.clone
+      sample_event["@message"] = construct_platform_message(message_payload)
+      sample_event["syslog_program"] = "vcap.consul-agent" # vcap
 
-        # fields
-        it "should set common fields" do
-          expect(subject["@input"]).to eq "relp"
-          expect(subject["@shipper"]["priority"]).to eq "14"
-          expect(subject["@shipper"]["name"]).to eq "haproxy_relp"
-          expect(subject["@source"]["host"]).to eq "192.168.111.24:44577"
-          expect(subject["@source"]["name"]).to eq "ha_proxy_z1/0"
-          expect(subject["@source"]["instance"]).to eq 0
+      when_parsing_log(sample_event) do
 
-          expect(subject["@metadata"]["index"]).to eq "platform"
+        verify_fields("vcap.consul-agent_relp", "consul-agent", "nfs_z1",
+                      "vcap_cf", ["cf", "vcap"], "router.register", "INFO")
+
+        # json fields
+        it "sets fields from JSON" do
+          expect(subject["consul_agent"]).not_to be_nil
+          expect(subject["consul_agent"]["timestamp"]).to eq 1467852972.554088
+          expect(subject["consul_agent"]["source"]).to eq "NatsStreamForwarder"
+          expect(subject["consul_agent"]["data"]["nats_message"]).to eq "{\"uris\":[\"redis-broker.64.78.234.207.xip.io\"],\"host\":\"192.168.111.201\",\"port\":80}"
+          expect(subject["consul_agent"]["data"]["reply_inbox"]).to eq "_INBOX.7e93f2a1d5115844163cc930b5"
         end
 
-        it "should override common fields" do
-          expect(subject["@source"]["component"]).to eq "haproxy"
-          expect(subject["@type"]).to eq "haproxy_cf"
-          expect(subject["@tags"]).to eq ["cf", "haproxy"]
-        end
+        # verify cleanup
+        it { expect(subject["parsed_json_data"]).to be_nil }
 
-        it "should set mandatory fields" do
-          expect(subject["@message"]).to eq "GET /v2/apps?inline-relations-depth=2 HTTP/1.1"
-          expect(subject["@level"]).to eq "INFO"
-        end
+      end
+    end
 
-        # haproxy-specific fields
-        it "should set [haproxy] fields from grok" do
+    context "haproxy" do
+      message_payload = MessagePayloadBuilder.new
+                            .job("ha_proxy_z1")
+                            .message_text('64.78.155.208:60677 [06/Jul/2016:13:59:57.770] https-in~ http-routers/node0 59841/0/0/157/60000 200 144206 reqC respC ---- 3/4/1/2/0 5/6 {reqHeaders} {respHeaders} "GET /v2/apps?inline-relations-depth=2 HTTP/1.1"')
+                            .build()
+      sample_event = platform_event_dummy.clone
+      sample_event["@message"] = construct_platform_message(message_payload)
+      sample_event["syslog_program"] = "haproxy" # haproxy
+
+      when_parsing_log(sample_event) do
+
+        verify_fields("haproxy_relp", "haproxy", "ha_proxy_z1",
+                      "haproxy_cf", ["cf", "haproxy"], "GET /v2/apps?inline-relations-depth=2 HTTP/1.1", "INFO")
+
+        # haproxy fields
+        it "sets [haproxy] fields from grok" do
           expect(subject["haproxy"]["client_ip"]).to eq "64.78.155.208"
           expect(subject["haproxy"]["client_port"]).to eq "60677"
           expect(subject["haproxy"]["accept_date"]).to eq "06/Jul/2016:13:59:57.770"
@@ -133,49 +125,23 @@ describe "Platform Integration Test" do
       end
     end
 
-    context "(uaa)" do
-      when_parsing_log(
-          "@type" => "relp",
-          "syslog_program" => "vcap.uaa",
-          "syslog_pri" => "14",
-          "syslog_severity_code" => 3,
-          "host" => "192.168.111.24:44577",
-          "@message" => "[job=uaa_z0 index=0]  [2016-07-05 04:02:18.245] uaa - 15178 [http-bio-8080-exec-14] ....  INFO --- Audit: ClientAuthenticationSuccess ('Client authentication success'): principal=cf, origin=[remoteAddress=64.78.155.208, clientId=cf], identityZoneId=[uaa]"
-      ) do
+    context "uaa" do
+      message_payload = MessagePayloadBuilder.new
+                            .job("uaa_z0")
+                            .message_text('[2016-07-05 04:02:18.245] uaa - 15178 [http-bio-8080-exec-14] ....  INFO --- Audit: ClientAuthenticationSuccess (\'Client authentication success\'): principal=cf, origin=[remoteAddress=64.78.155.208, clientId=cf], identityZoneId=[uaa]')
+                            .build()
+      sample_event = platform_event_dummy.clone
+      sample_event["@message"] = construct_platform_message(message_payload)
+      sample_event["syslog_program"] = "vcap.uaa" # uaa
 
-        # no parsing errors
-        it { expect(subject["@tags"]).not_to include "fail/cloudfoundry/platform/grok" }
+      when_parsing_log(sample_event) do
 
-        # fields
-        it "should set common fields" do
-          expect(subject["@input"]).to eq "relp"
-          expect(subject["@shipper"]["priority"]).to eq "14"
-          expect(subject["@shipper"]["name"]).to eq "vcap.uaa_relp"
-          expect(subject["@source"]["host"]).to eq "192.168.111.24:44577"
-          expect(subject["@source"]["name"]).to eq "uaa_z0/0"
-          expect(subject["@source"]["instance"]).to eq 0
+        verify_fields("vcap.uaa_relp", "uaa", "uaa_z0",
+                      "uaa_cf", ["cf", "uaa"],
+                      "ClientAuthenticationSuccess ('Client authentication success')", "INFO")
 
-          expect(subject["@metadata"]["index"]).to eq "platform"
-        end
-
-        it "should override common fields" do
-          expect(subject["@source"]["component"]).to eq "uaa"
-          expect(subject["@type"]).to eq "uaa_cf"
-          expect(subject["@tags"]).to eq ["cf", "uaa"]
-        end
-
-        it "should set mandatory fields" do
-          expect(subject["@message"]).to eq "ClientAuthenticationSuccess ('Client authentication success')"
-          expect(subject["@level"]).to eq "INFO"
-        end
-
-        # uaa-specific fields
-        it "should set geoip for remoteAddress" do
-          expect(subject["geoip"]).not_to be_nil
-          expect(subject["geoip"]["ip"]).to eq "64.78.155.208"
-        end
-
-        it "should set [uaa] fields" do
+        # uaa fields
+        it "sets [uaa] fields" do
           expect(subject["uaa"]["pid"]).to eq 15178
           expect(subject["uaa"]["thread_name"]).to eq "http-bio-8080-exec-14"
           expect(subject["uaa"]["timestamp"]).to eq "2016-07-05 04:02:18.245"
@@ -187,46 +153,15 @@ describe "Platform Integration Test" do
           expect(subject["uaa"]["identity_zone_id"]).to eq "uaa"
         end
 
+        it "sets geoip for remoteAddress" do
+          expect(subject["geoip"]).not_to be_nil
+          expect(subject["geoip"]["ip"]).to eq "64.78.155.208"
+        end
+
       end
-    end
-
-  end
-
-  describe "when message is unparsed" do
-
-    when_parsing_log(
-        "@type" => "relp",
-        "syslog_program" => "some-program", # not a platform log
-        "syslog_pri" => "14",
-        "syslog_severity_code" => 3,
-        "host" => "192.168.111.24:44577",
-        "@message" => "Some message" # not a platform log
-    ) do
-
-      # parsing error
-      it { expect(subject["@tags"]).to include "fail/cloudfoundry/platform/grok" }
-
-      # fields
-      it "should set common fields" do
-        expect(subject["@input"]).to eq "relp"
-        expect(subject["@shipper"]["priority"]).to eq "14"
-        expect(subject["@shipper"]["name"]).to eq "some-program_relp"
-        expect(subject["@source"]["host"]).to eq "192.168.111.24:44577"
-        expect(subject["@source"]["name"]).to be_nil
-        expect(subject["@source"]["instance"]).to be_nil
-        expect(subject["@source"]["component"]).to eq "some-program"
-        expect(subject["@type"]).to eq "relp"
-
-        expect(subject["@metadata"]["index"]).to eq "unparsed"
-      end
-
-      it "should set mandatory fields" do
-        expect(subject["@message"]).to eq "Some message"
-        expect(subject["@level"]).to eq "ERROR"
-      end
-
     end
 
   end
 
 end
+

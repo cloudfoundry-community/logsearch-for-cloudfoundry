@@ -142,6 +142,35 @@ describe "teardown.conf" do
 
   end
 
+  describe "renames [parsed_json_data]" do
+
+    describe "when [parsed_json_data] and [@source][component] are set" do
+      when_parsing_log(
+          "parsed_json_data" => "dummy value",
+          "@source" => {"component" => "Abc-defg.hI?jk#lm NOPQ"}
+      ) do
+        it { expect(subject["parsed_json_data"]).to be_nil }
+        it { expect(subject["abc_defg_hi_jk_lm_nopq"]).to eq "dummy value" } # renamed
+      end
+    end
+
+    context "when [parsed_json_data] is NOT set" do
+      event = when_parsing_log(
+          "some useless field" => "some value"
+      ) do
+        it { expect(subject).to eq event } # no changes
+      end
+    end
+
+    context "when [@source][component] is NOT set" do
+      event = when_parsing_log(
+          "parsed_json_data" => "dummy value"
+      ) do
+        it { expect(subject).to eq event } # no changes
+      end
+    end
+
+  end
 
   describe "cleanup" do
 
@@ -162,20 +191,20 @@ describe "teardown.conf" do
       "host" => "1.2.3.4"
     ) do
 
-      it "should remove syslog fields" do
+      it "removes syslog_ fields" do
         expect(subject["syslog_pri"]).to be_nil
         expect(subject["syslog_facility"]).to be_nil
         expect(subject["syslog_facility_code"]).to be_nil
         expect(subject["syslog_message"]).to be_nil
         expect(subject["syslog_severity"]).to be_nil
-        expect(subject[ "syslog_severity_code"]).to be_nil
+        expect(subject["syslog_severity_code"]).to be_nil
         expect(subject["syslog_program"]).to be_nil
         expect(subject["syslog_timestamp"]).to be_nil
         expect(subject["syslog_hostname"]).to be_nil
         expect(subject["syslog_pid"]).to be_nil
       end
 
-      it "should rename tags field" do
+      it "renames 'tags' field" do
         expect(subject["@tags"]).to eq ["t1", "t2"]
         expect(subject["tags"]).to be_nil
       end
@@ -185,7 +214,7 @@ describe "teardown.conf" do
       it { expect(subject["@version"]).to be_nil }
 
       it { expect(subject["host"]).to be_nil }
-
+      
     end
 
   end
