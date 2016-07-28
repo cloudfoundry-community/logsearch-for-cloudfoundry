@@ -87,7 +87,7 @@ ENDOFFJSON
         {
           "meta": {
             "disabled": false,
-            "index": "[logs-platform-]YYYY.MM.DD",
+            "index": "logs-platform-*",
             "key": "@source.deployment",
             "negate": false,
             "value": "ELK"
@@ -104,7 +104,7 @@ ENDOFFJSON
         {
           "meta": {
             "disabled": true,
-            "index": "[logs-platform-]YYYY.MM.DD",
+            "index": "logs-platform-*",
             "key": "@source.deployment",
             "negate": false,
             "value": "CF"
@@ -121,7 +121,7 @@ ENDOFFJSON
         {
           "meta": {
             "disabled": true,
-            "index": "[logs-platform-]YYYY.MM.DD",
+            "index": "logs-platform-*",
             "key": "NATS.job_state",
             "negate": true,
             "value": "running"

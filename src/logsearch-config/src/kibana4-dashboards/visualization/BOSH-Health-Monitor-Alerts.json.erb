@@ -11,7 +11,7 @@
         "scale": "linear",
         "mode": "stacked",
         "times": [
-    
+
         ],
         "addTimeMarker": false,
         "defaultYExtents": false,
@@ -45,7 +45,7 @@
           "type": "terms",
           "schema": "group",
           "params": {
-            "field": "@level",
+            "field": "@level.raw",
             "size": 6,
             "order": "desc",
             "orderBy": "1"
@@ -64,7 +64,7 @@ ENDOFFJSON
     "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
       "filter": [
-    
+
       ]
     }
 ENDOFFJSON

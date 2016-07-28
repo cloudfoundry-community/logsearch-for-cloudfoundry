@@ -1,6 +1,6 @@
 <% require 'json' %>
 {
-  "title": "[logs-platform-]YYYY.MM.DD",
+  "title": "logs-platform-*",
   "timeFieldName": "@timestamp",
   "intervalName": "days",
   "fields": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }

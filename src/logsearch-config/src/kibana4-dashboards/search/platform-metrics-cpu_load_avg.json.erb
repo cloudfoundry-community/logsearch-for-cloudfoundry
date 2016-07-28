@@ -15,7 +15,7 @@
   "kibanaSavedObjectMeta": {
     "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
-      "index": "[logs-platform-]YYYY.MM.DD",
+      "index": "logs-platform-*",
       "query": {
         "query_string": {
           "query": "*",
@@ -40,7 +40,7 @@
         {
           "meta": {
             "negate": false,
-            "index": "[logs-platform-]YYYY.MM.DD",
+            "index": "logs-platform-*",
             "key": "metric.key",
             "value": "cpu_load_avg",
             "disabled": false

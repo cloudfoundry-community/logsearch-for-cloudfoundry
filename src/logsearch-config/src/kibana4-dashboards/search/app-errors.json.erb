@@ -14,7 +14,7 @@
   "kibanaSavedObjectMeta": {
     "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
-      "index": "[logs-app-]YYYY.MM.DD",
+      "index": "logs-app-*",
       "highlight": {
         "pre_tags": [
           "@kibana-highlighted-field@"

@@ -15,7 +15,7 @@
         "drawLinesBetweenPoints": true,
         "radiusRatio": 9,
         "times": [
-    
+
         ],
         "addTimeMarker": false,
         "defaultYExtents": false,
@@ -50,7 +50,7 @@
           "type": "terms",
           "schema": "group",
           "params": {
-            "field": "@source.component",
+            "field": "@source.component.raw",
             "size": 25,
             "order": "desc",
             "orderBy": "_term"
@@ -85,7 +85,7 @@ ENDOFFJSON
     "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
       "filter": [
-    
+
       ]
     }
 ENDOFFJSON

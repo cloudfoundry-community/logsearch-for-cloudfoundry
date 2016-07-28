@@ -4,7 +4,7 @@
   "description": "",
   "hits": 0,
   "columns": [
-    "@source.app.name",
+    "@source.app",
     "RTR.verb",
     "RTR.response_time_ms",
     "RTR.status",
@@ -18,7 +18,7 @@
   "kibanaSavedObjectMeta": {
     "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
-      "index": "[logs-app-]YYYY.MM.DD",
+      "index": "logs-app-*",
       "query": {
         "query_string": {
           "analyze_wildcard": true,
@@ -43,7 +43,7 @@
         {
           "meta": {
             "negate": false,
-            "index": "[logs-app-]YYYY.MM.DD",
+            "index": "logs-app-*",
             "key": "@source.component",
             "value": "RTR",
             "disabled": false

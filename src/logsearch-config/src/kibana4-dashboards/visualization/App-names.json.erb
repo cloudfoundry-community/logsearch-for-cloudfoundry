@@ -22,7 +22,7 @@
           "type": "terms",
           "schema": "bucket",
           "params": {
-            "field": "@source.app.name",
+            "field": "@source.app.raw",
             "size": 25,
             "order": "desc",
             "orderBy": "1"
@@ -41,7 +41,7 @@ ENDOFFJSON
     "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
       "filter": [
-    
+
       ]
     }
 ENDOFFJSON

@@ -15,7 +15,7 @@
         "drawLinesBetweenPoints": true,
         "radiusRatio": 9,
         "times": [
-    
+
         ],
         "addTimeMarker": false,
         "defaultYExtents": false,
@@ -50,7 +50,7 @@
           "type": "terms",
           "schema": "group",
           "params": {
-            "field": "@source.component",
+            "field": "@source.component.raw",
             "size": 25,
             "order": "desc",
             "orderBy": "_term"
@@ -72,7 +72,7 @@ ENDOFFJSON
         {
           "meta": {
             "disabled": false,
-            "index": "[logs-platform-]YYYY.MM.DD",
+            "index": "logs-platform-*",
             "key": "@source.deployment",
             "negate": false,
             "value": "ELK"
@@ -89,7 +89,7 @@ ENDOFFJSON
         {
           "meta": {
             "disabled": true,
-            "index": "[logs-platform-]YYYY.MM.DD",
+            "index": "logs-platform-*",
             "key": "@source.deployment",
             "negate": false,
             "value": "CF"
