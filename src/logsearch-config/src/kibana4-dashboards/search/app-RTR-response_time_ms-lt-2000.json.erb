@@ -5,10 +5,10 @@
   "hits": 0,
   "columns": [
     "@source.app",
-    "RTR.verb",
-    "RTR.response_time_ms",
-    "RTR.status",
-    "RTR.path"
+    "rtr.verb",
+    "rtr.response_time_ms",
+    "rtr.status",
+    "rtr.path"
   ],
   "sort": [
     "@timestamp",
@@ -22,7 +22,7 @@
       "query": {
         "query_string": {
           "analyze_wildcard": true,
-          "query": "RTR.response_time_ms:<2000"
+          "query": "rtr.response_time_ms:<2000"
         }
       },
       "highlight": {
