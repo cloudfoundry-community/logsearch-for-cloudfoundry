@@ -117,7 +117,7 @@ module.exports = function (kibana) {
           if (err) {
             server.log(['err', 'cache', 'redis'], err);
           }
-          cache = new Catbox.Policy(policy, client, cache_segment)
+          cache = new Catbox.Policy(policy, client, cache_segment);
         });
       }
 
@@ -245,30 +245,58 @@ module.exports = function (kibana) {
                 if (err) {
                   server.log(['error', 'authentication', 'session:get:_filtered_msearch'], JSON.stringify(err));
                 }
-                if (cached.account.orgs.indexOf(config.get('authentication.cf_system_org')) !== -1) {
-                  options.payload = request.payload;
-                } else {
+                if (cached.account.orgs.indexOf(config.get('authentication.cf_system_org')) === -1) {
                   var modified_payload = [];
                   var lines = request.payload.toString().split('\n');
                   var num_lines = lines.length;
                   for (var i = 0; i < num_lines - 1; i+=2) {
                     var indexes = lines[i];
                     var query = JSON.parse(lines[i+1]);
-                    query.query.filtered.filter.bool.filter = [
-                      {
-                        "terms": {
-                          "@source.space_id": cached.account.spaceIds
-                        }
-                      },{
-                        "terms": {
-                          "@source.org_id": cached.account.orgIds
-                        }
-                      }
-                    ];
+                    query = filterQuery(query, cached);
                     modified_payload.push(indexes);
                     modified_payload.push(JSON.stringify(query));
                   }
                   options.payload = new Buffer(modified_payload.join('\n') + '\n');
+                } else {
+                  options.payload = request.payload;
+                }
+                options.headers = request.headers;
+                delete options.headers.host;
+                delete options.headers['user-agent'];
+                delete options.headers['accept-encoding'];
+                options.headers['content-length'] = options.payload.length;
+                server.inject(options, (resp) => {
+                  reply(resp.result || resp.payload)
+                    .code(resp.statusCode)
+                    .type(resp.headers['content-type'])
+                    .passThrough(true);
+                });
+              });
+            }
+          }
+        }, {
+          method: 'POST',
+          path: '/{index}/_filtered_search',
+          config: {
+            payload: {
+              parse: false
+            },
+            handler: function(request, reply) {
+              var options = {
+                method: 'POST',
+                url: '/elasticsearch/' + request.params.index + '/_search',
+                artifacts: true
+              };
+              cache.get(request.auth.credentials.session_id, function(err, cached) {
+                if (err) {
+                  server.log(['error', 'authentication', 'session:get:_filtered_search'], JSON.stringify(err));
+                }
+                if (cached.account.orgs.indexOf(config.get('authentication.cf_system_org')) === -1) {
+                  var payload = JSON.parse(request.payload.toString() || '{}');
+                  payload = filterQuery(payload, cached);
+                  options.payload = new Buffer(JSON.stringify(payload));
+                } else {
+                  options.payload = request.payload;
                 }
                 options.headers = request.headers;
                 delete options.headers.host;
@@ -289,17 +317,51 @@ module.exports = function (kibana) {
 
     }); // end: server.register
 
-    // Redirect _msearch through our own route so we can modify the payload
+    // Redirect _msearch and _search through our own route so we can modify the payload
     server.ext('onRequest', function (request, reply) {
       if (/elasticsearch\/_msearch/.test(request.path) && !request.auth.artifacts) {
         request.setUrl('/_filtered_msearch');
+      } else {
+        var match = /elasticsearch\/([^\/]+)\/_search/.exec(request.path);
+        if (match !== null && !request.auth.artifacts) {
+          request.setUrl('/' + match[1] + '/_filtered_search');
+        }
       }
       return reply.continue();
 
     }); // end server.ext('onRequest')
 
-
   }
 
   });
 };
+
+function filterQuery(payload, cached) {
+  var bool = ensureKeys(payload, ['query', 'filtered', 'filter', 'bool']);
+  bool.must = bool.must || [];
+  // Note: the `must` clause may be an array or an object
+  if (isObject(bool.must)) {
+    bool.must = [bool.must];
+  }
+  bool.must.push(
+    {'terms': {'@source.space_id': cached.account.spaceIds}},
+    {'terms': {'@source.org_id': cached.account.orgIds}}
+  );
+  return payload;
+}
+
+function ensureKeys(value, keys) {
+  var key;
+  while (keys.length) {
+    key = keys.shift();
+    if (typeof value[key] === 'undefined') {
+      value[key] = {};
+    }
+    value = value[key];
+  }
+  return value;
+}
+
+function isObject(value) {
+  return value instanceof Object && !(value instanceof Array);
+}
