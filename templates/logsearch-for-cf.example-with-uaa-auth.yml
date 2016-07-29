@@ -32,6 +32,15 @@ jobs:
       filters:
       - logsearch-for-cf: /var/vcap/packages/logsearch-for-cloudfoundry-filters/logstash-filters-default.conf
 
+- name: maintenance
+  templates:
+  - (( merge ))
+  - {name: logsearch-for-cloudfoundry-filters, release: logsearch-for-cloudfoundry}
+  properties:
+    elasticsearch_config:
+      templates:
+      - index_template: /var/vcap/packages/logsearch-for-cloudfoundry-filters/logs-template.json
+
 - name: create-uaa-client
   lifecycle: errand
   release: logsearch-for-cloudfoundry
