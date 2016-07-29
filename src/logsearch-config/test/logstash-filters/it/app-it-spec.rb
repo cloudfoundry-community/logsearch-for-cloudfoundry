@@ -1,8 +1,8 @@
 # encoding: utf-8
 require 'test/filter_test_helpers'
-require 'test/logstash-filters/it_app_helper'
+require 'test/logstash-filters/it_app_helper' # app it util
 
-describe "App Integration Test" do
+describe "App logs IT" do
 
   before(:all) do
     load_filters <<-CONFIG
