@@ -21,10 +21,12 @@ elasticsearch.preserveHost: true
 
 # Kibana uses an index in Elasticsearch to store saved searches, visualizations and
 # dashboards. Kibana creates a new index if the index doesn’t already exist.
-kibana.index: ".kibana"
+# kibana.index: ".kibana"
+kibana.index: "<%= p('cf-kibana.kibana_index') %>"
 
 # The default application to load.
 # kibana.defaultAppId: "discover"
+kibana.defaultAppId: "<%= p('cf-kibana.default_app_id') %>"
 
 # If your Elasticsearch is protected with basic authentication, these settings provide
 # the username and password that the Kibana server uses to perform maintenance on the Kibana
@@ -57,9 +59,11 @@ kibana.index: ".kibana"
 # Time in milliseconds to wait for responses from the back end or Elasticsearch. This value
 # must be a positive integer.
 # elasticsearch.requestTimeout: 300000
+elasticsearch.requestTimeout: <%= p('cf-kibana.request_timeout') %>
 
 # Time in milliseconds for Elasticsearch to wait for responses from shards. Set to 0 to disable.
 # elasticsearch.shardTimeout: 0
+elasticsearch.shardTimeout: <%= p('cf-kibana.shard_timeout') %>
 
 # Time in milliseconds to wait for Elasticsearch at Kibana startup before retrying.
 # elasticsearch.startupTimeout: 5000
