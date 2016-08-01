@@ -50,7 +50,7 @@ do
 done
 export TMPDIR=$TMP_DIR
 
-PIDFILE=$RUN_DIR/$output_label.pid
+export PIDFILE=$RUN_DIR/$output_label.pid
 PIDFILE_syslog=$RUN_DIR/${output_label}_syslog.pid
 
 echo '$PATH' $PATH
