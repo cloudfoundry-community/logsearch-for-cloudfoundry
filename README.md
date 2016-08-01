@@ -20,14 +20,14 @@ This documentation assumes that you have a working LogSearch deployment and that
 $ bosh download manifest $logsearch_deployment_name > ~/workspace/logsearch.yml
 ```
 
-### 3. Upload LogSearch-for-CloudFoundry release to your BOSH director
+### 2. Upload LogSearch-for-CloudFoundry release to your BOSH director
 
 ```sh
 $ bosh create release
 $ bosh upload release
 ```
 
-### 2. Extend the LogSearch deployment manifest with LogSearch-for-CloudFoundry
+### 3. Extend the LogSearch deployment manifest with LogSearch-for-CloudFoundry
 
 At this point there is a choice to make. If Kibana is publicly exposed in your deployment and you wish to protect it with authentication, you have 2 options.
 
@@ -60,11 +60,20 @@ $ vim templates/logsearch-for-cf.example-with-uaa-auth.yml
 $ scripts/generate_deployment_manifest ~/workspace/logsearch.yml templates/logsearch-for-cf.example-with-uaa-auth.yml > ~/workspace/logsearch-with-logsearch-for-cf.yml
 ```
 
-### 3. Update the logsearch deployment with the new manifest
+### 4. Update the logsearch deployment with the new manifest
 
 ```sh
 $ bosh deployment ~/workspace/logsearch-with-logsearch-for-cf.yml
 $ bosh deploy
+```
+
+### 5. Update Cloud Foundry deployment to forward component logs to ingestor
+
+```yaml
+properties:
+  syslog_daemon_config:
+    address: haproxy-static-ip
+    port: 5514
 ```
 
 #### If UAA authentication is enabled
