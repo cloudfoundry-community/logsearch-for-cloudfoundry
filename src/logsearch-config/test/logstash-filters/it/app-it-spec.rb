@@ -48,7 +48,7 @@ describe "App logs IT" do
                         app_message_payload.event_type, "APP", "INFO", "Some text msg")
 
           # verify format-specific fields
-          it { expect(subject["@tags"]).to include "unknown_msg_format" }
+          it { expect(subject["tags"]).to include "unknown_msg_format" }
         end
       end
 
@@ -68,8 +68,8 @@ describe "App logs IT" do
                         app_message_payload.event_type, "APP", "ERROR", "Some json msg")
 
           # verify format-specific fields
-          it { expect(subject["@tags"]).to include "log" }
-          it { expect(subject["@tags"]).not_to include "unknown_msg_format" }
+          it { expect(subject["tags"]).to include "log" }
+          it { expect(subject["tags"]).not_to include "unknown_msg_format" }
 
           it { expect(subject["log"]["timestamp"]).to eq "2016-07-15 13:20:16.954" }
           it { expect(subject["log"]["thread"]).to eq "main" }
@@ -89,7 +89,7 @@ describe "App logs IT" do
                         app_message_payload.event_type, "APP", "DEBUG", "Server startup in 9775 ms")
 
           # verify format-specific fields
-          it { expect(subject["@tags"]).to_not include "unknown_msg_format" }
+          it { expect(subject["tags"]).to_not include "unknown_msg_format" }
           it { expect(subject["log"]["logger"]).to eq "[CONTAINER] org.apache.catalina.startup.Catalina" }
         end
       end
@@ -106,7 +106,7 @@ describe "App logs IT" do
                         app_message_payload.event_type, "APP", "DEBUG", "Setting level of ROOT logger to WARN")
 
           # verify format-specific fields
-          it { expect(subject["@tags"]).to_not include "unknown_msg_format" }
+          it { expect(subject["tags"]).to_not include "unknown_msg_format" }
           it { expect(subject["log"]["logger"]).to eq "ch.qos.logback.classic.joran.action.RootLoggerAction" }
         end
       end
@@ -135,7 +135,7 @@ describe "App logs IT" do
                         app_message_payload.event_type, "APP", "INFO", "Some text msg")
 
           # verify format-specific fields
-          it { expect(subject["@tags"]).to include "unknown_msg_format" }
+          it { expect(subject["tags"]).to include "unknown_msg_format" }
         end
       end
 
@@ -155,8 +155,8 @@ describe "App logs IT" do
                         app_message_payload.event_type, "APP", "ERROR", "Some json msg")
 
           # verify format-specific fields
-          it { expect(subject["@tags"]).to include "log" }
-          it { expect(subject["@tags"]).not_to include "unknown_msg_format" }
+          it { expect(subject["tags"]).to include "log" }
+          it { expect(subject["tags"]).not_to include "unknown_msg_format" }
 
           it { expect(subject["log"]["timestamp"]).to eq "2016-07-15 13:20:16.954" }
           it { expect(subject["log"]["thread"]).to eq "main" }
@@ -176,7 +176,7 @@ describe "App logs IT" do
                         app_message_payload.event_type, "APP", "DEBUG", "Server startup in 9775 ms")
 
           # verify format-specific fields
-          it { expect(subject["@tags"]).to_not include "unknown_msg_format" }
+          it { expect(subject["tags"]).to_not include "unknown_msg_format" }
           it { expect(subject["log"]["logger"]).to eq "[CONTAINER] org.apache.catalina.startup.Catalina" }
         end
       end
@@ -193,7 +193,7 @@ describe "App logs IT" do
                         app_message_payload.event_type, "APP", "DEBUG", "Setting level of ROOT logger to WARN")
 
           # verify format-specific fields
-          it { expect(subject["@tags"]).to_not include "unknown_msg_format" }
+          it { expect(subject["tags"]).to_not include "unknown_msg_format" }
           it { expect(subject["log"]["logger"]).to eq "ch.qos.logback.classic.joran.action.RootLoggerAction" }
         end
       end

@@ -66,7 +66,7 @@ end
 def verify_fields (expected_origin, expected_job, expected_type, expected_source, expected_level, expected_message)
 
   # no parsing errors
-  it { expect(subject["@tags"]).not_to include "fail/cloudfoundry/app/json" }
+  it { expect(subject["tags"]).not_to include "fail/cloudfoundry/app/json" }
 
   # fields
   it "should set common fields" do
@@ -85,7 +85,7 @@ def verify_fields (expected_origin, expected_job, expected_type, expected_source
   it "should override common fields" do
     expect(subject["@source"]["component"]).to eq expected_source
     expect(subject["@type"]).to eq expected_type
-    expect(subject["@tags"]).to include "app"
+    expect(subject["tags"]).to include "app"
   end
 
   it "should set app specific fields" do

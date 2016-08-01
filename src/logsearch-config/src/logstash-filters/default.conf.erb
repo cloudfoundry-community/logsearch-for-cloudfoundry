@@ -1,12 +1,10 @@
-# Setup snippet (should precede all other snippets)
-<%= File.read('src/logstash-filters/snippets/setup.conf') %>
-
-# Include snippets
-
 # NOTE: All parsed data should include @message, @level and @source.component. Otherwise these fields are set from syslog_ fields in teardown script afterwards.
 
 # NOTE: @timestamp for CF components logs is set in logsearch-boshrelease from syslog_timestamp (timestamp set by metron_agent).
 # Timestamp set by metron_agent for Firehose logs is <message JSON>.timestamp field. (Thats why Firehose snippet sets date with it).
+
+# Setup snippet (should precede all other snippets)
+<%= File.read('src/logstash-filters/snippets/setup.conf') %>
 
 ##-- App
 <%= File.read('src/logstash-filters/snippets/app.conf') %>
@@ -15,14 +13,12 @@
 <%= File.read('src/logstash-filters/snippets/app-rtr.conf') %>
 <%= File.read('src/logstash-filters/snippets/app-log.conf') %>
 
-
 ##-- Platform
 <%= File.read('src/logstash-filters/snippets/platform.conf') %>
 # special cases
 <%= File.read('src/logstash-filters/snippets/haproxy.conf') %>
 <%= File.read('src/logstash-filters/snippets/uaa.conf') %>
 <%= File.read('src/logstash-filters/snippets/vcap.conf') %>
-
 
 # Teardown snippet (should follow all other snippets)
 <%= File.read('src/logstash-filters/snippets/teardown.conf') %>

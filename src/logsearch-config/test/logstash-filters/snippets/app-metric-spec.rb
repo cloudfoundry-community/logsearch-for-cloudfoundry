@@ -13,9 +13,8 @@ describe "app-metric.conf" do
 
   describe "when metric case" do
     when_parsing_log(
-        "app" => { "event_type" => "ContainerMetric", # metric case
-
-                   "instance_index" => 5, "cpu_percentage" => 123, "memory_bytes" => 456, "disk_bytes" => 789 },
+        "@type" => "ContainerMetric", # metric case
+        "app" => { "instance_index" => 5, "cpu_percentage" => 123, "memory_bytes" => 456, "disk_bytes" => 789 },
 
         "@source" => { "component" => "some component", "instance" => "some value" },
         "@message" => "some message"
@@ -43,9 +42,8 @@ describe "app-metric.conf" do
 
   describe "when NOT metric case" do
     when_parsing_log(
-        "app" => { "event_type" => "some type", # bad event_type
-
-                   "instance_index" => 5, "cpu_percentage" => 123, "memory_bytes" => 456, "disk_bytes" => 789 },
+        "@type" => "some type", # bad type
+        "app" => { "instance_index" => 5, "cpu_percentage" => 123, "memory_bytes" => 456, "disk_bytes" => 789 },
 
         "@source" => { "component" => "some component", "instance" => "some value" },
         "@message" => "some message"

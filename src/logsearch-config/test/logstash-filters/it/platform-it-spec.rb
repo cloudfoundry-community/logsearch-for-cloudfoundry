@@ -15,12 +15,12 @@ describe "Platform logs IT" do
   # init event (dummy)
   platform_event_dummy = {"@type" => "relp",
                      "syslog_pri" => "14",
-                     "syslog_severity_code" => 3,
+                     "syslog_severity_code" => 3, # ERROR
                      "host" => "192.168.111.24",
                      "syslog_program" => "Dummy program",
                      "@message" => "Dummy message"}
 
-  describe "when format is" do
+  describe "when CF and format is" do
 
     context "vcap (plain text)" do
 
@@ -34,8 +34,8 @@ describe "Platform logs IT" do
 
       when_parsing_log(sample_event) do
 
-        verify_fields("vcap.consul-agent_relp", "consul-agent", "nfs_z1",
-          "vcap_cf", ["cf", "vcap"], "Some vcap plain text message", "ERROR")
+        verify_platform_cf_fields("vcap.consul-agent_relp", "consul-agent", "nfs_z1",
+          "cf", ["platform", "cf", "vcap"], "Some vcap plain text message", "ERROR")
 
         # verify no JSON parsing
         it { expect(subject["parsed_json_data"]).to be_nil }
@@ -59,8 +59,8 @@ describe "Platform logs IT" do
 
       when_parsing_log(sample_event) do
 
-        verify_fields("vcap.consul-agent_relp", "consul-agent", "nfs_z1",
-                      "vcap_cf", ["cf", "vcap"], "router.register", "INFO")
+        verify_platform_cf_fields("vcap.consul-agent_relp", "consul-agent", "nfs_z1",
+                      "cf", ["platform", "cf", "vcap"], "router.register", "INFO")
 
         # json fields
         it "sets fields from JSON" do
@@ -88,8 +88,8 @@ describe "Platform logs IT" do
 
       when_parsing_log(sample_event) do
 
-        verify_fields("haproxy_relp", "haproxy", "ha_proxy_z1",
-                      "haproxy_cf", ["cf", "haproxy"], "GET /v2/apps?inline-relations-depth=2 HTTP/1.1", "INFO")
+        verify_platform_cf_fields("haproxy_relp", "haproxy", "ha_proxy_z1",
+                      "cf", ["platform", "cf", "haproxy"], "GET /v2/apps?inline-relations-depth=2 HTTP/1.1", "INFO")
 
         # haproxy fields
         it "sets [haproxy] fields from grok" do
@@ -136,8 +136,8 @@ describe "Platform logs IT" do
 
       when_parsing_log(sample_event) do
 
-        verify_fields("vcap.uaa_relp", "uaa", "uaa_z0",
-                      "uaa_cf", ["cf", "uaa"],
+        verify_platform_cf_fields("vcap.uaa_relp", "uaa", "uaa_z0",
+                      "cf", ["platform", "cf", "uaa"],
                       "ClientAuthenticationSuccess ('Client authentication success')", "INFO")
 
         # uaa fields
@@ -161,6 +161,19 @@ describe "Platform logs IT" do
       end
     end
 
+  end
+
+  describe "when not CF" do
+
+    sample_event = platform_event_dummy.clone
+    sample_event["@message"] = "Some message" # not CF
+
+    when_parsing_log(sample_event) do
+
+      verify_platform_fields("Dummy program_relp", "Dummy program",
+                    "relp", ["platform", "fail/cloudfoundry/platform/grok"], "Some message", "ERROR")
+
+    end
   end
 
 end

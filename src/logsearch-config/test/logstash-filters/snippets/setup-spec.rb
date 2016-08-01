@@ -53,15 +53,39 @@ describe "setup.conf" do
           "@message" => "Some message" # OK
       ) do
 
-        # event is not dropped
-        it { expect(subject).not_to be_nil }
-
         # fields
-        it { expect(subject["@metadata"]["index"]).to eq "unparsed" }
+        it { expect(subject["@metadata"]["index"]).to eq "platform" }
         it { expect(subject["@input"]).to eq "some-type" }
         it { expect(subject["@shipper"]["priority"]).to eq "5" }
         it { expect(subject["@shipper"]["name"]).to eq "some-program_some-type" }
         it { expect(subject["@source"]["component"]).to eq "some-program" }
+
+      end
+    end
+
+  end
+
+  describe "when index is " do
+    context "app" do
+      when_parsing_log(
+          "syslog_program" => "doppler", # app logs
+          "@message" => "Some message"
+      ) do
+
+        # fields
+        it { expect(subject["@metadata"]["index"]).to eq "app" }
+
+      end
+    end
+
+    context "app" do
+      when_parsing_log(
+          "syslog_program" => "not doppler", # platform logs
+          "@message" => "Some message"
+      ) do
+
+        # fields
+        it { expect(subject["@metadata"]["index"]).to eq "platform" }
 
       end
     end

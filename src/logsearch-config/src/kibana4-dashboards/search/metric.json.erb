@@ -41,13 +41,13 @@
           "meta": {
             "negate": false,
             "index": "logs-platform-*",
-            "key": "@tags",
+            "key": "tags",
             "value": "metric",
             "disabled": false
           },
           "query": {
             "match": {
-              "@tags": {
+              "tags": {
                 "query": "metric",
                 "type": "phrase"
               }

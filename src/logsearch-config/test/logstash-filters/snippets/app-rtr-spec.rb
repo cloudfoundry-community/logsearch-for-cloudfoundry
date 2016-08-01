@@ -26,7 +26,7 @@ describe "app-rtr.conf" do
         it { expect(subject["tags"]).not_to include "fail/cloudfoundry/app-rtr/grok" }
 
         # fields
-        it { expect(subject["tags"]).to include "rtr" } # rtr tag on success grok
+        it { expect(subject["tags"]).to include "rtr" } # rtr tag
 
         it "should keep fields" do
           expect(subject["@message"]).to eq "parser.64.78.234.207.xip.io - [15/07/2016:09:26:25 +0000] \"GET /http HTTP/1.1\" 200 0 1413 \"-\" \"Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36\" 192.168.111.21:35826 x_forwarded_for:\"82.209.244.50, 192.168.111.21\" x_forwarded_proto:\"http\" vcap_request_id:831e54f1-f09f-4971-6856-9fdd502d4ae3 response_time:0.005328859 app_id:7ae227a6-6ad1-46d4-bfb9-6e60d7796bb5\n"
@@ -74,6 +74,8 @@ describe "app-rtr.conf" do
         it { expect(subject["tags"]).to include "fail/cloudfoundry/app-rtr/grok" }
 
         # fields
+        it { expect(subject["tags"]).to include "rtr" } # rtr tag
+
         it "should keep fields" do
           expect(subject["@message"]).to eq "Some message of wrong format"
           expect(subject["@level"]).to eq "SOME LEVEL"
