@@ -38,6 +38,7 @@ echo "Creating new OAuth2 client: <%= p('create-uaa-client.oauth2_client_id') %>
 -d '{
   "client_id" : "<%= p('create-uaa-client.oauth2_client_id') %>",
   "client_secret" : "<%= p('create-uaa-client.oauth2_client_secret') %>",
+  "autoapprove" : "<%= p('create-uaa-client.oauth2_autoapprove') %>",
   "scope" : ["openid","oauth.approvals","scim.userids","cloud_controller.read"],
   "authorities" : ["uaa.none"],
   "resource_ids" : ["none"],
