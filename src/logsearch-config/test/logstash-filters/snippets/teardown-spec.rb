@@ -119,7 +119,7 @@ describe "teardown.conf" do
 
   end
 
-  describe "parse [host]" do
+  describe "parses [host]" do
 
     context "when [@source][host] is set" do
       when_parsing_log(
@@ -211,9 +211,7 @@ describe "teardown.conf" do
       it { expect(subject["@level"]).to eq "LOWERCASE VALUE" }
 
       it { expect(subject["@version"]).to be_nil }
-
       it { expect(subject["host"]).to be_nil }
-
       it { expect(subject["_logstash_input"]).to be_nil }
 
     end

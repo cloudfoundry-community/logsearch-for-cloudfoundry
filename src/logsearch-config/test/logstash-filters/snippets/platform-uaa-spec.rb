@@ -53,24 +53,20 @@ describe "platform-uaa.conf" do
       ) do
 
         # no parsing errors
-        it { expect(subject["tags"]).not_to include "fail/cloudfoundry/uaa/grok" }
+        it { expect(subject["tags"]).to eq ["uaa"] } # no fail tag
 
         # fields
-
         it { expect(subject["@source"]["component"]).to eq "uaa" }
-        it { expect(subject["tags"]).to include "uaa" }
 
-        it "should set fields from grok" do
-          expect(subject["@message"]).to eq "ClientAuthenticationSuccess ('Client authentication success')"
-          expect(subject["@level"]).to eq "INFO"
-        end
+        it { expect(subject["@message"]).to eq "ClientAuthenticationSuccess ('Client authentication success')" }
+        it { expect(subject["@level"]).to eq "INFO" }
 
-        it "should set geoip for remoteAddress" do
+        it "sets geoip for remoteAddress" do
           expect(subject["geoip"]).not_to be_nil
           expect(subject["geoip"]["ip"]).to eq "64.78.155.208"
         end
 
-        it "should set [uaa] fields" do
+        it "sets [uaa] fields" do
           expect(subject["uaa"]["pid"]).to eq 15178
           expect(subject["uaa"]["thread_name"]).to eq "http-bio-8080-exec-14"
           expect(subject["uaa"]["timestamp"]).to eq "2016-07-05 04:02:18.245"
@@ -94,16 +90,13 @@ describe "platform-uaa.conf" do
       ) do
 
         # no parsing errors
-        it { expect(subject["tags"]).not_to include "fail/cloudfoundry/uaa/grok" }
+        it { expect(subject["tags"]).to eq ["uaa"] } # no fail tag
 
         # fields
         it { expect(subject["@source"]["component"]).to eq "uaa" }
-        it { expect(subject["tags"]).to include "uaa" }
 
-        it "should set fields from grok" do
-          expect(subject["@message"]).to eq "PrincipalAuthenticationFailure ('null')"
-          expect(subject["@level"]).to eq "INFO"
-        end
+        it { expect(subject["@message"]).to eq "PrincipalAuthenticationFailure ('null')" }
+        it { expect(subject["@level"]).to eq "INFO" }
 
         it "sets geoip for remoteAddress" do
           expect(subject["geoip"]).not_to be_nil
@@ -132,14 +125,11 @@ describe "platform-uaa.conf" do
       ) do
 
         # get parsing error
-        it { expect(subject["tags"]).to include "fail/cloudfoundry/uaa/grok" }
+        it { expect(subject["tags"]).to eq ["uaa", "fail/cloudfoundry/platform-uaa/grok"] }
 
         # fields
         it { expect(subject["@source"]["component"]).to eq "uaa" }
-        it { expect(subject["tags"]).to include "uaa" }
-
-        it { expect(subject["@message"])
-          .to eq "Some message" } # the same as before parsing
+        it { expect(subject["@message"]).to eq "Some message" } # the same as before parsing
 
       end
     end

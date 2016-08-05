@@ -34,9 +34,8 @@ def verify_platform_cf_fields (expected_shipper, expected_component, expected_jo
 
   verify_platform_fields(expected_shipper, expected_component, expected_type, expected_tags, expected_message, expected_level)
 
-  # verify CF fields
+  # verify CF format parsing
   it { expect(subject["tags"]).not_to include "fail/cloudfoundry/platform/grok" }
-
   it { expect(subject["@source"]["job"]).to eq expected_job }
   it { expect(subject["@source"]["instance"]).to eq 5 }
   it { expect(subject["@source"]["name"]).to eq expected_job + "/5" }

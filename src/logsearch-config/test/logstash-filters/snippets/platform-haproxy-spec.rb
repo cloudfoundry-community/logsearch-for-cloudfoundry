@@ -51,13 +51,11 @@ describe "platform-haproxy.conf" do
           "@message" => "64.78.155.208:60677 [06/Jul/2016:13:59:57.770] https-in~ http-routers/node0 59841/0/0/157/60000 200 144206 reqC respC ---- 3/4/1/2/0 5/6 {reqHeaders} {respHeaders} \"GET /v2/apps?inline-relations-depth=2 HTTP/1.1\""
       ) do
 
-        it { expect(subject["tags"]).to include "haproxy" } # haproxy tag
-
         # no parsing errors
-        it { expect(subject["tags"]).not_to include "fail/cloudfoundry/haproxy/grok" }
+        it { expect(subject["tags"]).to eq ["haproxy"] } # no fail tag
 
         # fields
-        it "should set [haproxy] fields from grok" do
+        it "sets [haproxy] fields from grok" do
           expect(subject["haproxy"]["client_ip"]).to eq "64.78.155.208"
           expect(subject["haproxy"]["client_port"]).to eq "60677"
           expect(subject["haproxy"]["accept_date"]).to eq "06/Jul/2016:13:59:57.770"
@@ -87,10 +85,8 @@ describe "platform-haproxy.conf" do
           expect(subject["haproxy"]["http_request_verb"]).to eq "GET"
         end
 
-        it "should set fields from grok" do
-          expect(subject["@message"]).to eq "GET /v2/apps?inline-relations-depth=2 HTTP/1.1"
-          expect(subject["@level"]).to eq "INFO"
-        end
+        it { expect(subject["@message"]).to eq "GET /v2/apps?inline-relations-depth=2 HTTP/1.1" }
+        it { expect(subject["@level"]).to eq "INFO" }
 
       end
     end
@@ -103,7 +99,7 @@ describe "platform-haproxy.conf" do
               "200 144206 reqC respC ---- 3/4/1/2/0 5/6 {reqHeaders} {respHeaders} \"<BADREQ>\"" # <BADREQ>
       ) do
 
-        it "should set [haproxy][request] to <BADREQ>" do
+        it "sets [haproxy][request] to <BADREQ>" do
           expect(subject["haproxy"]["http_request"]).to eq "<BADREQ>"
           expect(subject["haproxy"]["http_request_verb"]).to be_nil
         end
@@ -120,9 +116,7 @@ describe "platform-haproxy.conf" do
       ) do
 
         # @level is set based on [haproxy][http_status_code]
-        it "should set @level to ERROR" do
-          expect(subject["@level"]).to eq "ERROR"
-        end
+        it { expect(subject["@level"]).to eq "ERROR" }
 
       end
     end
@@ -134,15 +128,11 @@ describe "platform-haproxy.conf" do
           "@message" => "216.218.206.68:36743 [06/Jul/2016:07:16:34.605] https-in/1: SSL handshake failure"
       ) do
 
-        it { expect(subject["tags"]).to include "haproxy" } # haproxy tag
-
         # no parsing errors
-        it "does not include grok fail tag" do
-          expect(subject["tags"]).not_to include "fail/cloudfoundry/haproxy/grok"
-        end
+        it { expect(subject["tags"]).to eq ["haproxy"] } # no fail tag
 
         # fields
-        it "should set [haproxy] fields from grok" do
+        it "sets [haproxy] fields from grok" do
           expect(subject["haproxy"]["client_ip"]).to eq "216.218.206.68"
           expect(subject["haproxy"]["client_port"]).to eq "36743"
           expect(subject["haproxy"]["accept_date"]).to eq "06/Jul/2016:07:16:34.605"
@@ -150,9 +140,25 @@ describe "platform-haproxy.conf" do
           expect(subject["haproxy"]["bind_name"]).to eq "1"
         end
 
-        it "should set fields from grok" do
-          expect(subject["@message"]).to eq "SSL handshake failure"
-        end
+        it { expect(subject["@message"]).to eq "SSL handshake failure" }
+
+      end
+    end
+
+    context "Unknown format" do
+      when_parsing_log(
+          "@source" => {"component" => "haproxy"},
+          # error log
+          "@message" => "Some message"
+      ) do
+
+        # parsing error
+        it { expect(subject["tags"]).to eq ["haproxy", "fail/cloudfoundry/platform-haproxy/grok"] } # no fail tag
+
+        # fields
+        it { expect(subject["@source"]["component"]).to eq "haproxy" } # keeps unchanged
+        it { expect(subject["@message"]).to eq "Some message" } # keeps unchanged
+        it { expect(subject["haproxy"]).to be_nil }
 
       end
     end

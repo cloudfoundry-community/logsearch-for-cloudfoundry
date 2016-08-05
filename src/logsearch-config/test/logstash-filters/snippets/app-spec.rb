@@ -50,23 +50,21 @@ describe "app.conf" do
       when_parsing_log(
           "@metadata" => {"index" => "app"},
           # valid JSON
-          "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"Some Message\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"APP\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
+          "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\", \"deployment\":\"cf-full\", \"event_type\":\"LogMessage\", \"index\":\"0\",\"ip\":\"192.168.111.35\", \"job\":\"runner_z1\", \"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"Some Message\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"APP\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
       ) do
-
-        it { expect(subject["@source"]["component"]).to eq "APP" }
-        it { expect(subject["@metadata"]["index"]).to eq "app-admin-demo" }
-        it { expect(subject["tags"]).to include "app" }
 
         # no parsing errors
         it { expect(subject["tags"]).not_to include "fail/cloudfoundry/app/json" }
+        it { expect(subject["tags"]).to include "app" }
 
         # fields
-        it "should set mandatory fields" do
-          expect(subject["@message"]).to eq "Some Message"
-          expect(subject["@level"]).to eq "info"
-        end
+        it { expect(subject["@metadata"]["index"]).to eq "app-admin-demo" }
 
-        it "should set app specific fields" do
+        it { expect(subject["@message"]).to eq "Some Message" }
+        it { expect(subject["@level"]).to eq "info" }
+
+        it "sets @source fields" do
+          expect(subject["@source"]["component"]).to eq "APP"
           expect(subject["@source"]["app"]).to eq "loggenerator"
           expect(subject["@source"]["app_id"]).to eq "31b928ee-4110-4e7b-996c-334c5d7ac2ac"
           expect(subject["@source"]["space"]).to eq "demo"
@@ -74,8 +72,13 @@ describe "app.conf" do
           expect(subject["@source"]["org"]).to eq "admin"
           expect(subject["@source"]["org_id"]).to eq "9887ad0a-f9f7-449e-8982-76307bd17239"
           expect(subject["@source"]["origin"]).to eq "dea_logging_agent"
+          expect(subject["@source"]["cf_origin"]).to eq "firehose"
           expect(subject["@source"]["message_type"]).to eq "OUT"
-          expect(subject["app"]).to be_nil # cleaned up
+          expect(subject["@source"]["index"]).to eq "0"
+          expect(subject["@source"]["job"]).to eq "runner_z1"
+          expect(subject["@source"]["host"]).to eq "192.168.111.35"
+          expect(subject["@source"]["deployment"]).to eq "cf-full"
+          expect(subject["app"]).to be_empty
         end
 
         it { expect(subject["@type"]).to eq "LogMessage" }
@@ -90,17 +93,15 @@ describe "app.conf" do
           "@message" => "Some message that is invalid json"
       ) do
 
-        it { expect(subject["tags"]).to include "app" } # app tag
-
-        # get parsing error
+        # parsing error
         it { expect(subject["tags"]).to include "fail/cloudfoundry/app/json" }
+        it { expect(subject["tags"]).to include "app" }
 
-        # no fields set
-        it "shouldn't set JSON fields" do
-          expect(subject["@source"]).to be_nil
-          expect(subject["@type"]).to be_nil
-          expect(subject["@message"]).to eq "Some message that is invalid json" # keeps unchanged
-        end
+        it { expect(subject["@message"]).to eq "Some message that is invalid json" } # keeps unchanged
+
+        # no json fields set
+        it { expect(subject["@source"]).to be_nil }
+        it { expect(subject["@type"]).to be_nil }
 
       end
     end
@@ -224,7 +225,7 @@ New line" }
 
         # index name doesn't include neither org nor space
         it { expect(subject["@source"]["org"]).to be_nil }
-        it{ expect(subject["@metadata"]["index"]).to eq "app" }
+        it { expect(subject["@metadata"]["index"]).to eq "app" }
 
       end
     end
@@ -238,7 +239,7 @@ New line" }
 
         # index name includes org
         it { expect(subject["@source"]["space"]).to be_nil }
-        it{ expect(subject["@metadata"]["index"]).to eq "app-admin" }
+        it { expect(subject["@metadata"]["index"]).to eq "app-admin" }
 
       end
     end

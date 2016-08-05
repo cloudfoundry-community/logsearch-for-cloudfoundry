@@ -53,9 +53,11 @@ describe "platform-vcap.conf" do
           "@message" => "2016/07/07 00:56:10 [WARN] agent: Check 'service:routing-api' is now critical"
       ) do
 
+        # no parsing errors
+        it { expect(subject["tags"]).to eq ["vcap"] } # no fail tag
+
         # fields
         it { expect(subject["@source"]["component"]).to eq "consul-agent" }
-        it { expect(subject["tags"]).to eq ["vcap"] }
 
         it { expect(subject["@message"])
                  .to eq "2016/07/07 00:56:10 [WARN] agent: Check 'service:routing-api' is now critical" } # keeps the same value
@@ -73,11 +75,12 @@ describe "platform-vcap.conf" do
           "@message" => "{\"timestamp\":1467852972.554088,\"source\":\"NatsStreamForwarder\",\"log_level\":\"info\",\"message\":\"router.register\",\"data\":{\"nats_message\": \"{\\\"uris\\\":[\\\"redis-broker.64.78.234.207.xip.io\\\"],\\\"host\\\":\\\"192.168.111.201\\\",\\\"port\\\":80}\",\"reply_inbox\":\"_INBOX.7e93f2a1d5115844163cc930b5\"}}"
       ) do
 
+        # no parsing errors
+        it { expect(subject["tags"]).to eq ["vcap"] } # no fail tag
+
         # fields
         it { expect(subject["@source"]["component"]).to eq "nats" }
-        it { expect(subject["tags"]).to eq ["vcap"] }
 
-        # JSON fields
         it "sets JSON fields" do
           expect(subject["parsed_json_data"]).not_to be_nil
           expect(subject["parsed_json_data"]["timestamp"]).to eq 1467852972.554088
@@ -98,6 +101,27 @@ describe "platform-vcap.conf" do
 
       end
     end
+
+    context "JSON format (invalid)" do
+      when_parsing_log(
+          "@source" => { "component" => "vcap.nats" },
+          "@level" => "Dummy value",
+          # JSON format
+          "@message" => "{\"timestamp\":14678, abcd}}" # invalid JSON
+      ) do
+
+        # parsing error
+        it { expect(subject["tags"]).to eq ["vcap", "fail/cloudfoundry/platform-vcap/json"] }
+
+        # fields
+        it { expect(subject["@message"]).to eq "{\"timestamp\":14678, abcd}}" } # keeps unchanged
+        it { expect(subject["@source"]["component"]).to eq "nats" } # keeps unchanged
+        it { expect(subject["@level"]).to eq "Dummy value" } # keeps unchanged
+        it { expect(subject["parsed_json_data"]).to be_nil }
+
+      end
+    end
+
 
   end
 
