@@ -9,6 +9,9 @@ fi
 
 LOGSTASH_VERSION=2.3.1
 
+echo "Installing gems specified in Gemfile..."
+cd $SCRIPT_DIR/../ && bundle install
+
 rm -f vendor/logstash
 if [ -e /usr/local/logstash-$LOGSTASH_VERSION ] ; then
   echo "Detected that running in Logsearch Workspace.  Linking to logstash at /usr/local/logstash-$LOGSTASH_VERSION"
