@@ -72,3 +72,7 @@ $ bosh deploy
 ```sh
 $ bosh run errand create-uaa-client
 ```
+
+#### Collecting application events
+
+Note: To collect Cloud Foundry application events, configure and deploy [cf-app-events-logger](https://github.com/18F/cf-app-events-logger) to your Cloud Foundry instance; application events will be printed to standard output and collected via the firehose.
