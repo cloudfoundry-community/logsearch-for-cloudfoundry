@@ -1,12 +1,12 @@
 # encoding: utf-8
-require 'test/filter_test_helpers'
+require 'test/logstash-filters/filter_test_helpers'
 
-describe "uaa.conf" do
+describe "platform-uaa.conf" do
 
   before(:all) do
     load_filters <<-CONFIG
       filter {
-        #{File.read("src/logstash-filters/snippets/uaa.conf")}
+        #{File.read("src/logstash-filters/snippets/platform-uaa.conf")}
       }
     CONFIG
   end

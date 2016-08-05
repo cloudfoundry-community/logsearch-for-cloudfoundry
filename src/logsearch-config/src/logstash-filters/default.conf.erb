@@ -16,9 +16,9 @@
 ##-- Platform
 <%= File.read('src/logstash-filters/snippets/platform.conf') %>
 # special cases
-<%= File.read('src/logstash-filters/snippets/haproxy.conf') %>
-<%= File.read('src/logstash-filters/snippets/uaa.conf') %>
-<%= File.read('src/logstash-filters/snippets/vcap.conf') %>
+<%= File.read('src/logstash-filters/snippets/platform-haproxy.conf') %>
+<%= File.read('src/logstash-filters/snippets/platform-uaa.conf') %>
+<%= File.read('src/logstash-filters/snippets/platform-vcap.conf') %>
 
 # Teardown snippet (should follow all other snippets)
 <%= File.read('src/logstash-filters/snippets/teardown.conf') %>

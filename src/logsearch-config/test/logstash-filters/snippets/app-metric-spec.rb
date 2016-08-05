@@ -1,5 +1,5 @@
 # encoding: utf-8
-require 'test/filter_test_helpers'
+require 'test/logstash-filters/filter_test_helpers'
 
 describe "app-metric.conf" do
 

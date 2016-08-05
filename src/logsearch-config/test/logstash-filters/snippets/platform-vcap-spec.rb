@@ -1,12 +1,12 @@
 # encoding: utf-8
-require 'test/filter_test_helpers'
+require 'test/logstash-filters/filter_test_helpers'
 
-describe "vcap.conf" do
+describe "platform-vcap.conf" do
 
   before(:all) do
     load_filters <<-CONFIG
       filter {
-        #{File.read("src/logstash-filters/snippets/vcap.conf")}
+        #{File.read("src/logstash-filters/snippets/platform-vcap.conf")}
       }
     CONFIG
   end
