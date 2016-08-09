@@ -10,7 +10,6 @@ before_install:
   - gem --version
 install:
   - cd $TRAVIS_BUILD_DIR/src/logsearch-config
-  - bundle install
   - bin/install-dependencies
 script:
   - bin/test default
