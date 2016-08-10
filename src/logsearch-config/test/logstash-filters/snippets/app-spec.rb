@@ -1,5 +1,5 @@
 # encoding: utf-8
-require 'test/filter_test_helpers'
+require 'test/logstash-filters/filter_test_helpers'
 
 describe "app.conf" do
 
@@ -15,58 +15,29 @@ describe "app.conf" do
   describe "#if" do
 
     describe "passed" do
-      context "when @type = relp" do
-        when_parsing_log(
-            "@type" => "relp", # good value
-            "syslog_program" => "doppler", # good value
-            "@message" => "Some invalid JSON here"
-        ) do
+      when_parsing_log(
+          "@metadata" => {"index" => "app"}, # good value
+          "@message" => "Some message"
+      ) do
 
-          # app tag set => 'if' succeeded
-          it { expect(subject["tags"]).to include "fail/cloudfoundry/app/json" }
+        # app tag set => 'if' succeeded
+        it { expect(subject["tags"]).to include "app" }
 
-        end
-      end
-
-      context "when @type = syslog" do
-        when_parsing_log(
-            "@type" => "syslog", # good value
-            "syslog_program" => "doppler", # good value
-            "@message" => "Some invalid JSON here"
-        ) do
-
-          # app tag set => 'if' succeeded
-          it { expect(subject["tags"]).to include "fail/cloudfoundry/app/json" }
-
-        end
       end
     end
 
     describe "failed" do
-      context "when bad @type" do
-        when_parsing_log(
-            "@type" => "Some type", # bad value
-            "syslog_program" => "doppler",
-            "@message" => "Some message here"
-        ) do
+      when_parsing_log(
+          "@metadata" => {"index" => "some value"}, # bad value
+          "@message" => "Some message"
+      ) do
 
-          # no tags set => 'if' failed
-          it { expect(subject["tags"]).to be_nil }
+        # no tags set => 'if' failed
+        it { expect(subject["tags"]).to be_nil }
 
-        end
-      end
+        it { expect(subject["@metadata"]["index"]).to eq "some value" } # keeps unchanged
+        it { expect(subject["@message"]).to eq "Some message" } # keeps unchanged
 
-      context "when bad syslog_program" do
-        when_parsing_log(
-            "@type" => "relp",
-            "syslog_program" => "some-value-but-not-doppler", # bad value
-            "@message" => "Some invalid JSON here"
-        ) do
-
-          # no tags set => 'if' failed
-          it { expect(subject["tags"]).to be_nil }
-
-        end
       end
     end
 
@@ -77,22 +48,23 @@ describe "app.conf" do
 
     context "succeeded" do
       when_parsing_log(
-          "@type" => "relp",
-          "syslog_program" => "doppler",
+          "@metadata" => {"index" => "app"},
           # valid JSON
-          "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"Some Message\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"APP\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
+          "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\", \"deployment\":\"cf-full\", \"event_type\":\"LogMessage\", \"index\":\"0\",\"ip\":\"192.168.111.35\", \"job\":\"runner_z1\", \"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"Some Message\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"APP\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
       ) do
 
         # no parsing errors
         it { expect(subject["tags"]).not_to include "fail/cloudfoundry/app/json" }
+        it { expect(subject["tags"]).to include "app" }
 
         # fields
-        it "should set mandatory fields" do
-          expect(subject["@message"]).to eq "Some Message"
-          expect(subject["@level"]).to eq "info"
-        end
+        it { expect(subject["@metadata"]["index"]).to eq "app-admin-demo" }
 
-        it "should set app specific fields" do
+        it { expect(subject["@message"]).to eq "Some Message" }
+        it { expect(subject["@level"]).to eq "info" }
+
+        it "sets @source fields" do
+          expect(subject["@source"]["component"]).to eq "APP"
           expect(subject["@source"]["app"]).to eq "loggenerator"
           expect(subject["@source"]["app_id"]).to eq "31b928ee-4110-4e7b-996c-334c5d7ac2ac"
           expect(subject["@source"]["space"]).to eq "demo"
@@ -100,44 +72,36 @@ describe "app.conf" do
           expect(subject["@source"]["org"]).to eq "admin"
           expect(subject["@source"]["org_id"]).to eq "9887ad0a-f9f7-449e-8982-76307bd17239"
           expect(subject["@source"]["origin"]).to eq "dea_logging_agent"
+          expect(subject["@source"]["cf_origin"]).to eq "firehose"
           expect(subject["@source"]["message_type"]).to eq "OUT"
-          expect(subject["app"]).to be_nil # cleaned up
+          expect(subject["@source"]["index"]).to eq "0"
+          expect(subject["@source"]["job"]).to eq "runner_z1"
+          expect(subject["@source"]["host"]).to eq "192.168.111.35"
+          expect(subject["@source"]["deployment"]).to eq "cf-full"
+          expect(subject["app"]).to be_empty
         end
 
-        it "should set general fields" do
-          expect(subject["@source"]["component"]).to eq "APP"
-          expect(subject["@metadata"]["index"]).to eq "app-admin-demo"
-          expect(subject["@type"]).to eq "LogMessage"
-          expect(subject["tags"]).to include "app"
-        end
+        it { expect(subject["@type"]).to eq "LogMessage" }
 
       end
     end
 
     context "failed" do
       when_parsing_log(
-          "@type" => "relp",
-          "syslog_program" => "doppler",
+          "@metadata" => {"index" => "app"},
           # invalid JSON
           "@message" => "Some message that is invalid json"
       ) do
 
-        # get parsing error
+        # parsing error
         it { expect(subject["tags"]).to include "fail/cloudfoundry/app/json" }
+        it { expect(subject["tags"]).to include "app" }
 
-        # no fields set
-        it "shouldn't set JSON fields" do
-          expect(subject["@source"]).to be_nil
-          expect(subject["@message"]).to eq "Some message that is invalid json" # the same as before parsing
-        end
+        it { expect(subject["@message"]).to eq "Some message that is invalid json" } # keeps unchanged
 
-        it "shouldn't set general fields" do
-          expect(subject["@metadata"]["index"]).to be_nil # @metadata is system field so it exists even if not set ..
-          # ..(that's why we should check exactly @metadata.index for nil)
-
-          expect(subject["@type"]).to eq "relp"
-          expect(subject["tags"]).not_to include "app"
-        end
+        # no json fields set
+        it { expect(subject["@source"]).to be_nil }
+        it { expect(subject["@type"]).to be_nil }
 
       end
     end
@@ -149,8 +113,7 @@ describe "app.conf" do
 
     context "when it contains unicode (null)" do
       when_parsing_log(
-          "@type" => "relp",
-          "syslog_program" => "doppler",
+          "@metadata" => {"index" => "app"},
           "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\"," +
               "\"msg\":\"\\u0000\\u0000Some Message\"," + # contains unicode \u0000
               "\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"APP\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
@@ -164,8 +127,7 @@ describe "app.conf" do
 
     context "when it contains unicode (new line)" do
       when_parsing_log(
-          "@type" => "relp",
-          "syslog_program" => "doppler",
+          "@metadata" => {"index" => "app"},
           "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\"," +
               "\"msg\":\"Some Message\\u2028New line\"," + # contains unicode \u2028
               "\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"APP\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
@@ -184,8 +146,7 @@ New line" }
 
     context "when 'msg' is useless (empty) - drop" do
       when_parsing_log(
-          "@type" => "relp",
-          "syslog_program" => "doppler",
+          "@metadata" => {"index" => "app"},
           "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\"," +
               "\"msg\":\"\"" + # empty msg
               ",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"APP\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
@@ -199,8 +160,7 @@ New line" }
 
     context "when 'msg' is useless (blank) - drop" do
       when_parsing_log(
-          "@type" => "relp",
-          "syslog_program" => "doppler",
+          "@metadata" => {"index" => "app"},
           "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\"," +
               "\"msg\":\"    \"," + # blank msg
               "\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"APP\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
@@ -233,21 +193,19 @@ New line" }
 
     context "when event_type is missing" do
       when_parsing_log(
-          "@type" => "relp",
-          "syslog_program" => "doppler",
+          "@metadata" => {"index" => "app"},
           # event_type property is missing from JSON
           "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"Some Message\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"APP\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
       ) do
 
-        it { expect(subject["@type"]).to eq "LogMessage" } # is set to default value
+        it { expect(subject["@type"]).to eq "UndefinedEvent" } # is set to default value
 
       end
     end
 
     context "when event_type is passed" do
       when_parsing_log(
-          "@type" => "relp",
-          "syslog_program" => "doppler",
+          "@metadata" => {"index" => "app"},
           # event_type is passed
           "@message" => "{\"event_type\":\"some event type value\", \"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"Some Message\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"APP\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
       ) do
@@ -261,8 +219,7 @@ New line" }
 
   describe "uppercases [@source][component]" do
     when_parsing_log(
-        "@type" => "relp",
-        "syslog_program" => "doppler",
+        "@metadata" => {"index" => "app"},
         "@message" => "{\"source_type\":\"APP\"," + # lowercase source_type
             " \"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"Some Message\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
     ) do
@@ -276,30 +233,28 @@ New line" }
 
     context "when no cf_org_name" do
       when_parsing_log(
-          "@type" => "relp",
-          "syslog_program" => "doppler",
+          "@metadata" => {"index" => "app"},
           # cf_org_name property is missing from JSON
           "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"Some Message\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"APP\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
       ) do
 
         # index name doesn't include neither org nor space
         it { expect(subject["@source"]["org"]).to be_nil }
-        it{ expect(subject["@metadata"]["index"]).to eq "app" }
+        it { expect(subject["@metadata"]["index"]).to eq "app" }
 
       end
     end
 
     context "when no cf_space_name" do
       when_parsing_log(
-          "@type" => "relp",
-          "syslog_program" => "doppler",
+          "@metadata" => {"index" => "app"},
           # cf_space_name property is missing from JSON
           "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"Some Message\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"APP\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
       ) do
 
         # index name includes org
         it { expect(subject["@source"]["space"]).to be_nil }
-        it{ expect(subject["@metadata"]["index"]).to eq "app-admin" }
+        it { expect(subject["@metadata"]["index"]).to eq "app-admin" }
 
       end
     end

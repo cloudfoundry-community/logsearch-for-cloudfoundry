@@ -65,30 +65,27 @@ end
 
 def verify_fields (expected_origin, expected_job, expected_type, expected_source, expected_level, expected_message)
 
-  # no parsing errors
-  it { expect(subject["@tags"]).not_to include "fail/cloudfoundry/app/json" }
+  # no app parsing error
+  it { expect(subject["tags"]).not_to include "fail/cloudfoundry/app/json" }
 
   # fields
-  it "should set common fields" do
-    expect(subject["@input"]).to eq "syslog"
-    expect(subject["@shipper"]["priority"]).to eq "6"
-    expect(subject["@shipper"]["name"]).to eq "doppler_syslog"
-    expect(subject["@source"]["host"]).to eq "192.168.111.35"
+  it { expect(subject["@source"]["component"]).to eq expected_source }
+  it { expect(subject["@type"]).to eq expected_type }
+  it { expect(subject["tags"]).to include "app" }
+
+  it { expect(subject["@metadata"]["index"]).to eq "app-admin-demo" }
+
+  it { expect(subject["@input"]).to eq "syslog" }
+  it { expect(subject["@shipper"]["priority"]).to eq "6" }
+  it { expect(subject["@shipper"]["name"]).to eq "doppler_syslog" }
+
+  it "sets @source fields (app specific)" do
     expect(subject["@source"]["name"]).to eq (expected_job + "/5")
+    expect(subject["@source"]["host"]).to eq "192.168.111.35"
     expect(subject["@source"]["instance"]).to eq 5
+    expect(subject["@source"]["index"]).to eq 0
     expect(subject["@source"]["deployment"]).to eq "cf-full"
     expect(subject["@source"]["job"]).to eq expected_job
-
-    expect(subject["@metadata"]["index"]).to eq "app-admin-demo"
-  end
-
-  it "should override common fields" do
-    expect(subject["@source"]["component"]).to eq expected_source
-    expect(subject["@type"]).to eq expected_type
-    expect(subject["@tags"]).to include "app"
-  end
-
-  it "should set app specific fields" do
     expect(subject["@source"]["app"]).to eq "loggenerator"
     expect(subject["@source"]["app_id"]).to eq "31b928ee-4110-4e7b-996c-334c5d7ac2ac"
     expect(subject["@source"]["space"]).to eq "demo"
@@ -96,12 +93,12 @@ def verify_fields (expected_origin, expected_job, expected_type, expected_source
     expect(subject["@source"]["org"]).to eq "admin"
     expect(subject["@source"]["org_id"]).to eq "9887ad0a-f9f7-449e-8982-76307bd17239"
     expect(subject["@source"]["origin"]).to eq expected_origin
+    expect(subject["@source"]["cf_origin"]).to eq "firehose"
     expect(subject["@source"]["message_type"]).to eq "OUT"
+    expect(subject["app"]).to be_empty # cleaned up
   end
 
-  it "should set mandatory fields" do
-    expect(subject["@message"]).to eq expected_message
-    expect(subject["@level"]).to eq expected_level
-  end
+  it { expect(subject["@message"]).to eq expected_message }
+  it { expect(subject["@level"]).to eq expected_level }
 
 end

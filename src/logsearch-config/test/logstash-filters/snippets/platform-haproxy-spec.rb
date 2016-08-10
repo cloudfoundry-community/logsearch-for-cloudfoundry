@@ -1,30 +1,61 @@
 # encoding: utf-8
-require 'test/filter_test_helpers'
+require 'test/logstash-filters/filter_test_helpers'
 
-describe "haproxy.conf" do
+describe "platform-haproxy.conf" do
 
   before(:all) do
     load_filters <<-CONFIG
       filter {
-        #{File.read("src/logstash-filters/snippets/haproxy.conf")}
+        #{File.read("src/logstash-filters/snippets/platform-haproxy.conf")}
       }
     CONFIG
+  end
+
+  # -- test snippet's 'if' condition --
+  describe "#if" do
+
+    describe "passed" do
+      when_parsing_log(
+          "@source" => {"component" => "haproxy"}, # good value
+          "@message" => "Some message"
+      ) do
+
+        # haproxy tag set => 'if' succeeded
+        it { expect(subject["tags"]).to include "haproxy" }
+
+      end
+    end
+
+    describe "failed" do
+      when_parsing_log(
+          "@source" => {"component" => "some value"}, # bad value
+          "@message" => "Some message"
+      ) do
+
+        # no tags set => 'if' failed
+        it { expect(subject["tags"]).to be_nil }
+
+        it { expect(subject["@source"]["component"]).to eq "some value" } # keeps unchanged
+        it { expect(subject["@message"]).to eq "Some message" } # keeps unchanged
+
+      end
+    end
+
   end
 
   describe "when message is" do
     context "Http format" do
       when_parsing_log(
-        "@type" => "cf",
-        "syslog_program" => "haproxy",
-        # http format
-        "@message" => "64.78.155.208:60677 [06/Jul/2016:13:59:57.770] https-in~ http-routers/node0 59841/0/0/157/60000 200 144206 reqC respC ---- 3/4/1/2/0 5/6 {reqHeaders} {respHeaders} \"GET /v2/apps?inline-relations-depth=2 HTTP/1.1\""
+          "@source" => {"component" => "haproxy"},
+          # http format
+          "@message" => "64.78.155.208:60677 [06/Jul/2016:13:59:57.770] https-in~ http-routers/node0 59841/0/0/157/60000 200 144206 reqC respC ---- 3/4/1/2/0 5/6 {reqHeaders} {respHeaders} \"GET /v2/apps?inline-relations-depth=2 HTTP/1.1\""
       ) do
 
         # no parsing errors
-        it { expect(subject["tags"]).not_to include "fail/cloudfoundry/haproxy/grok" }
+        it { expect(subject["tags"]).to eq ["haproxy"] } # no fail tag
 
         # fields
-        it "should set [haproxy] fields from grok" do
+        it "sets [haproxy] fields from grok" do
           expect(subject["haproxy"]["client_ip"]).to eq "64.78.155.208"
           expect(subject["haproxy"]["client_port"]).to eq "60677"
           expect(subject["haproxy"]["accept_date"]).to eq "06/Jul/2016:13:59:57.770"
@@ -54,30 +85,21 @@ describe "haproxy.conf" do
           expect(subject["haproxy"]["http_request_verb"]).to eq "GET"
         end
 
-        it "should set fields from grok" do
-          expect(subject["@message"]).to eq "GET /v2/apps?inline-relations-depth=2 HTTP/1.1"
-          expect(subject["@level"]).to eq "INFO"
-        end
-
-        it "should set general fields" do
-          expect(subject["@source"]["component"]).to eq "haproxy"
-          expect(subject["@type"]).to eq "haproxy_cf"
-          expect(subject["tags"]).to include "haproxy"
-        end
+        it { expect(subject["@message"]).to eq "GET /v2/apps?inline-relations-depth=2 HTTP/1.1" }
+        it { expect(subject["@level"]).to eq "INFO" }
 
       end
     end
 
     context "Http format (<BADREQ>)" do
       when_parsing_log(
-          "@type" => "cf",
-          "syslog_program" => "haproxy",
+          "@source" => {"component" => "haproxy"},
           # http format
           "@message" => "64.78.155.208:60677 [06/Jul/2016:13:59:57.770] https-in~ http-routers/node0 59841/0/0/157/60000 " +
               "200 144206 reqC respC ---- 3/4/1/2/0 5/6 {reqHeaders} {respHeaders} \"<BADREQ>\"" # <BADREQ>
       ) do
 
-        it "should set [haproxy][request] to <BADREQ>" do
+        it "sets [haproxy][request] to <BADREQ>" do
           expect(subject["haproxy"]["http_request"]).to eq "<BADREQ>"
           expect(subject["haproxy"]["http_request_verb"]).to be_nil
         end
@@ -87,36 +109,30 @@ describe "haproxy.conf" do
 
     context "Http format (ERROR level)" do
       when_parsing_log(
-          "@type" => "cf",
-          "syslog_program" => "haproxy",
+          "@source" => {"component" => "haproxy"},
           "@message" => "64.78.155.208:60677 [06/Jul/2016:13:59:57.770] https-in~ http-routers/node0 59841/0/0/157/60000 " +
               "400" + # http status = 400 => ERROR level
               " 144206 reqC respC ---- 3/4/1/2/0 5/6 {reqHeaders} {respHeaders} \"GET /v2/apps?inline-relations-depth=2 HTTP/1.1\""
       ) do
 
         # @level is set based on [haproxy][http_status_code]
-        it "should set @level to ERROR" do
-          expect(subject["@level"]).to eq "ERROR"
-        end
+        it { expect(subject["@level"]).to eq "ERROR" }
 
       end
     end
 
     context "Error log format" do
       when_parsing_log(
-          "@type" => "cf",
-          "syslog_program" => "haproxy",
+          "@source" => {"component" => "haproxy"},
           # error log
           "@message" => "216.218.206.68:36743 [06/Jul/2016:07:16:34.605] https-in/1: SSL handshake failure"
       ) do
 
         # no parsing errors
-        it "does not include grok fail tag" do
-          expect(subject["tags"]).not_to include "fail/cloudfoundry/haproxy/grok"
-        end
+        it { expect(subject["tags"]).to eq ["haproxy"] } # no fail tag
 
         # fields
-        it "should set [haproxy] fields from grok" do
+        it "sets [haproxy] fields from grok" do
           expect(subject["haproxy"]["client_ip"]).to eq "216.218.206.68"
           expect(subject["haproxy"]["client_port"]).to eq "36743"
           expect(subject["haproxy"]["accept_date"]).to eq "06/Jul/2016:07:16:34.605"
@@ -124,66 +140,25 @@ describe "haproxy.conf" do
           expect(subject["haproxy"]["bind_name"]).to eq "1"
         end
 
-        it "should set fields from grok" do
-          expect(subject["@message"]).to eq "SSL handshake failure"
-
-        end
-
-        it "should set general fields" do
-          expect(subject["@source"]["component"]).to eq "haproxy"
-          expect(subject["@type"]).to eq "haproxy_cf"
-          expect(subject["tags"]).to include "haproxy"
-        end
+        it { expect(subject["@message"]).to eq "SSL handshake failure" }
 
       end
     end
 
-  end
-
-  describe "when NOT haproxy case" do
-
-    context "(bad syslog_program)" do
+    context "Unknown format" do
       when_parsing_log(
-          "@type" => "cf",
-          "syslog_program" => "Some program", # bad value
-          "@message" => "Some message here"
+          "@source" => {"component" => "haproxy"},
+          # error log
+          "@message" => "Some message"
       ) do
 
-        # fields not set => 'if' condition has failed
+        # parsing error
+        it { expect(subject["tags"]).to eq ["haproxy", "fail/cloudfoundry/platform-haproxy/grok"] } # no fail tag
 
-        it "shouldn't set fields" do
-          expect(subject["haproxy"]).to be_nil
-          expect(subject["@source"]).to be_nil
-          expect(subject["tags"]).to be_nil
-        end
-
-        it "shouldn't override fields" do
-          expect(subject["@type"]).to eq "cf"
-          expect(subject["@message"]).to eq "Some message here"
-        end
-
-      end
-    end
-
-    context "(bad @type)" do
-      when_parsing_log(
-          "@type" => "Some type", # bad type
-          "syslog_program" => "haproxy",
-          "@message" => "Some message here"
-      ) do
-
-        # fields not set => 'if' condition has failed
-
-        it "shouldn't set fields" do
-          expect(subject["haproxy"]).to be_nil
-          expect(subject["@source"]).to be_nil
-          expect(subject["tags"]).to be_nil
-        end
-
-        it "shouldn't override fields" do
-          expect(subject["@type"]).to eq "Some type"
-          expect(subject["@message"]).to eq "Some message here"
-        end
+        # fields
+        it { expect(subject["@source"]["component"]).to eq "haproxy" } # keeps unchanged
+        it { expect(subject["@message"]).to eq "Some message" } # keeps unchanged
+        it { expect(subject["haproxy"]).to be_nil }
 
       end
     end

@@ -1,5 +1,5 @@
 # encoding: utf-8
-require 'test/filter_test_helpers'
+require 'test/logstash-filters/filter_test_helpers'
 
 describe "app-log.conf" do
 
@@ -23,17 +23,21 @@ describe "app-log.conf" do
             "@message" => "{\"timestamp\":\"2016-07-15 13:20:16.954\",\"level\":\"INFO\",\"thread\":\"main\",\"logger\":\"com.abc.LogGenerator\",\"message\":\"Some message\"}"
         ) do
 
-          # log tag only (no fail tags)
-          it { expect(subject["tags"]).to eq ["log"] }
+          # no parsing errors
+          it { expect(subject["tags"]).to eq ["log"] } # no fail tag
 
-          it "should override fields from JSON" do
+          # fields
+          it "sets @message" do
             expect(subject["@message"]).to eq "Some message"
-            expect(subject["@level"]).to eq "INFO"
             expect(subject["log"]["message"]).to be_nil
+          end
+
+          it "sets @level" do
+            expect(subject["@level"]).to eq "INFO"
             expect(subject["log"]["level"]).to be_nil
           end
 
-          it "should set [log] fields from JSON" do
+          it "sets [log] fields from JSON" do
             expect(subject["log"]["timestamp"]).to eq "2016-07-15 13:20:16.954"
             expect(subject["log"]["thread"]).to eq "main"
             expect(subject["log"]["logger"]).to eq "com.abc.LogGenerator"
@@ -51,7 +55,7 @@ describe "app-log.conf" do
             "@message" => "{\"message\":\"Some error\", \"exception\":\"Some exception\"}"
         ) do
 
-          it "should append exception to message" do
+          it "appends exception to message" do
             expect(subject["@message"]).to eq "Some error
 Some exception"
             expect(subject["log"]).to be_empty
@@ -68,13 +72,11 @@ Some exception"
             "@message" => "{\"message\":\"Some message\", }" # invalid JSON
         ) do
 
-          # log tag only & unknown_message_format tag
+          # unknown_message_format
           it { expect(subject["tags"]).to eq ["log", "unknown_msg_format"] }
 
-          it "should not override fields" do
-            expect(subject["@message"]).to eq "{\"message\":\"Some message\", }"
-            expect(subject["@level"]).to eq "SOME LEVEL"
-          end
+          it { expect(subject["@message"]).to eq "{\"message\":\"Some message\", }" } # keeps unchanged
+          it { expect(subject["@level"]).to eq "SOME LEVEL" } # keeps unchanged
 
         end
       end
@@ -87,13 +89,11 @@ Some exception"
             "@message" => "{}" # empty JSON
         ) do
 
-          # log tag only & unknown_message_format tag
+          # unknown_message_format tag
           it { expect(subject["tags"]).to eq ["log", "unknown_msg_format"] }
 
-          it "should not override fields" do
-            expect(subject["@message"]).to eq "{}"
-            expect(subject["@level"]).to eq "SOME LEVEL"
-          end
+          it { expect(subject["@message"]).to eq "{}" } # keeps unchanged
+          it { expect(subject["@level"]).to eq "SOME LEVEL" } # keeps unchanged
 
         end
       end
@@ -109,10 +109,10 @@ Some exception"
           "@message" => "[CONTAINER] org.apache.catalina.startup.Catalina               INFO    Server startup in 9775 ms"
       ) do
 
-        # log tag only (no fail tags)
-        it { expect(subject["tags"]).to eq ["log"] }
+        # no parsing errors
+        it { expect(subject["tags"]).to eq ["log"] } # no unknown_msg_format tag
 
-        it "should set fields from 'grok'" do
+        it "sets fields from 'grok'" do
           expect(subject["@message"]).to eq "Server startup in 9775 ms"
           expect(subject["@level"]).to eq "INFO"
           expect(subject["log"]["logger"]).to eq "[CONTAINER] org.apache.catalina.startup.Catalina"
@@ -130,10 +130,10 @@ Some exception"
           "@message" => "16:41:17,033 |-DEBUG in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to WARN"
       ) do
 
-        # log tag only (no fail tags)
-        it { expect(subject["tags"]).to eq ["log"] }
+        # no parsing errors
+        it { expect(subject["tags"]).to eq ["log"] } # no unknown_msg_format tag
 
-        it "should set fields from 'grok'" do
+        it "sets fields from 'grok'" do
           expect(subject["@message"]).to eq "Setting level of ROOT logger to WARN"
           expect(subject["@level"]).to eq "DEBUG"
           expect(subject["log"]["logger"]).to eq "ch.qos.logback.classic.joran.action.RootLoggerAction"
@@ -151,13 +151,11 @@ Some exception"
           "@message" => "Some Message" # unknown format
       ) do
 
-        # log tag, unknown_msg_format tag
+        # unknown format
         it { expect(subject["tags"]).to eq ["log", "unknown_msg_format"] }
 
-        it "should keep fields" do
-          expect(subject["@message"]).to eq "Some Message"
-          expect(subject["@level"]).to eq "SOME LEVEL"
-        end
+        it { expect(subject["@message"]).to eq "Some Message" } # keeps unchanged
+        it { expect(subject["@level"]).to eq "SOME LEVEL" } # keeps unchanged
 
       end
     end

@@ -1,5 +1,5 @@
 # encoding: utf-8
-require 'test/filter_test_helpers'
+require 'test/logstash-filters/filter_test_helpers'
 
 describe "app-rtr.conf" do
 
@@ -23,17 +23,13 @@ describe "app-rtr.conf" do
       ) do
 
         # no parsing errors
-        it { expect(subject["tags"]).not_to include "fail/cloudfoundry/app-rtr/grok" }
+        it { expect(subject["tags"]).to eq ["rtr"] } # no fail tag
 
         # fields
-        it { expect(subject["tags"]).to include "rtr" } # rtr tag on success grok
+        it { expect(subject["@message"]).to eq "parser.64.78.234.207.xip.io - [15/07/2016:09:26:25 +0000] \"GET /http HTTP/1.1\" 200 0 1413 \"-\" \"Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36\" 192.168.111.21:35826 x_forwarded_for:\"82.209.244.50, 192.168.111.21\" x_forwarded_proto:\"http\" vcap_request_id:831e54f1-f09f-4971-6856-9fdd502d4ae3 response_time:0.005328859 app_id:7ae227a6-6ad1-46d4-bfb9-6e60d7796bb5\n" }
+        it { expect(subject["@level"]).to eq "INFO" }
 
-        it "should keep fields" do
-          expect(subject["@message"]).to eq "parser.64.78.234.207.xip.io - [15/07/2016:09:26:25 +0000] \"GET /http HTTP/1.1\" 200 0 1413 \"-\" \"Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36\" 192.168.111.21:35826 x_forwarded_for:\"82.209.244.50, 192.168.111.21\" x_forwarded_proto:\"http\" vcap_request_id:831e54f1-f09f-4971-6856-9fdd502d4ae3 response_time:0.005328859 app_id:7ae227a6-6ad1-46d4-bfb9-6e60d7796bb5\n"
-          expect(subject["@level"]).to eq "INFO"
-        end
-
-        it "should set RTR-specific fields" do
+        it "sets [rtr] fields" do
           expect(subject["rtr"]["hostname"]).to eq "parser.64.78.234.207.xip.io"
           expect(subject["rtr"]["timestamp"]).to eq "15/07/2016:09:26:25 +0000"
           expect(subject["rtr_time"]).to be_nil
@@ -70,19 +66,15 @@ describe "app-rtr.conf" do
           "@message" => "Some message of wrong format" # bad format
       ) do
 
-        # parsing error
-        it { expect(subject["tags"]).to include "fail/cloudfoundry/app-rtr/grok" }
+        # get parsing error
+        it { expect(subject["tags"]).to eq ["rtr", "fail/cloudfoundry/app-rtr/grok"] }
 
         # fields
-        it "should keep fields" do
-          expect(subject["@message"]).to eq "Some message of wrong format"
-          expect(subject["@level"]).to eq "SOME LEVEL"
-        end
+        it { expect(subject["@message"]).to eq "Some message of wrong format" } # keeps unchanged
+        it { expect(subject["@level"]).to eq "SOME LEVEL" } # keeps unchanged
 
-        it "should NOT set RTR-specific fields" do
-          expect(subject["rtr"]).to be_nil
-          expect(subject["geoip"]).to be_nil
-        end
+        it { expect(subject["rtr"]).to be_nil }
+        it { expect(subject["geoip"]).to be_nil }
 
       end
     end
@@ -150,7 +142,7 @@ describe "app-rtr.conf" do
               " x_forwarded_proto:\"http\" vcap_request_id:831e54f1-f09f-4971-6856-9fdd502d4ae3 response_time:0.005328859 app_id:7ae227a6-6ad1-46d4-bfb9-6e60d7796bb5\n"
       ) do
 
-        it "should remove quotes and whitespaces and split" do
+        it "removes quotes and whitespaces and split" do
           expect(subject["rtr"]["x_forwarded_for"]).to eq ["82.209.244.50", "192.168.111.21"]
         end
 

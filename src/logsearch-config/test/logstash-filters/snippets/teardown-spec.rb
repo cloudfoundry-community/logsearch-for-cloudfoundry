@@ -1,5 +1,5 @@
 # encoding: utf-8
-require 'test/filter_test_helpers'
+require 'test/logstash-filters/filter_test_helpers'
 
 describe "teardown.conf" do
 
@@ -119,7 +119,7 @@ describe "teardown.conf" do
 
   end
 
-  describe "parse [host]" do
+  describe "parses [host]" do
 
     context "when [@source][host] is set" do
       when_parsing_log(
@@ -149,24 +149,28 @@ describe "teardown.conf" do
           "parsed_json_data" => "dummy value",
           "@source" => {"component" => "Abc-defg.hI?jk#lm NOPQ"}
       ) do
+        # [parsed_json_data] renamed
         it { expect(subject["parsed_json_data"]).to be_nil }
         it { expect(subject["abc_defg_hi_jk_lm_nopq"]).to eq "dummy value" } # renamed
       end
     end
 
     context "when [parsed_json_data] is NOT set" do
-      event = when_parsing_log(
-          "some useless field" => "some value"
+      when_parsing_log(
+          "@source" => {"component" => "Abc-defg.hI?jk#lm NOPQ"}
       ) do
-        it { expect(subject).to eq event } # no changes
+        # nothing is set
+        it { expect(subject["parsed_json_data"]).to be_nil }
+        it { expect(subject["abc_defg_hi_jk_lm_nopq"]).to be_nil }
       end
     end
 
     context "when [@source][component] is NOT set" do
-      event = when_parsing_log(
+      when_parsing_log(
           "parsed_json_data" => "dummy value"
       ) do
-        it { expect(subject).to eq event } # no changes
+        # keep [parsed_json_data]
+        it { expect(subject["parsed_json_data"]).to eq "dummy value" }
       end
     end
 
@@ -185,10 +189,10 @@ describe "teardown.conf" do
       "syslog_timestamp" => "vw",
       "syslog_hostname" => "xy",
       "syslog_pid" => "z",
-      "tags" => ["t1", "t2"],
       "@level" => "lowercase value",
       "@version" => "some version",
-      "host" => "1.2.3.4"
+      "host" => "1.2.3.4",
+      "_logstash_input" => "abc"
     ) do
 
       it "removes syslog_ fields" do
@@ -204,17 +208,12 @@ describe "teardown.conf" do
         expect(subject["syslog_pid"]).to be_nil
       end
 
-      it "renames 'tags' field" do
-        expect(subject["@tags"]).to eq ["t1", "t2"]
-        expect(subject["tags"]).to be_nil
-      end
-
       it { expect(subject["@level"]).to eq "LOWERCASE VALUE" }
 
       it { expect(subject["@version"]).to be_nil }
-
       it { expect(subject["host"]).to be_nil }
-      
+      it { expect(subject["_logstash_input"]).to be_nil }
+
     end
 
   end

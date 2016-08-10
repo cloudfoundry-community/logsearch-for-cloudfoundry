@@ -36,8 +36,6 @@ def when_parsing_log(sample_event, &block)
       name = LogStash::Json.dump(sample_event)
     end
 
-    event = LogStash::Event.new(sample_event)
-
     name = name[0..200] + "..." if name.length > 200
 
     describe "[\"#{name}\"]" do
@@ -45,6 +43,7 @@ def when_parsing_log(sample_event, &block)
       before(:all) do
         results = []
         # filter call the block on all filtered events, included new events added by the filter
+        event = LogStash::Event.new(sample_event)
         LogStashPipeline.instance.filter(event) { |filtered_event| results << filtered_event }
         # flush makes sure to empty any buffered events in the filter
         LogStashPipeline.instance.flush_filters(:final => true) { |flushed_event| results << flushed_event }
@@ -57,5 +56,4 @@ def when_parsing_log(sample_event, &block)
       describe("", &block)
     end
 
-    event
 end

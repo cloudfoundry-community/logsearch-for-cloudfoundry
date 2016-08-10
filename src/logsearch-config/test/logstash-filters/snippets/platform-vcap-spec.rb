@@ -1,32 +1,63 @@
 # encoding: utf-8
-require 'test/filter_test_helpers'
+require 'test/logstash-filters/filter_test_helpers'
 
-describe "vcap.conf" do
+describe "platform-vcap.conf" do
 
   before(:all) do
     load_filters <<-CONFIG
       filter {
-        #{File.read("src/logstash-filters/snippets/vcap.conf")}
+        #{File.read("src/logstash-filters/snippets/platform-vcap.conf")}
       }
     CONFIG
+  end
+
+  # -- test snippet's 'if' condition --
+  describe "#if" do
+
+    describe "passed" do
+      when_parsing_log(
+          "@source" => {"component" => "vcap.some_component"}, # good value
+          "@message" => "Some message"
+      ) do
+
+        # uaa tag set => 'if' succeeded
+        it { expect(subject["tags"]).to include "vcap" }
+
+      end
+    end
+
+    describe "failed" do
+      when_parsing_log(
+          "@source" => {"component" => "some value"}, # bad value
+          "@message" => "Some message"
+      ) do
+
+        # no tags set => 'if' failed
+        it { expect(subject["tags"]).to be_nil }
+
+        it { expect(subject["@source"]["component"]).to eq "some value" } # keeps unchanged
+        it { expect(subject["@message"]).to eq "Some message" } # keeps unchanged
+
+      end
+    end
+
   end
 
   describe "when message is" do
 
     context "plain-text format" do
       when_parsing_log(
-          "@type" => "cf",
-          "syslog_program" => "vcap.consul-agent",
-          "@source"=> { "component" => "vcap.consul-agent" }, # normally is set in platform.conf
+          "@source" => {"component" => "vcap.consul-agent"},
           "@level" => "Dummy level",
           # plain-text format
           "@message" => "2016/07/07 00:56:10 [WARN] agent: Check 'service:routing-api' is now critical"
       ) do
 
+        # no parsing errors
+        it { expect(subject["tags"]).to eq ["vcap"] } # no fail tag
+
         # fields
         it { expect(subject["@source"]["component"]).to eq "consul-agent" }
-        it { expect(subject["@type"]).to eq "vcap_cf" }
-        it { expect(subject["tags"]).to eq ["vcap"] }
 
         it { expect(subject["@message"])
                  .to eq "2016/07/07 00:56:10 [WARN] agent: Check 'service:routing-api' is now critical" } # keeps the same value
@@ -39,19 +70,17 @@ describe "vcap.conf" do
 
     context "JSON format" do
       when_parsing_log(
-          "@type" => "cf",
-          "syslog_program" => "vcap.nats",
-          "@source"=> { "component" => "vcap.nats" }, # normally is set in platform.conf
+          "@source"=> { "component" => "vcap.nats" },
           # JSON format
           "@message" => "{\"timestamp\":1467852972.554088,\"source\":\"NatsStreamForwarder\",\"log_level\":\"info\",\"message\":\"router.register\",\"data\":{\"nats_message\": \"{\\\"uris\\\":[\\\"redis-broker.64.78.234.207.xip.io\\\"],\\\"host\\\":\\\"192.168.111.201\\\",\\\"port\\\":80}\",\"reply_inbox\":\"_INBOX.7e93f2a1d5115844163cc930b5\"}}"
       ) do
 
+        # no parsing errors
+        it { expect(subject["tags"]).to eq ["vcap"] } # no fail tag
+
         # fields
         it { expect(subject["@source"]["component"]).to eq "nats" }
-        it { expect(subject["@type"]).to eq "vcap_cf" }
-        it { expect(subject["tags"]).to eq ["vcap"] }
 
-        # JSON fields
         it "sets JSON fields" do
           expect(subject["parsed_json_data"]).not_to be_nil
           expect(subject["parsed_json_data"]["timestamp"]).to eq 1467852972.554088
@@ -73,46 +102,26 @@ describe "vcap.conf" do
       end
     end
 
-  end
-
-
-  describe "when NOT vcap case" do
-
-    context "(bad @type)" do
-      event = when_parsing_log(
-          "@type" => "Some type", # bad value
-          "syslog_program" => "vcap.some_program",
-          "@message" => "Some message"
+    context "JSON format (invalid)" do
+      when_parsing_log(
+          "@source" => { "component" => "vcap.nats" },
+          "@level" => "Dummy value",
+          # JSON format
+          "@message" => "{\"timestamp\":14678, abcd}}" # invalid JSON
       ) do
 
-        it { expect(subject).to eq event } # kept the same
+        # parsing error
+        it { expect(subject["tags"]).to eq ["vcap", "fail/cloudfoundry/platform-vcap/json"] }
+
+        # fields
+        it { expect(subject["@message"]).to eq "{\"timestamp\":14678, abcd}}" } # keeps unchanged
+        it { expect(subject["@source"]["component"]).to eq "nats" } # keeps unchanged
+        it { expect(subject["@level"]).to eq "Dummy value" } # keeps unchanged
+        it { expect(subject["parsed_json_data"]).to be_nil }
 
       end
     end
 
-    context "(bad syslog_program)" do
-      event = when_parsing_log(
-          "@type" => "cf",
-          "syslog_program" => "Some program", # bad value
-          "@message" => "Some message"
-      ) do
-
-        it { expect(subject).to eq event } # kept the same
-
-      end
-    end
-
-    context "(uaa case)" do
-      event = when_parsing_log(
-          "@type" => "cf",
-          "syslog_program" => "vcap.uaa", # bad value
-          "@message" => "Some message"
-      ) do
-
-        it { expect(subject).to eq event } # kept the same
-
-      end
-    end
 
   end
 

@@ -47,13 +47,13 @@
           "meta": {
             "negate": false,
             "index": "logs-platform-*",
-            "key": "@tags",
+            "key": "tags",
             "value": "hm_agent_heartbeat",
             "disabled": false
           },
           "query": {
             "match": {
-              "@tags": {
+              "tags": {
                 "query": "hm_agent_heartbeat",
                 "type": "phrase"
               }
