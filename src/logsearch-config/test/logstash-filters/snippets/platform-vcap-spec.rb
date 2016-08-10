@@ -63,7 +63,7 @@ describe "platform-vcap.conf" do
                  .to eq "2016/07/07 00:56:10 [WARN] agent: Check 'service:routing-api' is now critical" } # keeps the same value
         it { expect(subject["@level"]).to eq "Dummy level" } # keeps the same
 
-        it { expect(subject["parsed_json_data"]).to be_nil } # no json fields
+        it { expect(subject["parsed_json_field"]).to be_nil } # no json fields
 
       end
     end
@@ -82,21 +82,21 @@ describe "platform-vcap.conf" do
         it { expect(subject["@source"]["component"]).to eq "nats" }
 
         it "sets JSON fields" do
-          expect(subject["parsed_json_data"]).not_to be_nil
-          expect(subject["parsed_json_data"]["timestamp"]).to eq 1467852972.554088
-          expect(subject["parsed_json_data"]["source"]).to eq "NatsStreamForwarder"
-          expect(subject["parsed_json_data"]["data"]["nats_message"]).to eq "{\"uris\":[\"redis-broker.64.78.234.207.xip.io\"],\"host\":\"192.168.111.201\",\"port\":80}"
-          expect(subject["parsed_json_data"]["data"]["reply_inbox"]).to eq "_INBOX.7e93f2a1d5115844163cc930b5"
+          expect(subject["parsed_json_field"]).not_to be_nil
+          expect(subject["parsed_json_field"]["timestamp"]).to eq 1467852972.554088
+          expect(subject["parsed_json_field"]["source"]).to eq "NatsStreamForwarder"
+          expect(subject["parsed_json_field"]["data"]["nats_message"]).to eq "{\"uris\":[\"redis-broker.64.78.234.207.xip.io\"],\"host\":\"192.168.111.201\",\"port\":80}"
+          expect(subject["parsed_json_field"]["data"]["reply_inbox"]).to eq "_INBOX.7e93f2a1d5115844163cc930b5"
         end
 
         it "sets @message from JSON" do
           expect(subject["@message"]).to eq "router.register"
-          expect(subject["parsed_json_data"]["message"]).to be_nil
+          expect(subject["parsed_json_field"]["message"]).to be_nil
         end
 
         it "sets @level from JSON" do
           expect(subject["@level"]).to eq "info"
-          expect(subject["parsed_json_data"]["log_level"]).to be_nil
+          expect(subject["parsed_json_field"]["log_level"]).to be_nil
         end
 
       end
@@ -117,7 +117,7 @@ describe "platform-vcap.conf" do
         it { expect(subject["@message"]).to eq "{\"timestamp\":14678, abcd}}" } # keeps unchanged
         it { expect(subject["@source"]["component"]).to eq "nats" } # keeps unchanged
         it { expect(subject["@level"]).to eq "Dummy value" } # keeps unchanged
-        it { expect(subject["parsed_json_data"]).to be_nil }
+        it { expect(subject["parsed_json_field"]).to be_nil }
 
       end
     end

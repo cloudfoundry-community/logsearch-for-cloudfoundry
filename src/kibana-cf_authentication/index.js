@@ -344,8 +344,8 @@ function filterQuery(payload, cached) {
     bool.must = [bool.must];
   }
   bool.must.push(
-    {'terms': {'@source.space_id': cached.account.spaceIds}},
-    {'terms': {'@source.org_id': cached.account.orgIds}}
+    {'terms': {'@cf.space_id': cached.account.spaceIds}},
+    {'terms': {'@cf.org_id': cached.account.orgIds}}
   );
   return payload;
 }

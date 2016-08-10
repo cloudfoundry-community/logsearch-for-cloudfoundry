@@ -142,35 +142,35 @@ describe "teardown.conf" do
 
   end
 
-  describe "renames [parsed_json_data]" do
+  describe "renames [parsed_json_field]" do
 
-    describe "when [parsed_json_data] and [@source][component] are set" do
+    describe "when [parsed_json_field] and [@source][component] are set" do
       when_parsing_log(
-          "parsed_json_data" => "dummy value",
+          "parsed_json_field" => "dummy value",
           "@source" => {"component" => "Abc-defg.hI?jk#lm NOPQ"}
       ) do
-        # [parsed_json_data] renamed
-        it { expect(subject["parsed_json_data"]).to be_nil }
+        # [parsed_json_field] renamed
+        it { expect(subject["parsed_json_field"]).to be_nil }
         it { expect(subject["abc_defg_hi_jk_lm_nopq"]).to eq "dummy value" } # renamed
       end
     end
 
-    context "when [parsed_json_data] is NOT set" do
+    context "when [parsed_json_field] is NOT set" do
       when_parsing_log(
           "@source" => {"component" => "Abc-defg.hI?jk#lm NOPQ"}
       ) do
         # nothing is set
-        it { expect(subject["parsed_json_data"]).to be_nil }
+        it { expect(subject["parsed_json_field"]).to be_nil }
         it { expect(subject["abc_defg_hi_jk_lm_nopq"]).to be_nil }
       end
     end
 
     context "when [@source][component] is NOT set" do
       when_parsing_log(
-          "parsed_json_data" => "dummy value"
+          "parsed_json_field" => "dummy value"
       ) do
-        # keep [parsed_json_data]
-        it { expect(subject["parsed_json_data"]).to eq "dummy value" }
+        # keep [parsed_json_field]
+        it { expect(subject["parsed_json_field"]).to eq "dummy value" }
       end
     end
 

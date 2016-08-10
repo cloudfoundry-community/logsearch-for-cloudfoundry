@@ -38,7 +38,7 @@ describe "Platform logs IT" do
           "cf", ["platform", "cf", "vcap"], "Some vcap plain text message", "ERROR")
 
         # verify no JSON parsing
-        it { expect(subject["parsed_json_data"]).to be_nil }
+        it { expect(subject["parsed_json_field"]).to be_nil }
         it { expect(subject["consul_agent"]).to be_nil }
 
       end
@@ -72,7 +72,7 @@ describe "Platform logs IT" do
         end
 
         # verify cleanup
-        it { expect(subject["parsed_json_data"]).to be_nil }
+        it { expect(subject["parsed_json_field"]).to be_nil }
 
       end
     end
