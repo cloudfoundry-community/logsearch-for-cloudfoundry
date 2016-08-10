@@ -11,6 +11,94 @@ describe "app-log.conf" do
     CONFIG
   end
 
+  describe "#if" do
+
+    context "failed (bad @type)" do
+      when_parsing_log(
+          "@type" => "Some type", # bad value
+          "@source" => {"component" => "APP"},
+          "@level" => "INFO",
+          "@message" => "Some message of wrong format"
+      ) do
+
+        # no log tags => 'if' condition has failed
+        it { expect(subject["tags"]).to be_nil }
+
+      end
+    end
+
+    context "failed (bad [@source][component])" do
+      when_parsing_log(
+          "@type" => "LogMessage",
+          "@source" => {"component" => "Some value"}, # bad value
+          "@level" => "INFO",
+          "@message" => "Some message of wrong format"
+      ) do
+
+        # no log tags => 'if' condition has failed
+        it { expect(subject["tags"]).to be_nil }
+
+      end
+    end
+
+    context "failed (lowercase [@source][component])" do
+      when_parsing_log(
+          "@type" => "LogMessage",
+          "@source" => {"component" => "App"}, # lowercase - bad value
+          "@level" => "INFO",
+          "@message" => "Some message of wrong format"
+      ) do
+
+        # no log tags => 'if' condition has failed
+        it { expect(subject["tags"]).to be_nil }
+
+      end
+    end
+  end
+
+  describe "drop/keep event" do
+
+    context "when 'msg' is useless (empty) - drop" do
+      when_parsing_log(
+          "@type" => "LogMessage",
+          "@source" => { "component" => "APP" },
+          "@message" => "" # empty message
+      ) do
+
+        # useless event was dropped
+        it { expect(subject).to be_nil }
+
+      end
+    end
+
+    context "when 'msg' is useless (blank) - drop" do
+      when_parsing_log(
+          "@type" => "LogMessage",
+          "@source" => { "component" => "APP" },
+          "@message" => "   " # blank message
+      ) do
+
+        # useless event was dropped
+        it { expect(subject).to be_nil }
+
+      end
+    end
+
+    context "when @message is just missing - keep" do
+      when_parsing_log(
+          "@type" => "LogMessage",
+          "@source" => { "component" => "APP" }
+          # no @message field at all
+      ) do
+
+        # event was NOT dropped
+        it { expect(subject).not_to be_nil }
+
+      end
+    end
+
+  end
+
   describe "when message is" do
 
     describe "JSON format" do
@@ -160,52 +248,6 @@ Some exception"
       end
     end
 
-  end
-
-
-  describe "#if" do
-
-    context "failed (bad @type)" do
-      when_parsing_log(
-          "@type" => "Some type", # bad value
-          "@source" => {"component" => "APP"},
-          "@level" => "INFO",
-          "@message" => "Some message of wrong format"
-      ) do
-
-        # no log tags => 'if' condition has failed
-        it { expect(subject["tags"]).to be_nil }
-
-      end
-    end
-
-    context "failed (bad [@source][component])" do
-      when_parsing_log(
-          "@type" => "LogMessage",
-          "@source" => {"component" => "Some value"}, # bad value
-          "@level" => "INFO",
-          "@message" => "Some message of wrong format"
-      ) do
-
-        # no log tags => 'if' condition has failed
-        it { expect(subject["tags"]).to be_nil }
-
-      end
-    end
-
-    context "failed (lowercase [@source][component])" do
-      when_parsing_log(
-          "@type" => "LogMessage",
-          "@source" => {"component" => "App"}, # lowercase - bad value
-          "@level" => "INFO",
-          "@message" => "Some message of wrong format"
-      ) do
-
-        # no log tags => 'if' condition has failed
-        it { expect(subject["tags"]).to be_nil }
-
-      end
-    end
   end
 
 end

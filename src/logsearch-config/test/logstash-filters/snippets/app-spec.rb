@@ -142,53 +142,6 @@ New line" }
 
   end
 
-  describe "drop/keep event" do
-
-    context "when 'msg' is useless (empty) - drop" do
-      when_parsing_log(
-          "@metadata" => {"index" => "app"},
-          "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\"," +
-              "\"msg\":\"\"" + # empty msg
-              ",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"APP\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
-      ) do
-
-        # useless event was dropped
-        it { expect(subject).to be_nil }
-
-      end
-    end
-
-    context "when 'msg' is useless (blank) - drop" do
-      when_parsing_log(
-          "@metadata" => {"index" => "app"},
-          "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\"," +
-              "\"msg\":\"    \"," + # blank msg
-              "\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"APP\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
-      ) do
-
-        # useless event was dropped
-        it { expect(subject).to be_nil }
-
-      end
-    end
-
-    context "when 'msg' is missing - keep" do
-      when_parsing_log(
-          "@type" => "relp",
-          "syslog_program" => "doppler",
-          "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\",\"event_type\":\"LogMessage\",\"level\":\"info\",\"message_type\":\"OUT\"," +
-              "\"msgAbc\":\"    \"," + # msg field is missing
-              "\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"APP\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
-      ) do
-
-        # event was NOT dropped
-        it { expect(subject).not_to be_nil }
-
-      end
-    end
-
-  end
-
   describe "sets @type" do
 
     context "when event_type is missing" do
