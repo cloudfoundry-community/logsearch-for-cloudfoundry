@@ -1,12 +1,12 @@
 # encoding: utf-8
 require 'test/logstash-filters/filter_test_helpers'
 
-describe "app-log.conf" do
+describe "app-logmessage-app.conf" do
 
   before(:all) do
     load_filters <<-CONFIG
       filter {
-        #{File.read("src/logstash-filters/snippets/app-log.conf")}
+        #{File.read("src/logstash-filters/snippets/app-logmessage-app.conf")}
       }
     CONFIG
   end
