@@ -36,6 +36,17 @@ jobs:
   networks:
   - name: default
 
+- name: smoke-tests
+  templates:
+  - (( replace ))
+  - { release: logsearch-for-cloudfoundry, name: smoke-tests }
+  lifecycle: errand
+  instances: 1
+  release: logsearch-for-cloudfoundry
+  resource_pool: errand
+  networks:
+  - name: default
+
 properties:
   cloudfoundry:
     api_endpoint: https://api.example.com
@@ -58,3 +69,11 @@ properties:
   syslog:
     host: (( grab jobs.ingestor.networks.[0].static_ips.[0] ))
     port: 5514
+  smoke_tests:
+    api: (( grab properties.cloudfoundry.api_endpoint ))
+    apps_domain: (( grab properties.cf-kibana.apps_domain ))
+    admin_user: (( grab properties.cloudfoundry.firehose_user ))
+    admin_password: (( grab properties.cloudfoundry.firehose_password ))
+    elasticsearch_master:
+      host: (( grab jobs.elasticsearch_master.networks.default.static_ips.[0] ))
+      port: 9200
