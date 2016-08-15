@@ -54,6 +54,7 @@ describe "setup.conf" do
       ) do
 
         # fields
+        it { expect(subject["@index_type"]).to eq "platform" }
         it { expect(subject["@metadata"]["index"]).to eq "platform" }
         it { expect(subject["@input"]).to eq "some-type" }
         it { expect(subject["@shipper"]["priority"]).to eq "5" }
@@ -73,18 +74,20 @@ describe "setup.conf" do
       ) do
 
         # fields
+        it { expect(subject["@index_type"]).to eq "app" }
         it { expect(subject["@metadata"]["index"]).to eq "app" }
 
       end
     end
 
-    context "app" do
+    context "platform" do
       when_parsing_log(
           "syslog_program" => "not doppler", # platform logs
           "@message" => "Some message"
       ) do
 
         # fields
+        it { expect(subject["@index_type"]).to eq "platform" }
         it { expect(subject["@metadata"]["index"]).to eq "platform" }
 
       end

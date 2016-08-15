@@ -45,8 +45,9 @@ describe "App logs IT" do
           sample_event["@message"] = construct_app_message(app_message_payload)
 
           when_parsing_log(sample_event) do
-            verify_fields(app_message_payload.origin, app_message_payload.job,
-                          app_message_payload.event_type, "APP", "INFO", "Some text msg")
+            verify_fields_logmessage(app_message_payload.job, app_message_payload.origin,
+                                     app_message_payload.event_type, "APP",
+                                     "INFO", "Some text msg")
 
             # verify format-specific fields
             it { expect(subject["tags"]).to include "unknown_msg_format" }
@@ -65,16 +66,17 @@ describe "App logs IT" do
           sample_event["@message"] = construct_app_message(app_message_payload)
 
           when_parsing_log(sample_event) do
-            verify_fields(app_message_payload.origin, app_message_payload.job,
-                          app_message_payload.event_type, "APP", "ERROR", "Some json msg")
+            verify_fields_logmessage(app_message_payload.job, app_message_payload.origin,
+                                     app_message_payload.event_type, "APP",
+                                     "ERROR", "Some json msg")
 
             # verify format-specific fields
-            it { expect(subject["tags"]).to include "log" }
+            it { expect(subject["tags"]).to include "logmessage-app" }
             it { expect(subject["tags"]).not_to include "unknown_msg_format" }
 
-            it { expect(subject["log"]["timestamp"]).to eq "2016-07-15 13:20:16.954" }
-            it { expect(subject["log"]["thread"]).to eq "main" }
-            it { expect(subject["log"]["logger"]).to eq "com.abc.LogGenerator" }
+            it { expect(subject["app"]["timestamp"]).to eq "2016-07-15 13:20:16.954" }
+            it { expect(subject["app"]["thread"]).to eq "main" }
+            it { expect(subject["app"]["logger"]).to eq "com.abc.LogGenerator" }
           end
         end
 
@@ -86,12 +88,13 @@ describe "App logs IT" do
           sample_event["@message"] = construct_app_message(app_message_payload)
 
           when_parsing_log(sample_event) do
-            verify_fields(app_message_payload.origin, app_message_payload.job,
-                          app_message_payload.event_type, "APP", "DEBUG", "Server startup in 9775 ms")
+            verify_fields_logmessage(app_message_payload.job, app_message_payload.origin,
+                          app_message_payload.event_type, "APP",
+                          "DEBUG", "Server startup in 9775 ms")
 
             # verify format-specific fields
             it { expect(subject["tags"]).to_not include "unknown_msg_format" }
-            it { expect(subject["log"]["logger"]).to eq "[CONTAINER] org.apache.catalina.startup.Catalina" }
+            it { expect(subject["app"]["logger"]).to eq "[CONTAINER] org.apache.catalina.startup.Catalina" }
           end
         end
 
@@ -103,12 +106,13 @@ describe "App logs IT" do
           sample_event["@message"] = construct_app_message(app_message_payload)
 
           when_parsing_log(sample_event) do
-            verify_fields(app_message_payload.origin, app_message_payload.job,
-                          app_message_payload.event_type, "APP", "DEBUG", "Setting level of ROOT logger to WARN")
+            verify_fields_logmessage(app_message_payload.job, app_message_payload.origin,
+                          app_message_payload.event_type, "APP",
+                          "DEBUG", "Setting level of ROOT logger to WARN")
 
             # verify format-specific fields
             it { expect(subject["tags"]).to_not include "unknown_msg_format" }
-            it { expect(subject["log"]["logger"]).to eq "ch.qos.logback.classic.joran.action.RootLoggerAction" }
+            it { expect(subject["app"]["logger"]).to eq "ch.qos.logback.classic.joran.action.RootLoggerAction" }
           end
         end
 
@@ -132,8 +136,9 @@ describe "App logs IT" do
           sample_event["@message"] = construct_app_message(app_message_payload)
 
           when_parsing_log(sample_event) do
-            verify_fields(app_message_payload.origin, app_message_payload.job,
-                          app_message_payload.event_type, "APP", "INFO", "Some text msg")
+            verify_fields_logmessage(app_message_payload.job, app_message_payload.origin,
+                          app_message_payload.event_type, "APP",
+                          "INFO", "Some text msg")
 
             # verify format-specific fields
             it { expect(subject["tags"]).to include "unknown_msg_format" }
@@ -152,16 +157,17 @@ describe "App logs IT" do
           sample_event["@message"] = construct_app_message(app_message_payload)
 
           when_parsing_log(sample_event) do
-            verify_fields(app_message_payload.origin, app_message_payload.job,
-                          app_message_payload.event_type, "APP", "ERROR", "Some json msg")
+            verify_fields_logmessage(app_message_payload.job, app_message_payload.origin,
+                          app_message_payload.event_type, "APP",
+                          "ERROR", "Some json msg")
 
             # verify format-specific fields
-            it { expect(subject["tags"]).to include "log" }
+            it { expect(subject["tags"]).to include "logmessage-app" }
             it { expect(subject["tags"]).not_to include "unknown_msg_format" }
 
-            it { expect(subject["log"]["timestamp"]).to eq "2016-07-15 13:20:16.954" }
-            it { expect(subject["log"]["thread"]).to eq "main" }
-            it { expect(subject["log"]["logger"]).to eq "com.abc.LogGenerator" }
+            it { expect(subject["app"]["timestamp"]).to eq "2016-07-15 13:20:16.954" }
+            it { expect(subject["app"]["thread"]).to eq "main" }
+            it { expect(subject["app"]["logger"]).to eq "com.abc.LogGenerator" }
           end
         end
 
@@ -173,12 +179,13 @@ describe "App logs IT" do
           sample_event["@message"] = construct_app_message(app_message_payload)
 
           when_parsing_log(sample_event) do
-            verify_fields(app_message_payload.origin, app_message_payload.job,
-                          app_message_payload.event_type, "APP", "DEBUG", "Server startup in 9775 ms")
+            verify_fields_logmessage(app_message_payload.job, app_message_payload.origin,
+                          app_message_payload.event_type, "APP",
+                          "DEBUG", "Server startup in 9775 ms")
 
             # verify format-specific fields
             it { expect(subject["tags"]).to_not include "unknown_msg_format" }
-            it { expect(subject["log"]["logger"]).to eq "[CONTAINER] org.apache.catalina.startup.Catalina" }
+            it { expect(subject["app"]["logger"]).to eq "[CONTAINER] org.apache.catalina.startup.Catalina" }
           end
         end
 
@@ -190,12 +197,13 @@ describe "App logs IT" do
           sample_event["@message"] = construct_app_message(app_message_payload)
 
           when_parsing_log(sample_event) do
-            verify_fields(app_message_payload.origin, app_message_payload.job,
-                          app_message_payload.event_type, "APP", "DEBUG", "Setting level of ROOT logger to WARN")
+            verify_fields_logmessage(app_message_payload.job, app_message_payload.origin,
+                          app_message_payload.event_type, "APP",
+                          "DEBUG", "Setting level of ROOT logger to WARN")
 
             # verify format-specific fields
             it { expect(subject["tags"]).to_not include "unknown_msg_format" }
-            it { expect(subject["log"]["logger"]).to eq "ch.qos.logback.classic.joran.action.RootLoggerAction" }
+            it { expect(subject["app"]["logger"]).to eq "ch.qos.logback.classic.joran.action.RootLoggerAction" }
           end
         end
 

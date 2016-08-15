@@ -35,11 +35,9 @@ describe "Platform logs IT" do
       when_parsing_log(sample_event) do
 
         verify_platform_cf_fields("vcap.consul-agent_relp", "consul-agent", "nfs_z1",
-          "cf", ["platform", "cf", "vcap"], "Some vcap plain text message", "ERROR")
+          "vcap", ["platform", "cf", "vcap"], "Some vcap plain text message", "ERROR")
 
-        # verify no JSON parsing
-        it { expect(subject["parsed_json_field"]).to be_nil }
-        it { expect(subject["consul_agent"]).to be_nil }
+        it { expect(subject["consul_agent"]).to be_nil } # no json fields
 
       end
     end
@@ -60,7 +58,7 @@ describe "Platform logs IT" do
       when_parsing_log(sample_event) do
 
         verify_platform_cf_fields("vcap.consul-agent_relp", "consul-agent", "nfs_z1",
-                      "cf", ["platform", "cf", "vcap"], "router.register", "INFO")
+                      "vcap", ["platform", "cf", "vcap"], "router.register", "INFO")
 
         # json fields
         it "sets fields from JSON" do
@@ -70,9 +68,6 @@ describe "Platform logs IT" do
           expect(subject["consul_agent"]["data"]["nats_message"]).to eq "{\"uris\":[\"redis-broker.64.78.234.207.xip.io\"],\"host\":\"192.168.111.201\",\"port\":80}"
           expect(subject["consul_agent"]["data"]["reply_inbox"]).to eq "_INBOX.7e93f2a1d5115844163cc930b5"
         end
-
-        # verify cleanup
-        it { expect(subject["parsed_json_field"]).to be_nil }
 
       end
     end
@@ -89,7 +84,7 @@ describe "Platform logs IT" do
       when_parsing_log(sample_event) do
 
         verify_platform_cf_fields("haproxy_relp", "haproxy", "ha_proxy_z1",
-                      "cf", ["platform", "cf", "haproxy"], "GET /v2/apps?inline-relations-depth=2 HTTP/1.1", "INFO")
+                      "haproxy", ["platform", "cf", "haproxy"], "GET /v2/apps?inline-relations-depth=2 HTTP/1.1", "INFO")
 
         # haproxy fields
         it "sets [haproxy] fields from grok" do
@@ -137,7 +132,7 @@ describe "Platform logs IT" do
       when_parsing_log(sample_event) do
 
         verify_platform_cf_fields("vcap.uaa_relp", "uaa", "uaa_z0",
-                      "cf", ["platform", "cf", "uaa"],
+                      "uaa", ["platform", "cf", "uaa"],
                       "ClientAuthenticationSuccess ('Client authentication success')", "INFO")
 
         # uaa fields
@@ -172,6 +167,8 @@ describe "Platform logs IT" do
 
       verify_platform_fields("Dummy program_relp", "Dummy program",
                     "relp", ["platform", "fail/cloudfoundry/platform/grok"], "Some message", "ERROR")
+
+      it { expect(subject["@source"]["type"]).to eq "system" }
 
     end
   end
