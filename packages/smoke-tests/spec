@@ -1,0 +1,5 @@
+---
+name: smoke-tests
+
+files:
+  - github.com/cloudfoundry-community/logsearch-smoke-tests/**/*
