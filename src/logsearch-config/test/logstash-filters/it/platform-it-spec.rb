@@ -2,7 +2,7 @@
 require 'test/logstash-filters/filter_test_helpers'
 require 'test/logstash-filters/it_platform_helper' # platform it util
 
-describe "Platform logs IT" do
+describe "Platform IT" do
 
   before(:all) do
     load_filters <<-CONFIG
