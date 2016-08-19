@@ -1,0 +1,16 @@
+#!/bin/dumb-init /bin/bash
+
+pushd logsearch-for-cloudfoundry-rc > /dev/null
+  git config user.email "${GIT_EMAIL}"
+  git config user.name "${GIT_USERNAME}"
+
+  git remote add -f logsearch-develop ../logsearch-for-cloudfoundry-develop
+  git merge --no-edit "logsearch-develop/${MERGED_REPO}"
+
+  git status
+  git show --color | cat
+popd > /dev/null
+
+shopt -s dotglob
+
+cp -R logsearch-for-cloudfoundry-rc/* logsearch-for-cloudfoundry-rc-merged

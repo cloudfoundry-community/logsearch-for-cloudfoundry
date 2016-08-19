@@ -1,0 +1,51 @@
+#!/bin/dumb-init /bin/bash
+
+echo "===> Setting up ~/.bosh_config... <==="
+cat > ~/.bosh_config << EOF
+---
+aliases:
+  target:
+    bosh-lite: ${BOSH_LITE_TARGET}
+auth:
+  ${BOSH_LITE_TARGET}:
+    username: ${BOSH_LITE_USERNAME}
+    password: ${BOSH_LITE_PASSWORD}
+EOF
+
+set -e
+echo "===> Setting target... <==="
+bosh target ${BOSH_LITE_TARGET}
+
+UUID=`bosh status --uuid`
+
+sed -i 's/UUID/'"$UUID"'/g' logsearch-for-cloudfoundry-develop/ci/manifest/logsearch-boshrelease-manifest.yml
+
+cat > ./logsearch-for-cloudfoundry-develop/logsearch-for-cloudfoundry-manifest-cf-stub.yml << EOF
+---
+properties:
+  cloudfoundry:
+    api_endpoint: ${CF_API}
+    doppler_endpoint: ${CF_DOPPLER}
+    firehose_user: ${CF_ADMIN}
+    firehose_password: ${CF_PASSWORD}
+    skip_ssl_validation: true
+  smoke_tests:
+    api: (( grab properties.cloudfoundry.api_endpoint ))
+    apps_domain: ${CF_APPS_DOMAIN}
+    admin_user: (( grab properties.cloudfoundry.firehose_user ))
+    admin_password: (( grab properties.cloudfoundry.firehose_password ))
+    elasticsearch_master:
+      host: (( grab jobs.elasticsearch_master.networks.default.static_ips.[0] ))
+      port: 9200
+EOF
+
+spruce merge --prune meta \
+  "logsearch-boshrelease-stable/templates/logsearch-deployment.yml" \
+  "logsearch-boshrelease-stable/templates/logsearch-jobs.yml" \
+  "logsearch-boshrelease-stable/templates/logsearch-infrastructure-warden.yml" \
+  "logsearch-for-cloudfoundry-develop/ci/manifest/logsearch-boshrelease-manifest.yml" \
+  "logsearch-for-cloudfoundry-develop/ci/manifest/logsearch-for-cloudfoundry-manifest.yml" \
+  "logsearch-for-cloudfoundry-develop/logsearch-for-cloudfoundry-manifest-cf-stub.yml" > \
+  "logsearch-warden.yml"
+
+cp logsearch-warden.yml ./logsearch-for-cloudfoundry-develop-manifest

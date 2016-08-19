@@ -54,3 +54,6 @@ src/logsearch-config/vendor/logstash*
 
 #VIM artifacts
 *.swp
+
+#Concourse ignores
+ci/secret.yml

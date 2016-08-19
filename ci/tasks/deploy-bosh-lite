@@ -1,0 +1,36 @@
+#!/bin/sh
+
+echo "===> Setting up ~/.bosh_config... <==="
+cat > ~/.bosh_config << EOF
+---
+aliases:
+  target:
+    bosh-lite: ${BOSH_LITE_TARGET}
+auth:
+  ${BOSH_LITE_TARGET}:
+    username: ${BOSH_LITE_USERNAME}
+    password: ${BOSH_LITE_PASSWORD}
+EOF
+
+set -e
+
+echo "===> Cleaning up from any previous deployments... <==="
+bosh target ${BOSH_LITE_TARGET}
+bosh -n delete deployment ${BOSH_LITE_DEPLOYMENT} --force || echo "continuing on..."
+
+echo "===> Uploading BOSH release... <==="
+ls -la logsearch-release-tarball/
+bosh -n upload release ./s3-release/logsearch-for-cloudfoundry-develop.tgz --rebase || echo "Continuing..."
+bosh -n upload release ./logsearch-release-tarball/release.tgz || echo "Continuing..."
+
+echo "===> Deploying to BOSH-lite... <==="
+bosh deployment ./s3-manifest/logsearch-bosh-lite.yml
+bosh -n deploy
+
+echo "===> Cleaning up... <==="
+bosh -n delete deployment ${BOSH_LITE_DEPLOYMENT} --force || echo "continuing on..."
+bosh -n cleanup || echo "continuing on..."
+
+echo
+echo "SUCCESS"
+exit 0
