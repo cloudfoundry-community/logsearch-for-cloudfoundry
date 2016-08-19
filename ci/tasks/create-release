@@ -1,0 +1,30 @@
+#!/bin/dumb-init /bin/bash
+
+echo "===> Setting up ~/.bosh_config... <==="
+cat > ~/.bosh_config << EOF
+---
+aliases:
+  target:
+    bosh-lite: ${BOSH_LITE_TARGET}
+auth:
+  ${BOSH_LITE_TARGET}:
+    username: ${BOSH_LITE_USERNAME}
+    password: ${BOSH_LITE_PASSWORD}
+EOF
+
+set -e
+cd ${REPO_ROOT}
+echo "===> Pulling in any git submodules... <==="
+git submodule update --init --recursive --force
+
+echo "===> Setting target... <==="
+bosh target ${BOSH_LITE_TARGET}
+
+echo "===> Creating candidate BOSH release... <==="
+bosh -n create release --timestamp-version --with-tarball
+
+mv ./dev_releases/logsearch-for-cloudfoundry/logsearch-for-cloudfoundry-*.tgz ../logsearch-for-cloudfoundry-develop-release
+
+echo
+echo "SUCCESS"
+exit 0

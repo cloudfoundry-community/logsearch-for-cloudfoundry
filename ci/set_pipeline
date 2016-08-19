@@ -1,0 +1,4 @@
+#!/bin/bash -e
+
+fly -t logsearch-for-cloudfoundry set-pipeline --pipeline logsearch-for-cloudfoundry --config pipeline.yml --load-vars-from secret.yml
+fly -t logsearch-for-cloudfoundry unpause-pipeline --pipeline logsearch-for-cloudfoundry

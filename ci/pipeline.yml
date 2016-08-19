@@ -1,0 +1,275 @@
+resources:
+- name: logsearch-for-cloudfoundry-develop
+  type: git
+  source:
+    uri: git@github.com:cloudfoundry-community/logsearch-for-cloudfoundry.git
+    branch: develop
+    private_key: {{git-private-key}}
+- name: logsearch-for-cloudfoundry-rc
+  type: git
+  source:
+    uri: git@github.com:cloudfoundry-community/logsearch-for-cloudfoundry.git
+    branch: release-candidate
+    private_key: {{git-private-key}}
+- name: logsearch-boshrelease-stable
+  type: git
+  source:
+    uri: https://github.com/logsearch/logsearch-boshrelease.git
+    branch: v203.0.0
+- name: failure-alert
+  type: slack-notification
+  source:
+    url: {{slack-webhook}}
+- name: s3-release
+  type: s3
+  source:
+    bucket: {{s3-bucket}}
+    versioned_file: logsearch-for-cloudfoundry-develop.tgz
+    access_key_id: {{s3-access-key-id}}
+    secret_access_key: {{s3-secret-access-key}}
+    region_name: {{s3-region-name}}
+    endpoint: {{s3-endpoint}}
+- name: s3-manifest
+  type: s3
+  source:
+    bucket: {{s3-bucket}}
+    versioned_file: logsearch-bosh-lite.yml
+    access_key_id: {{s3-access-key-id}}
+    secret_access_key: {{s3-secret-access-key}}
+    region_name: {{s3-region-name}}
+    endpoint: {{s3-endpoint}}
+- name: logsearch-release-tarball
+  type: bosh-io-release
+  source:
+    repository: logsearch/logsearch-boshrelease
+- name: bosh-lite-stemcell
+  type: bosh-io-stemcell
+  source:
+    name: bosh-warden-boshlite-ubuntu-trusty-go_agent
+- name: logsearch-develop-deployment
+  type: bosh-deployment
+  source:
+    target: {{bosh-lite-target}}
+    username: {{bosh-lite-username}}
+    password: {{bosh-lite-password}}
+    deployment: {{bosh-lite-deployment}}
+- name: logsearch-smoke-errand
+  type: bosh-errand
+  source:
+    target: {{bosh-lite-target}}
+    username: {{bosh-lite-username}}
+    password: {{bosh-lite-password}}
+    deployment: {{bosh-lite-deployment}}
+
+resource_types:
+  - name: slack-notification
+    type: docker-image
+    source:
+      repository: cfcommunity/slack-notification-resource
+
+jobs:
+- name: unit-tests
+  max_in_flight: 1
+  plan:
+    - aggregate:
+      - get: logsearch-for-cloudfoundry-develop
+        trigger: true
+    - task: unit-tests
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source: {repository: andreikrasnitski/logsearch-for-cloudfoundry}
+        platform: linux
+        image: docker:///andreikrasnitski/logsearch-for-cloudfoundry
+        inputs:
+          - { name: logsearch-for-cloudfoundry-develop }
+        run:
+          path: ./logsearch-for-cloudfoundry-develop/ci/tasks/unit-tests
+          args: []
+      on_failure:
+        put: failure-alert
+        params:
+          channel:  {{slack-channel}}
+          username: {{slack-username}}
+          icon_url: {{slack-image}}
+          text:     {{slack-text}}
+- name: create-release
+  max_in_flight: 1
+  plan:
+    - aggregate:
+      - get: logsearch-for-cloudfoundry-develop
+        trigger: true
+        passed: [unit-tests]
+    - task: create-release
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source: {repository: andreikrasnitski/concourse}
+        inputs:
+          - { name: logsearch-for-cloudfoundry-develop }
+        outputs:
+          - { name: logsearch-for-cloudfoundry-develop-release }
+        run:
+          path: ./logsearch-for-cloudfoundry-develop/ci/tasks/create-release
+          args: []
+        params:
+          REPO_ROOT: ./logsearch-for-cloudfoundry-develop
+          BOSH_LITE_TARGET: {{bosh-lite-target}}
+          BOSH_LITE_USERNAME: {{bosh-lite-username}}
+          BOSH_LITE_PASSWORD: {{bosh-lite-password}}
+      on_failure:
+        put: failure-alert
+        params:
+          channel:  {{slack-channel}}
+          username: {{slack-username}}
+          icon_url: {{slack-image}}
+          text:     {{slack-text}}
+    - put: s3-release
+      params:
+        file: logsearch-for-cloudfoundry-develop-release/logsearch-for-cloudfoundry-*.tgz
+- name: generate-bosh-lite-manifest
+  max_in_flight: 1
+  plan:
+    - aggregate:
+      - get: logsearch-for-cloudfoundry-develop
+        trigger: true
+        passed: [create-release]
+      - get: logsearch-boshrelease-stable
+        trigger: false
+      - get: s3-release
+        passed: [create-release]
+        trigger: true
+    - task: generate-bosh-lite-manifest
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source: {repository: andreikrasnitski/concourse}
+        inputs:
+          - { name: logsearch-for-cloudfoundry-develop }
+          - { name: logsearch-boshrelease-stable }
+        outputs:
+          - { name: logsearch-for-cloudfoundry-develop-manifest }
+        run:
+          path: ./logsearch-for-cloudfoundry-develop/ci/tasks/generate-deployment-manifest
+          args: []
+        params:
+          REPO_ROOT: ./logsearch-for-cloudfoundry-develop
+          BOSH_LITE_TARGET: {{bosh-lite-target}}
+          BOSH_LITE_USERNAME: {{bosh-lite-username}}
+          BOSH_LITE_PASSWORD: {{bosh-lite-password}}
+          CF_API: {{cf-api}}
+          CF_APPS_DOMAIN: {{cf-apps-domain}}
+          CF_DOPPLER: {{cf-doppler}}
+          CF_ADMIN: {{cf-admin}}
+          CF_PASSWORD: {{cf-password}}
+      on_failure:
+        put: failure-alert
+        params:
+          channel:  {{slack-channel}}
+          username: {{slack-username}}
+          icon_url: {{slack-image}}
+          text:     {{slack-text}}
+    - put: s3-manifest
+      params:
+        file: logsearch-for-cloudfoundry-develop-manifest/logsearch-warden.yml
+- name: deploy-bosh-lite
+  max_in_flight: 1
+  plan:
+    - aggregate:
+      - get: logsearch-for-cloudfoundry-develop
+        trigger: false
+        passed: [generate-bosh-lite-manifest]
+      - get: s3-release
+        passed: [generate-bosh-lite-manifest]
+        trigger: true
+      - get: s3-manifest
+        passed: [generate-bosh-lite-manifest]
+        trigger: true
+      - get: bosh-lite-stemcell
+        trigger: false
+      - get: logsearch-release-tarball
+        resource: logsearch-release-tarball
+        version:
+          version: 203.0.0
+    - put: logsearch-develop-deployment
+      params:
+        manifest: s3-manifest/logsearch-bosh-lite.yml
+        stemcells:
+        - bosh-lite-stemcell/*.tgz
+        releases:
+        - s3-release/logsearch-for-cloudfoundry-develop.tgz
+        - logsearch-release-tarball/release.tgz
+      on_failure:
+        put: failure-alert
+        params:
+          channel:  {{slack-channel}}
+          username: {{slack-username}}
+          icon_url: {{slack-image}}
+          text:     {{slack-text}}
+- name: logsearch-smoke-tests
+  max_in_flight: 1
+  plan:
+    - aggregate:
+      - get: logsearch-develop-deployment
+        trigger: true
+        passed: [deploy-bosh-lite]
+      - get: logsearch-for-cloudfoundry-develop
+        trigger: true
+        passed: [deploy-bosh-lite]
+      - get: s3-manifest
+        passed: [deploy-bosh-lite]
+    - put: logsearch-smoke-errand
+      params:
+        manifest: s3-manifest/logsearch-bosh-lite.yml
+        errand: smoke-tests
+      on_failure:
+        put: failure-alert
+        params:
+          channel:  {{slack-channel}}
+          username: {{slack-username}}
+          icon_url: {{slack-image}}
+          text:     {{slack-text}}
+- name: rc
+  max_in_flight: 1
+  plan:
+    - aggregate:
+      - get: logsearch-develop-deployment
+        trigger: true
+        passed: [logsearch-smoke-tests]
+      - get: logsearch-for-cloudfoundry-develop
+        trigger: true
+        passed: [logsearch-smoke-tests]
+      - get: logsearch-for-cloudfoundry-rc
+        trigger: false
+    - task: logsearch-release-candidate
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source: {repository: andreikrasnitski/concourse}
+        inputs:
+          - { name: logsearch-for-cloudfoundry-develop }
+          - { name: logsearch-for-cloudfoundry-rc }
+        outputs:
+          - { name: logsearch-for-cloudfoundry-rc-merged }
+        run:
+          path: ./logsearch-for-cloudfoundry-develop/ci/tasks/logsearch-release-candidate
+          args: []
+        params:
+          MERGED_REPO: {{git-target}}
+          GIT_USERNAME: {{git-username}}
+          GIT_EMAIL: {{git-email}}
+      on_failure:
+        put: failure-alert
+        params:
+          channel:  {{slack-channel}}
+          username: {{slack-username}}
+          icon_url: {{slack-image}}
+          text:     {{slack-text}}
+    - put: logsearch-for-cloudfoundry-rc
+      params:
+        repository: logsearch-for-cloudfoundry-rc-merged
+        rebase: true
