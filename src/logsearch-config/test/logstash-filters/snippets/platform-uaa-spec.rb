@@ -11,7 +11,6 @@ describe "platform-uaa.conf" do
     CONFIG
   end
 
-  # -- test snippet's 'if' condition --
   describe "#if" do
 
     describe "passed" do
@@ -20,7 +19,7 @@ describe "platform-uaa.conf" do
           "@message" => "Some message"
       ) do
 
-        # uaa tag set => 'if' succeeded
+        # tag set => 'if' succeeded
         it { expect(subject["tags"]).to include "uaa" }
 
       end
@@ -35,6 +34,7 @@ describe "platform-uaa.conf" do
         # no tags set => 'if' failed
         it { expect(subject["tags"]).to be_nil }
 
+        it { expect(subject["@type"]).to be_nil } # keeps unchanged
         it { expect(subject["@source"]["component"]).to eq "some value" } # keeps unchanged
         it { expect(subject["@message"]).to eq "Some message" } # keeps unchanged
 
@@ -43,7 +43,8 @@ describe "platform-uaa.conf" do
 
   end
 
-  describe "when message is" do
+  # -- general case
+  describe "#fields when message is" do
 
     context "general UAA event" do
       when_parsing_log(
@@ -52,10 +53,10 @@ describe "platform-uaa.conf" do
         "@message" => "[2016-07-05 04:02:18.245] uaa - 15178 [http-bio-8080-exec-14] ....  INFO --- Audit: ClientAuthenticationSuccess ('Client authentication success'): principal=cf, origin=[remoteAddress=64.78.155.208, clientId=cf], identityZoneId=[uaa]"
       ) do
 
-        # no parsing errors
-        it { expect(subject["tags"]).to eq ["uaa"] } # no fail tag
+        it { expect(subject["tags"]).to eq ["uaa"] } # uaa tag, no fail tag
 
-        # fields
+        it { expect(subject["@type"]).to eq "uaa" }
+
         it { expect(subject["@source"]["component"]).to eq "uaa" }
 
         it { expect(subject["@message"]).to eq "ClientAuthenticationSuccess ('Client authentication success')" }
@@ -89,10 +90,10 @@ describe "platform-uaa.conf" do
               "PrincipalAuthenticationFailure ('null'): principal=admin, origin=[82.209.244.50], identityZoneId=[uaa]"
       ) do
 
-        # no parsing errors
-        it { expect(subject["tags"]).to eq ["uaa"] } # no fail tag
+        it { expect(subject["tags"]).to eq ["uaa"] } # uaa tag, no fail tag
 
-        # fields
+        it { expect(subject["@type"]).to eq "uaa" }
+
         it { expect(subject["@source"]["component"]).to eq "uaa" }
 
         it { expect(subject["@message"]).to eq "PrincipalAuthenticationFailure ('null')" }
@@ -127,7 +128,7 @@ describe "platform-uaa.conf" do
         # get parsing error
         it { expect(subject["tags"]).to eq ["uaa", "fail/cloudfoundry/platform-uaa/grok"] }
 
-        # fields
+        it { expect(subject["@type"]).to eq "uaa" }
         it { expect(subject["@source"]["component"]).to eq "uaa" }
         it { expect(subject["@message"]).to eq "Some message" } # the same as before parsing
 

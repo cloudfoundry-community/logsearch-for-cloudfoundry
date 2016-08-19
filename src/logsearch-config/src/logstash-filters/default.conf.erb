@@ -10,9 +10,14 @@
 ##-- App
 <%= File.read('src/logstash-filters/snippets/app.conf') %>
 # special cases parsing
-<%= File.read('src/logstash-filters/snippets/app-metric.conf') %>
-<%= File.read('src/logstash-filters/snippets/app-rtr.conf') %>
-<%= File.read('src/logstash-filters/snippets/app-log.conf') %>
+<%= File.read('src/logstash-filters/snippets/app-logmessage.conf') %>
+<%= File.read('src/logstash-filters/snippets/app-logmessage-app.conf') %>
+<%= File.read('src/logstash-filters/snippets/app-logmessage-rtr.conf') %>
+<%= File.read('src/logstash-filters/snippets/app-error.conf') %>
+<%= File.read('src/logstash-filters/snippets/app-containermetric.conf') %>
+<%= File.read('src/logstash-filters/snippets/app-valuemetric.conf') %>
+<%= File.read('src/logstash-filters/snippets/app-counterevent.conf') %>
+<%= File.read('src/logstash-filters/snippets/app-http.conf') %>
 
 ##-- Platform
 <%= File.read('src/logstash-filters/snippets/platform.conf') %>

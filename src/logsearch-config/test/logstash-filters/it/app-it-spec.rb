@@ -2,7 +2,7 @@
 require 'test/logstash-filters/filter_test_helpers'
 require 'test/logstash-filters/it_app_helper' # app it util
 
-describe "App logs IT" do
+describe "App IT" do
 
   before(:all) do
     load_filters <<-CONFIG
@@ -13,194 +13,420 @@ describe "App logs IT" do
 
   end
 
-  # init app event (dummy)
-  app_event_dummy = {"@type" => "syslog",
-               "syslog_program" => "doppler",
-               "syslog_pri" => "6",
-               "syslog_severity_code" => 3,
-               "host" => "bed08922-4734-4d62-9eba-3291aed1b8ce",
-               "@message" => "Dummy message"}
+  describe "#fields when event is" do
 
-  describe "when type=LogMessage, component=App" do
-
-    # NOTE: below tests are pretty the same but sample message is different
-    # in case of Diego CF and Dea.
-
-    describe "with Dea CF" do
-
-      builder = MessagePayloadBuilder.new
-          .origin("dea_logging_agent") # dea
-          .job("runner_z1") # dea job
-          .event_type("LogMessage")
-          .source_type("App") # NOTE: Dea sets 'App' source_type as lowercase
-          .level("info")
+    describe "LogMessage (APP)" do
+      # NOTE: below tests include two checks - one for Diego, another for Dea
 
       context "(unknown msg format)" do
 
-        app_message_payload = builder.clone
-                              .msg("Some text msg") # unknown msg format
-                              .build
-        sample_event = app_event_dummy.clone
-        sample_event["@message"] = construct_app_message(app_message_payload)
-
-        when_parsing_log(sample_event) do
-          verify_fields(app_message_payload.origin, app_message_payload.job,
-                        app_message_payload.event_type, "APP", "INFO", "Some text msg")
+        verify_parsing_logmessage_app_CF_versions(
+                "warn", "Some text msg", # unknown msg format
+                "WARN", "Some text msg") do
 
           # verify format-specific fields
           it { expect(subject["tags"]).to include "unknown_msg_format" }
+
         end
       end
 
-      context "(JSON msg)" do
+      context "(JSON)" do
 
-        app_message_payload = builder.clone
-                                  .msg("{\\\"timestamp\\\":\\\"2016-07-15 13:20:16.954\\\"," +
-                                           "\\\"level\\\":\\\"ERROR\\\"," +
-                                           "\\\"thread\\\":\\\"main\\\",\\\"logger\\\":\\\"com.abc.LogGenerator\\\"," +
-                                           "\\\"message\\\":\\\"Some json msg\\\"}") # JSON msg
-                                  .build
-        sample_event = app_event_dummy.clone
-        sample_event["@message"] = construct_app_message(app_message_payload)
-
-        when_parsing_log(sample_event) do
-          verify_fields(app_message_payload.origin, app_message_payload.job,
-                        app_message_payload.event_type, "APP", "ERROR", "Some json msg")
+        verify_parsing_logmessage_app_CF_versions(
+                "warn", "{\\\"timestamp\\\":\\\"2016-07-15 13:20:16.954\\\",\\\"level\\\":\\\"ERROR\\\"," +
+                "\\\"thread\\\":\\\"main\\\",\\\"logger\\\":\\\"com.abc.LogGenerator\\\"," +
+                "\\\"message\\\":\\\"Some json msg\\\"}", # JSON msg
+                "ERROR", "Some json msg") do
 
           # verify format-specific fields
-          it { expect(subject["tags"]).to include "log" }
           it { expect(subject["tags"]).not_to include "unknown_msg_format" }
 
-          it { expect(subject["log"]["timestamp"]).to eq "2016-07-15 13:20:16.954" }
-          it { expect(subject["log"]["thread"]).to eq "main" }
-          it { expect(subject["log"]["logger"]).to eq "com.abc.LogGenerator" }
+          it "sets [app] fields from JSON msg" do
+            expect(subject["app"]["timestamp"]).to eq "2016-07-15 13:20:16.954"
+            expect(subject["app"]["thread"]).to eq "main"
+            expect(subject["app"]["logger"]).to eq "com.abc.LogGenerator"
+          end
+
         end
       end
 
       context "([CONTAINER] log)" do
-        app_message_payload = builder.clone
-                              .msg("[CONTAINER] org.apache.catalina.startup.Catalina    DEBUG    Server startup in 9775 ms")
-                              .build # [CONTAINER] msg
-        sample_event = app_event_dummy.clone
-        sample_event["@message"] = construct_app_message(app_message_payload)
 
-        when_parsing_log(sample_event) do
-          verify_fields(app_message_payload.origin, app_message_payload.job,
-                        app_message_payload.event_type, "APP", "DEBUG", "Server startup in 9775 ms")
+        verify_parsing_logmessage_app_CF_versions(
+                # [CONTAINER] log
+                "warn", "[CONTAINER] org.apache.catalina.startup.Catalina    INFO    Server startup in 9775 ms",
+                "INFO", "Server startup in 9775 ms") do
 
           # verify format-specific fields
-          it { expect(subject["tags"]).to_not include "unknown_msg_format" }
-          it { expect(subject["log"]["logger"]).to eq "[CONTAINER] org.apache.catalina.startup.Catalina" }
+          it { expect(subject["tags"]).not_to include "unknown_msg_format" }
+          it { expect(subject["app"]["logger"]).to eq "[CONTAINER] org.apache.catalina.startup.Catalina" }
+
         end
       end
 
       context "(Logback status log)" do
-        app_message_payload = builder.clone
-                              .msg("16:41:17,033 |-DEBUG in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to WARN")
-                              .build # Logback status msg
-        sample_event = app_event_dummy.clone
-        sample_event["@message"] = construct_app_message(app_message_payload)
 
-        when_parsing_log(sample_event) do
-          verify_fields(app_message_payload.origin, app_message_payload.job,
-                        app_message_payload.event_type, "APP", "DEBUG", "Setting level of ROOT logger to WARN")
+        verify_parsing_logmessage_app_CF_versions(
+                # Logback status log
+                "warn", "16:41:17,033 |-DEBUG in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to WARN",
+                "DEBUG", "Setting level of ROOT logger to WARN") do
 
           # verify format-specific fields
-          it { expect(subject["tags"]).to_not include "unknown_msg_format" }
-          it { expect(subject["log"]["logger"]).to eq "ch.qos.logback.classic.joran.action.RootLoggerAction" }
+          it { expect(subject["tags"]).not_to include "unknown_msg_format" }
+          it { expect(subject["app"]["logger"]).to eq "ch.qos.logback.classic.joran.action.RootLoggerAction" }
+
         end
       end
 
     end
 
-    describe "with Diego CF" do
+    describe "LogMessage (RTR)" do
 
-      builder = MessagePayloadBuilder.new
-                    .origin("rep") # diego
-                    .job("cell_z1") # diego job
-                    .event_type("LogMessage")
-                    .source_type("APP") # NOTE: Diego sets 'APP' source_type as uppercase
-                    .level("info")
+      sample_event = $app_event_dummy.clone
+      sample_event["@message"] = construct_event("LogMessage", true,
+                                                 {"source_type" => "RTR", # RTR
+                                                  "source_instance" => "99",
+                                                  "message_type" => "OUT",
+                                                  "timestamp" => 1471387745714800488,
+                                                  "level" => "debug",
+                                                  # RTR message
+                                                  "msg" => 'parser.64.78.234.207.xip.io - [15/07/2016:09:26:25 +0000] \"GET /http HTTP/1.1\" ' +
+                                                      '200 0 1413 \"-\" \"Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 ' +
+                                                      '(KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36\" 192.168.111.21:35826 ' +
+                                                      'x_forwarded_for:\"82.209.244.50, 192.168.111.21\" x_forwarded_proto:\"http\" ' +
+                                                      'vcap_request_id:831e54f1-f09f-4971-6856-9fdd502d4ae3 response_time:0.005328859 ' +
+                                                      'app_id:7ae227a6-6ad1-46d4-bfb9-6e60d7796bb5\\\n'})
 
-      context "(unknown msg format)" do
+      when_parsing_log(sample_event) do
 
-        app_message_payload = builder.clone
-                                  .msg("Some text msg") # unknown msg format
-                                  .build
-        sample_event = app_event_dummy.clone
-        sample_event["@message"] = construct_app_message(app_message_payload)
+        verify_app_general_fields("app-admin-demo", "LogMessage", "RTR",
+                                  # RTR message
+                                  'parser.64.78.234.207.xip.io - [15/07/2016:09:26:25 +0000] "GET /http HTTP/1.1" ' +
+                                      '200 0 1413 "-" "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 ' +
+                                      '(KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36" 192.168.111.21:35826 ' +
+                                      'x_forwarded_for:"82.209.244.50, 192.168.111.21" x_forwarded_proto:"http" ' +
+                                      'vcap_request_id:831e54f1-f09f-4971-6856-9fdd502d4ae3 response_time:0.005328859 ' +
+                                      'app_id:7ae227a6-6ad1-46d4-bfb9-6e60d7796bb5\n', "INFO")
 
-        when_parsing_log(sample_event) do
-          verify_fields(app_message_payload.origin, app_message_payload.job,
-                        app_message_payload.event_type, "APP", "INFO", "Some text msg")
+        verify_app_cf_fields(99)
 
-          # verify format-specific fields
-          it { expect(subject["tags"]).to include "unknown_msg_format" }
+        # verify event-specific fields
+        it { expect(subject["tags"]).to include("logmessage", "logmessage-rtr") }
+        it { expect(subject["tags"]).not_to include("fail/cloudfoundry/app-rtr/grok") }
+
+        it { expect(subject["logmessage"]["message_type"]).to eq "OUT" }
+
+        it "sets [rtr] fields" do
+          expect(subject["rtr"]["hostname"]).to eq "parser.64.78.234.207.xip.io"
+          expect(subject["rtr"]["timestamp"]).to eq "15/07/2016:09:26:25 +0000"
+          expect(subject["rtr_time"]).to be_nil
+          expect(subject["rtr"]["verb"]).to eq "GET"
+          expect(subject["rtr"]["path"]).to eq "/http"
+          expect(subject["rtr"]["http_spec"]).to eq "HTTP/1.1"
+          expect(subject["rtr"]["status"]).to eq 200
+          expect(subject["rtr"]["request_bytes_received"]).to eq 0
+          expect(subject["rtr"]["body_bytes_sent"]).to eq 1413
+          expect(subject["rtr"]["referer"]).to eq "-"
+          expect(subject["rtr"]["http_user_agent"]).to eq "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36"
+          expect(subject["rtr"]["x_forwarded_for"]).to eq ["82.209.244.50", "192.168.111.21"]
+          expect(subject["rtr"]["x_forwarded_proto"]).to eq "http"
+          expect(subject["rtr"]["vcap_request_id"]).to eq "831e54f1-f09f-4971-6856-9fdd502d4ae3"
+          expect(subject["rtr"]["response_time_sec"]).to eq 0.005328859
+          # calculated values
+          expect(subject["rtr"]["remote_addr"]).to eq "82.209.244.50"
+          expect(subject["rtr"]["response_time_ms"]).to eq 5
         end
-      end
 
-      context "(JSON msg)" do
-
-        app_message_payload = builder.clone
-                                  .msg("{\\\"timestamp\\\":\\\"2016-07-15 13:20:16.954\\\"," +
-                                           "\\\"level\\\":\\\"ERROR\\\"," +
-                                           "\\\"thread\\\":\\\"main\\\",\\\"logger\\\":\\\"com.abc.LogGenerator\\\"," +
-                                           "\\\"message\\\":\\\"Some json msg\\\"}") # JSON msg
-                                  .build
-        sample_event = app_event_dummy.clone
-        sample_event["@message"] = construct_app_message(app_message_payload)
-
-        when_parsing_log(sample_event) do
-          verify_fields(app_message_payload.origin, app_message_payload.job,
-                        app_message_payload.event_type, "APP", "ERROR", "Some json msg")
-
-          # verify format-specific fields
-          it { expect(subject["tags"]).to include "log" }
-          it { expect(subject["tags"]).not_to include "unknown_msg_format" }
-
-          it { expect(subject["log"]["timestamp"]).to eq "2016-07-15 13:20:16.954" }
-          it { expect(subject["log"]["thread"]).to eq "main" }
-          it { expect(subject["log"]["logger"]).to eq "com.abc.LogGenerator" }
+        it "sets geoip for [rtr][remote_addr]" do
+          expect(subject["geoip"]).not_to be_nil
+          expect(subject["geoip"]["ip"]).to eq "82.209.244.50"
         end
+
       end
+    end
 
-      context "([CONTAINER] log)" do
-        app_message_payload = builder.clone
-                                  .msg("[CONTAINER] org.apache.catalina.startup.Catalina    DEBUG    Server startup in 9775 ms")
-                                  .build # [CONTAINER] msg
-        sample_event = app_event_dummy.clone
-        sample_event["@message"] = construct_app_message(app_message_payload)
+    describe "LogMessage (other)" do
 
-        when_parsing_log(sample_event) do
-          verify_fields(app_message_payload.origin, app_message_payload.job,
-                        app_message_payload.event_type, "APP", "DEBUG", "Server startup in 9775 ms")
+      sample_event = $app_event_dummy.clone
+      sample_event["@message"] = construct_event("LogMessage", true,
+                                                 {"source_type" => "CELL", # neither APP, nor RTR
+                                                  "source_instance" => "99",
+                                                  "message_type" => "OUT",
+                                                  "timestamp" => 1471387745714800488,
+                                                  "level" => "debug",
+                                                  "msg" => "Container became healthy"})
 
-          # verify format-specific fields
-          it { expect(subject["tags"]).to_not include "unknown_msg_format" }
-          it { expect(subject["log"]["logger"]).to eq "[CONTAINER] org.apache.catalina.startup.Catalina" }
+      when_parsing_log(sample_event) do
+
+        verify_app_general_fields("app-admin-demo", "LogMessage", "CELL",
+                                  "Container became healthy", "DEBUG")
+
+        verify_app_cf_fields(99)
+
+        # verify event-specific fields
+        it { expect(subject["tags"]).to include "logmessage" }
+        it { expect(subject["logmessage"]["message_type"]).to eq "OUT" }
+
+      end
+    end
+
+    describe "CounterEvent" do
+
+      sample_event = $app_event_dummy.clone
+      sample_event["@message"] = construct_event( "CounterEvent", false,
+                                                  {"name" => "MessageAggregator.uncategorizedEvents",
+                                                   "delta" => 15,
+                                                   "total" => 29043,
+                                                   "level" => "info",
+                                                   "msg" => ""})
+
+      when_parsing_log(sample_event) do
+
+        verify_app_general_fields("app", "CounterEvent", "COUNT",
+                                  "MessageAggregator.uncategorizedEvents (delta=15, total=29043)", "INFO")
+
+        # verify event-specific fields
+        it { expect(subject["tags"]).to include "counterevent" }
+
+        it "sets [counterevent] fields" do
+          expect(subject["counterevent"]["name"]).to eq "MessageAggregator.uncategorizedEvents"
+          expect(subject["counterevent"]["delta"]).to eq 15
+          expect(subject["counterevent"]["total"]).to eq 29043
         end
+
       end
+    end
 
-      context "(Logback status log)" do
-        app_message_payload = builder.clone
-                                  .msg("16:41:17,033 |-DEBUG in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to WARN")
-                                  .build # Logback status msg
-        sample_event = app_event_dummy.clone
-        sample_event["@message"] = construct_app_message(app_message_payload)
+    describe "ContainerMetric" do
 
-        when_parsing_log(sample_event) do
-          verify_fields(app_message_payload.origin, app_message_payload.job,
-                        app_message_payload.event_type, "APP", "DEBUG", "Setting level of ROOT logger to WARN")
+      sample_event = $app_event_dummy.clone
+      sample_event["@message"] = construct_event( "ContainerMetric", false,
+                                                  {"cpu_percentage" => 99,
+                                                   "disk_bytes" => 134524928,
+                                                   "memory_bytes" => 142368768,
+                                                   "level" => "info",
+                                                   "msg" => ""})
 
-          # verify format-specific fields
-          it { expect(subject["tags"]).to_not include "unknown_msg_format" }
-          it { expect(subject["log"]["logger"]).to eq "ch.qos.logback.classic.joran.action.RootLoggerAction" }
+      when_parsing_log(sample_event) do
+
+        verify_app_general_fields("app", "ContainerMetric", "CONTAINER",
+                                  "cpu=99, memory=142368768, disk=134524928", "INFO")
+
+        # verify event-specific fields
+        it { expect(subject["tags"]).to include "containermetric" }
+
+        it "sets [containermetric] fields" do
+          expect(subject["containermetric"]["cpu_percentage"]).to eq 99
+          expect(subject["containermetric"]["disk_bytes"]).to eq 134524928
+          expect(subject["containermetric"]["memory_bytes"]).to eq 142368768
         end
-      end
 
+      end
+    end
+
+    describe "ValueMetric" do
+
+      sample_event = $app_event_dummy.clone
+      sample_event["@message"] = construct_event( "ValueMetric", false,
+                                                  {"name" => "numGoRoutines",
+                                                   "value" => 58,
+                                                   "unit" => "count",
+                                                   "level" => "info",
+                                                   "msg" => ""})
+
+      when_parsing_log(sample_event) do
+
+        verify_app_general_fields("app", "ValueMetric", "METRIC",
+                                  "numGoRoutines = 58 (count)", "INFO")
+
+        # verify event-specific fields
+        it { expect(subject["tags"]).to include "valuemetric" }
+
+        it "sets [valuemetric] fields" do
+          expect(subject["valuemetric"]["name"]).to eq "numGoRoutines"
+          expect(subject["valuemetric"]["value"]).to eq 58
+          expect(subject["valuemetric"]["unit"]).to eq "count"
+        end
+
+      end
+    end
+
+    describe "Error" do
+
+      sample_event = $app_event_dummy.clone
+      sample_event["@message"] = construct_event( "Error", false,
+                                                  {"delta" => "uaa",
+                                                   "code" => 4,
+                                                   "level" => "info",
+                                                   "msg" => "Error message"})
+
+      when_parsing_log(sample_event) do
+
+        verify_app_general_fields("app", "Error", "ERR",
+                                  "Error message", "INFO")
+
+        # verify event-specific fields
+        it { expect(subject["tags"]).to include "error" }
+
+        it "sets [error] fields" do
+          expect(subject["error"]["source"]).to eq "uaa"
+          expect(subject["error"]["code"]).to eq 4
+        end
+
+      end
+    end
+
+    describe "HttpStartStop" do
+
+      sample_event = $app_event_dummy.clone
+      sample_event["@message"] = construct_event( "HttpStartStop", false,
+                                                  {"content_length" => 38,
+                                                   "duration_ms" => 6,
+                                                   "instance_id" => "1b1fc66f-9aca-47b1-796c-d9632b23f1b3",
+                                                   "instance_index" => 2,
+                                                   "method" => 1,
+                                                   "peer_type" => 2,
+                                                   "remote_addr" => "192.168.111.11:42801",
+                                                   "request_id" => "aa694b2c-6e26-4688-4b88-4574aa4e95a5",
+                                                   "start_timestamp" => 1471387748611165439,
+                                                   "status_code" => 200,
+                                                   "stop_timestamp" => 1471387748618073991,
+                                                   "uri" => "http://192.168.111.11/internal/v3/bulk/task_states",
+                                                   "user_agent" => "Go-http-client/1.1",
+                                                   "level" => "info",
+                                                   "msg" => ""})
+
+
+      when_parsing_log(sample_event) do
+
+        verify_app_general_fields("app", "HttpStartStop", "HTTP",
+                                  "200 GET http://192.168.111.11/internal/v3/bulk/task_states (6 ms)", "INFO")
+
+        # verify event-specific fields
+        it { expect(subject["tags"]).to include "http" }
+
+        it "sets [httpstartstop] fields" do
+          expect(subject["httpstartstop"]["content_length"]).to eq 38
+          expect(subject["httpstartstop"]["duration_ms"]).to eq 6
+          expect(subject["httpstartstop"]["instance_id"]).to eq "1b1fc66f-9aca-47b1-796c-d9632b23f1b3"
+          expect(subject["httpstartstop"]["instance_index"]).to eq 2
+          expect(subject["httpstartstop"]["method"]).to eq "GET"
+          expect(subject["httpstartstop"]["peer_type"]).to eq "Server"
+          expect(subject["httpstartstop"]["remote_addr"]).to eq "192.168.111.11:42801"
+          expect(subject["httpstartstop"]["request_id"]).to eq "aa694b2c-6e26-4688-4b88-4574aa4e95a5"
+          expect(subject["httpstartstop"]["status_code"]).to eq 200
+          expect(subject["httpstartstop"]["stop_timestamp"]).to eq 1471387748618073991
+          expect(subject["httpstartstop"]["uri"]).to eq "http://192.168.111.11/internal/v3/bulk/task_states"
+          expect(subject["httpstartstop"]["user_agent"]).to eq "Go-http-client/1.1"
+        end
+
+      end
+    end
+
+    describe "HttpStart" do
+
+      sample_event = $app_event_dummy.clone
+      sample_event["@message"] = construct_event( "HttpStart", false,
+                                                  {"instance_id" => "1b1fc66f-9aca-47b1-796c-d9632b23f1b3",
+                                                   "instance_index" => 2,
+                                                   "method" => 1,
+                                                   "parent_request_id" => "ghfkgds747jdsfd834hf-dfsdf-4hmjm",
+                                                   "peer_type" => 2,
+                                                   "remote_addr" => "192.168.111.11:42801",
+                                                   "request_id" => "aa694b2c-6e26-4688-4b88-4574aa4e95a5",
+                                                   "timestamp" => 1471387748611165439,
+                                                   "uri" => "http://192.168.111.11/internal/v3/bulk/task_states",
+                                                   "user_agent" => "Go-http-client/1.1",
+                                                   "level" => "info",
+                                                   "msg" => ""})
+
+      when_parsing_log(sample_event) do
+
+        verify_app_general_fields("app", "HttpStart", "HTTP",
+                                  "GET http://192.168.111.11/internal/v3/bulk/task_states", "INFO")
+
+        # verify event-specific fields
+        it { expect(subject["tags"]).to include "http" }
+
+        it "sets [httpstart] fields" do
+          expect(subject["httpstart"]["instance_id"]).to eq "1b1fc66f-9aca-47b1-796c-d9632b23f1b3"
+          expect(subject["httpstart"]["instance_index"]).to eq 2
+          expect(subject["httpstart"]["method"]).to eq "GET"
+          expect(subject["httpstart"]["parent_request_id"]).to eq "ghfkgds747jdsfd834hf-dfsdf-4hmjm"
+          expect(subject["httpstart"]["peer_type"]).to eq "Server"
+          expect(subject["httpstart"]["remote_addr"]).to eq "192.168.111.11:42801"
+          expect(subject["httpstart"]["request_id"]).to eq "aa694b2c-6e26-4688-4b88-4574aa4e95a5"
+          expect(subject["httpstart"]["uri"]).to eq "http://192.168.111.11/internal/v3/bulk/task_states"
+          expect(subject["httpstart"]["user_agent"]).to eq "Go-http-client/1.1"
+        end
+
+      end
+    end
+
+    describe "HttpStop" do
+
+      sample_event = $app_event_dummy.clone
+      sample_event["@message"] = construct_event( "HttpStop", false,
+                                                  {"content_length" => 38,
+                                                   "peer_type" => 1,
+                                                   "request_id" => "aa694b2c-6e26-4688-4b88-4574aa4e95a5",
+                                                   "status_code" => 200,
+                                                   "timestamp" => 1471387748618073991,
+                                                   "uri" => "http://192.168.111.11/internal/v3/bulk/task_states",
+                                                   "level" => "info",
+                                                   "msg" => ""})
+
+
+      when_parsing_log(sample_event) do
+
+        verify_app_general_fields("app", "HttpStop", "HTTP",
+                                  "200 http://192.168.111.11/internal/v3/bulk/task_states", "INFO")
+
+        # verify event-specific fields
+        it { expect(subject["tags"]).to include "http" }
+
+        it "sets [httpstop] fields" do
+          expect(subject["httpstop"]["content_length"]).to eq 38
+          expect(subject["httpstop"]["peer_type"]).to eq "Client"
+          expect(subject["httpstop"]["request_id"]).to eq "aa694b2c-6e26-4688-4b88-4574aa4e95a5"
+          expect(subject["httpstop"]["status_code"]).to eq 200
+          expect(subject["httpstop"]["uri"]).to eq "http://192.168.111.11/internal/v3/bulk/task_states"
+        end
+
+      end
     end
 
   end
 
+
+  # -- Special cases
+  describe "drops useless LogMessage-APP event" do
+
+    context "(drop)" do
+
+      sample_event = $app_event_dummy.clone
+      sample_event["@message"] = construct_event( "LogMessage", true,
+                                  {"source_type" => "APP", "source_instance" => "99",
+                                   "message_type" => "OUT", "timestamp" => 1471387745714800488,
+                                   "level" => "info", "msg" => ""}) # LogMEssage-App with empty msg => useless
+
+      when_parsing_log(sample_event) do
+        it { expect(subject).to be_nil } # drop event
+      end
+    end
+
+    context "(keep)" do
+
+      sample_event = $app_event_dummy.clone
+      sample_event["@message"] = construct_event( "SomeOtherEvent", true,
+                                {"timestamp" => 1471387745714800488, "level" => "info",
+                                 "msg" => ""}) # some event with empty msg => still useful
+
+      when_parsing_log(sample_event) do
+        it { expect(subject).not_to be_nil } # keeps event
+      end
+    end
+
+  end
 
 end

@@ -11,7 +11,6 @@ describe "platform-haproxy.conf" do
     CONFIG
   end
 
-  # -- test snippet's 'if' condition --
   describe "#if" do
 
     describe "passed" do
@@ -20,7 +19,7 @@ describe "platform-haproxy.conf" do
           "@message" => "Some message"
       ) do
 
-        # haproxy tag set => 'if' succeeded
+        # tag set => 'if' succeeded
         it { expect(subject["tags"]).to include "haproxy" }
 
       end
@@ -35,6 +34,7 @@ describe "platform-haproxy.conf" do
         # no tags set => 'if' failed
         it { expect(subject["tags"]).to be_nil }
 
+        it { expect(subject["@type"]).to be_nil } # keeps unchanged
         it { expect(subject["@source"]["component"]).to eq "some value" } # keeps unchanged
         it { expect(subject["@message"]).to eq "Some message" } # keeps unchanged
 
@@ -43,7 +43,8 @@ describe "platform-haproxy.conf" do
 
   end
 
-  describe "when message is" do
+  # -- general case
+  describe "#fields when message is" do
     context "Http format" do
       when_parsing_log(
           "@source" => {"component" => "haproxy"},
@@ -51,10 +52,11 @@ describe "platform-haproxy.conf" do
           "@message" => "64.78.155.208:60677 [06/Jul/2016:13:59:57.770] https-in~ http-routers/node0 59841/0/0/157/60000 200 144206 reqC respC ---- 3/4/1/2/0 5/6 {reqHeaders} {respHeaders} \"GET /v2/apps?inline-relations-depth=2 HTTP/1.1\""
       ) do
 
-        # no parsing errors
-        it { expect(subject["tags"]).to eq ["haproxy"] } # no fail tag
+        it { expect(subject["tags"]).to eq ["haproxy"] } # haproxy tag, no fail tag
 
-        # fields
+        it { expect(subject["@type"]).to eq "haproxy" }
+        it { expect(subject["@source"]["component"]).to eq "haproxy" } # keeps unchanged
+
         it "sets [haproxy] fields from grok" do
           expect(subject["haproxy"]["client_ip"]).to eq "64.78.155.208"
           expect(subject["haproxy"]["client_port"]).to eq "60677"
@@ -128,10 +130,11 @@ describe "platform-haproxy.conf" do
           "@message" => "216.218.206.68:36743 [06/Jul/2016:07:16:34.605] https-in/1: SSL handshake failure"
       ) do
 
-        # no parsing errors
-        it { expect(subject["tags"]).to eq ["haproxy"] } # no fail tag
+        it { expect(subject["tags"]).to eq ["haproxy"] } # haproxy tag, no fail tag
 
-        # fields
+        it { expect(subject["@type"]).to eq "haproxy" }
+        it { expect(subject["@source"]["component"]).to eq "haproxy" } # keeps unchanged
+
         it "sets [haproxy] fields from grok" do
           expect(subject["haproxy"]["client_ip"]).to eq "216.218.206.68"
           expect(subject["haproxy"]["client_port"]).to eq "36743"
@@ -155,7 +158,7 @@ describe "platform-haproxy.conf" do
         # parsing error
         it { expect(subject["tags"]).to eq ["haproxy", "fail/cloudfoundry/platform-haproxy/grok"] } # no fail tag
 
-        # fields
+        it { expect(subject["@type"]).to eq "haproxy" }
         it { expect(subject["@source"]["component"]).to eq "haproxy" } # keeps unchanged
         it { expect(subject["@message"]).to eq "Some message" } # keeps unchanged
         it { expect(subject["haproxy"]).to be_nil }
