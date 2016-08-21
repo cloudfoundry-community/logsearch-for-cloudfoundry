@@ -28,7 +28,7 @@ describe "app-error.conf" do
   describe "#fields" do
     when_parsing_log(
         "@type" => "Error",
-        "parsed_json_field" => { "delta" => "abc", "code" => "def", "message" => "Some error message" },
+        "parsed_json_field" => { "source" => "abc", "code" => "def", "message" => "Some error message" },
         "@message" => "some message"
     ) do
 
@@ -36,7 +36,7 @@ describe "app-error.conf" do
 
       it { expect(subject["@message"]).to eq "Some error message" }
       it { expect(subject["parsed_json_field"]["message"]).to be_nil }
-      it { expect(subject["parsed_json_field"]["source"]).to eq "abc" } # delta renamed to source
+      it { expect(subject["parsed_json_field"]["source"]).to eq "abc" }
       it { expect(subject["parsed_json_field"]["code"]).to eq "def" }
 
       it { expect(subject["@type"]).to eq "Error" } # keeps unchanged
