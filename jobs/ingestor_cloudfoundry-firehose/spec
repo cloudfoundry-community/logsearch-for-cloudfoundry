@@ -33,6 +33,9 @@ properties:
   cloudfoundry.firehose_events:
     description: "Comma seperated list of events you would like. Valid options are HttpStop, CounterEvent, Error, Heartbeat, HttpStart, HttpStartStop, LogMessage, ValueMetric, ContainerMetric"
     default: "LogMessage,Error,ContainerMetric"
+  cloudfoundry.firehose_subscription_id:
+    description: "ID for the firehose-to-syslog subscription"
+    default: "firehose"
 
   syslog.host:
     description: IP or hostname of the syslog drain

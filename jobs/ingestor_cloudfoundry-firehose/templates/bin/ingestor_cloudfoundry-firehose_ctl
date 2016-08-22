@@ -51,6 +51,7 @@ case $1 in
         --api-endpoint=<%= p("cloudfoundry.api_endpoint") %> \
         --doppler-endpoint=<%= p("cloudfoundry.doppler_endpoint") %> \
         <% if p("cloudfoundry.skip_ssl_validation") %>--skip-ssl-validation <% end %> \
+        --subscription-id=<%= p("cloudfoundry.firehose_subscription_id") %> \
         --user=<%= p("cloudfoundry.firehose_user") %> \
         --password=<%= p("cloudfoundry.firehose_password") %> \
         --syslog-protocol=<%= p("syslog.protocol") %>\
