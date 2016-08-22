@@ -58,6 +58,20 @@ jobs:
         system_domain: sys.cf.example
         admin_client_secret: admin_client_secret
 
+- name: upload-kibana-dashboards
+  lifecycle: errand
+  release: logsearch-for-cloudfoundry
+  instances: 1
+  templates:
+  - {name: upload-kibana-dashboards, release: logsearch-for-cloudfoundry}
+  networks:
+  - name: default
+  resource_pool: errand
+  properties:
+    elasticsearch:
+      host: (( grab jobs.elasticsearch_master.networks.default.static_ips.[0] ))
+      port: 9200
+
 - name: kibana
   templates:
   - (( merge ))
