@@ -1,4 +1,12 @@
 #!/bin/bash -e
 
-fly -t logsearch-for-cloudfoundry set-pipeline --pipeline logsearch-for-cloudfoundry --config pipeline.yml --load-vars-from secret.yml
+# Check for spruce installation
+which spruce > /dev/null 2>&1 || {
+  echo "Aborted. Please install spruce by following https://github.com/geofffranks/spruce#installation" 1>&2
+  exit 1
+}
+
+spruce merge pipeline.yml > pipeline-merged.yml
+
+fly -t logsearch-for-cloudfoundry set-pipeline --pipeline logsearch-for-cloudfoundry --config pipeline-merged.yml
 fly -t logsearch-for-cloudfoundry unpause-pipeline --pipeline logsearch-for-cloudfoundry
