@@ -57,3 +57,4 @@ src/logsearch-config/vendor/logstash*
 
 #Concourse ignores
 ci/secret.yml
+ci/pipeline-merged.yml

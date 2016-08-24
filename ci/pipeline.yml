@@ -1,16 +1,26 @@
+groups:
+  - name: logsearch-for-cloudfoundry
+    jobs:
+      - unit-tests
+      - create-release
+      - generate-bosh-lite-manifest
+      - deploy-bosh-lite
+      - logsearch-smoke-tests
+      - rc
+
 resources:
 - name: logsearch-for-cloudfoundry-develop
   type: git
   source:
     uri: git@github.com:cloudfoundry-community/logsearch-for-cloudfoundry.git
     branch: develop
-    private_key: {{git-private-key}}
+    private_key: (( vault "secret/pipelines/cf-platform/git:private_key" ))
 - name: logsearch-for-cloudfoundry-rc
   type: git
   source:
     uri: git@github.com:cloudfoundry-community/logsearch-for-cloudfoundry.git
     branch: release-candidate
-    private_key: {{git-private-key}}
+    private_key: (( vault "secret/pipelines/cf-platform/git:private_key" ))
 - name: logsearch-boshrelease-stable
   type: git
   source:
@@ -19,25 +29,25 @@ resources:
 - name: failure-alert
   type: slack-notification
   source:
-    url: {{slack-webhook}}
+    url: (( vault "secret/pipelines/cf-platform/slack:url" ))
 - name: s3-release
   type: s3
   source:
-    bucket: {{s3-bucket}}
+    bucket: (( vault "secret/pipelines/cf-platform/s3:bucket" ))
     versioned_file: logsearch-for-cloudfoundry-develop.tgz
-    access_key_id: {{s3-access-key-id}}
-    secret_access_key: {{s3-secret-access-key}}
-    region_name: {{s3-region-name}}
-    endpoint: {{s3-endpoint}}
+    access_key_id: (( vault "secret/pipelines/cf-platform/s3:access_key_id" ))
+    secret_access_key: (( vault "secret/pipelines/cf-platform/s3:secret_access_key" ))
+    region_name: eu-central-1
+    endpoint: https://s3.eu-central-1.amazonaws.com
 - name: s3-manifest
   type: s3
   source:
-    bucket: {{s3-bucket}}
+    bucket: (( vault "secret/pipelines/cf-platform/s3:bucket" ))
     versioned_file: logsearch-bosh-lite.yml
-    access_key_id: {{s3-access-key-id}}
-    secret_access_key: {{s3-secret-access-key}}
-    region_name: {{s3-region-name}}
-    endpoint: {{s3-endpoint}}
+    access_key_id: (( vault "secret/pipelines/cf-platform/s3:access_key_id" ))
+    secret_access_key: (( vault "secret/pipelines/cf-platform/s3:secret_access_key" ))
+    region_name: eu-central-1
+    endpoint: https://s3.eu-central-1.amazonaws.com
 - name: logsearch-release-tarball
   type: bosh-io-release
   source:
@@ -49,17 +59,17 @@ resources:
 - name: logsearch-develop-deployment
   type: bosh-deployment
   source:
-    target: {{bosh-lite-target}}
-    username: {{bosh-lite-username}}
-    password: {{bosh-lite-password}}
-    deployment: {{bosh-lite-deployment}}
+    target: (( vault "secret/pipelines/cf-platform/bosh-lite:target" ))
+    username: (( vault "secret/pipelines/cf-platform/bosh-lite:username" ))
+    password: (( vault "secret/pipelines/cf-platform/bosh-lite:password" ))
+    deployment: logsearch-warden
 - name: logsearch-smoke-errand
   type: bosh-errand
   source:
-    target: {{bosh-lite-target}}
-    username: {{bosh-lite-username}}
-    password: {{bosh-lite-password}}
-    deployment: {{bosh-lite-deployment}}
+    target: (( vault "secret/pipelines/cf-platform/bosh-lite:target" ))
+    username: (( vault "secret/pipelines/cf-platform/bosh-lite:username" ))
+    password: (( vault "secret/pipelines/cf-platform/bosh-lite:password" ))
+    deployment: logsearch-warden
 
 resource_types:
   - name: slack-notification
@@ -90,10 +100,10 @@ jobs:
       on_failure:
         put: failure-alert
         params:
-          channel:  {{slack-channel}}
-          username: {{slack-username}}
-          icon_url: {{slack-image}}
-          text:     {{slack-text}}
+          channel:  logsearch
+          username: concourse-ci
+          icon_url: https://i.imgur.com/eioobYI.png
+          text:     (( vault "secret/pipelines/cf-platform/slack:text" ))
 - name: create-release
   max_in_flight: 1
   plan:
@@ -116,16 +126,16 @@ jobs:
           args: []
         params:
           REPO_ROOT: ./logsearch-for-cloudfoundry-develop
-          BOSH_LITE_TARGET: {{bosh-lite-target}}
-          BOSH_LITE_USERNAME: {{bosh-lite-username}}
-          BOSH_LITE_PASSWORD: {{bosh-lite-password}}
+          BOSH_LITE_TARGET: (( vault "secret/pipelines/cf-platform/bosh-lite:target" ))
+          BOSH_LITE_USERNAME: (( vault "secret/pipelines/cf-platform/bosh-lite:username" ))
+          BOSH_LITE_PASSWORD: (( vault "secret/pipelines/cf-platform/bosh-lite:password" ))
       on_failure:
         put: failure-alert
         params:
-          channel:  {{slack-channel}}
-          username: {{slack-username}}
-          icon_url: {{slack-image}}
-          text:     {{slack-text}}
+          channel:  logsearch
+          username: concourse-ci
+          icon_url: https://i.imgur.com/eioobYI.png
+          text:     (( vault "secret/pipelines/cf-platform/slack:text" ))
     - put: s3-release
       params:
         file: logsearch-for-cloudfoundry-develop-release/logsearch-for-cloudfoundry-*.tgz
@@ -157,21 +167,21 @@ jobs:
           args: []
         params:
           REPO_ROOT: ./logsearch-for-cloudfoundry-develop
-          BOSH_LITE_TARGET: {{bosh-lite-target}}
-          BOSH_LITE_USERNAME: {{bosh-lite-username}}
-          BOSH_LITE_PASSWORD: {{bosh-lite-password}}
-          CF_API: {{cf-api}}
-          CF_APPS_DOMAIN: {{cf-apps-domain}}
-          CF_DOPPLER: {{cf-doppler}}
-          CF_ADMIN: {{cf-admin}}
-          CF_PASSWORD: {{cf-password}}
+          BOSH_LITE_TARGET: (( vault "secret/pipelines/cf-platform/bosh-lite:target" ))
+          BOSH_LITE_USERNAME: (( vault "secret/pipelines/cf-platform/bosh-lite:username" ))
+          BOSH_LITE_PASSWORD: (( vault "secret/pipelines/cf-platform/bosh-lite:password" ))
+          CF_API: (( vault "secret/pipelines/cf-platform/cf:api" ))
+          CF_APPS_DOMAIN: (( vault "secret/pipelines/cf-platform/cf:apps_domain" ))
+          CF_DOPPLER: (( vault "secret/pipelines/cf-platform/cf:doppler" ))
+          CF_ADMIN: (( vault "secret/pipelines/cf-platform/cf:admin" ))
+          CF_PASSWORD: (( vault "secret/pipelines/cf-platform/cf:password" ))
       on_failure:
         put: failure-alert
         params:
-          channel:  {{slack-channel}}
-          username: {{slack-username}}
-          icon_url: {{slack-image}}
-          text:     {{slack-text}}
+          channel:  logsearch
+          username: concourse-ci
+          icon_url: https://i.imgur.com/eioobYI.png
+          text:     (( vault "secret/pipelines/cf-platform/slack:text" ))
     - put: s3-manifest
       params:
         file: logsearch-for-cloudfoundry-develop-manifest/logsearch-warden.yml
@@ -205,10 +215,10 @@ jobs:
       on_failure:
         put: failure-alert
         params:
-          channel:  {{slack-channel}}
-          username: {{slack-username}}
-          icon_url: {{slack-image}}
-          text:     {{slack-text}}
+          channel:  logsearch
+          username: concourse-ci
+          icon_url: https://i.imgur.com/eioobYI.png
+          text:     (( vault "secret/pipelines/cf-platform/slack:text" ))
 - name: logsearch-smoke-tests
   max_in_flight: 1
   plan:
@@ -228,10 +238,10 @@ jobs:
       on_failure:
         put: failure-alert
         params:
-          channel:  {{slack-channel}}
-          username: {{slack-username}}
-          icon_url: {{slack-image}}
-          text:     {{slack-text}}
+          channel:  logsearch
+          username: concourse-ci
+          icon_url: https://i.imgur.com/eioobYI.png
+          text:     (( vault "secret/pipelines/cf-platform/slack:text" ))
 - name: rc
   max_in_flight: 1
   plan:
@@ -259,17 +269,16 @@ jobs:
           path: ./logsearch-for-cloudfoundry-develop/ci/tasks/logsearch-release-candidate
           args: []
         params:
-          MERGED_REPO: {{git-target}}
-          GIT_USERNAME: {{git-username}}
-          GIT_EMAIL: {{git-email}}
+          MERGED_REPO: develop
+          GIT_USERNAME: (( vault "secret/pipelines/cf-platform/git:user" ))
+          GIT_EMAIL: (( vault "secret/pipelines/cf-platform/git:email" ))
       on_failure:
         put: failure-alert
         params:
-          channel:  {{slack-channel}}
-          username: {{slack-username}}
-          icon_url: {{slack-image}}
-          text:     {{slack-text}}
+          channel:  logsearch
+          username: concourse-ci
+          icon_url: https://i.imgur.com/eioobYI.png
+          text:     (( vault "secret/pipelines/cf-platform/slack:text" ))
     - put: logsearch-for-cloudfoundry-rc
       params:
         repository: logsearch-for-cloudfoundry-rc-merged
-        rebase: true
