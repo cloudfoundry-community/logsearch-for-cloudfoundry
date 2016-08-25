@@ -1,6 +1,6 @@
 <% require 'json' %>
 {
-  "title": "App names",
+  "title": "App: apps with errors",
   "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
       "type": "table",
@@ -23,8 +23,8 @@
           "params": {
             "field": "@cf.app.raw",
             "size": 100000,
-            "order": "desc",
-            "orderBy": "1"
+            "order": "asc",
+            "orderBy": "_term"
           }
         }
       ],
@@ -33,14 +33,12 @@
 ENDOFFJSON
 %>",
   "description": "",
-  "savedSearchId": "[app]-All",
+  "savedSearchId": "[app]-All-ERRORs",
   "version": 1,
   "kibanaSavedObjectMeta": {
     "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
-      "filter": [
-
-      ]
+      "filter": []
     }
 ENDOFFJSON
 %>"

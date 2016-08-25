@@ -1,13 +1,22 @@
 <% require 'json' %>
 {
-  "title": "App - Performance",
+  "title": "App - Logs",
   "hits": 0,
   "description": "",
   "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     [
       {
+        "id": "App-logs-count-by-source-type-(APP-or-cf-top-5-apps)",
+        "type": "visualization",
+        "panelIndex": 1,
+        "size_x": 4,
+        "size_y": 4,
         "col": 1,
-        "id": "App-RTR-request-count-(top-10-apps)",
+        "row": 1
+      },
+      {
+        "col": 5,
+        "id": "App-APP-logs-count-by-level",
         "panelIndex": 2,
         "row": 1,
         "size_x": 3,
@@ -15,17 +24,17 @@
         "type": "visualization"
       },
       {
-        "col": 4,
-        "id": "App-RTR-traffic-by-response_time_ms-(first-10-apps)",
+        "col": 8,
+        "id": "App-APP-logs-count-in-timeline",
         "panelIndex": 3,
         "row": 1,
-        "size_x": 9,
+        "size_x": 5,
         "size_y": 4,
         "type": "visualization"
       },
       {
-        "col": 9,
-        "id": "App-RTR-response-times",
+        "col": 1,
+        "id": "App-APP-logs-count-(top-10-apps)",
         "panelIndex": 4,
         "row": 5,
         "size_x": 4,
@@ -33,40 +42,51 @@
         "type": "visualization"
       },
       {
-        "col": 1,
-        "id": "App-RTR-response-times-(50th-and-95th-first-10-apps)",
+        "col": 5,
+        "id": "App-APP-logs-count-by-level-(top-5-apps)",
         "panelIndex": 5,
         "row": 5,
         "size_x": 8,
         "size_y": 4,
         "type": "visualization"
-      },
-      {
-        "col": 1,
-        "columns": [
-          "@cf.app",
-          "rtr.response_time_ms",
-          "rtr.verb",
-          "rtr.status",
-          "rtr.path"
-        ],
-        "id": "[app]-RTR-long-response",
-        "panelIndex": 6,
-        "row": 9,
-        "size_x": 12,
-        "size_y": 4,
-        "sort": [
-          "@timestamp",
-          "desc"
-        ],
-        "type": "search"
       }
     ]
 ENDOFFJSON
 %>",
   "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
-
+      "P-1": {
+        "vis": {
+          "legendOpen": false
+        }
+      },
+      "P-2": {
+        "vis": {
+          "legendOpen": true
+        },
+        "spy": {
+          "mode": {
+            "name": null,
+            "fill": false
+          }
+        }
+      },
+      "P-4": {
+        "vis": {
+          "legendOpen": true
+        }
+      },
+      "P-5": {
+        "vis": {
+          "legendOpen": false
+        },
+        "spy": {
+          "mode": {
+            "name": null,
+            "fill": false
+          }
+        }
+      }
     }
 ENDOFFJSON
 %>",

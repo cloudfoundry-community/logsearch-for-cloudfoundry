@@ -6,6 +6,24 @@
   "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     [
       {
+        "id": "App-errors-count-in-timeline-(top-5-apps)",
+        "type": "visualization",
+        "panelIndex": 1,
+        "size_x": 9,
+        "size_y": 6,
+        "col": 1,
+        "row": 1
+      },
+      {
+        "col": 10,
+        "id": "App-apps-with-errors",
+        "panelIndex": 2,
+        "row": 1,
+        "size_x": 3,
+        "size_y": 6,
+        "type": "visualization"
+      },
+      {
         "col": 1,
         "columns": [
           "@level",
@@ -13,8 +31,9 @@
           "@cf.app",
           "@message"
         ],
-        "id": "app-all",
-        "row": 4,
+        "id": "[app]-All-ERRORs",
+        "panelIndex": 3,
+        "row": 7,
         "size_x": 12,
         "size_y": 5,
         "sort": [
@@ -22,24 +41,26 @@
           "desc"
         ],
         "type": "search"
-      },
-      {
-        "col": 1,
-        "id": "HTTP-traffic-by-status-code",
-        "row": 1,
-        "size_x": 9,
-        "size_y": 3,
-        "type": "visualization"
-      },
-      {
-        "col": 10,
-        "id": "Apps-with-errors",
-        "row": 1,
-        "size_x": 3,
-        "size_y": 3,
-        "type": "visualization"
       }
     ]
+ENDOFFJSON
+%>",
+  "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "P-1": {
+        "vis": {
+          "legendOpen": true
+        }
+      },
+      "P-2": {
+        "spy": {
+          "mode": {
+            "name": null,
+            "fill": false
+          }
+        }
+      }
+    }
 ENDOFFJSON
 %>",
   "optionsJSON": "{\"darkTheme\":false}",

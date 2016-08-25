@@ -1,11 +1,11 @@
 <% require 'json' %>
 {
-  "title": "App names",
+  "title": "Platform: components with errors",
   "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
       "type": "table",
       "params": {
-        "perPage": 25,
+        "perPage": 10,
         "showPartialRows": false,
         "showMeticsAtAllLevels": false
       },
@@ -21,8 +21,19 @@
           "type": "terms",
           "schema": "bucket",
           "params": {
-            "field": "@cf.app.raw",
+            "field": "@source.component.raw",
             "size": 100000,
+            "order": "desc",
+            "orderBy": "1"
+          }
+        },
+        {
+          "id": "3",
+          "type": "terms",
+          "schema": "bucket",
+          "params": {
+            "field": "@source.name.raw",
+            "size": 5,
             "order": "desc",
             "orderBy": "1"
           }
@@ -33,7 +44,7 @@
 ENDOFFJSON
 %>",
   "description": "",
-  "savedSearchId": "[app]-All",
+  "savedSearchId": "[platform]-All-ERRORs",
   "version": 1,
   "kibanaSavedObjectMeta": {
     "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }

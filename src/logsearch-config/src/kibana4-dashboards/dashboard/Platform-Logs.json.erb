@@ -1,60 +1,45 @@
 <% require 'json' %>
 {
-  "title": "App - Metrics",
+  "title": "Platform - Logs",
   "hits": 0,
   "description": "",
   "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     [
       {
         "col": 1,
-        "id": "App-METRIC-memory-usage",
+        "id": "Platform-logs-count-(top-10-components)",
+        "panelIndex": 1,
         "row": 1,
-        "size_x": 9,
+        "size_x": 4,
         "size_y": 5,
         "type": "visualization"
       },
       {
-        "col": 10,
-        "id": "App-names",
-        "row": 1,
-        "size_x": 3,
-        "size_y": 5,
-        "type": "visualization"
-      },
-      {
-        "id": "App-METRIC-CPU-usage",
+        "id": "Platform-components",
         "type": "visualization",
-        "size_x": 6,
-        "size_y": 4,
+        "panelIndex": 2,
+        "size_x": 4,
+        "size_y": 5,
+        "col": 5,
+        "row": 1
+      },
+      {
+        "id": "Platform-logs-count-by-level",
+        "type": "visualization",
+        "panelIndex": 3,
+        "size_x": 4,
+        "size_y": 5,
+        "col": 9,
+        "row": 1
+      },
+      {
         "col": 1,
-        "row": 6
-      },
-      {
-        "id": "App-METRIC-disk-usage",
-        "type": "visualization",
-        "size_x": 6,
-        "size_y": 4,
-        "col": 7,
-        "row": 6
-      },
-      {
-        "id": "[app]-Container-Metric",
-        "type": "search",
+        "id": "Platform-logs-count-in-timeline",
+        "panelIndex": 4,
+        "row": 6,
         "size_x": 12,
-        "size_y": 5,
-        "col": 1,
-        "row": 10,
-        "columns": [
-          "@cf.app",
-          "@source.instance",
-          "containermetric.cpu_percentage",
-          "containermetric.disk_bytes",
-          "containermetric.memory_bytes"
-        ],
-        "sort": [
-          "@timestamp",
-          "desc"
-        ]
+        "size_y": 4,
+        "type": "visualization"
       }
     ]
 ENDOFFJSON
@@ -68,7 +53,7 @@ ENDOFFJSON
       },
       "P-3": {
         "vis": {
-          "legendOpen": true
+          "legendOpen": false
         }
       },
       "P-4": {

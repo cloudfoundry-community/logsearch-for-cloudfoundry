@@ -1,12 +1,11 @@
 <% require 'json' %>
 {
-  "title": "App links",
+  "title": "Platform links",
   "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
-      "title": "App links",
       "type": "markdown",
       "params": {
-        "markdown": "Find the logs you are interested in, then analyse: [performance](#/dashboard/App-Performance) | [errors](#/dashboard/App-Errors) | [logs](#/dashboard/App-Logs) | [location](#/dashboard/App-Location). If you are subscribed to *ContainerMetric* events you can also visit [metrics](#/dashboard/App-Metrics) dashboard."
+        "markdown": "This is overview of Platform logs. Find some more useful dashboards:  [errors](#/dashboard/Platform-Errors) | [logs](#/dashboard/Platform-Logs) | [uaa](#/dashboard/Platform-UAA) | [haproxy](#/dashboard/Platform-Haproxy)"
       },
       "aggs": [],
       "listeners": {}

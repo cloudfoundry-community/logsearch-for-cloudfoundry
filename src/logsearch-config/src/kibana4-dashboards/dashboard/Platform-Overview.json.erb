@@ -1,55 +1,61 @@
 <% require 'json' %>
 {
-  "title": "App - Metrics",
+  "title": "Platform - Overview",
   "hits": 0,
   "description": "",
   "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     [
       {
+        "id": "Platform-links",
+        "type": "visualization",
+        "panelIndex": 1,
+        "size_x": 5,
+        "size_y": 2,
         "col": 1,
-        "id": "App-METRIC-memory-usage",
-        "row": 1,
-        "size_x": 9,
-        "size_y": 5,
-        "type": "visualization"
+        "row": 1
       },
       {
-        "col": 10,
-        "id": "App-names",
-        "row": 1,
+        "id": "Platform-logs-by-source-name-(top-5)",
+        "type": "visualization",
+        "panelIndex": 2,
+        "size_x": 4,
+        "size_y": 2,
+        "col": 6,
+        "row": 1
+      },
+      {
+        "id": "Platform-components",
+        "type": "visualization",
+        "panelIndex": 3,
         "size_x": 3,
         "size_y": 5,
-        "type": "visualization"
+        "col": 10,
+        "row": 1
       },
       {
-        "id": "App-METRIC-CPU-usage",
+        "id": "Platform-logs-by-component-(top-5)",
         "type": "visualization",
-        "size_x": 6,
-        "size_y": 4,
+        "panelIndex": 4,
+        "size_x": 9,
+        "size_y": 3,
         "col": 1,
-        "row": 6
+        "row": 3
       },
       {
-        "id": "App-METRIC-disk-usage",
-        "type": "visualization",
-        "size_x": 6,
-        "size_y": 4,
-        "col": 7,
-        "row": 6
-      },
-      {
-        "id": "[app]-Container-Metric",
+        "id": "[platform]-All-Overview",
         "type": "search",
+        "panelIndex": 5,
         "size_x": 12,
-        "size_y": 5,
+        "size_y": 7,
         "col": 1,
-        "row": 10,
+        "row": 6,
         "columns": [
-          "@cf.app",
-          "@source.instance",
-          "containermetric.cpu_percentage",
-          "containermetric.disk_bytes",
-          "containermetric.memory_bytes"
+          "@source.type",
+          "@type",
+          "@source.name",
+          "@source.component",
+          "@level",
+          "@message"
         ],
         "sort": [
           "@timestamp",
@@ -61,12 +67,7 @@ ENDOFFJSON
 %>",
   "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
-      "P-1": {
-        "vis": {
-          "legendOpen": true
-        }
-      },
-      "P-3": {
+      "P-2": {
         "vis": {
           "legendOpen": true
         }

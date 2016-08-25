@@ -1,55 +1,49 @@
 <% require 'json' %>
 {
-  "title": "App - Metrics",
+  "title": "Platform - Errors",
   "hits": 0,
   "description": "",
   "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     [
       {
+        "id": "Platform-errors-count-in-timeline",
+        "type": "visualization",
+        "panelIndex": 1,
+        "size_x": 6,
+        "size_y": 3,
         "col": 1,
-        "id": "App-METRIC-memory-usage",
-        "row": 1,
-        "size_x": 9,
-        "size_y": 5,
-        "type": "visualization"
+        "row": 1
       },
       {
-        "col": 10,
-        "id": "App-names",
-        "row": 1,
+        "id": "Platform-errors-count-by-source-component-(top-5)",
+        "type": "visualization",
+        "panelIndex": 2,
         "size_x": 3,
-        "size_y": 5,
-        "type": "visualization"
-      },
-      {
-        "id": "App-METRIC-CPU-usage",
-        "type": "visualization",
-        "size_x": 6,
-        "size_y": 4,
-        "col": 1,
-        "row": 6
-      },
-      {
-        "id": "App-METRIC-disk-usage",
-        "type": "visualization",
-        "size_x": 6,
-        "size_y": 4,
+        "size_y": 3,
         "col": 7,
-        "row": 6
+        "row": 1
       },
       {
-        "id": "[app]-Container-Metric",
+        "id": "Platform-components-with-errors",
+        "type": "visualization",
+        "panelIndex": 3,
+        "size_x": 3,
+        "size_y": 3,
+        "col": 10,
+        "row": 1
+      },
+      {
+        "id": "[platform]-All-ERRORs",
         "type": "search",
+        "panelIndex": 4,
         "size_x": 12,
-        "size_y": 5,
+        "size_y": 7,
         "col": 1,
-        "row": 10,
+        "row": 4,
         "columns": [
-          "@cf.app",
-          "@source.instance",
-          "containermetric.cpu_percentage",
-          "containermetric.disk_bytes",
-          "containermetric.memory_bytes"
+          "@type",
+          "@source.component",
+          "@message"
         ],
         "sort": [
           "@timestamp",
@@ -66,12 +60,7 @@ ENDOFFJSON
           "legendOpen": true
         }
       },
-      "P-3": {
-        "vis": {
-          "legendOpen": true
-        }
-      },
-      "P-4": {
+      "P-2": {
         "vis": {
           "legendOpen": true
         }

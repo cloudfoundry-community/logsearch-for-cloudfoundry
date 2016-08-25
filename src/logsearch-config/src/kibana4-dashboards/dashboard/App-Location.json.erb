@@ -6,30 +6,39 @@
   "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     [
       {
-        "id": "RTR-requests-map",
+        "id": "App-RTR-requests-map",
         "type": "visualization",
+        "panelIndex": 1,
         "size_x": 9,
         "size_y": 8,
         "col": 1,
         "row": 1
       },
       {
-        "id": "RTR-requests-by-timezone",
-        "type": "visualization",
-        "size_x": 3,
-        "size_y": 3,
-        "col": 10,
-        "row": 6
-      },
-      {
         "id": "App-names",
         "type": "visualization",
+        "panelIndex": 2,
         "size_x": 3,
         "size_y": 5,
         "col": 10,
         "row": 1
+      },
+      {
+        "id": "App-RTR-request-count-by-timezone-(top-5)",
+        "type": "visualization",
+        "panelIndex": 3,
+        "size_x": 3,
+        "size_y": 3,
+        "col": 10,
+        "row": 6
       }
     ]
+ENDOFFJSON
+%>",
+  "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+
+    }
 ENDOFFJSON
 %>",
   "optionsJSON": "{\"darkTheme\":false}",

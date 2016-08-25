@@ -42,6 +42,16 @@
     {"name":"@source.type","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":true,"doc_values":false},
     {"name":"@source.type.raw","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
     
+    {"name":"geoip.location","type":"geo_point","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"geoip.timezone","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":true,"doc_values":false},
+    {"name":"geoip.longitude","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"geoip.latitude","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"geoip.continent_code","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":true,"doc_values":false},
+    {"name":"geoip.ip","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":true,"doc_values":false},
+    {"name":"geoip.country_code3","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":true,"doc_values":false},
+    {"name":"geoip.country_code2","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":true,"doc_values":false},
+    {"name":"geoip.country_name","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":true,"doc_values":false},
+    
     
     
     {"name":"uaa.identity_zone_id","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
@@ -69,6 +79,7 @@
     {"name":"haproxy.client_port","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":true,"doc_values":false},
     {"name":"haproxy.http_status_code","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
     {"name":"haproxy.http_request_verb","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":true,"doc_values":false},
+    {"name":"haproxy.http_request_verb.raw","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
     {"name":"haproxy.server_name","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":true,"doc_values":false},
     {"name":"haproxy.actconn","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":true,"doc_values":false},
     {"name":"haproxy.time_duration","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":true,"doc_values":false},

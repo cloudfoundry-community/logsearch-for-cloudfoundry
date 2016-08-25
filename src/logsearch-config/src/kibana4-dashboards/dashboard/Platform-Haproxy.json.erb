@@ -1,55 +1,59 @@
 <% require 'json' %>
 {
-  "title": "App - Metrics",
+  "title": "Platform - Haproxy",
   "hits": 0,
   "description": "",
   "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     [
       {
         "col": 1,
-        "id": "App-METRIC-memory-usage",
+        "id": "Platform-Haproxy-requests-(top-10)",
+        "panelIndex": 1,
         "row": 1,
-        "size_x": 9,
-        "size_y": 5,
+        "size_x": 4,
+        "size_y": 3,
         "type": "visualization"
       },
       {
-        "col": 10,
-        "id": "App-names",
+        "col": 5,
+        "id": "Platform-Haproxy-request-status-codes-in-timeline",
+        "panelIndex": 2,
         "row": 1,
-        "size_x": 3,
-        "size_y": 5,
+        "size_x": 8,
+        "size_y": 3,
         "type": "visualization"
       },
       {
-        "id": "App-METRIC-CPU-usage",
+        "id": "Platform-Haproxy-request-time-duration",
         "type": "visualization",
-        "size_x": 6,
-        "size_y": 4,
+        "panelIndex": 3,
+        "size_x": 5,
+        "size_y": 3,
+        "col": 8,
+        "row": 4
+      },
+      {
+        "id": "Platform-Haproxy-request-time-duration-(50th-95th-99th-top-5)",
+        "type": "visualization",
+        "panelIndex": 4,
+        "size_x": 7,
+        "size_y": 3,
         "col": 1,
-        "row": 6
+        "row": 4
       },
       {
-        "id": "App-METRIC-disk-usage",
-        "type": "visualization",
-        "size_x": 6,
-        "size_y": 4,
-        "col": 7,
-        "row": 6
-      },
-      {
-        "id": "[app]-Container-Metric",
+        "id": "[platform]-Haproxy",
         "type": "search",
+        "panelIndex": 5,
         "size_x": 12,
-        "size_y": 5,
+        "size_y": 6,
         "col": 1,
-        "row": 10,
+        "row": 7,
         "columns": [
-          "@cf.app",
-          "@source.instance",
-          "containermetric.cpu_percentage",
-          "containermetric.disk_bytes",
-          "containermetric.memory_bytes"
+          "@source.name",
+          "haproxy.time_duration",
+          "haproxy.http_status_code",
+          "haproxy.http_request"
         ],
         "sort": [
           "@timestamp",
@@ -66,14 +70,14 @@ ENDOFFJSON
           "legendOpen": true
         }
       },
-      "P-3": {
+      "P-2": {
         "vis": {
           "legendOpen": true
         }
       },
       "P-4": {
         "vis": {
-          "legendOpen": true
+          "legendOpen": false
         }
       }
     }
@@ -89,8 +93,8 @@ ENDOFFJSON
         {
           "query": {
             "query_string": {
-              "analyze_wildcard": true,
-              "query": "*"
+              "query": "*",
+              "analyze_wildcard": true
             }
           }
         }

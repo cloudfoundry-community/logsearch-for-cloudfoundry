@@ -7,7 +7,17 @@
     [
       {
         "col": 1,
-        "id": "App-logs-by-type",
+        "id": "App-links",
+        "panelIndex": 1,
+        "row": 1,
+        "size_x": 9,
+        "size_y": 1,
+        "type": "visualization"
+      },
+      {
+        "col": 1,
+        "id": "App-logs-by-source-type-(top-10)",
+        "panelIndex": 2,
         "row": 2,
         "size_x": 9,
         "size_y": 2,
@@ -16,6 +26,7 @@
       {
         "col": 10,
         "id": "App-names",
+        "panelIndex": 3,
         "row": 1,
         "size_x": 3,
         "size_y": 3,
@@ -24,12 +35,17 @@
       {
         "col": 1,
         "columns": [
-          "@level",
-          "@source.name",
+          "@cf.org",
+          "@cf.space",
           "@cf.app",
+          "@source.name",
+          "@source.component",
+          "@source.type",
+          "@level",
           "@message"
         ],
-        "id": "app-all",
+        "id": "[app]-All-Overview",
+        "panelIndex": 4,
         "row": 4,
         "size_x": 12,
         "size_y": 5,
@@ -38,16 +54,18 @@
           "desc"
         ],
         "type": "search"
-      },
-      {
-        "id": "App-links",
-        "type": "visualization",
-        "size_x": 9,
-        "size_y": 1,
-        "col": 1,
-        "row": 1
       }
     ]
+ENDOFFJSON
+%>",
+  "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "P-1": {
+        "vis": {
+          "legendOpen": true
+        }
+      }
+    }
 ENDOFFJSON
 %>",
   "optionsJSON": "{\"darkTheme\":false}",

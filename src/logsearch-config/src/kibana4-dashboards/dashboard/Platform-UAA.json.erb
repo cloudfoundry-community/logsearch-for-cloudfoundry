@@ -1,55 +1,48 @@
 <% require 'json' %>
 {
-  "title": "App - Metrics",
+  "title": "Platform - UAA",
   "hits": 0,
   "description": "",
   "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     [
       {
-        "col": 1,
-        "id": "App-METRIC-memory-usage",
-        "row": 1,
-        "size_x": 9,
-        "size_y": 5,
-        "type": "visualization"
-      },
-      {
-        "col": 10,
-        "id": "App-names",
-        "row": 1,
+        "id": "Platform-UAA-event-types",
+        "type": "visualization",
+        "panelIndex": 1,
         "size_x": 3,
-        "size_y": 5,
-        "type": "visualization"
-      },
-      {
-        "id": "App-METRIC-CPU-usage",
-        "type": "visualization",
-        "size_x": 6,
         "size_y": 4,
         "col": 1,
-        "row": 6
+        "row": 1
       },
       {
-        "id": "App-METRIC-disk-usage",
+        "id": "Platform-UAA-events-by-type",
         "type": "visualization",
-        "size_x": 6,
+        "panelIndex": 2,
+        "size_x": 5,
         "size_y": 4,
-        "col": 7,
-        "row": 6
+        "col": 4,
+        "row": 1
       },
       {
-        "id": "[app]-Container-Metric",
+        "id": "Platform-UAA-event-locations",
+        "type": "visualization",
+        "size_x": 4,
+        "size_y": 4,
+        "col": 9,
+        "row": 1
+      },
+      {
+        "id": "[platform]-UAA",
         "type": "search",
         "size_x": 12,
         "size_y": 5,
         "col": 1,
-        "row": 10,
+        "row": 5,
         "columns": [
-          "@cf.app",
-          "@source.instance",
-          "containermetric.cpu_percentage",
-          "containermetric.disk_bytes",
-          "containermetric.memory_bytes"
+          "@source.name",
+          "uaa.type",
+          "uaa.origin",
+          "uaa.data"
         ],
         "sort": [
           "@timestamp",
@@ -61,17 +54,7 @@ ENDOFFJSON
 %>",
   "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
-      "P-1": {
-        "vis": {
-          "legendOpen": true
-        }
-      },
-      "P-3": {
-        "vis": {
-          "legendOpen": true
-        }
-      },
-      "P-4": {
+      "P-2": {
         "vis": {
           "legendOpen": true
         }
@@ -89,8 +72,8 @@ ENDOFFJSON
         {
           "query": {
             "query_string": {
-              "analyze_wildcard": true,
-              "query": "*"
+              "query": "*",
+              "analyze_wildcard": true
             }
           }
         }

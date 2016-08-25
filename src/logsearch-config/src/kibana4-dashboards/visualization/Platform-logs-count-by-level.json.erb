@@ -1,13 +1,20 @@
 <% require 'json' %>
 {
-  "title": "App names",
+  "title": "Platform: logs count by level",
   "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
-      "type": "table",
+      "type": "histogram",
       "params": {
-        "perPage": 25,
-        "showPartialRows": false,
-        "showMeticsAtAllLevels": false
+        "shareYAxis": true,
+        "addTooltip": true,
+        "addLegend": true,
+        "scale": "linear",
+        "mode": "stacked",
+        "times": [],
+        "addTimeMarker": false,
+        "defaultYExtents": false,
+        "setYExtents": false,
+        "yAxis": {}
       },
       "aggs": [
         {
@@ -19,9 +26,9 @@
         {
           "id": "2",
           "type": "terms",
-          "schema": "bucket",
+          "schema": "segment",
           "params": {
-            "field": "@cf.app.raw",
+            "field": "@level.raw",
             "size": 100000,
             "order": "desc",
             "orderBy": "1"
@@ -33,7 +40,7 @@
 ENDOFFJSON
 %>",
   "description": "",
-  "savedSearchId": "[app]-All",
+  "savedSearchId": "[platform]-All",
   "version": 1,
   "kibanaSavedObjectMeta": {
     "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }

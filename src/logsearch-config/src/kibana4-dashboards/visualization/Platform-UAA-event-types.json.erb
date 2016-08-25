@@ -1,11 +1,11 @@
 <% require 'json' %>
 {
-  "title": "App names",
+  "title": "Platform UAA: event types",
   "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
       "type": "table",
       "params": {
-        "perPage": 25,
+        "perPage": 10,
         "showPartialRows": false,
         "showMeticsAtAllLevels": false
       },
@@ -14,26 +14,28 @@
           "id": "1",
           "type": "count",
           "schema": "metric",
-          "params": {}
+          "params": {
+          }
         },
         {
           "id": "2",
           "type": "terms",
           "schema": "bucket",
           "params": {
-            "field": "@cf.app.raw",
-            "size": 100000,
-            "order": "desc",
-            "orderBy": "1"
+            "field": "uaa.type",
+            "size": 10,
+            "order": "asc",
+            "orderBy": "_term"
           }
         }
       ],
-      "listeners": {}
+      "listeners": {
+      }
     }
 ENDOFFJSON
 %>",
   "description": "",
-  "savedSearchId": "[app]-All",
+  "savedSearchId": "[platform]-UAA",
   "version": 1,
   "kibanaSavedObjectMeta": {
     "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }

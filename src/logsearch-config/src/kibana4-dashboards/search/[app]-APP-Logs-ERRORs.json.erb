@@ -1,0 +1,90 @@
+<% require 'json' %>
+{
+  "title": "[app] APP Logs - ERRORs",
+  "description": "",
+  "hits": 0,
+  "columns": [
+    "@cf.org",
+    "@cf.space",
+    "@cf.app",
+    "@message"
+  ],
+  "sort": [
+    "@timestamp",
+    "desc"
+  ],
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "index": "logs-app-*",
+      "filter": [
+        {
+          "meta": {
+            "negate": false,
+            "index": "logs-app-*",
+            "key": "@source.type",
+            "value": "APP",
+            "disabled": false,
+            "alias": null
+          },
+          "query": {
+            "match": {
+              "@source.type": {
+                "query": "APP",
+                "type": "phrase"
+              }
+            }
+          },
+          "$state": {
+            "store": "appState"
+          }
+        },
+        {
+          "meta": {
+            "negate": false,
+            "index": "logs-app-*",
+            "key": "@level",
+            "value": "ERROR",
+            "disabled": false,
+            "alias": null
+          },
+          "query": {
+            "match": {
+              "@level": {
+                "query": "ERROR",
+                "type": "phrase"
+              }
+            }
+          },
+          "$state": {
+            "store": "appState"
+          }
+        }
+      ],
+      "highlight": {
+        "pre_tags": [
+          "@kibana-highlighted-field@"
+        ],
+        "post_tags": [
+          "@/kibana-highlighted-field@"
+        ],
+        "fields": {
+          "*": {
+            
+          }
+        },
+        "require_field_match": false,
+        "fragment_size": 2147483647
+      },
+      "query": {
+        "query_string": {
+          "query": "*",
+          "analyze_wildcard": true
+        }
+      }
+    }
+ENDOFFJSON
+%>"
+  }
+}

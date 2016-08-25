@@ -1,0 +1,80 @@
+<% require 'json' %>
+{
+  "title": "Platform Haproxy: request time duration (50th, 95th, 99th %tile; top 5)",
+  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "type": "line",
+      "params": {
+        "shareYAxis": true,
+        "addTooltip": true,
+        "addLegend": true,
+        "showCircles": true,
+        "smoothLines": false,
+        "interpolate": "linear",
+        "scale": "linear",
+        "drawLinesBetweenPoints": true,
+        "radiusRatio": 9,
+        "times": [],
+        "addTimeMarker": false,
+        "defaultYExtents": false,
+        "setYExtents": false,
+        "yAxis": {}
+      },
+      "aggs": [
+        {
+          "id": "1",
+          "type": "percentiles",
+          "schema": "metric",
+          "params": {
+            "field": "haproxy.time_duration",
+            "percents": [
+              50,
+              95,
+              99
+            ]
+          }
+        },
+        {
+          "id": "2",
+          "type": "date_histogram",
+          "schema": "segment",
+          "params": {
+            "field": "@timestamp",
+            "interval": "auto",
+            "customInterval": "2h",
+            "min_doc_count": 1,
+            "extended_bounds": {}
+          }
+        }
+      ],
+      "listeners": {}
+    }
+ENDOFFJSON
+%>",
+  "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "vis": {
+        "colors": {
+          "50th percentile of haproxy.time_duration": "#508642",
+          "95th percentile of haproxy.time_duration": "#0A50A1",
+          "99th percentile of haproxy.time_duration": "#BF1B00"
+        },
+        "legendOpen": false
+      }
+    }
+ENDOFFJSON
+%>",
+  "description": "",
+  "savedSearchId": "[platform]-Haproxy",
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "filter": [
+
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}

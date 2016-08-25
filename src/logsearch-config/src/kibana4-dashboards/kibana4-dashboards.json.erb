@@ -8,40 +8,18 @@ def render_upsert_queries(type)
     if 'index-pattern' == type
       # index-pattern usually contains '*' which is special character and can't be used in file name
       # so we set its 'id' from 'title' field instead
-      name = parsed_json["title"]
+      id = parsed_json["title"]
     else
-      name = File.basename(erb_file, ".json.erb")
+      id = File.basename(erb_file, ".json.erb")
     end
-    combined += "{\"delete\":{\"_index\":\".kibana\",\"_type\":\"#{type}\",\"_id\":\"#{name}\"}}\n"
-    combined += "{\"index\":{\"_index\":\".kibana\",\"_type\":\"#{type}\",\"_id\":\"#{name}\"}}\n"
+    combined += "{\"delete\":{\"_index\":\".kibana\",\"_type\":\"#{type}\",\"_id\":\"#{id}\"}}\n"
+    combined += "{\"index\":{\"_index\":\".kibana\",\"_type\":\"#{type}\",\"_id\":\"#{id}\"}}\n"
     combined += "#{parsed_json.to_json}\n"
   end
   combined.chomp
 end
 
-def render_delete_queries(type, names)
-    combined = ""
-    names.each do |name|
-        combined += "{\"delete\":{\"_index\":\".kibana\",\"_type\":\"#{type}\",\"_id\":\"#{name}\"}}\n"
-    end
-    combined.chomp
-end
 %>
-<%= render_delete_queries('dashboard', ['CF'\
-                                        ,'UAA-Audit'\
-                                        ,'Health-Monitor-Heartbeats'\
-                                        ,'Mysql-dashboard', 'Overview', 'RabbitMQ-dashboard', 'Redis-dashboard'\
-                                        ]) %>
-<%= render_delete_queries('search',    ['tags:cloudfoundryi'\
-                                        ,'UAA-Audit-*'\
-                                        ,'hm_agent_heartbeat'\
-                                        ,'AppEvent', 'metric'\
-                                        ]) %>
-<%= render_delete_queries('visualization', ['CF:-Jobs', 'CF:-Job-by-Log-Level', 'CF:-Log-Level-by-Job-by-Template'\
-                                            ,'UAA-Audit', 'UAA-Audit-audit_event_type','UAA-Audit-geoip-login'\
-                                            ,'hm_agent_hearbeat-jobs-and-job_state', 'hm_agent_heartbeat-job-load','hm_agent_heartbeat-vitals.mem.percent','hm_agent_hearbeat-disk-usage-percent'\
-                                            ,'hm_agent_hearbeat-non-running-jobs', 'hm_agent_hearbeat-vitals.cpu'\
-                                            ]) %>
 
 /* update index-pattern */
 <%= render_upsert_queries('index-pattern') %>
@@ -49,6 +27,11 @@ end
 /* update config */
 <%= render_upsert_queries('config') %>
 
+/* update search */
 <%= render_upsert_queries('search') %>
-<%= render_upsert_queries('dashboard') %>
+
+/* update visualizations */
 <%= render_upsert_queries('visualization') %>
+
+/* update dashboards */
+<%= render_upsert_queries('dashboard') %>
