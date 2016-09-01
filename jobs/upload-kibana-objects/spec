@@ -1,5 +1,5 @@
 ---
-name: upload-kibana-dashboards
+name: upload-kibana-objects
 packages:
 - logsearch-for-cloudfoundry-filters
 templates:

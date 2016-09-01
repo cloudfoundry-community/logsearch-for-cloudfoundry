@@ -3,7 +3,7 @@ require 'json'
 
 def render_upsert_queries(type)
   combined = ""
-  Dir.glob("src/kibana4-dashboards/#{type}/*.json.erb").each do |erb_file|
+  Dir.glob("src/kibana-objects/#{type}/*.json.erb").each do |erb_file|
     parsed_json = JSON.parse(ERB.new(File.read(erb_file)).result(binding))
     if 'index-pattern' == type
       # index-pattern usually contains '*' which is special character and can't be used in file name
@@ -21,7 +21,7 @@ end
 
 %>
 
-/* update index-pattern */
+
 <%= render_upsert_queries('index-pattern') %>
 
 /* update config */

@@ -47,12 +47,12 @@ jobs:
   networks:
   - name: default
 
-- name: upload-kibana-dashboards
+- name: upload-kibana-objects
   lifecycle: errand
   release: logsearch-for-cloudfoundry
   instances: 1
   templates:
-  - {name: upload-kibana-dashboards, release: logsearch-for-cloudfoundry}
+  - {name: upload-kibana-objects, release: logsearch-for-cloudfoundry}
   networks:
   - name: default
   resource_pool: errand
