@@ -6,12 +6,12 @@ task :clean do
   rm_rf "target/*"
 end
 
-desc "Builds filters & dashboards"
+desc "Builds Logstash filters, Elasticsearch mappings & Kibana objects"
 task :build => :clean do
   puts "===> Building ..."
   compile_erb 'src/logstash-filters/default.conf.erb', 'target/logstash-filters-default.conf'
   compile_erb 'src/es-mappings/logs-template.json.erb', 'target/logs-template.json'
-  compile_erb 'src/kibana4-dashboards/kibana4-dashboards.json.erb', 'target/kibana4-dashboards.json'
+  compile_erb 'src/kibana-objects/kibana-objects-bulk-json.erb', 'target/kibana-objects-bulk-json'
 
   puts "===> Artifacts:"
   puts `find target`
@@ -33,7 +33,7 @@ end
 
 desc "Runs JSON validation tests"
 task :json, [:json_files] => :build do |t, args|
-  args.with_defaults(:json_files => "$(find target -name *.json ! -name kibana4-dashboards.json)")
+  args.with_defaults(:json_files => "$(find target -name *.json)")
   puts "===> Validating JSON data ..."
   sh %Q[ jsonlint #{args[:json_files]} ]
 end

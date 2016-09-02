@@ -1,0 +1,34 @@
+<% require 'json' %>
+{
+  "title": "App links",
+  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "title": "App links",
+      "type": "markdown",
+      "params": {
+        "markdown": "Find the logs you are interested in, then analyse: [performance](#/dashboard/App-Performance) | [errors](#/dashboard/App-Errors) | [logs](#/dashboard/App-Logs) | [location](#/dashboard/App-Location). If you are subscribed to *ContainerMetric* events you can also visit [metrics](#/dashboard/App-Metrics) dashboard."
+      },
+      "aggs": [],
+      "listeners": {}
+    }
+ENDOFFJSON
+%>",
+  "description": "",
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "query": {
+        "query_string": {
+          "query": "*",
+          "analyze_wildcard": true
+        }
+      },
+      "filter": [
+
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}

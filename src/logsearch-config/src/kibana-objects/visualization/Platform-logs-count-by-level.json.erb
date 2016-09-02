@@ -1,0 +1,55 @@
+<% require 'json' %>
+{
+  "title": "Platform: logs count by level",
+  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "type": "histogram",
+      "params": {
+        "shareYAxis": true,
+        "addTooltip": true,
+        "addLegend": true,
+        "scale": "linear",
+        "mode": "stacked",
+        "times": [],
+        "addTimeMarker": false,
+        "defaultYExtents": false,
+        "setYExtents": false,
+        "yAxis": {}
+      },
+      "aggs": [
+        {
+          "id": "1",
+          "type": "count",
+          "schema": "metric",
+          "params": {}
+        },
+        {
+          "id": "2",
+          "type": "terms",
+          "schema": "segment",
+          "params": {
+            "field": "@level.raw",
+            "size": 100000,
+            "order": "desc",
+            "orderBy": "1"
+          }
+        }
+      ],
+      "listeners": {}
+    }
+ENDOFFJSON
+%>",
+  "description": "",
+  "savedSearchId": "[platform]-All",
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "filter": [
+
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}

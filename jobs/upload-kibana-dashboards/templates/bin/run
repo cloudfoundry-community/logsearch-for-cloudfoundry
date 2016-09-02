@@ -1,6 +1,0 @@
-#!/bin/bash
-
-set -x
-
-# Upload Kibana dashboards
-cat /var/vcap/packages/logsearch-for-cloudfoundry-filters/kibana4-dashboards.json | curl --data-binary @- http://<%= p('elasticsearch.host') %>:<%= p('elasticsearch.port') %>/_bulk

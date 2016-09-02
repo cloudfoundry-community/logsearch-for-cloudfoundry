@@ -89,28 +89,28 @@ describe "Platform IT" do
         # haproxy fields
         it "sets [haproxy] fields from grok" do
           expect(subject["haproxy"]["client_ip"]).to eq "64.78.155.208"
-          expect(subject["haproxy"]["client_port"]).to eq "60677"
+          expect(subject["haproxy"]["client_port"]).to eq 60677
           expect(subject["haproxy"]["accept_date"]).to eq "06/Jul/2016:13:59:57.770"
           expect(subject["haproxy"]["frontend_name"]).to eq "https-in~"
           expect(subject["haproxy"]["backend_name"]).to eq "http-routers"
           expect(subject["haproxy"]["server_name"]).to eq "node0"
-          expect(subject["haproxy"]["time_request"]).to eq "59841"
-          expect(subject["haproxy"]["time_queue"]).to eq "0"
-          expect(subject["haproxy"]["time_backend_connect"]).to eq "0"
-          expect(subject["haproxy"]["time_backend_response"]).to eq "157"
-          expect(subject["haproxy"]["time_duration"]).to eq "60000"
+          expect(subject["haproxy"]["time_request"]).to eq 59841
+          expect(subject["haproxy"]["time_queue"]).to eq 0
+          expect(subject["haproxy"]["time_backend_connect"]).to eq 0
+          expect(subject["haproxy"]["time_backend_response"]).to eq 157
+          expect(subject["haproxy"]["time_duration"]).to eq 60000
           expect(subject["haproxy"]["http_status_code"]).to eq 200
-          expect(subject["haproxy"]["bytes_read"]).to eq "144206"
+          expect(subject["haproxy"]["bytes_read"]).to eq 144206
           expect(subject["haproxy"]["captured_request_cookie"]).to eq "reqC"
           expect(subject["haproxy"]["captured_response_cookie"]).to eq "respC"
           expect(subject["haproxy"]["termination_state"]).to eq "----"
-          expect(subject["haproxy"]["actconn"]).to eq "3"
-          expect(subject["haproxy"]["feconn"]).to eq "4"
-          expect(subject["haproxy"]["beconn"]).to eq "1"
-          expect(subject["haproxy"]["srvconn"]).to eq "2"
-          expect(subject["haproxy"]["retries"]).to eq "0"
-          expect(subject["haproxy"]["srv_queue"]).to eq "5"
-          expect(subject["haproxy"]["backend_queue"]).to eq "6"
+          expect(subject["haproxy"]["actconn"]).to eq 3
+          expect(subject["haproxy"]["feconn"]).to eq 4
+          expect(subject["haproxy"]["beconn"]).to eq 1
+          expect(subject["haproxy"]["srvconn"]).to eq 2
+          expect(subject["haproxy"]["retries"]).to eq 0
+          expect(subject["haproxy"]["srv_queue"]).to eq 5
+          expect(subject["haproxy"]["backend_queue"]).to eq 6
           expect(subject["haproxy"]["captured_request_headers"]).to eq "reqHeaders"
           expect(subject["haproxy"]["captured_response_headers"]).to eq "respHeaders"
           expect(subject["haproxy"]["http_request"]).to eq "GET /v2/apps?inline-relations-depth=2 HTTP/1.1"
