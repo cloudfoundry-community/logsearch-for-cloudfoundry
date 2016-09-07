@@ -6,6 +6,18 @@ var uuid = require('uuid');
 
 module.exports = function (kibana) {
   return new kibana.Plugin({
+  
+  uiExports: {
+    app: {
+      title: 'User',
+      main: 'plugins/authentication/user',
+      icon: 'plugins/authentication/user_icon.png',
+
+      autoload: [].concat(kibana.autoload.styles, 'ui/chrome', 'angular')
+    }
+
+  },
+  
   /*
   This will set the name of the plugin and will be used by the server for
   namespacing purposes in the configuration. In Hapi you can expose methods and
