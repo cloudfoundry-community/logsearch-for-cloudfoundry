@@ -1,10 +1,10 @@
 {
   "name": "authentication",
-  "version": "0.6.0",
-  "description": "Integrations Kibana into CF's OAuth 2 authentication mechanism",
+  "version": "0.7.0",
+  "description": "Integrations Kibana into CF's OAuth 2 authentication mechanism + User page in Kibana",
   "repository": {
     "type": "git",
-    "url": "http://guthub.com/stayup/kibana-cf_authentication.git"
+    "url": "https://github.com/cloudfoundry-community/logsearch-for-cloudfoundry.git"
   },
   "dependencies": {
     "bell": "5.4.0",
