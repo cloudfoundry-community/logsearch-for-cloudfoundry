@@ -23,6 +23,9 @@ properties:
     default: kibana_oauth2_client
   cf-kibana.oauth2_client_secret:
     description: "The UAA kibana oauth2 client id's secret"
+  cf-kibana.use_existing_client:
+    description: "Set true to use existing UAA client for Kibana"
+    default: false
   cf-kibana.logsearch_space:
     description: "Space where Kibana will be deployed"
     default: logsearch

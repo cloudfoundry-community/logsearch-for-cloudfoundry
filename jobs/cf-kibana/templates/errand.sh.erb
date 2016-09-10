@@ -22,7 +22,9 @@ cf api --skip-ssl-validation <%= p("cloudfoundry.api_endpoint") %>
 cf api <%= p("cloudfoundry.api_endpoint") %>
 <% end %>
 
+set +x
 cf auth <%= p("cloudfoundry.firehose_user") %> <%= p("cloudfoundry.firehose_password") %>
+set -x
 cf create-org <%= p("cf-kibana.system_org") %> || true
 cf target -o <%= p("cf-kibana.system_org") %>
 cf create-space <%= p("cf-kibana.logsearch_space") %> -o <%= p("cf-kibana.system_org") %> || true
@@ -31,6 +33,10 @@ cf create-security-group logsearch-access /var/vcap/jobs/cf-kibana/config/allow-
 cf bind-security-group logsearch-access <%= p("cf-kibana.system_org") %> <%= p("cf-kibana.logsearch_space") %>
 cf bind-security-group <%= p("cf-kibana.api_security_group") %> <%= p("cf-kibana.system_org") %> <%= p("cf-kibana.logsearch_space") %>
 
+<% if p("cf-kibana.use_existing_client") == true %>
+echo "Continiue with the existing UAA client: <%= p("cf-kibana.oauth2_client_id") %>"
+<% else %>
+set +x
 # Create UAA client
 ACCESS_TOKEN=$(\
 curl -s -D - -k \
@@ -73,6 +79,7 @@ echo "Creating new OAuth2 client: <%= p("cf-kibana.oauth2_client_id") %>"
   "redirect-uri": "https://<%= p("cf-kibana.app_name") %>.<%= p("cf-kibana.system_domain") %>/login"
 }' \
 -X POST https://uaa.<%= p("cf-kibana.system_domain") %>/oauth/clients
+<% end %>
 
 cf push
 
