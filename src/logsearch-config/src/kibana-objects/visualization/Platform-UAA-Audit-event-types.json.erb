@@ -1,6 +1,6 @@
 <% require 'json' %>
 {
-  "title": "Platform UAA: event types",
+  "title": "Platform UAA Audit: event types",
   "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
       "type": "table",
@@ -22,7 +22,7 @@
           "type": "terms",
           "schema": "bucket",
           "params": {
-            "field": "uaa.type",
+            "field": "uaa.audit.type",
             "size": 10,
             "order": "asc",
             "orderBy": "_term"
@@ -35,7 +35,7 @@
 ENDOFFJSON
 %>",
   "description": "",
-  "savedSearchId": "[platform]-UAA",
+  "savedSearchId": "[platform]-UAA-Audit",
   "version": 1,
   "kibanaSavedObjectMeta": {
     "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }

@@ -1,13 +1,13 @@
 <% require 'json' %>
 {
-  "title": "[platform] UAA",
+  "title": "[platform] UAA Audit",
   "description": "",
   "hits": 0,
   "columns": [
     "@source.name",
-    "uaa.type",
-    "uaa.origin",
-    "uaa.data"
+    "uaa.audit.type",
+    "uaa.audit.origin",
+    "uaa.audit.data"
   ],
   "sort": [
     "@timestamp",
@@ -32,6 +32,27 @@
             "match": {
               "@source.component": {
                 "query": "uaa",
+                "type": "phrase"
+              }
+            }
+          },
+          "$state": {
+            "store": "appState"
+          }
+        },
+        {
+          "meta": {
+            "negate": false,
+            "index": "logs-platform-*",
+            "key": "uaa.log_category",
+            "value": "Audit",
+            "disabled": false,
+            "alias": null
+          },
+          "query": {
+            "match": {
+              "uaa.log_category": {
+                "query": "Audit",
                 "type": "phrase"
               }
             }

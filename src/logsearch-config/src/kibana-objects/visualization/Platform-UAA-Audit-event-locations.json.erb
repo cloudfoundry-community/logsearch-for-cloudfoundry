@@ -1,6 +1,6 @@
 <% require 'json' %>
 {
-  "title": "Platform UAA: event locations",
+  "title": "Platform UAA Audit: event locations",
   "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
     {
       "type": "tile_map",
@@ -51,7 +51,7 @@
 ENDOFFJSON
 %>",
   "description": "",
-  "savedSearchId": "[platform]-UAA",
+  "savedSearchId": "[platform]-UAA-Audit",
   "version": 1,
   "kibanaSavedObjectMeta": {
     "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }

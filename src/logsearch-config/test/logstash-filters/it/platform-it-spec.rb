@@ -123,7 +123,7 @@ describe "Platform IT" do
     context "uaa" do
       message_payload = MessagePayloadBuilder.new
                             .job("uaa_z0")
-                            .message_text('[2016-07-05 04:02:18.245] uaa - 15178 [http-bio-8080-exec-14] ....  INFO --- Audit: ClientAuthenticationSuccess (\'Client authentication success\'): principal=cf, origin=[remoteAddress=64.78.155.208, clientId=cf], identityZoneId=[uaa]')
+                            .message_text('[2016-07-05 04:02:18.245] uaa - 15178 [http-bio-8080-exec-14] ....  DEBUG --- FilterChainProxy: /healthz has an empty filter list')
                             .build()
       sample_event = platform_event_dummy.clone
       sample_event["@message"] = construct_platform_message(message_payload)
@@ -133,19 +133,47 @@ describe "Platform IT" do
 
         verify_platform_cf_fields("vcap.uaa_relp", "uaa", "uaa_z0",
                       "uaa", ["platform", "cf", "uaa"],
-                      "ClientAuthenticationSuccess ('Client authentication success')", "INFO")
+                      "/healthz has an empty filter list", "DEBUG")
 
-        # uaa fields
         it "sets [uaa] fields" do
-          expect(subject["uaa"]["pid"]).to eq 15178
-          expect(subject["uaa"]["thread_name"]).to eq "http-bio-8080-exec-14"
           expect(subject["uaa"]["timestamp"]).to eq "2016-07-05 04:02:18.245"
-          expect(subject["uaa"]["type"]).to eq "ClientAuthenticationSuccess"
-          expect(subject["uaa"]["remote_address"]).to eq "64.78.155.208"
-          expect(subject["uaa"]["data"]).to eq "Client authentication success"
-          expect(subject["uaa"]["principal"]).to eq "cf"
-          expect(subject["uaa"]["origin"]).to eq ["remoteAddress=64.78.155.208", "clientId=cf"]
-          expect(subject["uaa"]["identity_zone_id"]).to eq "uaa"
+          expect(subject["uaa"]["thread"]).to eq "http-bio-8080-exec-14"
+          expect(subject["uaa"]["pid"]).to eq 15178
+          expect(subject["uaa"]["log_category"]).to eq "FilterChainProxy"
+        end
+
+      end
+    end
+
+    context "uaa (Audit)" do
+      message_payload = MessagePayloadBuilder.new
+                            .job("uaa_z0")
+                            .message_text('[2016-07-05 04:02:18.245] uaa - 15178 [http-bio-8080-exec-14] ....  INFO --- Audit: ClientAuthenticationSuccess (\'Client authentication success\'): principal=cf, origin=[remoteAddress=64.78.155.208, clientId=cf], identityZoneId=[uaa]')
+                            .build()
+      sample_event = platform_event_dummy.clone
+      sample_event["@message"] = construct_platform_message(message_payload)
+      sample_event["syslog_program"] = "vcap.uaa" # uaa
+
+      when_parsing_log(sample_event) do
+
+        verify_platform_cf_fields("vcap.uaa_relp", "uaa", "uaa_z0",
+                                  "uaa-audit", ["platform", "cf", "uaa", "audit"],
+                                  "ClientAuthenticationSuccess ('Client authentication success')", "INFO")
+
+        it "sets [uaa] fields" do
+          expect(subject["uaa"]["timestamp"]).to eq "2016-07-05 04:02:18.245"
+          expect(subject["uaa"]["thread"]).to eq "http-bio-8080-exec-14"
+          expect(subject["uaa"]["pid"]).to eq 15178
+          expect(subject["uaa"]["log_category"]).to eq "Audit"
+        end
+
+        it "sets [uaa][audit] fields" do
+          expect(subject["uaa"]["audit"]["type"]).to eq "ClientAuthenticationSuccess"
+          expect(subject["uaa"]["audit"]["data"]).to eq "Client authentication success"
+          expect(subject["uaa"]["audit"]["principal"]).to eq "cf"
+          expect(subject["uaa"]["audit"]["origin"]).to eq ["remoteAddress=64.78.155.208", "clientId=cf"]
+          expect(subject["uaa"]["audit"]["identity_zone_id"]).to eq "uaa"
+          expect(subject["uaa"]["audit"]["remote_address"]).to eq "64.78.155.208"
         end
 
         it "sets geoip for remoteAddress" do
