@@ -130,4 +130,63 @@ describe "platform-vcap.conf" do
 
   end
 
+  describe "#level translate numeric" do
+
+    context "(DEBUG)" do
+      when_parsing_log(
+          "@source" => {"component" => "vcap.dummy"},
+          "@message" => "{\"log_level\":0}"
+      ) do
+
+        it { expect(subject["@level"]).to eq "DEBUG" } # translated
+
+      end
+    end
+
+    context "(INFO)" do
+      when_parsing_log(
+          "@source" => {"component" => "vcap.dummy"},
+          "@message" => "{\"log_level\":1}"
+      ) do
+
+        it { expect(subject["@level"]).to eq "INFO" } # translated
+
+      end
+    end
+
+    context "(ERROR)" do
+      when_parsing_log(
+          "@source" => {"component" => "vcap.dummy"},
+          "@message" => "{\"log_level\":2}"
+      ) do
+
+        it { expect(subject["@level"]).to eq "ERROR" } # translated
+
+      end
+    end
+
+    context "(FATAL)" do
+      when_parsing_log(
+          "@source" => {"component" => "vcap.dummy"},
+          "@message" => "{\"log_level\":3}"
+      ) do
+
+        it { expect(subject["@level"]).to eq "FATAL" } # translated
+
+      end
+    end
+
+    context "(fallback)" do
+      when_parsing_log(
+          "@source" => {"component" => "vcap.dummy"},
+          "@message" => "{\"log_level\":8}" # unknown log level
+      ) do
+
+        it { expect(subject["@level"]).to eq "8" } # just converted to string
+
+      end
+    end
+
+  end
+
 end
