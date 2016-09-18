@@ -83,3 +83,5 @@ logging.quiet: <%= p("cf-kibana.logging_quiet") %>
 # Set the value of this setting to true to log all events, including system usage information
 # and all requests.
 # logging.verbose: true
+
+<% if_p('cf-kibana.config_options') do | v | %><%= v %><% end %>

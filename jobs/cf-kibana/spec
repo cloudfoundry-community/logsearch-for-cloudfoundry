@@ -63,6 +63,12 @@ properties:
   cf-kibana.shard_timeout:
     description: "Time in milliseconds for Elasticsearch to wait for responses from shards. Set to 0 to disable"
     default: 30000
+  cf-kibana.plugins:
+    description: "a list of key-value pairs of plugins. e.g. Kibana-auth: /var/vcap/packagaes/kibana/kibana-auth"
+    default: []
+  cf-kibana.config_options:
+    description: "Additional options to append to kibana configuration (YAML format)."
+    default: ~
 
   cloudfoundry.api_endpoint:
     description: "The CF API URL"
