@@ -56,6 +56,7 @@ case $1 in
         --syslog-protocol=<%= p("syslog.protocol") %>\
         --syslog-server=<%= p("syslog.host") %>:<%= p("syslog.port") %>\
         --events=<%= p("cloudfoundry.firehose_events") %> \
+        --subscription-id=<%= p("cloudfoundry.firehose_subscription_id") %> \
         --boltdb-path=$TMP_DIR/firehose-to-syslog.cache.db \
         --cc-pull-time=60s \<% if p("ingestor_cloudfoundry-firehose.debug") %>
         --debug \<% end%>
