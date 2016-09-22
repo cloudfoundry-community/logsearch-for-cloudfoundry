@@ -13,6 +13,16 @@ cp -R /var/vcap/packages/cf-kibana/. $WORKDIR/kibana
 cp /var/vcap/jobs/cf-kibana/config/manifest.yml $WORKDIR/kibana/manifest.yml
 cp /var/vcap/jobs/cf-kibana/config/kibana.yml $WORKDIR/kibana/config/kibana.yml
 
+<% p("cf-kibana.plugins").each do |plugin| name, path = plugin.first %>
+  <% if path.start_with? '/var/vcap' %>
+    $WORKDIR/kibana/bin/kibana plugin --install "<%= name %>" --url "file://<%= path %>"
+  <% elsif path.start_with? 'http' %>
+    $WORKDIR/kibana/bin/kibana plugin --install "<%= name %>" --url "<%= path %>"
+  <% else %>
+    $WORKDIR/kibana/bin/kibana plugin --install "<%= path %>"
+  <% end %>
+<% end %>
+
 cd $WORKDIR/kibana
 
 cf --version
