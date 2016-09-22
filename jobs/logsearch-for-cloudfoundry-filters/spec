@@ -1,8 +1,16 @@
 ---
 name: logsearch-for-cloudfoundry-filters
-templates: {}
 
 packages:
 - logsearch-for-cloudfoundry-filters
 
-properties: {}
+templates:
+  deployment_lookup.yml.erb: config/deployment_lookup.yml
+
+properties:
+  logstash_parser.deployment_name.cf:
+    description: "Name of Cloud Foundry cf deployment. CF jobs are mapped to this value in deployment_lookup.yml dictionary file."
+    default: cloudfoundry-cf
+  logstash_parser.deployment_name.diego:
+    description: "Name of Cloud Foundry diego deployment (if there is one). Diego jobs are mapped to this value in deployment_lookup.yml dictionary file."
+    default: cloudfoundry-diego
