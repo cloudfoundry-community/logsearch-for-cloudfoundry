@@ -85,5 +85,7 @@ jobs:
       - CF_API_URI: https://api.sys.cf.example
       - CF_SYSTEM_ORG: system # Org Managers of this org get admin access
       - REDIS_HOST: my_redis_host # Redis host to use for sessions
+      - SESSION_EXPIRATION_MS: 43200000
+      - NODE_ENV: production
       plugins:
       - auth: /var/vcap/packages/kibana-auth-plugin/kibana-auth-plugin.tar.gz
