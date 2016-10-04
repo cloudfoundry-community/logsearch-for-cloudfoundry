@@ -19,11 +19,11 @@ ruby-2.3/rubygems-2.6.4.tgz:
   object_id: 40690581-ce13-473c-9cc5-3a459e67be3b
   sha: 8ef39e536af2ecd20b0e7a95765fa6a485087ac8
   size: 478582
-cf-cli/cf-cli_6.21.0_linux_x86-64.tgz:
-  object_id: 85cfdd26-20b8-4aef-a236-16d027008f00
-  sha: 2797ad41eabfec00cadd55164a5dec5d48024f9b
-  size: 6542009
 golang/go1.7.1.linux-amd64.tar.gz:
   object_id: ab13a3b9-3771-42d6-861a-0f52e9ab19d4
   sha: 919ab01305ada0078a9fdf8a12bb56fb0b8a1444
   size: 81618401
+cf-cli/cf-cli_6.22.1_linux_x86-64.tgz:
+  object_id: bdccb8e0-d2e6-4db0-a2ee-37250d807296
+  sha: 44b44aacd6204e9ff762da21fcbcff91e13c7a44
+  size: 6393823
