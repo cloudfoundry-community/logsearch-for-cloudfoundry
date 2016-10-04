@@ -5,4 +5,4 @@ dependencies:
   - golang
 
 files:
-  - firehose-to-syslog/**/*
+  - github.com/cloudfoundry-community/firehose-to-syslog/**/*
