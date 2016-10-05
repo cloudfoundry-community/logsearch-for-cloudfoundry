@@ -31,6 +31,10 @@ jobs:
       elasticsearch_index_type: "%{@type}"
       filters:
       - logsearch-for-cf: /var/vcap/packages/logsearch-for-cloudfoundry-filters/logstash-filters-default.conf
+      deployment_dictionary: /var/vcap/jobs/logsearch-for-cloudfoundry-filters/config/deployment_lookup.yml
+      deployment_name:
+        cf: cf
+        diego: cf-diego
 
 - name: maintenance
   templates:
