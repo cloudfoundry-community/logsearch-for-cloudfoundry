@@ -3,4 +3,6 @@
 set -x
 
 # Upload Kibana objects
-cat /var/vcap/packages/logsearch-for-cloudfoundry-filters/kibana-objects-bulk-json | curl --data-binary @- http://<%= p('elasticsearch.host') %>:<%= p('elasticsearch.port') %>/_bulk
+<% p("kibana_objects.upload_data_files").each do |object| %>
+cat <%= object %> | curl --data-binary @- http://<%= p('elasticsearch.host') %>:<%= p('elasticsearch.port') %>/_bulk
+<% end %>

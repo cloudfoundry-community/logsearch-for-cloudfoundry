@@ -75,6 +75,9 @@ jobs:
     elasticsearch:
       host: (( grab jobs.elasticsearch_master.networks.default.static_ips.[0] ))
       port: 9200
+    kibana_objects:
+      upload_data_files:
+        - /var/vcap/packages/logsearch-for-cloudfoundry-filters/kibana-objects-bulk-json
 
 - name: kibana
   templates:
