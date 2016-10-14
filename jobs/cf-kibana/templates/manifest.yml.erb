@@ -4,7 +4,7 @@ applications:
   memory: <%= p('cf-kibana.app_memory')%>
   instances: <%= p('cf-kibana.app_instances')%>
   domain: <%= p('cf-kibana.apps_domain')%>
-  buildpack: https://github.com/cloudfoundry/binary-buildpack.git
+  buildpack: binary_buildpack
   command: bash -c "\$HOME/bin/kibana --port \$PORT & pid=\$!; while true; do [ \$(ps uh \$pid | awk '{print \$6}') -gt 300000 ] && { echo memory limit reached, recycling instance; exit 1; }; sleep 1; done"
   timeout: 180
   env:
