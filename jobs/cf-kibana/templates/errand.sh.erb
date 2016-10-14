@@ -86,7 +86,7 @@ echo "Creating new OAuth2 client: <%= p("cf-kibana.oauth2_client_id") %>"
   "resource_ids" : ["none"],
   "authorized_grant_types" : ["authorization_code", "refresh_token"],
   "access_token_validity": 43200,
-  "redirect-uri": "https://<%= p("cf-kibana.app_name") %>.<%= p("cf-kibana.system_domain") %>/login"
+  "redirect_uri": "https://<%= p("cf-kibana.app_name") %>.<%= p("cf-kibana.system_domain") %>/login"
 }' \
 -X POST https://uaa.<%= p("cf-kibana.system_domain") %>/oauth/clients
 <% end %>

@@ -44,7 +44,7 @@ echo "Creating new OAuth2 client: <%= p('create-uaa-client.oauth2_client_id') %>
   "resource_ids" : ["none"],
   "authorized_grant_types" : ["authorization_code", "refresh_token"],
   "access_token_validity": 43200,
-  "redirect-uri": "https://<%= p('create-uaa-client.app_name') %>.<%= p('create-uaa-client.cloudfoundry.system_domain') %>/login"
+  "redirect_uri": "https://<%= p('create-uaa-client.app_name') %>.<%= p('create-uaa-client.cloudfoundry.system_domain') %>/login"
 }' \
 -X POST https://uaa.<%= p('create-uaa-client.cloudfoundry.system_domain') %>/oauth/clients
 
