@@ -96,7 +96,7 @@ module.exports = function (kibana) {
   */
   init: function (server, options) {
     var config = server.config();
-    var isSecure = process.env.NODE_ENV !== 'development';
+    var isSecure = (process.env.USE_HTTPS) ? process.env.USE_HTTPS : true;
 
     server.log(['debug', 'authentication'], JSON.stringify(config.get('authentication')));
 

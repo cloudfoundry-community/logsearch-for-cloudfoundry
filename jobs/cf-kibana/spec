@@ -69,6 +69,9 @@ properties:
   cf-kibana.config_options:
     description: "Additional options to append to kibana configuration (YAML format)."
     default: ~
+  cf-kibana.use_https:
+    description: "A boolean indicating whether or not you want the redirect_uri to be forced to https"
+    default: true
 
   cloudfoundry.api_endpoint:
     description: "The CF API URL"

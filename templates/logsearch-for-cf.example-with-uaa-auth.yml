@@ -94,5 +94,6 @@ jobs:
       - REDIS_HOST: my_redis_host # Redis host to use for sessions
       - SESSION_EXPIRATION_MS: 43200000
       - NODE_ENV: production
+      - USE_HTTPS: false
       plugins:
       - auth: /var/vcap/packages/kibana-auth-plugin/kibana-auth-plugin.tar.gz

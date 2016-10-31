@@ -9,6 +9,7 @@ applications:
   timeout: 180
   env:
     NODE_ENV: production
+    USE_HTTPS: <%= p('cf-kibana.use_https')%>
     KIBANA_OAUTH2_CLIENT_ID: "<%= p('cf-kibana.oauth2_client_id')%>"
     KIBANA_OAUTH2_CLIENT_SECRET: "<%= p('cf-kibana.oauth2_client_secret')%>"
     CF_API_URI: "https://api.<%= p('cf-kibana.system_domain')%>"
