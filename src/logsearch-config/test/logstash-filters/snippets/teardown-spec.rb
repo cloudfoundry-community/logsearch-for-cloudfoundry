@@ -85,7 +85,7 @@ describe "teardown.conf" do
       when_parsing_log(
           "@source" => {"job" => "Abc"}
       ) do
-        it { expect(subject["@source"]["name"]).to be_nil }
+        it { expect(subject["@source"]["name"]).to eq "Abc" }
       end
     end
 
