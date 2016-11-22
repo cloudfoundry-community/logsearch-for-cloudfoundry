@@ -11,6 +11,7 @@ jobs:
   - {name: ingestor_cloudfoundry-firehose, release: logsearch-for-cloudfoundry}
   properties:
     cloudfoundry:
+      firehose_events: "Error,ContainerMetric,HttpStart,HttpStop,HttpStartStop,LogMessage,ValueMetric,CounterEvent"
       api_endpoint: https://api.sys.cf.example
       doppler_endpoint: wss://doppler.sys.cf.example
       firehose_user: admin
@@ -77,7 +78,7 @@ jobs:
       port: 9200
     kibana_objects:
       upload_data_files:
-        - /var/vcap/packages/logsearch-for-cloudfoundry-filters/kibana-objects-bulk-json
+      - /var/vcap/packages/logsearch-for-cloudfoundry-filters/kibana-objects-bulk-json
 
 - name: kibana
   templates:

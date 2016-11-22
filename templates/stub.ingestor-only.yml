@@ -14,6 +14,7 @@ jobs:
 
 properties:
   cloudfoundry:
+    firehose_events: "Error,ContainerMetric,HttpStart,HttpStop,HttpStartStop,LogMessage,ValueMetric,CounterEvent"
     firehose_password: admin
     firehose_port: 443
     firehose_user: admin

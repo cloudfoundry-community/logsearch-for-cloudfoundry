@@ -8,6 +8,9 @@ jobs:
   templates:
   - (( merge ))
   - {name: ingestor_cloudfoundry-firehose, release: logsearch-for-cloudfoundry}
+  properties:
+    cloudfoundry:
+      firehose_events: "Error,ContainerMetric,HttpStart,HttpStop,HttpStartStop,LogMessage,ValueMetric,CounterEvent"
 
 - name: parser
   templates:
