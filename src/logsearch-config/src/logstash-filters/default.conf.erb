@@ -8,6 +8,7 @@
 <%= File.read('src/logstash-filters/snippets/setup.conf') %>
 
 ##-- App
+# (App snippet should precede all other app snippets)
 <%= File.read('src/logstash-filters/snippets/app.conf') %>
 # special cases parsing
 <%= File.read('src/logstash-filters/snippets/app-logmessage.conf') %>
@@ -20,6 +21,7 @@
 <%= File.read('src/logstash-filters/snippets/app-http.conf') %>
 
 ##-- Platform
+# (Platform snippet should precede all other platform snippets)
 <%= File.read('src/logstash-filters/snippets/platform.conf') %>
 # special cases parsing
 <%= File.read('src/logstash-filters/snippets/platform-haproxy.conf') %>
