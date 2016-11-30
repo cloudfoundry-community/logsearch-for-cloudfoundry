@@ -1,6 +1,6 @@
 # encoding: utf-8
 class MessagePayload
-  attr_accessor :job, :message_text
+  attr_accessor :deployment, :job, :message_text
 end
 
 class MessagePayloadBuilder
@@ -19,6 +19,11 @@ class MessagePayloadBuilder
     self
   end
 
+  def deployment(deployment)
+    @message_payload.deployment = deployment
+    self
+  end
+
   def message_text(message_text)
     @message_payload.message_text = message_text
     self
@@ -26,13 +31,47 @@ class MessagePayloadBuilder
 
 end
 
-def construct_platform_message (message_payload)
+def construct_cf_message__metronagent_format (message_payload)
   '[job='+ message_payload.job + ' index=5]  ' + message_payload.message_text
 end
 
+def construct_cf_message__syslogrelease_format (message_payload)
+  '[bosh instance='+ message_payload.deployment + '/' + message_payload.job + '/abc123]  ' + message_payload.message_text
+end
 
+def verify_platform_cf_fields__metronagent_format (expected_shipper, expected_component,
+                               expected_job, expected_type, expected_tags,
+                               expected_message, expected_level)
+
+  verify_platform_cf_fields(expected_shipper, expected_component,
+                            expected_type, expected_tags,
+                            expected_message, expected_level)
+
+  # metron agent format-specific fields
+  it { expect(subject["@source"]["deployment"]).to be_nil }
+  it { expect(subject["@source"]["job"]).to eq expected_job }
+  it { expect(subject["@source"]["instance"]).to eq 5 }
+  it { expect(subject["@source"]["name"]).to eq expected_job + '/5' }
+end
+
+def verify_platform_cf_fields__syslogrelease_format (expected_shipper, expected_component,
+                                                   expected_deployment, expected_job, expected_type, expected_tags,
+                                                   expected_message, expected_level)
+
+  verify_platform_cf_fields(expected_shipper, expected_component,
+                            expected_type, expected_tags,
+                            expected_message, expected_level)
+
+  # syslog release format-specific fields
+  it { expect(subject["@source"]["deployment"]).to eq expected_deployment }
+  it { expect(subject["@source"]["job"]).to eq expected_job }
+  it { expect(subject["@source"]["instance"]).to be_nil }
+  it { expect(subject["@source"]["name"]).to eq expected_job }
+end
+
+# -- Helper methods --
 def verify_platform_cf_fields (expected_shipper, expected_component,
-                                    expected_job, expected_type, expected_tags,
+                                    expected_type, expected_tags,
                                     expected_message, expected_level)
 
   verify_platform_fields(expected_shipper, expected_component, expected_type, expected_tags,
@@ -40,9 +79,6 @@ def verify_platform_cf_fields (expected_shipper, expected_component,
 
   # verify CF format parsing
   it { expect(subject["tags"]).not_to include "fail/cloudfoundry/platform/grok" }
-  it { expect(subject["@source"]["job"]).to eq expected_job }
-  it { expect(subject["@source"]["instance"]).to eq 5 }
-  it { expect(subject["@source"]["name"]).to eq expected_job + "/5" }
   it { expect(subject["@source"]["type"]).to eq "cf" }
 end
 

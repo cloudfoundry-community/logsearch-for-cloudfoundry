@@ -20,7 +20,7 @@ describe "Platform IT" do
                      "syslog_program" => "Dummy program",
                      "@message" => "Dummy message"}
 
-  describe "when CF and format is" do
+  describe "when CF (metron agent) and format is" do
 
     context "vcap (plain text)" do
 
@@ -29,12 +29,12 @@ describe "Platform IT" do
           .message_text('Some vcap plain text message') # plain text message
           .build()
       sample_event = platform_event_dummy.clone
-      sample_event["@message"] = construct_platform_message(message_payload)
+      sample_event["@message"] = construct_cf_message__metronagent_format(message_payload)
       sample_event["syslog_program"] = "vcap.consul-agent" # vcap
 
       when_parsing_log(sample_event) do
 
-        verify_platform_cf_fields("vcap.consul-agent_relp", "consul-agent", "nfs_z1",
+        verify_platform_cf_fields__metronagent_format("vcap.consul-agent_relp", "consul-agent", "nfs_z1",
           "vcap", ["platform", "cf", "vcap"], "Some vcap plain text message", "ERROR")
 
         it { expect(subject["consul_agent"]).to be_nil } # no json fields
@@ -52,12 +52,12 @@ describe "Platform IT" do
                                               '"reply_inbox":"_INBOX.7e93f2a1d5115844163cc930b5"}}')
                             .build() # JSON message
       sample_event = platform_event_dummy.clone
-      sample_event["@message"] = construct_platform_message(message_payload)
+      sample_event["@message"] = construct_cf_message__metronagent_format(message_payload)
       sample_event["syslog_program"] = "vcap.consul-agent" # vcap
 
       when_parsing_log(sample_event) do
 
-        verify_platform_cf_fields("vcap.consul-agent_relp", "consul-agent", "nfs_z1",
+        verify_platform_cf_fields__metronagent_format("vcap.consul-agent_relp", "consul-agent", "nfs_z1",
                       "vcap", ["platform", "cf", "vcap"], "router.register", "INFO")
 
         # json fields
@@ -78,12 +78,12 @@ describe "Platform IT" do
                             .message_text('64.78.155.208:60677 [06/Jul/2016:13:59:57.770] https-in~ http-routers/node0 59841/0/0/157/60000 200 144206 reqC respC ---- 3/4/1/2/0 5/6 {reqHeaders} {respHeaders} "GET /v2/apps?inline-relations-depth=2 HTTP/1.1"')
                             .build()
       sample_event = platform_event_dummy.clone
-      sample_event["@message"] = construct_platform_message(message_payload)
+      sample_event["@message"] = construct_cf_message__metronagent_format(message_payload)
       sample_event["syslog_program"] = "haproxy" # haproxy
 
       when_parsing_log(sample_event) do
 
-        verify_platform_cf_fields("haproxy_relp", "haproxy", "ha_proxy_z1",
+        verify_platform_cf_fields__metronagent_format("haproxy_relp", "haproxy", "ha_proxy_z1",
                       "haproxy", ["platform", "cf", "haproxy"], "GET /v2/apps?inline-relations-depth=2 HTTP/1.1", "INFO")
 
         # haproxy fields
@@ -126,12 +126,12 @@ describe "Platform IT" do
                             .message_text('[2016-07-05 04:02:18.245] uaa - 15178 [http-bio-8080-exec-14] ....  DEBUG --- FilterChainProxy: /healthz has an empty filter list')
                             .build()
       sample_event = platform_event_dummy.clone
-      sample_event["@message"] = construct_platform_message(message_payload)
+      sample_event["@message"] = construct_cf_message__metronagent_format(message_payload)
       sample_event["syslog_program"] = "vcap.uaa" # uaa
 
       when_parsing_log(sample_event) do
 
-        verify_platform_cf_fields("vcap.uaa_relp", "uaa", "uaa_z0",
+        verify_platform_cf_fields__metronagent_format("vcap.uaa_relp", "uaa", "uaa_z0",
                       "uaa", ["platform", "cf", "uaa"],
                       "/healthz has an empty filter list", "DEBUG")
 
@@ -151,12 +151,183 @@ describe "Platform IT" do
                             .message_text('[2016-07-05 04:02:18.245] uaa - 15178 [http-bio-8080-exec-14] ....  INFO --- Audit: ClientAuthenticationSuccess (\'Client authentication success\'): principal=cf, origin=[remoteAddress=64.78.155.208, clientId=cf], identityZoneId=[uaa]')
                             .build()
       sample_event = platform_event_dummy.clone
-      sample_event["@message"] = construct_platform_message(message_payload)
+      sample_event["@message"] = construct_cf_message__metronagent_format(message_payload)
       sample_event["syslog_program"] = "vcap.uaa" # uaa
 
       when_parsing_log(sample_event) do
 
-        verify_platform_cf_fields("vcap.uaa_relp", "uaa", "uaa_z0",
+        verify_platform_cf_fields__metronagent_format("vcap.uaa_relp", "uaa", "uaa_z0",
+                                  "uaa-audit", ["platform", "cf", "uaa", "audit"],
+                                  "ClientAuthenticationSuccess ('Client authentication success')", "INFO")
+
+        it "sets [uaa] fields" do
+          expect(subject["uaa"]["timestamp"]).to eq "2016-07-05 04:02:18.245"
+          expect(subject["uaa"]["thread"]).to eq "http-bio-8080-exec-14"
+          expect(subject["uaa"]["pid"]).to eq 15178
+          expect(subject["uaa"]["log_category"]).to eq "Audit"
+        end
+
+        it "sets [uaa][audit] fields" do
+          expect(subject["uaa"]["audit"]["type"]).to eq "ClientAuthenticationSuccess"
+          expect(subject["uaa"]["audit"]["data"]).to eq "Client authentication success"
+          expect(subject["uaa"]["audit"]["principal"]).to eq "cf"
+          expect(subject["uaa"]["audit"]["origin"]).to eq ["remoteAddress=64.78.155.208", "clientId=cf"]
+          expect(subject["uaa"]["audit"]["identity_zone_id"]).to eq "uaa"
+          expect(subject["uaa"]["audit"]["remote_address"]).to eq "64.78.155.208"
+        end
+
+        it "sets geoip for remoteAddress" do
+          expect(subject["geoip"]).not_to be_nil
+          expect(subject["geoip"]["ip"]).to eq "64.78.155.208"
+        end
+
+      end
+    end
+
+  end
+
+  describe "when CF (syslog release) and format is" do
+
+    context "vcap (plain text)" do
+
+      message_payload = MessagePayloadBuilder.new
+                            .deployment("cf_full")
+                            .job("nfs_z1")
+                            .message_text('Some vcap plain text message') # plain text message
+                            .build()
+      sample_event = platform_event_dummy.clone
+      sample_event["@message"] = construct_cf_message__syslogrelease_format(message_payload)
+      sample_event["syslog_program"] = "vcap.consul-agent" # vcap
+
+      when_parsing_log(sample_event) do
+
+        verify_platform_cf_fields__syslogrelease_format("vcap.consul-agent_relp", "consul-agent", "cf_full", "nfs_z1",
+                                  "vcap", ["platform", "cf", "vcap"], "Some vcap plain text message", "ERROR")
+
+        it { expect(subject["consul_agent"]).to be_nil } # no json fields
+
+      end
+    end
+
+    context "vcap (json)" do
+
+      message_payload = MessagePayloadBuilder.new
+                            .deployment("cf_full")
+                            .job("nfs_z1")
+                            .message_text('{"timestamp":1467852972.554088,"source":"NatsStreamForwarder", ' +
+                                              '"log_level":"info","message":"router.register", ' +
+                                              '"data":{"nats_message": "{\"uris\":[\"redis-broker.64.78.234.207.xip.io\"],\"host\":\"192.168.111.201\",\"port\":80}",' +
+                                              '"reply_inbox":"_INBOX.7e93f2a1d5115844163cc930b5"}}')
+                            .build() # JSON message
+      sample_event = platform_event_dummy.clone
+      sample_event["@message"] = construct_cf_message__syslogrelease_format(message_payload)
+      sample_event["syslog_program"] = "vcap.consul-agent" # vcap
+
+      when_parsing_log(sample_event) do
+
+        verify_platform_cf_fields__syslogrelease_format("vcap.consul-agent_relp", "consul-agent", "cf_full", "nfs_z1",
+                                  "vcap", ["platform", "cf", "vcap"], "router.register", "INFO")
+
+        # json fields
+        it "sets fields from JSON" do
+          expect(subject["consul_agent"]).not_to be_nil
+          expect(subject["consul_agent"]["timestamp"]).to eq 1467852972.554088
+          expect(subject["consul_agent"]["source"]).to eq "NatsStreamForwarder"
+          expect(subject["consul_agent"]["data"]["nats_message"]).to eq "{\"uris\":[\"redis-broker.64.78.234.207.xip.io\"],\"host\":\"192.168.111.201\",\"port\":80}"
+          expect(subject["consul_agent"]["data"]["reply_inbox"]).to eq "_INBOX.7e93f2a1d5115844163cc930b5"
+        end
+
+      end
+    end
+
+    context "haproxy" do
+      message_payload = MessagePayloadBuilder.new
+                            .deployment("cf_full")
+                            .job("ha_proxy_z1")
+                            .message_text('64.78.155.208:60677 [06/Jul/2016:13:59:57.770] https-in~ http-routers/node0 59841/0/0/157/60000 200 144206 reqC respC ---- 3/4/1/2/0 5/6 {reqHeaders} {respHeaders} "GET /v2/apps?inline-relations-depth=2 HTTP/1.1"')
+                            .build()
+      sample_event = platform_event_dummy.clone
+      sample_event["@message"] = construct_cf_message__syslogrelease_format(message_payload)
+      sample_event["syslog_program"] = "haproxy" # haproxy
+
+      when_parsing_log(sample_event) do
+
+        verify_platform_cf_fields__syslogrelease_format("haproxy_relp", "haproxy", "cf_full", "ha_proxy_z1",
+                                  "haproxy", ["platform", "cf", "haproxy"], "GET /v2/apps?inline-relations-depth=2 HTTP/1.1", "INFO")
+
+        # haproxy fields
+        it "sets [haproxy] fields from grok" do
+          expect(subject["haproxy"]["client_ip"]).to eq "64.78.155.208"
+          expect(subject["haproxy"]["client_port"]).to eq 60677
+          expect(subject["haproxy"]["accept_date"]).to eq "06/Jul/2016:13:59:57.770"
+          expect(subject["haproxy"]["frontend_name"]).to eq "https-in~"
+          expect(subject["haproxy"]["backend_name"]).to eq "http-routers"
+          expect(subject["haproxy"]["server_name"]).to eq "node0"
+          expect(subject["haproxy"]["time_request"]).to eq 59841
+          expect(subject["haproxy"]["time_queue"]).to eq 0
+          expect(subject["haproxy"]["time_backend_connect"]).to eq 0
+          expect(subject["haproxy"]["time_backend_response"]).to eq 157
+          expect(subject["haproxy"]["time_duration"]).to eq 60000
+          expect(subject["haproxy"]["http_status_code"]).to eq 200
+          expect(subject["haproxy"]["bytes_read"]).to eq 144206
+          expect(subject["haproxy"]["captured_request_cookie"]).to eq "reqC"
+          expect(subject["haproxy"]["captured_response_cookie"]).to eq "respC"
+          expect(subject["haproxy"]["termination_state"]).to eq "----"
+          expect(subject["haproxy"]["actconn"]).to eq 3
+          expect(subject["haproxy"]["feconn"]).to eq 4
+          expect(subject["haproxy"]["beconn"]).to eq 1
+          expect(subject["haproxy"]["srvconn"]).to eq 2
+          expect(subject["haproxy"]["retries"]).to eq 0
+          expect(subject["haproxy"]["srv_queue"]).to eq 5
+          expect(subject["haproxy"]["backend_queue"]).to eq 6
+          expect(subject["haproxy"]["captured_request_headers"]).to eq "reqHeaders"
+          expect(subject["haproxy"]["captured_response_headers"]).to eq "respHeaders"
+          expect(subject["haproxy"]["http_request"]).to eq "GET /v2/apps?inline-relations-depth=2 HTTP/1.1"
+          expect(subject["haproxy"]["http_request_verb"]).to eq "GET"
+        end
+
+      end
+    end
+
+    context "uaa" do
+      message_payload = MessagePayloadBuilder.new
+                            .deployment("cf_full")
+                            .job("uaa_z0")
+                            .message_text('[2016-07-05 04:02:18.245] uaa - 15178 [http-bio-8080-exec-14] ....  DEBUG --- FilterChainProxy: /healthz has an empty filter list')
+                            .build()
+      sample_event = platform_event_dummy.clone
+      sample_event["@message"] = construct_cf_message__syslogrelease_format(message_payload)
+      sample_event["syslog_program"] = "vcap.uaa" # uaa
+
+      when_parsing_log(sample_event) do
+
+        verify_platform_cf_fields__syslogrelease_format("vcap.uaa_relp", "uaa", "cf_full", "uaa_z0",
+                                  "uaa", ["platform", "cf", "uaa"],
+                                  "/healthz has an empty filter list", "DEBUG")
+
+        it "sets [uaa] fields" do
+          expect(subject["uaa"]["timestamp"]).to eq "2016-07-05 04:02:18.245"
+          expect(subject["uaa"]["thread"]).to eq "http-bio-8080-exec-14"
+          expect(subject["uaa"]["pid"]).to eq 15178
+          expect(subject["uaa"]["log_category"]).to eq "FilterChainProxy"
+        end
+
+      end
+    end
+
+    context "uaa (Audit)" do
+      message_payload = MessagePayloadBuilder.new
+                            .deployment("cf_full")
+                            .job("uaa_z0")
+                            .message_text('[2016-07-05 04:02:18.245] uaa - 15178 [http-bio-8080-exec-14] ....  INFO --- Audit: ClientAuthenticationSuccess (\'Client authentication success\'): principal=cf, origin=[remoteAddress=64.78.155.208, clientId=cf], identityZoneId=[uaa]')
+                            .build()
+      sample_event = platform_event_dummy.clone
+      sample_event["@message"] = construct_cf_message__syslogrelease_format(message_payload)
+      sample_event["syslog_program"] = "vcap.uaa" # uaa
+
+      when_parsing_log(sample_event) do
+
+        verify_platform_cf_fields__syslogrelease_format("vcap.uaa_relp", "uaa", "cf_full", "uaa_z0",
                                   "uaa-audit", ["platform", "cf", "uaa", "audit"],
                                   "ClientAuthenticationSuccess ('Client authentication success')", "INFO")
 
