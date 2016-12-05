@@ -47,6 +47,24 @@ From technical point of view, the authorization mechanism applies additional fil
 
 The plugin is delivered in Logsearch-for-cloudfoundry deployment with _cf-kibana_ job (case of Kibana deployed to CloudFoundry) and as a plugin installed to standalone Kibana provided by Logsearch deployment.
 
+##### Redirect after logout
+Kibana authentication plugin redirects user to UAA UI for user login and logout accordingly. If you want to get redirected back to the Kibana application after user logout, make sure to enable "redirects after logout" feture in UAA server that you are using. This feature is [disabled](https://github.com/cloudfoundry/uaa/blob/3.9.3/uaa/src/main/webapp/WEB-INF/spring-servlet.xml#L440) by default in UAA. You can enable it in the deployment manifest of your UAA. Example:
+```
+properties:
+...
+login:
+  logout:
+    redirect:
+      url: /login
+      parameter:
+        disable: false
+        whitelist:
+        - https://my_kibana_domain/login
+        - http://my_kibana_domain/login
+...
+```
+(example is built based on the [UAA logout config](https://github.com/cloudfoundry/uaa/blob/3.9.3/uaa/src/main/resources/login.yml#L38-L45) and [UAA-release spec](https://github.com/cloudfoundry/uaa-release/blob/v24/jobs/uaa/spec#L190-L199))
+
 #### Kibana saved objects
 
 Kibana allows to save searches, visualizations, and dashboards and then reuse them when searching data. 

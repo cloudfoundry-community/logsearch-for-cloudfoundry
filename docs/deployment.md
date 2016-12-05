@@ -116,4 +116,24 @@ properties:
     port: 5514
 ```
 
+### 9. Update CloudFoundry deployment to include ELK URI to the whitelist of UAA logout redirects
+
+If you've chosen to enable UAA Authentication in Kibana, then make sure to include your ELK URI(s) to the whitelist of URIs that UAA uses to redirect after logout. Update `login.logout.*` properites in your CF deployment like the following:
+
+```
+properties:
+...
+login:
+  logout:
+    redirect:
+      url: /login
+      parameter:
+        disable: false
+        whitelist:
+        - https://my_kibana_domain/login
+        - http://my_kibana_domain/login
+...
+```
+> NOTE: If you skip this step, the UAA authentication will still be working in Kibana, but your ability to get automatically redirected to the Kibana home page after logout will be lost. Read more about [the redirect feature](features.md#redirect-after-logout) if necessary.
+
 </br>[<- prev page](jobs.md) | [next page ->](logs-parsing.md)
