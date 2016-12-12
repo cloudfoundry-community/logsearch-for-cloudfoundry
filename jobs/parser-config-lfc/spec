@@ -6,6 +6,7 @@ packages:
 
 templates:
   deployment_lookup.yml.erb: config/deployment_lookup.yml
+  logstash-filters-custom.conf.erb: config/logstash-filters-custom.conf
 
 properties:
   logstash_parser.deployment_name.cf:
@@ -14,3 +15,8 @@ properties:
   logstash_parser.deployment_name.diego:
     description: "Name of Cloud Foundry diego deployment (if there is one). Diego jobs are mapped to this value in deployment_lookup.yml dictionary file."
     default: cloudfoundry-diego
+  logstash_parser.custom_filters:
+    description: |
+      Custom logstash filters that will be appended to the logstash filters list.
+      Populates the file /var/vcap/jobs/logsearch-for-cloudfoundry-filters/config/logstash-filters-custom.conf
+    default: ""
