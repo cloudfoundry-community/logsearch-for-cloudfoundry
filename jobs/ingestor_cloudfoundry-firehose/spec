@@ -25,8 +25,16 @@ properties:
     default: false
   cloudfoundry.firehose_user:
     description: "CF UAA username of user with 'doppler.firehose' permissions"
+    default: ""
   cloudfoundry.firehose_password:
     description: "CF UAA password of user with 'doppler.firehose' permissions"
+    default: ""
+  cloudfoundry.firehose_client_id:
+    description: "CF UAA client ID with 'doppler.firehose' permissions"
+    default: ""
+  cloudfoundry.firehose_client_secret:
+    description: "CF UAA client secret with 'doppler.firehose' permissions"
+    default: ""
   cloudfoundry.firehose_port:
     description: "The CF API doppler port, defaults to 443"
     default: 443
