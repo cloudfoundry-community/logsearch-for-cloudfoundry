@@ -36,7 +36,7 @@ These fields are common for application and platform logs and store the followin
 |-------|--------|---------|
 | `@input` | syslog, relp, ... ||
 | `@index_type` | app, platform | Either  _app_ or _platform_.</br>Default is _platform_.|
-| `@metadata.index` | platform, app-myorg-myspace, ... | Constructed as _app-${org}-${space}_ for application logs. Note that _${space}_ and _${org}_ are ommitted in index name if corresponding info is missing in log event.</br></br>The field is used to set index name (`logstash_parser.elasticsearch_index` property in [config](../templates/stub.logsearch-for-cloudfoundry.yml#L81)).|
+| `@metadata.index` | platform, app-myorg-myspace, ... | Constructed as _app-${org}-${space}_ for application logs. Note that _${space}_ and _${org}_ are ommitted in index name if corresponding info is missing in log event.</br></br>The field is used to set index name (`logstash_parser.elasticsearch.index` property in [config](../templates/stub.logsearch-for-cloudfoundry.yml#L81)).|
 | `@shipper.priority` | 6, 14, ...||
 | `@shipper.name` | doppler_syslog, vcap.nats_relp, ... ||
 | `@source. host` | 192.168.111.63, ... ||
