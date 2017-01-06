@@ -10,12 +10,13 @@ This page lists most popular customizations that can be done using configuration
 
 #### Index name
 
-To use custom index name it's enough to set `logstash_parser.elasticsearch_index` property in deployment manifest:
+To use custom index name it's enough to set `logstash_parser.elasticsearch.index` property in deployment manifest:
 
 ```yaml
 properties:
   logstash_parser:
-    elasticsearch_index: "logs-my_custom_name"
+    elasticsearch:
+      index: "logs-my_custom_name"
 ```
 
 Please note that __logs-__ prefix should be kept in a new name so that [Elasticsearch mappings](features.md#elasticsearch-mappings) be still applied.
