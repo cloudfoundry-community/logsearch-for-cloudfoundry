@@ -6,7 +6,7 @@ var uuid = require('uuid');
 
 module.exports = function (kibana) {
   return new kibana.Plugin({
-  
+
   uiExports: {
     app: {
       title: 'User',
@@ -17,7 +17,7 @@ module.exports = function (kibana) {
     }
 
   },
-  
+
   /*
   This will set the name of the plugin and will be used by the server for
   namespacing purposes in the configuration. In Hapi you can expose methods and
@@ -211,7 +211,9 @@ module.exports = function (kibana) {
             auth: 'uaa-oauth',
             handler: function (request, reply) {
               if (request.auth.isAuthenticated) {
-                request.auth.session.set(request.auth.credentials);
+                var session_id = '' + request.auth.credentials.session_id;
+                request.auth.session.set({ session_id: session_id });
+                //request.auth.session.set(request.auth.credentials);
                 return reply.redirect('/');
               }
               reply('Not logged in...').code(401);
