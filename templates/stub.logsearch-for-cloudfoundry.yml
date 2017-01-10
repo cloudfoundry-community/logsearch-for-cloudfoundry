@@ -80,14 +80,14 @@ properties:
     firehose_password: my_admin_password  # CF UAA password of user with 'doppler.firehose' permissions
     skip_ssl_validation: true
   cf-kibana:
-    # oauth2_use_existing_client: false  # Default value. Uncomment and set true to use existing UAA oauth2 client for Kibana.
-    # oauth2_client_id: kibana_oauth2_client # Default value. Uncomment and set id of existing oauth2 client if you have one.
-    oauth2_client_secret: my_password_for_oauth2_client_id  # Password to be used for the UAA kibana oauth2 client
+    # oauth2_use_existing_client: false  # Default value. Set true to use existing UAA oauth2 client for Kibana. Note the client required scopes: `openid,oauth.approvals,scim.userids,cloud_controller.read`.
+    # oauth2_client_id: kibana_oauth2_client # Default value. Set id of existing oauth2 client if you have one.
+    oauth2_client_secret: my_password_for_oauth2_client_id  # Password to be used for the UAA Kibana oauth2 client
     cloudfoundry:
       apps_domain: my_apps.example.com  # The CF apps domain ( eg: apps.10.244.0.34.xip.io )
       system_domain: my_sys.cf.example
-      admin_user_name: my_admin_user_name  # The UAA Admin user name. It is used to manage UAA OAuth client.
-      admin_user_password: my_admin_user_password  # The UAA Admin user password
+      uaa_admin_client_id: my_uaa_admin_client_id  # The UAA admin client id (required scope is `uaa.admin`). The admin client is used to manage the UAA Kibana oauth2 client.
+      uaa_admin_client_secret: my_uaa_admin_client_secret  # The UAA admin client's secret
       api_security_group: my_cf_api_security_group  # CF security group with API access
     elasticsearch:
       host: (( grab jobs.elasticsearch_master.networks.default.static_ips.[0] ))

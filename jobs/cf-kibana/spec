@@ -20,10 +20,10 @@ properties:
     default: 1
     
   cf-kibana.oauth2_use_existing_client:
-    description: "Set true to use existing UAA oauth2 client for Kibana"
+    description: "Set true to use existing UAA oauth2 client for Kibana. Note the client required scopes: `openid,oauth.approvals,scim.userids,cloud_controller.read`."
     default: false  
   cf-kibana.oauth2_client_id:
-    description: "The UAA kibana oauth2 client id"
+    description: "The UAA Kibana oauth2 client id"
     default: kibana_oauth2_client
   cf-kibana.oauth2_client_secret:
     description: "Password to be used for the UAA kibana oauth2 client"
@@ -40,10 +40,10 @@ properties:
     description: "The CF apps domain ( eg: apps.10.244.0.34.xip.io )"
   cf-kibana.cloudfoundry.api_security_group:
     description: "CF security group with API access"  
-  cf-kibana.cloudfoundry.admin_user_name:
-    description: "The UAA Admin user name. It is used to manage UAA OAuth client."
-  cf-kibana.cloudfoundry.admin_user_password:
-    description: "The UAA Admin user password"
+  cf-kibana.cloudfoundry.uaa_admin_client_id:
+    description: "The UAA admin client id (required scope is `uaa.admin`). The admin client is used to manage the UAA Kibana oauth2 client."
+  cf-kibana.cloudfoundry.uaa_admin_client_secret:
+    description: "The UAA admin client's secret" 
   
   cf-kibana.elasticsearch.host:
     description: "ElasticSearch master endpoint"

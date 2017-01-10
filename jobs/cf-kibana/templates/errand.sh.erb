@@ -50,9 +50,9 @@ set +x
 # Create UAA client
 ACCESS_TOKEN=$(\
 curl -s -D - -k \
--u <%= p("cf-kibana.cloudfoundry.admin_user_name") %>:<%= p("cf-kibana.cloudfoundry.admin_user_password") %> \
+-u <%= p("cf-kibana.cloudfoundry.uaa_admin_client_id") %>:<%= p("cf-kibana.cloudfoundry.uaa_admin_client_secret") %> \
 -H "Accept:application/json" \
--X POST 'https://uaa.<%= p("cf-kibana.cloudfoundry.system_domain") %>/oauth/token?grant_type=client_credentials&response_type=token&client_id=admin&redirect_uri=http://dummy.com' \
+-X POST 'https://uaa.<%= p("cf-kibana.cloudfoundry.system_domain") %>/oauth/token?grant_type=client_credentials&response_type=token&client_id=<%= p("cf-kibana.cloudfoundry.uaa_admin_client_id") %>&redirect_uri=http://dummy.com' \
 | sed -n 's/.*access_token":"\([^"]*\).*/\1/p' \
 )
 

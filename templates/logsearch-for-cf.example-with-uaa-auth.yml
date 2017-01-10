@@ -11,10 +11,10 @@ jobs:
   - {name: ingestor_cloudfoundry-firehose, release: logsearch-for-cloudfoundry}
   properties:
     cloudfoundry:
-      api_endpoint: https://api.my_sys.cf.example
-      doppler_endpoint: wss://doppler.my_sys.cf.example
-      firehose_user: my_admin_user  # CF UAA username of user with 'doppler.firehose' permissions
-      firehose_password: my_admin_password  # CF UAA password of user with 'doppler.firehose' permissions
+      api_endpoint: https://api.hy.den.altoros.com
+      doppler_endpoint: wss://doppler.hy.den.altoros.com
+      firehose_user: admin  # CF UAA username of user with 'doppler.firehose' permissions
+      firehose_password: admin  # CF UAA password of user with 'doppler.firehose' permissions
       skip_ssl_validation: true
     syslog:
       host: (( grab jobs.ingestor.networks.[0].static_ips.[0] ))
@@ -34,8 +34,8 @@ jobs:
       - logsearch-for-cf: /var/vcap/packages/logsearch-for-cloudfoundry-filters/logstash-filters-default.conf
       deployment_dictionary: /var/vcap/jobs/logsearch-for-cloudfoundry-filters/config/deployment_lookup.yml
       deployment_name:
-        cf: my_cf
-        diego: my_cf-diego
+        cf: cf-tiny
+        diego: cf-tiny-diego
 
 - name: maintenance
   templates:
@@ -57,13 +57,13 @@ jobs:
   resource_pool: errand
   properties:
     create-uaa-client:
-      kibana_domain: my_kibana.domain  # The Kibana dashboard domain. Is used for redirects. (Technically, it should be set with your ls-router IP)
-      oauth2_client_id: my_kibana_client_id  # The UAA kibana oauth2 client id. Put an existing client id or one you want the job to create. Default value: kibana_oauth2_client
-      oauth2_client_secret: my_kibana_client_password  # The UAA kibana oauth2 client id's secret
+      kibana_domain: 216.241.178.16  # The Kibana dashboard domain. Is used for redirects. (Technically, it should be set with your ls-router IP)
+      oauth2_client_id: kibana_oauth2_client  # Default value. The UAA Kibana oauth2 client id. Put an existing client id or one you want the job to create. Note the client required scopes: `openid,oauth.approvals,scim.userids,cloud_controller.read`.
+      oauth2_client_secret: oauth2_client_secret  # The UAA Kibana oauth2 client id's secret
       cloudfoundry:
-        system_domain: my_sys.cf.example
-        admin_user_name: my_admin_user_name  # The UAA Admin user name. It is used to manage UAA OAuth client.
-        admin_user_password: my_admin_user_password  # The UAA Admin user password
+        system_domain: hy.den.altoros.com
+        uaa_admin_client_id: admin  # The UAA admin client id (required scope is `uaa.admin`). The admin client is used to manage the UAA Kibana oauth2 client.
+        uaa_admin_client_secret: admin  # The UAA admin client's secret
 
 - name: upload-kibana-objects
   lifecycle: errand
@@ -95,9 +95,9 @@ jobs:
       - SKIP_SSL_VALIDATION: (( grab jobs.ingestor.properties.cloudfoundry.skip_ssl_validation ))
       - CF_API_URI: (( grab jobs.ingestor.properties.cloudfoundry.api_endpoint ))
       - CF_SYSTEM_ORG: admin  # Org Managers of this org get admin access to data in Kibana
-      - REDIS_HOST: my_redis_host  # Redis host to use for auth sessions
+      - REDIS_HOST: 192.168.1.99  # Redis host to use for auth sessions
       - SESSION_EXPIRATION_MS: 43200000
       - NODE_ENV: production
-      - USE_HTTPS: false
+      - USE_HTTPS: true
       plugins:
       - auth: /var/vcap/packages/kibana-auth-plugin/kibana-auth-plugin.tar.gz
