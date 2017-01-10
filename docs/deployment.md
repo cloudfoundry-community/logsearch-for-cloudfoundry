@@ -33,16 +33,16 @@ $ bosh upload release
 
 #### 4-a) Standalone Kibana with UAA OAuth enabled
 
-Logsearch-for-CloudFoundry provides [kibana plugin](https://github.com/logsearch/logsearch-for-cloudfoundry/tree/develop/src/kibana-cf_authentication) to ask the user for credentials and perform an OAuth handshake with the CloudFoundry UAA server before serving requests. The plugin can be added to the standalone Kibana deployed as part of the Logsearch release. If you are choosing to proceed with a standalone Kibana and enable the authentication in it, then use `templates/logsearch-for-cf.example-with-uaa-auth.yml` stub and customise it with your deploy settings:
+Logsearch-for-CloudFoundry provides [kibana plugin](https://github.com/logsearch/logsearch-for-cloudfoundry/tree/develop/src/kibana-cf_authentication) to ask the user for credentials and perform an OAuth handshake with the CloudFoundry UAA server before serving requests. The plugin can be added to the standalone Kibana deployed as part of the Logsearch release. If you are choosing to proceed with a standalone Kibana and enable the authentication in it, then use `templates/stub.logsearch-for-cf.standalone-kibana-with-auth.yml` stub and customise it with your deploy settings:
 
 ```sh
-$ vim templates/logsearch-for-cf.example-with-uaa-auth.yml
-$ scripts/generate_deployment_manifest ~/workspace/logsearch.yml templates/logsearch-for-cf.example-with-uaa-auth.yml > ~/workspace/logsearch-with-logsearch-for-cf.yml
+$ vim templates/stub.logsearch-for-cf.standalone-kibana-with-auth.yml
+$ scripts/generate_deployment_manifest ~/workspace/logsearch.yml templates/stub.logsearch-for-cf.standalone-kibana-with-auth.yml > ~/workspace/logsearch-with-logsearch-for-cf.yml
 ```
 
 #### 4-b) Kibana deployed as CF application with UAA OAuth enabled
 
-There is a possibility to deploy [Kibana as a CloudFoundry application](features.md#possibility-to-deploy-kibana-as-cloudfoundry-application). Deployed Kibana will already include the authentication plugin providing UAA OAuth. To enable this feature use `templates/stub.logsearch-for-cloudfoundry.yml` stub and customise it with your deploy settings.
+There is a possibility to deploy [Kibana as a CloudFoundry application](features.md#possibility-to-deploy-kibana-as-cloudfoundry-application). Deployed Kibana will already include the authentication plugin providing UAA OAuth. To enable this feature use `templates/stub.logsearch-for-cf.cf-kibana.yml` stub and customise it with your deploy settings.
 
 > NOTE: If you choose to deploy Kibana as a CF application, then, most probably, you don't need to have a standalone Kibana instance anymore (one deployed in Logsearch release). You can disable it in `~/workspace/logsearch.yml`:
 > ```yml
@@ -54,8 +54,8 @@ There is a possibility to deploy [Kibana as a CloudFoundry application](features
 > ```
 
 ```sh
-$ vim templates/stub.logsearch-for-cloudfoundry.yml
-$ scripts/generate_deployment_manifest ~/workspace/logsearch.yml templates/stub.logsearch-for-cloudfoundry.yml > ~/workspace/logsearch-with-logsearch-for-cf.yml
+$ vim templates/stub.logsearch-for-cf.cf-kibana.yml
+$ scripts/generate_deployment_manifest ~/workspace/logsearch.yml templates/stub.logsearch-for-cf.cf-kibana.yml > ~/workspace/logsearch-with-logsearch-for-cf.yml
 ```
 
 ### 5. Update the logsearch deployment with the new manifest
