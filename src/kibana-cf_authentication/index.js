@@ -72,7 +72,7 @@ module.exports = function (kibana) {
      returning a promise then you should resolve the promise with the Joi schema.
      */
     config: function (Joi) {
-      var useHttps = (process.env.USE_HTTPS) ? process.env.USE_HTTPS : true
+      var useHttps = (process.env.USE_HTTPS) ? (process.env.USE_HTTPS.toLowerCase() !== 'false') : true
       var client_id = (process.env.KIBANA_OAUTH2_CLIENT_ID) ? process.env.KIBANA_OAUTH2_CLIENT_ID : 'client_id';
       var client_secret = (process.env.KIBANA_OAUTH2_CLIENT_SECRET) ? process.env.KIBANA_OAUTH2_CLIENT_SECRET : 'client_secret';
       var skip_ssl_validation = (process.env.SKIP_SSL_VALIDATION) ? (process.env.SKIP_SSL_VALIDATION.toLowerCase() === 'true') : false;
