@@ -57,7 +57,7 @@ jobs:
   resource_pool: errand
   properties:
     create-uaa-client:
-      elk_domain: my_elk.domain  # The Kibana dashboard domain. Is used for redirects. (Technically, it should be set with your ls-router IP)
+      kibana_domain: my_kibana.domain  # The Kibana dashboard domain. Is used for redirects. (Technically, it should be set with your ls-router IP)
       oauth2_client_id: my_kibana_client_id  # The UAA kibana oauth2 client id. Put an existing client id or one you want the job to create. Default value: kibana_oauth2_client
       oauth2_client_secret: my_kibana_client_password  # The UAA kibana oauth2 client id's secret
       cloudfoundry:
@@ -89,6 +89,7 @@ jobs:
   properties:
     kibana:
       env:
+      - KIBANA_DOMAIN: (( grab jobs.create-uaa-client.properties.create-uaa-client.kibana_domain ))
       - KIBANA_OAUTH2_CLIENT_ID: (( grab jobs.create-uaa-client.properties.create-uaa-client.oauth2_client_id  ))
       - KIBANA_OAUTH2_CLIENT_SECRET: (( grab jobs.create-uaa-client.properties.create-uaa-client.oauth2_client_secret ))
       - SKIP_SSL_VALIDATION: (( grab jobs.ingestor.properties.cloudfoundry.skip_ssl_validation ))

@@ -8,7 +8,7 @@ properties:
   create-uaa-client.app_name:
     description: "The Kibana log dashboard app name ( eg defaults to: logs )"
     default: logs
-  create-uaa-client.elk_domain:
+  create-uaa-client.kibana_domain:
     description: "The Kibana dashboard domain. Is used for redirects."
   create-uaa-client.oauth2_client_id:
     description: "The UAA kibana oauth2 client id. Put an existing client id or one you want the job to create."
