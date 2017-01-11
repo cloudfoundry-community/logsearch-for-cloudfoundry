@@ -23,6 +23,7 @@ You can read [Intro](docs/intro.md) section to understand how Logsearch-for-clou
   * [Logsearch-for-cloudfoundry](docs/intro.md#logsearch-for-cloudfoundry)
 * [Features](docs/features.md)
   * [Logs retrieval from CloudFoundry](docs/features.md#logs-retrieval-from-cloudfoundry)
+  * [Exclude an application from getting its logs in ELK](docs/features.md#exclude-an-application-from-getting-its-logs-in-elk)
   * [Logstash parsing rules](docs/features.md#logstash-parsing-rules)
   * [Elasticsearch mappings](docs/features.md#elasticsearch-mappings)
   * [Kibana authentication plugin](docs/features.md#kibana-authentication-plugin)

@@ -11,6 +11,18 @@ For application logs CloudFoundry has [_firehose_](https://github.com/cloudfound
 
 So, as the result, CloudFoundry logs (both platform and application) appear in syslog and get processed by Logsearch.
 
+#### Exclude an application from getting its logs in ELK
+
+There is a possibility for CF applications to opt-out of getting their logs in ELK. Technically, the logs "filtering" of such applications is made in the _firehose-to-syslog_ util, so the logs of "ignored" apps do not appear in syslog and, consequently, they don't get into ELK.
+
+To disable logs getting into ELK for an application you need to set the environment variable `F2S_DISABLE_LOGGING=true` for this app:
+```sh
+$ cf set-env YOUR_APP_NAME F2S_DISABLE_LOGGING true
+```
+No app restaging is necessary.
+
+Set the `F2S_DISABLE_LOGGING` to `false` when you whant to make this app logs appear in ELK again.
+
 #### Logstash parsing rules
 
 Logsearch has a set of parsing rules for syslog formats. And it's a good start in general case.
