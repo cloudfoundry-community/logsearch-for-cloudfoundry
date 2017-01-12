@@ -201,7 +201,7 @@ describe "Platform IT" do
 
       when_parsing_log(sample_event) do
 
-        verify_platform_cf_fields__syslogrelease_format("vcap.consul-agent_relp", "consul-agent", "cf_full", "nfs_z1",
+        verify_platform_cf_fields__syslogrelease_format("vcap.consul-agent_relp", "cf_full", "consul-agent", "nfs_z1",
                                   "vcap", ["platform", "cf", "vcap"], "Some vcap plain text message", "ERROR")
 
         it { expect(subject["consul_agent"]).to be_nil } # no json fields
@@ -225,7 +225,7 @@ describe "Platform IT" do
 
       when_parsing_log(sample_event) do
 
-        verify_platform_cf_fields__syslogrelease_format("vcap.consul-agent_relp", "consul-agent", "cf_full", "nfs_z1",
+        verify_platform_cf_fields__syslogrelease_format("vcap.consul-agent_relp", "cf_full", "consul-agent", "nfs_z1",
                                   "vcap", ["platform", "cf", "vcap"], "router.register", "INFO")
 
         # json fields
@@ -252,7 +252,7 @@ describe "Platform IT" do
 
       when_parsing_log(sample_event) do
 
-        verify_platform_cf_fields__syslogrelease_format("haproxy_relp", "haproxy", "cf_full", "ha_proxy_z1",
+        verify_platform_cf_fields__syslogrelease_format("haproxy_relp", "cf_full", "haproxy", "ha_proxy_z1",
                                   "haproxy", ["platform", "cf", "haproxy"], "GET /v2/apps?inline-relations-depth=2 HTTP/1.1", "INFO")
 
         # haproxy fields
@@ -301,7 +301,7 @@ describe "Platform IT" do
 
       when_parsing_log(sample_event) do
 
-        verify_platform_cf_fields__syslogrelease_format("vcap.uaa_relp", "uaa", "cf_full", "uaa_z0",
+        verify_platform_cf_fields__syslogrelease_format("vcap.uaa_relp", "cf_full", "uaa", "uaa_z0",
                                   "uaa", ["platform", "cf", "uaa"],
                                   "/healthz has an empty filter list", "DEBUG")
 
@@ -327,7 +327,7 @@ describe "Platform IT" do
 
       when_parsing_log(sample_event) do
 
-        verify_platform_cf_fields__syslogrelease_format("vcap.uaa_relp", "uaa", "cf_full", "uaa_z0",
+        verify_platform_cf_fields__syslogrelease_format("vcap.uaa_relp", "cf_full", "uaa", "uaa_z0",
                                   "uaa-audit", ["platform", "cf", "uaa", "audit"],
                                   "ClientAuthenticationSuccess ('Client authentication success')", "INFO")
 
