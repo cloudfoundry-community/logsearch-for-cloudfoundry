@@ -63,62 +63,6 @@ describe "teardown.conf" do
 
   end
 
-  describe "sets [@source][name]" do
-
-    context "when [@source]* fields are set" do
-      when_parsing_log(
-          "@source" => {"job" => "Abc", "instance" => "123"}
-      ) do
-        it { expect(subject["@source"]["name"]).to eq "Abc/123" }
-      end
-    end
-
-    context "when [@source][job] is missing" do
-      when_parsing_log(
-          "@source" => {"instance" => "123"}
-      ) do
-        it { expect(subject["@source"]["name"]).to be_nil }
-      end
-    end
-
-    context "when [@source][instance] is missing" do
-      when_parsing_log(
-          "@source" => {"job" => "Abc"}
-      ) do
-        it { expect(subject["@source"]["name"]).to eq "Abc" }
-      end
-    end
-
-    context "when [@source]* fields are missing" do
-      when_parsing_log(
-          "@source" => {"some useless field" => "Abc"}
-      ) do
-        it { expect(subject["@source"]["name"]).to be_nil }
-      end
-    end
-
-  end
-
-  describe "converts [@source][instance]" do
-
-    when_parsing_log(
-        "@source" => {"instance" => "123"}
-    ) do
-      it { expect(subject["@source"]["instance"]).to eq 123 }
-    end
-
-  end
-
-  describe "converts [@source][instance]" do
-
-    when_parsing_log(
-        "@source" => {"instance" => "123"}
-    ) do
-      it { expect(subject["@source"]["instance"]).to eq 123 }
-    end
-
-  end
-
   describe "parses [host]" do
 
     context "when [@source][host] is set" do

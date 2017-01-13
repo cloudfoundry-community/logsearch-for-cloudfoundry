@@ -59,7 +59,7 @@ describe "platform.conf" do
         it "sets grok fields" do
           expect(subject["@message"]).to eq "Some message"
           expect(subject["@source"]["job"]).to eq "nfs_z1"
-          expect(subject["@source"]["instance"]).to eq "0"
+          expect(subject["@source"]["job_index"]).to eq "0"
         end
 
       end
@@ -80,7 +80,7 @@ describe "platform.conf" do
           expect(subject["@message"]).to eq "Some message"
           expect(subject["@source"]["deployment"]).to eq "cf_full"
           expect(subject["@source"]["job"]).to eq "nfs_z1"
-          expect(subject["@source"]["instance"]).to be_nil
+          expect(subject["@source"]["job_index"]).to eq "abcdefg123"
         end
 
       end

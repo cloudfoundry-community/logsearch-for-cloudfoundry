@@ -14,7 +14,7 @@ $envelope_fields = {
     "deployment" => "cf-full",
     "ip" => "192.168.111.32",
     "job" => "runner_z1",
-    "index" => 4,
+    "job_index" => "4abc5def",
     "origin" => "MetronAgent",
     "time" => "2016-08-16T22:46:24Z"
 }
@@ -84,8 +84,7 @@ def verify_app_general_fields (metadata_index, type, source_type, message, level
     expect(subject["@source"]["deployment"]).to eq "cf-full"
     expect(subject["@source"]["host"]).to eq "192.168.111.32"
     expect(subject["@source"]["job"]).to eq "runner_z1"
-    expect(subject["@source"]["instance"]).to eq 4
-    expect(subject["@source"]["name"]).to eq ("runner_z1/4")
+    expect(subject["@source"]["job_index"]).to eq "4abc5def"
     expect(subject["@source"]["component"]).to eq "MetronAgent"
     expect(subject["@source"]["type"]).to eq source_type
   end
