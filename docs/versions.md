@@ -50,12 +50,9 @@ Below you can find a list of dependencies for the current version of Logsearch-f
   </tr>
   
   <tr>
-    <td rowspan="2">CloudFoundry</td>
-    <td><a href="https://github.com/cloudfoundry/cf-release">cf-release</a></td>
     <td>CloudFoundry</td>
-  </tr>
-  <tr>
-    <td><a href="https://github.com/cloudfoundry/diego-release">diego-release</a></td>
+    <td>cf-release <a href="https://github.com/cloudfoundry/cf-release/releases/tag/v250">v250</a> + diego-release <a href="https://github.com/cloudfoundry/diego-release/releases/tag/v1.4.1">v1.4.1</a>
+    <br/><br/>NOTE: earlier versions might be supported as well, but not obliged</td>
     <td>CloudFoundry</td>
   </tr>
 </table>
