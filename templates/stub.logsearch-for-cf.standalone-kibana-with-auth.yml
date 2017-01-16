@@ -15,6 +15,7 @@ jobs:
       doppler_endpoint: wss://doppler.hy.den.altoros.com
       firehose_user: admin  # CF UAA username of user with 'doppler.firehose' permissions
       firehose_password: admin  # CF UAA password of user with 'doppler.firehose' permissions
+      firehose_events: "Error,ContainerMetric,HttpStart,HttpStop,HttpStartStop,LogMessage,ValueMetric,CounterEvent"
       skip_ssl_validation: true
     syslog:
       host: (( grab jobs.ingestor.networks.[0].static_ips.[0] ))
@@ -80,7 +81,7 @@ jobs:
       port: 9200
     kibana_objects:
       upload_data_files:
-        - /var/vcap/packages/logsearch-for-cloudfoundry-filters/kibana-objects-bulk-json
+      - /var/vcap/packages/logsearch-for-cloudfoundry-filters/kibana-objects-bulk-json
 
 - name: kibana
   templates:
