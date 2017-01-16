@@ -3,17 +3,18 @@ applications:
 - name: <%= p('cf-kibana.app_name')%>
   memory: <%= p('cf-kibana.app_memory')%>
   instances: <%= p('cf-kibana.app_instances')%>
-  domain: <%= p('cf-kibana.apps_domain')%>
+  domain: <%= p('cf-kibana.cloudfoundry.apps_domain')%>
   buildpack: binary_buildpack
   command: bash -c "\$HOME/bin/kibana --port \$PORT & pid=\$!; while true; do [ \$(ps uh \$pid | awk '{print \$6}') -gt 300000 ] && { echo memory limit reached, recycling instance; exit 1; }; sleep 1; done"
   timeout: 180
   env:
     NODE_ENV: production
     USE_HTTPS: <%= p('cf-kibana.use_https')%>
+    KIBANA_DOMAIN: "<%= p("cf-kibana.app_name") %>.<%= p("cf-kibana.cloudfoundry.system_domain") %>"
     KIBANA_OAUTH2_CLIENT_ID: "<%= p('cf-kibana.oauth2_client_id')%>"
     KIBANA_OAUTH2_CLIENT_SECRET: "<%= p('cf-kibana.oauth2_client_secret')%>"
-    CF_API_URI: "https://api.<%= p('cf-kibana.system_domain')%>"
-    CF_SYSTEM_ORG: "<%= p('cf-kibana.system_org')%>"
+    CF_API_URI: "https://api.<%= p('cf-kibana.cloudfoundry.system_domain')%>"
+    CF_SYSTEM_ORG: "<%= p('cf-kibana.cloudfoundry.system_org')%>"
     SKIP_SSL_VALIDATION: <%= p('cloudfoundry.skip_ssl_validation')%>
     REDIS_HOST: <%= p('redis.host')%>
     SESSION_EXPIRATION_MS: <%= p('cf-kibana.session_expiration_ms')%>

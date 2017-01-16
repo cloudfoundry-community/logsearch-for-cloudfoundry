@@ -18,33 +18,39 @@ properties:
   cf-kibana.app_instances:
     description: "Count of Kibana instances"
     default: 1
+    
+  cf-kibana.oauth2_use_existing_client:
+    description: "Set true to use existing UAA oauth2 client for Kibana. Note the client required scopes: `openid,oauth.approvals,scim.userids,cloud_controller.read`."
+    default: false  
   cf-kibana.oauth2_client_id:
-    description: "The UAA kibana oauth2 client id"
+    description: "The UAA Kibana oauth2 client id"
     default: kibana_oauth2_client
   cf-kibana.oauth2_client_secret:
-    description: "The UAA kibana oauth2 client id's secret"
-  cf-kibana.use_existing_client:
-    description: "Set true to use existing UAA client for Kibana"
-    default: false
-  cf-kibana.logsearch_space:
-    description: "Space where Kibana will be deployed"
+    description: "Password to be used for the UAA kibana oauth2 client"
+  
+  cf-kibana.cloudfoundry.logsearch_space:
+    description: "CF space where Kibana will be deployed"
     default: logsearch
-  cf-kibana.system_org:
+  cf-kibana.cloudfoundry.system_org:
     description: "The organisation that owns the CF system domain"
     default: admin
-  cf-kibana.system_domain:
+  cf-kibana.cloudfoundry.system_domain:
     description: "The CF system domain ( eg: system.10.244.0.34.xip.io )"
-  cf-kibana.apps_domain:
+  cf-kibana.cloudfoundry.apps_domain:
     description: "The CF apps domain ( eg: apps.10.244.0.34.xip.io )"
-  cf-kibana.admin_client_secret:
-    description: "The UAA Admin client id's secret"
+  cf-kibana.cloudfoundry.api_security_group:
+    description: "CF security group with API access"  
+  cf-kibana.cloudfoundry.uaa_admin_client_id:
+    description: "The UAA admin client id (required scope is `uaa.admin`). The admin client is used to manage the UAA Kibana oauth2 client."
+  cf-kibana.cloudfoundry.uaa_admin_client_secret:
+    description: "The UAA admin client's secret" 
+  
   cf-kibana.elasticsearch.host:
     description: "ElasticSearch master endpoint"
   cf-kibana.elasticsearch.port:
     description: "ElasticSearch master port"
     default: 9200
-  cf-kibana.api_security_group:
-    description: "CF security group with API access"
+  
   cf-kibana.logging_quiet:
     description: "Set to true to suppress all logging output other than error messages"
     default: true

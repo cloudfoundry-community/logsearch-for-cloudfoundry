@@ -4,80 +4,39 @@
 
 [![Build Status](https://travis-ci.org/cloudfoundry-community/logsearch-for-cloudfoundry.svg?branch=master)](https://travis-ci.org/cloudfoundry-community/logsearch-for-cloudfoundry)
 
-LogStash parsing rules for some CloudFoundry-specific log formats:
 
-* App logs
-* Container metrics
-* UAA logs
+### About
 
-## Deploying
+This is a **BOSH-release** add-on for **Logsearch** tool. It extends base **ELK** stack, which provides Logsearch, to work with **CloudFoundry** logs.
 
-This documentation assumes that you have a working LogSearch deployment and that bosh_cli is pointed at the right director.
+So, If you have CloudFoundry deployment and want to make logs management with ELK stack then you choose right product to use. Out-of-the box you’ll get **retrieving and parsing logs** from your CloudFoundry platform, **authorized access** to these logs in Kibana and useful **dashboards and search queries** to start your log analysis with.
 
-### 1. Fetch your running LogSearch BOSH deployment manifest
+![Logsearch for CloudFoundry ELK](docs/img/overview.png)
 
-```sh
-$ bosh download manifest $logsearch_deployment_name > ~/workspace/logsearch.yml
-```
+You can read [Intro](docs/intro.md) section to understand how Logsearch-for-cloudfoundry relates to ELK, Logsearch and CloudFoundry. Or (if these products and concepts are already familiar) move to [Features](docs/features.md) section to read about main features that Logsearch-for-cloudfoundry adds to Logsearch tool.
 
-### 2. Upload LogSearch-for-CloudFoundry release to your BOSH director
+### Table of Contents
 
-```sh
-$ bosh create release
-$ bosh upload release
-```
-
-### 3. Extend the LogSearch deployment manifest with LogSearch-for-CloudFoundry
-
-At this point there is a choice to make. If Kibana is publicly exposed in your deployment and you wish to protect it with authentication, you have 2 options.
-
-#### Basic auth
-
-You can configure the haproxy job in logsearch-boshrelease to act as an authentication proxy in front of Kibana. Configuration for the haproxy job looks like this:
-
-```yaml
-properties:
-  haproxy:
-    kibana:
-      auth:
-        user: user
-        password: password
-```
-
-then:
-
-```sh
-$ vim templates/logsearch-for-cf.example.yml
-$ scripts/generate_deployment_manifest ~/workspace/logsearch.yml templates/logsearch-for-cf.example.yml > ~/workspace/logsearch-with-logsearch-for-cf.yml
-```
-
-#### UAA OAuth
-
-Alternatively, you can use the [kibana plugin](https://github.com/logsearch/logsearch-for-cloudfoundry/tree/master/src/kibana-cf_authentication) provided by this release to get kibana to ask the user for credentials and perform an OAuth handshake with the CloudFoundry UAA server before serving requests.
-
-```sh
-$ vim templates/logsearch-for-cf.example-with-uaa-auth.yml
-$ scripts/generate_deployment_manifest ~/workspace/logsearch.yml templates/logsearch-for-cf.example-with-uaa-auth.yml > ~/workspace/logsearch-with-logsearch-for-cf.yml
-```
-
-### 4. Update the logsearch deployment with the new manifest
-
-```sh
-$ bosh deployment ~/workspace/logsearch-with-logsearch-for-cf.yml
-$ bosh deploy
-```
-
-### 5. Update Cloud Foundry deployment to forward component logs to ingestor
-
-```yaml
-properties:
-  syslog_daemon_config:
-    address: haproxy-static-ip
-    port: 5514
-```
-
-#### If UAA authentication is enabled
-
-```sh
-$ bosh run errand create-uaa-client
-```
+* [Intro](docs/intro.md)
+  * [ELK](docs/intro.md#elk)
+  * [Logsearch](docs/intro.md#logsearch)
+  * [Logsearch-for-cloudfoundry](docs/intro.md#logsearch-for-cloudfoundry)
+* [Features](docs/features.md)
+  * [Logs retrieval from CloudFoundry](docs/features.md#logs-retrieval-from-cloudfoundry)
+  * [Exclude an application from getting its logs in ELK](docs/features.md#exclude-an-application-from-getting-its-logs-in-elk)
+  * [Logstash parsing rules](docs/features.md#logstash-parsing-rules)
+  * [Elasticsearch mappings](docs/features.md#elasticsearch-mappings)
+  * [Kibana authentication plugin](docs/features.md#kibana-authentication-plugin)
+  * [Kibana saved objects](docs/features.md#kibana-saved-objects)
+  * [Possibility to deploy Kibana as CloudFoundry application](docs/features.md#possibility-to-deploy-kibana-as-cloudfoundry-application)
+* [Jobs](docs/jobs.md) 
+* [Deployment](docs/deployment.md)
+* [Logs parsing](docs/logs-parsing.md)
+  * [Indices](docs/logs-parsing.md#indices)
+  * [Fields](docs/logs-parsing.md#fields)
+  * [Parsing rules](docs/logs-parsing.md#parsing-rules)
+* [Customization](docs/customization.md)
+* [Troubleshooting](docs/troubleshooting.md)
+* [Versions](docs/versions.md)
+* [Links](docs/links.md)
+* [For developers](docs/for-developers.md)

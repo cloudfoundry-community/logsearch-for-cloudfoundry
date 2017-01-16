@@ -1,0 +1,81 @@
+---
+packages:
+- name: cf-cli
+  version: fe36acc8e14b9368f80569446098e0d8cb2c36d8
+  fingerprint: fe36acc8e14b9368f80569446098e0d8cb2c36d8
+  sha1: 4ec296dd1ee0678e1d72b7a6c98d834784926969
+  dependencies: []
+- name: cf-kibana
+  version: c5d7acef260c4e343ae4adaa8aa85b35c678d4e7
+  fingerprint: c5d7acef260c4e343ae4adaa8aa85b35c678d4e7
+  sha1: 1ba7c8f45b2dfdc6184a6ce8b266b304040b92ec
+  dependencies: []
+- name: firehose-to-syslog
+  version: 9debf82743e4c0d45048600517ae89fd2afaced0
+  fingerprint: 9debf82743e4c0d45048600517ae89fd2afaced0
+  sha1: a5e511b7a177f901877b7e2525561387d6cbbe4c
+  dependencies:
+  - golang
+- name: golang
+  version: 46105d4480ca083a6cafb8ca307d5e5084c655c4
+  fingerprint: 46105d4480ca083a6cafb8ca307d5e5084c655c4
+  sha1: ab4be32a8b88bd2767c44864565642a9cfe4ff78
+  dependencies: []
+- name: kibana-auth-plugin
+  version: 4538706413e5b6b01a648ee1790cd361770a6997
+  fingerprint: 4538706413e5b6b01a648ee1790cd361770a6997
+  sha1: 5fc1e390f6c7e27e3215e7a20c81bfa6b03a48a1
+  dependencies: []
+- name: logsearch-for-cloudfoundry-filters
+  version: 137a5b36e1140cd4fde3ade5cbfa28138849e52b
+  fingerprint: 137a5b36e1140cd4fde3ade5cbfa28138849e52b
+  sha1: 072d33c0b974057fb2482d99157f2da5ce94d390
+  dependencies:
+  - ruby-2.3
+- name: ruby-2.3
+  version: 0dcde507a070d6755513c70b7978c7a3115508ea
+  fingerprint: 0dcde507a070d6755513c70b7978c7a3115508ea
+  sha1: 5e9613542dd5beb3d82d0ad0927f3bb8472b9ef7
+  dependencies: []
+- name: smoke-tests
+  version: 5fee17d04a8604aaf7372a03ce98df504ef20881
+  fingerprint: 5fee17d04a8604aaf7372a03ce98df504ef20881
+  sha1: 20772177192e3aee9299ddb07a4abf5cd243da25
+  dependencies: []
+jobs:
+- name: cf-kibana
+  version: e75334fd117a16edf3d0820f04e3e718b49bde0b
+  fingerprint: e75334fd117a16edf3d0820f04e3e718b49bde0b
+  sha1: a4ca33f1feec9ff248f0675aa63fde5dbdaa422f
+- name: create-uaa-client
+  version: 017d01a31b354d8e657d9857b9d0115f75f02ce8
+  fingerprint: 017d01a31b354d8e657d9857b9d0115f75f02ce8
+  sha1: ba9c1ce8304026af0fad7b8427f0872bea153dc9
+- name: ingestor_cloudfoundry-firehose
+  version: 1f3899cd46a98fc09afe5d2b4656bbd764006e2c
+  fingerprint: 1f3899cd46a98fc09afe5d2b4656bbd764006e2c
+  sha1: 1ff69db7d53b96f8777739755a7abacde5f9839e
+- name: kibana-auth-plugin
+  version: c2b34aeb2c7f87b95bba3256077b2096960c610b
+  fingerprint: c2b34aeb2c7f87b95bba3256077b2096960c610b
+  sha1: 74152d70efa8cb8c3a9be6bacd568d0c02b17a92
+- name: logsearch-for-cloudfoundry-filters
+  version: d1c83105991969b8f83a2d04abef6bc6c2b5c3e1
+  fingerprint: d1c83105991969b8f83a2d04abef6bc6c2b5c3e1
+  sha1: d624d07f99164105e49d3567abc2cd0aded1d106
+- name: smoke-tests
+  version: e5290292f730faa6bab87fc159637141306db086
+  fingerprint: e5290292f730faa6bab87fc159637141306db086
+  sha1: b34584f7d705f7b58b0d461d4417396a3a45af6b
+- name: upload-kibana-objects
+  version: 522ea50691eac5eca051dc7d2fb726ed67f2ea75
+  fingerprint: 522ea50691eac5eca051dc7d2fb726ed67f2ea75
+  sha1: ae4c3e249fd1dd073a54472a231b3abc4c3a19c3
+license:
+  version: 45ba225fe5790e0633fb9a8e20be9efeea888f51
+  fingerprint: 45ba225fe5790e0633fb9a8e20be9efeea888f51
+  sha1: 2918df5d475946a84e10f336bba645a1154cc4d0
+commit_hash: 5f6bb1d8
+uncommitted_changes: true
+name: logsearch-for-cloudfoundry
+version: 201.0.0

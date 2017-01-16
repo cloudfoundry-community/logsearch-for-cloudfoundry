@@ -45,10 +45,10 @@ describe "platform.conf" do
   # -- general case
   describe "#fields when message is" do
 
-    context "CF format" do
+    context "CF format (metron agent)" do
       when_parsing_log(
           "@index_type" => "platform",
-          "@message" => "[job=nfs_z1 index=0]   Some message" # CF format
+          "@message" => "[job=nfs_z1 index=0]   Some message" # CF metron agent format
       ) do
 
         it { expect(subject["tags"]).to eq ["platform", "cf"] } # no fail tag
@@ -59,7 +59,28 @@ describe "platform.conf" do
         it "sets grok fields" do
           expect(subject["@message"]).to eq "Some message"
           expect(subject["@source"]["job"]).to eq "nfs_z1"
-          expect(subject["@source"]["instance"]).to eq "0"
+          expect(subject["@source"]["job_index"]).to eq "0"
+        end
+
+      end
+    end
+
+    context "CF format (syslog release)" do
+      when_parsing_log(
+          "@index_type" => "platform",
+          "@message" => "[bosh instance=cf_full/nfs_z1/abcdefg123]   Some message" # CF syslog release format
+      ) do
+
+        it { expect(subject["tags"]).to eq ["platform", "cf"] } # no fail tag
+
+        it { expect(subject["@source"]["type"]).to eq "cf" }
+        it { expect(subject["@type"]).to eq "cf" }
+
+        it "sets grok fields" do
+          expect(subject["@message"]).to eq "Some message"
+          expect(subject["@source"]["deployment"]).to eq "cf_full"
+          expect(subject["@source"]["job"]).to eq "nfs_z1"
+          expect(subject["@source"]["job_index"]).to eq "abcdefg123"
         end
 
       end

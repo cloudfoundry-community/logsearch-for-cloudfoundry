@@ -50,7 +50,7 @@ describe "app.conf" do
           "@index_type" => "app",
           "@metadata" => {"index" => "app"},
           # valid JSON (LogMessage event)
-          "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\", \"deployment\":\"cf-full\", \"event_type\":\"LogMessage\", \"index\":\"0\",\"ip\":\"192.168.111.35\", \"job\":\"runner_z1\", \"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"Some Message\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"APP\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
+          "@message" => "{\"cf_app_id\":\"31b928ee-4110-4e7b-996c-334c5d7ac2ac\",\"cf_app_name\":\"loggenerator\",\"cf_org_id\":\"9887ad0a-f9f7-449e-8982-76307bd17239\",\"cf_org_name\":\"admin\",\"cf_origin\":\"firehose\",\"cf_space_id\":\"59cf41f2-3a1d-42db-88e7-9540b02945e8\",\"cf_space_name\":\"demo\", \"deployment\":\"cf-full\", \"event_type\":\"LogMessage\", \"job_index\":\"abc123\",\"ip\":\"192.168.111.35\", \"job\":\"runner_z1\", \"level\":\"info\",\"message_type\":\"OUT\",\"msg\":\"Some Message\",\"origin\":\"dea_logging_agent\",\"source_instance\":\"0\",\"source_type\":\"APP\",\"time\":\"2016-07-08T10:00:40Z\",\"timestamp\":1467972040073786262}"
       ) do
 
         # no parsing errors
@@ -68,7 +68,7 @@ describe "app.conf" do
         it "sets @source fields" do
           expect(subject["@source"]["type"]).to eq "LOG"
           expect(subject["@source"]["component"]).to eq "dea_logging_agent"
-          expect(subject["@source"]["instance"]).to eq "0"
+          expect(subject["@source"]["job_index"]).to eq "abc123"
           expect(subject["@source"]["job"]).to eq "runner_z1"
           expect(subject["@source"]["host"]).to eq "192.168.111.35"
           expect(subject["@source"]["deployment"]).to eq "cf-full"

@@ -18,8 +18,16 @@ jobs:
   - {name: logsearch-for-cloudfoundry-filters, release: logsearch-for-cloudfoundry}
   properties:
     logstash_parser:
+      debug: false
+      elasticsearch:
+        index: "logs-%{[@metadata][index]}-%{+YYYY.MM.dd}"
+        index_type: "%{@type}"
       filters:
       - logsearch-for-cf: /var/vcap/packages/logsearch-for-cloudfoundry-filters/logstash-filters-default.conf
+      deployment_dictionary: /var/vcap/jobs/logsearch-for-cloudfoundry-filters/config/deployment_lookup.yml
+      deployment_name:
+        cf: my_cf
+        diego: my_cf-diego
 
 - name: maintenance
   templates:
@@ -69,33 +77,29 @@ jobs:
 
 properties:
   cloudfoundry:
-    api_endpoint: https://api.example.com
-    doppler_endpoint: wss://doppler.example.com
-    firehose_user: admin
-    firehose_password: admin
+    api_endpoint: https://api.my_sys.cf.example
+    doppler_endpoint: wss://doppler.my_sys.cf.example
+    firehose_user: my_admin_user  # CF UAA username of user with 'doppler.firehose' permissions
+    firehose_password: my_admin_password  # CF UAA password of user with 'doppler.firehose' permissions
     skip_ssl_validation: true
   cf-kibana:
-    oauth2_client_secret: oauth2_client_secret
-    system_domain: example.com
-    admin_client_secret: admin-secret
-    apps_domain: example.com
-    api_security_group: a-group
+    # oauth2_use_existing_client: false  # Default value. Set true to use existing UAA oauth2 client for Kibana. Note the client required scopes: `openid,oauth.approvals,scim.userids,cloud_controller.read`.
+    # oauth2_client_id: kibana_oauth2_client # Default value. Set id of existing oauth2 client if you have one.
+    oauth2_client_secret: my_password_for_oauth2_client_id  # Password to be used for the UAA Kibana oauth2 client
+    cloudfoundry:
+      apps_domain: my_apps.example.com  # The CF apps domain ( eg: apps.10.244.0.34.xip.io )
+      system_domain: my_sys.cf.example
+      uaa_admin_client_id: my_uaa_admin_client_id  # The UAA admin client id (required scope is `uaa.admin`). The admin client is used to manage the UAA Kibana oauth2 client.
+      uaa_admin_client_secret: my_uaa_admin_client_secret  # The UAA admin client's secret
+      api_security_group: my_cf_api_security_group  # CF security group with API access
     elasticsearch:
       host: (( grab jobs.elasticsearch_master.networks.default.static_ips.[0] ))
-  logstash_parser:
-    debug: false
-    elasticsearch_index: "logs-%{[@metadata][index]}-%{+YYYY.MM.dd}"
-    elasticsearch_index_type: "%{@type}"
-    deployment_dictionary: /var/vcap/jobs/logsearch-for-cloudfoundry-filters/config/deployment_lookup.yml
-    deployment_name:
-      cf: cf
-      diego: cf-diego
   syslog:
     host: (( grab jobs.ingestor.networks.[0].static_ips.[0] ))
     port: 5514
   smoke_tests:
     api: (( grab properties.cloudfoundry.api_endpoint ))
-    apps_domain: (( grab properties.cf-kibana.apps_domain ))
+    apps_domain: (( grab properties.cf-kibana.cloudfoundry.apps_domain ))
     admin_user: (( grab properties.cloudfoundry.firehose_user ))
     admin_password: (( grab properties.cloudfoundry.firehose_password ))
     elasticsearch_master:

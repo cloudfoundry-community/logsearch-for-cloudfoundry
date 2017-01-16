@@ -6,4 +6,4 @@ The files can be downloaded from the following locations:
 
 | Filename | Download URL |
 | -------- | ------------ |
-| go1.7.1.linux-amd64.tar.gz | [golang.org](https://storage.googleapis.com/golang/go1.7.1.linux-amd64.tar.gz) |
+| go1.7.4.linux-amd64.tar.gz | [golang.org](https://storage.googleapis.com/golang/go1.7.4.linux-amd64.tar.gz) |

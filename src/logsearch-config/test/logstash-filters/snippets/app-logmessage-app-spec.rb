@@ -11,6 +11,35 @@ describe "app-logmessage-app.conf" do
     CONFIG
   end
 
+  describe "#if succeeds" do
+
+    context "simple [@source][type]" do
+      when_parsing_log(
+          "@type" => "LogMessage",
+          "@source" => {"type" => "APP"}, # simple APP value
+          "@level" => "INFO",
+          "@message" => "Some message here"
+      ) do
+
+        it { expect(subject["tags"]).to include "logmessage-app" }
+
+      end
+    end
+
+    context "(composite [@source][type])" do
+      when_parsing_log(
+          "@type" => "LogMessage",
+          "@source" => {"type" => "APP/PROC/WEB"}, # composite APP/* value
+          "@level" => "INFO",
+          "@message" => "Some message here"
+      ) do
+
+        it { expect(subject["tags"]).to include "logmessage-app" }
+
+      end
+    end
+  end
+
   describe "#if failed" do
 
     context "(bad @type)" do
@@ -54,6 +83,7 @@ describe "app-logmessage-app.conf" do
 
       end
     end
+
   end
 
   # -- general case

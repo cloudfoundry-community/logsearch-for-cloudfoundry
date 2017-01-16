@@ -8,17 +8,20 @@ properties:
   create-uaa-client.app_name:
     description: "The Kibana log dashboard app name ( eg defaults to: logs )"
     default: logs
+  create-uaa-client.kibana_domain:
+    description: "The Kibana dashboard domain. Is used for redirects."
   create-uaa-client.oauth2_client_id:
-    description: "The UAA kibana oauth2 client id"
+    description: "The UAA Kibana oauth2 client id. Put an existing client id or one you want the job to create. Note the client required scopes: `openid,oauth.approvals,scim.userids,cloud_controller.read`."
     default: kibana_oauth2_client
   create-uaa-client.oauth2_client_secret:
-    description: "The UAA kibana oauth2 client id's secret"
+    description: "The UAA Kibana oauth2 client id's secret"
   create-uaa-client.oauth2_autoapprove:
     description: ""
     default: false
 
   create-uaa-client.cloudfoundry.system_domain:
     description: "The Elastic Runtime system domain ( eg: system.10.244.0.34.xip.io )"
-  create-uaa-client.cloudfoundry.admin_client_secret:
-    description: "The UAA Admin client id's secret"
-
+  create-uaa-client.cloudfoundry.uaa_admin_client_id:
+    description: "The UAA admin client id (required scope is `uaa.admin`). The admin client is used to manage the UAA Kibana oauth2 client."
+  create-uaa-client.cloudfoundry.uaa_admin_client_secret:
+    description: "The UAA admin client's secret"  
