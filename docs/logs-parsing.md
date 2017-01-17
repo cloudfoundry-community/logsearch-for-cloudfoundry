@@ -40,7 +40,7 @@ These fields are common for application and platform logs and store the followin
 | `@shipper.priority` | 6, 14, ...||
 | `@shipper.name` | doppler_syslog, vcap.nats_relp, ... ||
 | `@source. host` | 192.168.111.63, ... ||
-| `@source.deployment` | cf-full-diego, ... | For application logs this value is shipped within a log event.</br>For platform logs we provide a deployment [dictionary](../jobs/logsearch-for-cloudfoundry-filters/templates/deployment_lookup.yml.erb) which uses deployment names set with `logstash_parser.deployment_name` [property](../templates/stub.logsearch-for-cloudfoundry.yml#L84) and maps CloudFoundry jobs to these names.</br>(NOTE: The deployment dictionary is applied in _Logsearch_ parsing rules) |
+| `@source.deployment` | cf-full-diego, ... | For application logs this value is shipped within a log event.</br>For platform logs we provide a deployment [dictionary](../jobs/parser-config-lfc/templates/deployment_lookup.yml.erb) which uses deployment names set with `logstash_parser.deployment_name` [property](../templates/stub.logsearch-for-cloudfoundry.yml#L84) and maps CloudFoundry jobs to these names.</br>(NOTE: The deployment dictionary is applied in _Logsearch_ parsing rules) |
 | `@source.job` | cell_z1, ... ||
 | `@source.job_index` | 52ba268e-5578-4e79-afa2-2ddefd70badg, ... | Bosh ID of the job (guid) - value of `spec.id` extracted from Bosh for the job |
 | `@source.component` | rep, nats, bbs, uaa, ... ||

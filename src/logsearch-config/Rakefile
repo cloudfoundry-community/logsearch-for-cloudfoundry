@@ -1,31 +1,53 @@
 require 'erb'
 require 'rake'
 
+# Clean tasks
 task :clean do
-  mkdir_p "target"
-  rm_rf "target/*"
+  FileUtils.mkdir_p('target')
+  FileUtils.rm_rf(Dir.glob('target/*'))
 end
 
-desc "Builds Logstash filters, Elasticsearch mappings & Kibana objects"
+# Build tasks
+desc "Builds Logstash filters"
+task :build_logstash_filters => :clean do
+  build_erb 'src/logstash-filters/default.conf.erb', 'target/logstash-filters-default.conf'
+end
+
+desc "Builds Kibana objects"
+task :build_kibana_objects => :clean do
+  build_erb 'src/kibana-objects/kibana-objects-bulk-json.erb', 'target/kibana-objects-bulk-json'
+end
+
+desc "Builds Elasticsearch mappings"
+task :build_es_mappings => :clean do
+  build_erb 'src/es-mappings/logs-template.json.erb', 'target/logs-template.json'
+end
+
+desc "Builds all logsearch configs"
 task :build => :clean do
+  build_erb 'src/logstash-filters/default.conf.erb', 'target/logstash-filters-default.conf'
+  build_erb 'src/kibana-objects/kibana-objects-bulk-json.erb', 'target/kibana-objects-bulk-json'
+  build_erb 'src/es-mappings/logs-template.json.erb', 'target/logs-template.json'
+end
+
+def build_erb(source_erb_file, target_file)
   puts "===> Building ..."
-  compile_erb 'src/logstash-filters/default.conf.erb', 'target/logstash-filters-default.conf'
-  compile_erb 'src/es-mappings/logs-template.json.erb', 'target/logs-template.json'
-  compile_erb 'src/kibana-objects/kibana-objects-bulk-json.erb', 'target/kibana-objects-bulk-json'
+  compile_erb source_erb_file, target_file
 
   puts "===> Artifacts:"
   puts `find target`
 end
 
+# Test tasks
 desc "Runs unit tests against filters"
-task :utest, [:rspec_files] => :build do |t, args|
+task :utest, [:rspec_files] => :build_logstash_filters do |t, args|
   args.with_defaults(:rspec_files => "$(find test -name *-spec.rb ! -name *-it-spec.rb)")
   puts "===> Testing ..."
   sh %Q[ vendor/logstash/bin/rspec #{args[:rspec_files]} --colour ]
 end
 
 desc "Runs integration tests against filters"
-task :itest, [:rspec_files] => :build do |t, args|
+task :itest, [:rspec_files] => :build_logstash_filters do |t, args|
   args.with_defaults(:rspec_files => "$(find test -name *-it-spec.rb)")
   puts "===> Integration Testing ..."
   sh %Q[ vendor/logstash/bin/rspec #{args[:rspec_files]} --colour ]

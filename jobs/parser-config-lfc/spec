@@ -1,8 +1,8 @@
 ---
-name: logsearch-for-cloudfoundry-filters
+name: parser-config-lfc
 
 packages:
-- logsearch-for-cloudfoundry-filters
+- logsearch-config-logstash-filters
 
 templates:
   deployment_lookup.yml.erb: config/deployment_lookup.yml
