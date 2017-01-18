@@ -1,7 +1,9 @@
 ---
 name: upload-kibana-objects
+
 packages:
-- logsearch-for-cloudfoundry-filters
+- logsearch-config-kibana-objects
+
 templates:
   bin/run: bin/run
 

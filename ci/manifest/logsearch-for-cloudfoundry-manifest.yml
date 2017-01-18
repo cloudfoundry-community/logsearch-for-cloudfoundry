@@ -12,7 +12,7 @@ jobs:
 - name: parser
   templates:
   - (( merge ))
-  - {name: logsearch-for-cloudfoundry-filters, release: logsearch-for-cloudfoundry}
+  - {name: parser-config-lfc, release: logsearch-for-cloudfoundry}
   properties:
     logstash_parser:
       debug: false
@@ -20,8 +20,8 @@ jobs:
         index: "logs-%{[@metadata][index]}-%{+YYYY.MM.dd}"
         index_type: "%{@type}"
       filters:
-      - logsearch-for-cf: /var/vcap/packages/logsearch-for-cloudfoundry-filters/logstash-filters-default.conf
-      deployment_dictionary: /var/vcap/jobs/logsearch-for-cloudfoundry-filters/config/deployment_lookup.yml
+      - logsearch-for-cf: /var/vcap/packages/logsearch-config-logstash-filters/logstash-filters-default.conf
+      deployment_dictionary: /var/vcap/jobs/parser-config-lfc/config/deployment_lookup.yml
       deployment_name:
         cf: my_cf
         diego: my_cf-diego
@@ -29,11 +29,11 @@ jobs:
 - name: maintenance
   templates:
   - (( merge ))
-  - {name: logsearch-for-cloudfoundry-filters, release: logsearch-for-cloudfoundry}
+  - {name: elasticsearch-config-lfc, release: logsearch-for-cloudfoundry}
   properties:
     elasticsearch_config:
       templates:
-      - index_template: /var/vcap/packages/logsearch-for-cloudfoundry-filters/logs-template.json
+      - index_template: /var/vcap/packages/logsearch-config-es-mappings/logs-template.json
 
 - name: cf-kibana
   templates:
@@ -70,7 +70,7 @@ jobs:
       port: 9200
     kibana_objects:
       upload_data_files:
-        - /var/vcap/packages/logsearch-for-cloudfoundry-filters/kibana-objects-bulk-json
+        - /var/vcap/packages/logsearch-config-kibana-objects/kibana-objects-bulk-json
 
 properties:
   cf-kibana:

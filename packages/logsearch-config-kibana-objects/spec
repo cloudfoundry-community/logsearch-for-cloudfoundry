@@ -1,5 +1,5 @@
 ---
-name: logsearch-for-cloudfoundry-filters
+name: logsearch-config-kibana-objects
 
 dependencies:
   - ruby-2.3

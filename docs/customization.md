@@ -30,7 +30,7 @@ To add custom parsing use `logstash_parser.filters` property of `parser` job:
   properties:
     logstash_parser:
       filters:
-      - logsearch-for-cf: /var/vcap/packages/logsearch-for-cloudfoundry-filters/logstash-filters-default.conf
+      - logsearch-for-cf: /var/vcap/packages/logsearch-config-logstash-filters/logstash-filters-default.conf
       - my-custom-rules: /path/to/my/custom/rules
       - my-other-custom-rules: { .. }
 ```
@@ -46,11 +46,11 @@ Elasticsearch mappings can be customized via `elasticsearch_config.templates` pr
 - name: maintenance
   templates:
   - (( merge ))
-  - {name: logsearch-for-cloudfoundry-filters, release: logsearch-for-cloudfoundry}
+  - {name: elasticsearch-config-lfc, release: logsearch-for-cloudfoundry}
   properties:
     elasticsearch_config:
       templates:
-      - index_template: /var/vcap/packages/logsearch-for-cloudfoundry-filters/logs-template.json
+      - index_template: /var/vcap/packages/logsearch-config-es-mappings/logs-template.json
       - my_custom_mappings_template: /path/to/my-template.json
 ```
 
@@ -65,7 +65,7 @@ To make Logsearch-for-cloudfoundry upload your custom Kibana saved objects (sear
   properties:
     kibana_objects:
       upload_data_files:
-        - /var/vcap/packages/logsearch-for-cloudfoundry-filters/kibana-objects-bulk-json
+        - /var/vcap/packages/logsearch-config-kibana-objects/kibana-objects-bulk-json
         - /path/to/your/custom/kibana/objects/bulk/json/file
 ```
 

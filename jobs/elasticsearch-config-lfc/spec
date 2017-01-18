@@ -1,0 +1,5 @@
+---
+name: elasticsearch-config-lfc
+
+packages:
+- logsearch-config-es-mappings
