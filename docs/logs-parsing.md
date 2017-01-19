@@ -55,7 +55,7 @@ These fields are common for application and platform logs and store the followin
 
 ##### Application CF meta fields
 
-These fields are specific to _application_ logs only. They store CloudFoundry metadata about an application that emmitted the log.
+These fields are specific to _application_ logs only. They store CloudFoundry metadata about an application that emmitted the log or relates to the log event (e.g. metrics).
 
 | Field | Values |
 |-------|--------|

@@ -58,14 +58,16 @@ Please pay attention that [_Elasticsearch mappings ordering_](https://www.elasti
 
 #### Kibana saved objects
 
-To make Logsearch-for-cloudfoundry upload your custom Kibana saved objects (searches, visualizations, dashboards etc.) use `kibana_objects.upload_data_files` property of `upload-kibana-objects` job:
+To disable upload of predefined Kibana objects, provided by the job, set `kibana_objects.upload_predefined_kibana_objects: false`. To make Logsearch-for-cloudfoundry upload your custom Kibana saved objects (searches, visualizations, dashboards etc.) use `kibana_objects.upload_data_files` property of `upload-kibana-objects` job:
 
 ```yaml
 - name: upload-kibana-objects
+  ...
   properties:
+    ...
     kibana_objects:
-      upload_data_files:
-        - /var/vcap/packages/logsearch-config-kibana-objects/kibana-objects-bulk-json
+      upload_predefined_kibana_objects: false # Whether to upload Kibana objects predefined in this job or not.
+      upload_data_files: # List of text files to put in API endpoint /_bulk
         - /path/to/your/custom/kibana/objects/bulk/json/file
 ```
 

@@ -1,0 +1,53 @@
+<% require 'json' %>
+<% if( ['LogMessage', 'ContainerMetric'].any? { |event| p('cloudfoundry.firehose_events').include?(event)} ) %>
+<% 
+logmessage_enabled = p('cloudfoundry.firehose_events').include? 'LogMessage'
+containermetric_enabled = p('cloudfoundry.firehose_events').include? 'ContainerMetric'
+
+if (logmessage_enabled == true)
+  links = "[performance](#/dashboard/App-Performance) | [errors](#/dashboard/App-Errors) | [logs](#/dashboard/App-Logs) | [location](#/dashboard/App-Location)"
+  
+  if (containermetric_enabled == true)
+    links += " | [metrics](#/dashboard/App-Metrics)"
+  end
+    
+elsif (containermetric_enabled == true)
+  links = "[metrics](#/dashboard/App-Metrics)"
+  
+end
+
+%> 
+{
+  "title": "App links",
+  "visState": "<%= JSON.parse(
+    {
+      "title": "App links",
+      "type": "markdown",
+      "params": {
+        "markdown": "Find the logs you are interested in, then analyse: #{links}."
+      },
+      "aggs": [],
+      "listeners": {}
+    }.to_json
+).to_json.gsub(/"/) { '\"' }
+%>",
+  "description": "",
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "query": {
+        "query_string": {
+          "query": "*",
+          "analyze_wildcard": true
+        }
+      },
+      "filter": [
+
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}
+<% end %>

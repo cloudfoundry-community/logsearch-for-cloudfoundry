@@ -1,0 +1,72 @@
+<% require 'json' %>
+<% if(p('cloudfoundry.firehose_events').include? 'LogMessage') %>
+{
+  "title": "[app] RTR - long response",
+  "description": "",
+  "hits": 0,
+  "columns": [
+    "@cf.app",
+    "rtr.response_time_ms",
+    "rtr.verb",
+    "rtr.status",
+    "rtr.path"
+  ],
+  "sort": [
+    "@timestamp",
+    "desc"
+  ],
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "index": "logs-app-*",
+      "query": {
+        "query_string": {
+          "query": "rtr.response_time_ms:>2000",
+          "analyze_wildcard": true
+        }
+      },
+      "highlight": {
+        "pre_tags": [
+          "@kibana-highlighted-field@"
+        ],
+        "post_tags": [
+          "@/kibana-highlighted-field@"
+        ],
+        "fields": {
+          "*": {
+
+          }
+        },
+        "require_field_match": false,
+        "fragment_size": 2147483647
+      },
+      "filter": [
+        {
+          "$state": {
+            "store": "appState"
+          },
+          "meta": {
+            "alias": null,
+            "disabled": false,
+            "index": "logs-app-*",
+            "key": "@source.type",
+            "negate": false,
+            "value": "RTR"
+          },
+          "query": {
+            "match": {
+              "@source.type": {
+                "query": "RTR",
+                "type": "phrase"
+              }
+            }
+          }
+        }
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}
+<% end %>

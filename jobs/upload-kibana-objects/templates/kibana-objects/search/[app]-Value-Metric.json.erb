@@ -1,0 +1,69 @@
+<% require 'json' %>
+<% if(p('cloudfoundry.firehose_events').include? 'ValueMetric') %>
+{
+  "title": "[app] Value Metric",
+  "description": "",
+  "hits": 0,
+  "columns": [
+    "@source.component",
+    "valuemetric.name",
+    "valuemetric.value",
+    "valuemetric.unit"
+  ],
+  "sort": [
+    "@timestamp",
+    "desc"
+  ],
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "index": "logs-app-*",
+      "query": {
+        "query_string": {
+          "analyze_wildcard": true,
+          "query": "*"
+        }
+      },
+      "filter": [
+        {
+          "$state": {
+            "store": "appState"
+          },
+          "meta": {
+            "alias": null,
+            "disabled": false,
+            "index": "logs-app-*",
+            "key": "@source.type",
+            "negate": false,
+            "value": "METRIC"
+          },
+          "query": {
+            "match": {
+              "@source.type": {
+                "query": "METRIC",
+                "type": "phrase"
+              }
+            }
+          }
+        }
+      ],
+      "highlight": {
+        "pre_tags": [
+          "@kibana-highlighted-field@"
+        ],
+        "post_tags": [
+          "@/kibana-highlighted-field@"
+        ],
+        "fields": {
+          "*": {}
+        },
+        "require_field_match": false,
+        "fragment_size": 2147483647
+      }
+    }
+ENDOFFJSON
+%>"
+  }
+}
+<% end %>

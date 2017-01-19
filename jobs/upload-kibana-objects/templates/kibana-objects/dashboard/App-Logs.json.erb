@@ -1,0 +1,115 @@
+<% require 'json' %>
+<% if(p('cloudfoundry.firehose_events').include? 'LogMessage') %>
+{
+  "title": "App - Logs",
+  "hits": 0,
+  "description": "",
+  "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    [
+      {
+        "id": "App-logs-count-by-source-type-(APP-or-cf-top-5-apps)",
+        "type": "visualization",
+        "panelIndex": 1,
+        "size_x": 4,
+        "size_y": 4,
+        "col": 1,
+        "row": 1
+      },
+      {
+        "col": 5,
+        "id": "App-APP-logs-count-by-level",
+        "panelIndex": 2,
+        "row": 1,
+        "size_x": 3,
+        "size_y": 4,
+        "type": "visualization"
+      },
+      {
+        "col": 8,
+        "id": "App-APP-logs-count-in-timeline",
+        "panelIndex": 3,
+        "row": 1,
+        "size_x": 5,
+        "size_y": 4,
+        "type": "visualization"
+      },
+      {
+        "col": 1,
+        "id": "App-APP-logs-count-(top-10-apps)",
+        "panelIndex": 4,
+        "row": 5,
+        "size_x": 4,
+        "size_y": 4,
+        "type": "visualization"
+      },
+      {
+        "col": 5,
+        "id": "App-APP-logs-count-by-level-(top-5-apps)",
+        "panelIndex": 5,
+        "row": 5,
+        "size_x": 8,
+        "size_y": 4,
+        "type": "visualization"
+      }
+    ]
+ENDOFFJSON
+%>",
+  "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "P-1": {
+        "vis": {
+          "legendOpen": false
+        }
+      },
+      "P-2": {
+        "vis": {
+          "legendOpen": true
+        },
+        "spy": {
+          "mode": {
+            "name": null,
+            "fill": false
+          }
+        }
+      },
+      "P-4": {
+        "vis": {
+          "legendOpen": true
+        }
+      },
+      "P-5": {
+        "vis": {
+          "legendOpen": false
+        },
+        "spy": {
+          "mode": {
+            "name": null,
+            "fill": false
+          }
+        }
+      }
+    }
+ENDOFFJSON
+%>",
+  "optionsJSON": "{\"darkTheme\":false}",
+  "version": 1,
+  "timeRestore": false,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "filter": [
+        {
+          "query": {
+            "query_string": {
+              "analyze_wildcard": true,
+              "query": "*"
+            }
+          }
+        }
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}
+<% end %>

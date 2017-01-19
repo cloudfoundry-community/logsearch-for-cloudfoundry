@@ -68,9 +68,11 @@ jobs:
     elasticsearch:
       host: (( grab jobs.elasticsearch_master.networks.default.static_ips.[0] ))
       port: 9200
+    cloudfoundry:
+      firehose_events: (( grab properties.cloudfoundry.firehose_events ))  
     kibana_objects:
-      upload_data_files:
-        - /var/vcap/packages/logsearch-config-kibana-objects/kibana-objects-bulk-json
+      upload_predefined_kibana_objects: true # Default value. Whether to upload Kibana objects predefined in this job or not.
+      upload_data_files: []  # List of text files to put in API endpoint /_bulk
 
 properties:
   cloudfoundry:
@@ -78,6 +80,7 @@ properties:
     doppler_endpoint: wss://doppler.my_sys.cf.example
     firehose_user: my_admin_user  # CF UAA username of user with 'doppler.firehose' permissions
     firehose_password: my_admin_password  # CF UAA password of user with 'doppler.firehose' permissions
+    firehose_events: LogMessage  # Default value. Comma seperated list of events you would like to get. Valid options are HttpStop,CounterEvent,Error,HttpStart,HttpStartStop,LogMessage,ValueMetric,ContainerMetric.
     skip_ssl_validation: true
   cf-kibana:
     # oauth2_use_existing_client: false  # Default value. Set true to use existing UAA oauth2 client for Kibana. Note the client required scopes: `openid,oauth.approvals,scim.userids,cloud_controller.read`.
