@@ -1,0 +1,5 @@
+check process create-uaa-client
+  with pidfile /var/vcap/sys/run/create-uaa-client/job.pid
+  start program "/var/vcap/jobs/create-uaa-client/bin/job.process start"
+  stop program "/var/vcap/jobs/create-uaa-client/bin/job.process stop"
+  group vcap

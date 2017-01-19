@@ -3,6 +3,7 @@ name: create-uaa-client
 packages: []
 templates:
   bin/run: bin/run
+  bin/job.process: bin/job.process
 
 properties:
   create-uaa-client.app_name:

@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -e
+set -u
+
+JOB_NAME=create-uaa-client
+JOBDIR=/var/vcap/jobs/${JOB_NAME}
+PIDFILE=/var/vcap/sys/run/${JOB_NAME}/job.pid
+LOGDIR=/var/vcap/sys/log/${JOB_NAME}
+
+
+mkdir -p `dirname "$PIDFILE"`
+chown vcap:vcap `dirname "$PIDFILE"`
+
+mkdir -p "$LOGDIR"
+chown vcap:vcap "$LOGDIR"
+
+exec >> ${LOGDIR}/job.control.log
+exec 2>&1
+
+case $1 in
+
+  start)
+    echo $$ > "${PIDFILE}"
+
+    # execute the job run script
+    ${JOBDIR}/bin/run
+
+    # pretend we're still running to keep monit happy
+    echo 1 > "${PIDFILE}"
+
+    ;;
+
+  stop)
+    rm -f "${PIDFILE}"
+
+    ;;
+
+  *)
+    echo "Usage: control {start|stop}" >&2
+
+    exit 1
+
+    ;;
+
+esac

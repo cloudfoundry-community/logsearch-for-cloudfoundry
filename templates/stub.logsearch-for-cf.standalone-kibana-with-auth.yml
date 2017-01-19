@@ -46,25 +46,6 @@ jobs:
       templates:
       - index_template: /var/vcap/packages/logsearch-config-es-mappings/logs-template.json
 
-- name: create-uaa-client
-  lifecycle: errand
-  release: logsearch-for-cloudfoundry
-  instances: 1
-  templates:
-  - {name: create-uaa-client, release: logsearch-for-cloudfoundry}
-  networks:
-  - name: default
-  resource_pool: errand
-  properties:
-    create-uaa-client:
-      kibana_domain: my_kibana.domain  # The Kibana dashboard domain. Is used for redirects. (Technically, it should be set with your ls-router IP)
-      oauth2_client_id: my_kibana_client_id  # Default value. The UAA Kibana oauth2 client id. Put an existing client id or one you want the job to create. Note the client required scopes: `openid,oauth.approvals,scim.userids,cloud_controller.read`.
-      oauth2_client_secret: my_kibana_client_password  # The UAA Kibana oauth2 client id's secret
-      cloudfoundry:
-        system_domain: my_sys.cf.example
-        uaa_admin_client_id: my_admin_client_id  # The UAA admin client id (required scope is `uaa.admin`). The admin client is used to manage the UAA Kibana oauth2 client.
-        uaa_admin_client_secret: my_admin_client_secret  # The UAA admin client's secret
-
 - name: upload-kibana-objects
   lifecycle: errand
   release: logsearch-for-cloudfoundry
@@ -86,12 +67,13 @@ jobs:
   templates:
   - (( merge ))
   - {name: kibana-auth-plugin, release: logsearch-for-cloudfoundry}
+  - {name: create-uaa-client, release: logsearch-for-cloudfoundry}
   properties:
     kibana:
       env:
-      - KIBANA_DOMAIN: (( grab jobs.create-uaa-client.properties.create-uaa-client.kibana_domain ))
-      - KIBANA_OAUTH2_CLIENT_ID: (( grab jobs.create-uaa-client.properties.create-uaa-client.oauth2_client_id  ))
-      - KIBANA_OAUTH2_CLIENT_SECRET: (( grab jobs.create-uaa-client.properties.create-uaa-client.oauth2_client_secret ))
+      - KIBANA_DOMAIN: (( grab jobs.kibana.properties.create-uaa-client.kibana_domain ))
+      - KIBANA_OAUTH2_CLIENT_ID: (( grab jobs.kibana.properties.create-uaa-client.oauth2_client_id  ))
+      - KIBANA_OAUTH2_CLIENT_SECRET: (( grab jobs.kibana.properties.create-uaa-client.oauth2_client_secret ))
       - SKIP_SSL_VALIDATION: (( grab jobs.ingestor.properties.cloudfoundry.skip_ssl_validation ))
       - CF_API_URI: (( grab jobs.ingestor.properties.cloudfoundry.api_endpoint ))
       - CF_SYSTEM_ORG: admin  # Org Managers of this org get admin access to data in Kibana
@@ -101,3 +83,11 @@ jobs:
       - USE_HTTPS: false
       plugins:
       - auth: /var/vcap/packages/kibana-auth-plugin/kibana-auth-plugin.tar.gz
+    create-uaa-client:
+      kibana_domain: my_kibana.domain  # The Kibana dashboard domain. Is used for redirects. (Technically, it should be set with your ls-router IP)
+      oauth2_client_id: my_kibana_client_id  # Default value. The UAA Kibana oauth2 client id. Put an existing client id or one you want the job to create. Note the client required scopes: `openid,oauth.approvals,scim.userids,cloud_controller.read`.
+      oauth2_client_secret: my_kibana_client_password  # The UAA Kibana oauth2 client id's secret
+      cloudfoundry:
+        system_domain: my_sys.cf.example
+        uaa_admin_client_id: my_admin_client_id  # The UAA admin client id (required scope is `uaa.admin`). The admin client is used to manage the UAA Kibana oauth2 client.
+        uaa_admin_client_secret: my_admin_client_secret  # The UAA admin client's secret

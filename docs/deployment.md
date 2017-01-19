@@ -65,17 +65,9 @@ $ bosh deployment ~/workspace/logsearch-with-logsearch-for-cf.yml
 $ bosh deploy
 ```
 
-#### 5-a) If deploy Standalone Kibana with UAA OAuth enabled
-
-If you have chosen to deploy a standalone Kibana with UAA authentication enabled, then you should additionally run `create-uaa-client` errand task after the deploy:
-
-```sh
-$ bosh run errand create-uaa-client
-```
-
 #### 5-b) If deploy Kibana as CF application with UAA OAuth enabled
 
-If you have chosen to deploy Kibana as a CF app, then you should additionally run `cf-kibana` errand task after the deploy:
+If you choose to deploy Kibana as a CF app, then you should additionally run `cf-kibana` errand task after the deploy:
 
 ```sh
 $ bosh run errand cf-kibana
