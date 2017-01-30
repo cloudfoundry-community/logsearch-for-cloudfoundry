@@ -5,4 +5,6 @@ dependencies:
   - ruby-2.3
 
 files:
-  - logsearch-config/**/*
+  - logsearch-config/bin/*
+  - logsearch-config/src/logstash-filters/**/*
+  - logsearch-config/*
