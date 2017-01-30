@@ -81,9 +81,9 @@ login:
 
 Kibana allows to save searches, visualizations, and dashboards and then reuse them when searching data. 
 
-To make some start in logs analysis, Logsearch-for-cloudfoundry creates index patterns and a set of predefined searches, visualizations and dashboards in Kibana. These [saved objects](../src/logsearch-config/src/kibana-objects) are uploaded to Elasticsearch (.kibana index) during deploy.
+To make some start in logs analysis, Logsearch-for-cloudfoundry creates index patterns and a set of predefined searches, visualizations and dashboards in Kibana. These predefined [Kibana objects](../jobs/upload-kibana-objects/templates/kibana-objects) (i.e. defaults) are uploaded to Elasticsearch (.kibana index) during deploy. Logsearch-for-cloudfoundry allows to skip upload of the defaults and also to specify custom data files to be uploaded to Kibana during deploy (see [Customization](customization.md) page).
 
-The upload of Kibana objects is optional step and can be ommited. Also, any of uploaded Kibana objects can be deleted then using Kibana interface.
+Note that any of uploaded Kibana objects can be deleted/modified then using Kibana interface.
 
 #### Possibility to deploy Kibana as CloudFoundry application
 

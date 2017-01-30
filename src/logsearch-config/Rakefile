@@ -13,11 +13,6 @@ task :build_logstash_filters => :clean do
   build_erb 'src/logstash-filters/default.conf.erb', 'target/logstash-filters-default.conf'
 end
 
-desc "Builds Kibana objects"
-task :build_kibana_objects => :clean do
-  build_erb 'src/kibana-objects/kibana-objects-bulk-json.erb', 'target/kibana-objects-bulk-json'
-end
-
 desc "Builds Elasticsearch mappings"
 task :build_es_mappings => :clean do
   build_erb 'src/es-mappings/logs-template.json.erb', 'target/logs-template.json'
@@ -26,7 +21,6 @@ end
 desc "Builds all logsearch configs"
 task :build => :clean do
   build_erb 'src/logstash-filters/default.conf.erb', 'target/logstash-filters-default.conf'
-  build_erb 'src/kibana-objects/kibana-objects-bulk-json.erb', 'target/kibana-objects-bulk-json'
   build_erb 'src/es-mappings/logs-template.json.erb', 'target/logs-template.json'
 end
 

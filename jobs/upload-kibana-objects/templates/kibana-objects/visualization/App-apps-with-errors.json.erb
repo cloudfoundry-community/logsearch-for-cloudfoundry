@@ -1,0 +1,48 @@
+<% require 'json' %>
+<% if(p('cloudfoundry.firehose_events').include? 'LogMessage') %>
+{
+  "title": "App: apps with errors",
+  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "type": "table",
+      "params": {
+        "perPage": 25,
+        "showPartialRows": false,
+        "showMeticsAtAllLevels": false
+      },
+      "aggs": [
+        {
+          "id": "1",
+          "type": "count",
+          "schema": "metric",
+          "params": {}
+        },
+        {
+          "id": "2",
+          "type": "terms",
+          "schema": "bucket",
+          "params": {
+            "field": "@cf.app.raw",
+            "size": 100000,
+            "order": "asc",
+            "orderBy": "_term"
+          }
+        }
+      ],
+      "listeners": {}
+    }
+ENDOFFJSON
+%>",
+  "description": "",
+  "savedSearchId": "[app]-All-ERRORs",
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "filter": []
+    }
+ENDOFFJSON
+%>"
+  }
+}
+<% end %>

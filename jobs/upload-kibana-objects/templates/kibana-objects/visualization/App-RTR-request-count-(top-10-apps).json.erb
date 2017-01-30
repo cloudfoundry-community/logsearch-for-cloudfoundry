@@ -1,0 +1,51 @@
+<% require 'json' %>
+<% if(p('cloudfoundry.firehose_events').include? 'LogMessage') %>
+{
+  "title": "App RTR: request count (top 10 apps)",
+  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "type": "pie",
+      "params": {
+        "shareYAxis": true,
+        "addTooltip": true,
+        "addLegend": true,
+        "isDonut": false
+      },
+      "aggs": [
+        {
+          "id": "1",
+          "type": "count",
+          "schema": "metric",
+          "params": {}
+        },
+        {
+          "id": "2",
+          "type": "terms",
+          "schema": "segment",
+          "params": {
+            "field": "@cf.app.raw",
+            "size": 10,
+            "order": "desc",
+            "orderBy": "1"
+          }
+        }
+      ],
+      "listeners": {}
+    }
+ENDOFFJSON
+%>",
+  "description": "",
+  "savedSearchId": "[app]-RTR",
+  "version": 1,
+  "kibanaSavedObjectMeta": {
+    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    {
+      "filter": [
+
+      ]
+    }
+ENDOFFJSON
+%>"
+  }
+}
+<% end %>

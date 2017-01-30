@@ -15,6 +15,7 @@ jobs:
       doppler_endpoint: wss://doppler.my_sys.cf.example
       firehose_user: my_admin_user  # CF UAA username of user with 'doppler.firehose' permissions
       firehose_password: my_admin_password  # CF UAA password of user with 'doppler.firehose' permissions
+      firehose_events: LogMessage  # Default value. Comma seperated list of events you would like to get. Valid options are HttpStop,CounterEvent,Error,HttpStart,HttpStartStop,LogMessage,ValueMetric,ContainerMetric.
       skip_ssl_validation: true
     syslog:
       host: (( grab jobs.ingestor.networks.[0].static_ips.[0] ))
@@ -78,9 +79,11 @@ jobs:
     elasticsearch:
       host: (( grab jobs.elasticsearch_master.networks.default.static_ips.[0] ))
       port: 9200
+    cloudfoundry:
+      firehose_events: (( grab jobs.ingestor.properties.cloudfoundry.firehose_events ))
     kibana_objects:
-      upload_data_files:
-        - /var/vcap/packages/logsearch-config-kibana-objects/kibana-objects-bulk-json
+      upload_predefined_kibana_objects: true # Default value. Whether to upload Kibana objects (defaults predefined in this job) or not.
+      upload_data_files: []  # List of text files to put in API endpoint /_bulk
 
 - name: kibana
   templates:

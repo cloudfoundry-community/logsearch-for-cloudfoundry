@@ -68,11 +68,15 @@ jobs:
     elasticsearch:
       host: (( grab jobs.elasticsearch_master.networks.default.static_ips.[0] ))
       port: 9200
+    cloudfoundry:
+      firehose_events: (( grab properties.cloudfoundry.firehose_events ))  
     kibana_objects:
-      upload_data_files:
-        - /var/vcap/packages/logsearch-config-kibana-objects/kibana-objects-bulk-json
+      upload_predefined_kibana_objects: true 
+      upload_data_files: []  
 
 properties:
+  cloudfoundry:
+    firehose_events: LogMessage    
   cf-kibana:
     oauth2_client_secret: oauth2_client_secret
     cloudfoundry:
