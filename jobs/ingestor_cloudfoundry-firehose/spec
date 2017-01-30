@@ -39,7 +39,7 @@ properties:
     description: "The CF API doppler port, defaults to 443"
     default: 443
   cloudfoundry.firehose_events:
-    description: "Comma seperated list of events you would like to get. Valid options are HttpStop,CounterEvent,Error,HttpStart,HttpStartStop,LogMessage,ValueMetric,ContainerMetric"
+    description: "Comma seperated list of events you would like to get. Valid options are CounterEvent,Error,HttpStartStop,LogMessage,ValueMetric,ContainerMetric"
     default: "LogMessage"
   cloudfoundry.firehose_subscription_id:
     description: "ID for the firehose-to-syslog subscription"

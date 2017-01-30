@@ -315,79 +315,7 @@ describe "App IT" do
         end
 
       end
-    end
 
-    describe "HttpStart" do
-
-      sample_event = $app_event_dummy.clone
-      sample_event["@message"] = construct_event( "HttpStart", false,
-                                                  {"instance_id" => "1b1fc66f-9aca-47b1-796c-d9632b23f1b3",
-                                                   "instance_index" => 2,
-                                                   "method" => "GET",
-                                                   "parent_request_id" => "ghfkgds747jdsfd834hf-dfsdf-4hmjm",
-                                                   "peer_type" => "Server",
-                                                   "remote_addr" => "192.168.111.11:42801",
-                                                   "request_id" => "aa694b2c-6e26-4688-4b88-4574aa4e95a5",
-                                                   "timestamp" => 1471387748611165439,
-                                                   "uri" => "http://192.168.111.11/internal/v3/bulk/task_states",
-                                                   "user_agent" => "Go-http-client/1.1",
-                                                   "level" => "info",
-                                                   "msg" => ""})
-
-      when_parsing_log(sample_event) do
-
-        verify_app_general_fields("app", "HttpStart", "HTTP",
-                                  "GET http://192.168.111.11/internal/v3/bulk/task_states", "INFO")
-
-        # verify event-specific fields
-        it { expect(subject["tags"]).to include "http" }
-
-        it "sets [httpstart] fields" do
-          expect(subject["httpstart"]["instance_id"]).to eq "1b1fc66f-9aca-47b1-796c-d9632b23f1b3"
-          expect(subject["httpstart"]["instance_index"]).to eq 2
-          expect(subject["httpstart"]["method"]).to eq "GET"
-          expect(subject["httpstart"]["parent_request_id"]).to eq "ghfkgds747jdsfd834hf-dfsdf-4hmjm"
-          expect(subject["httpstart"]["peer_type"]).to eq "Server"
-          expect(subject["httpstart"]["remote_addr"]).to eq "192.168.111.11:42801"
-          expect(subject["httpstart"]["request_id"]).to eq "aa694b2c-6e26-4688-4b88-4574aa4e95a5"
-          expect(subject["httpstart"]["uri"]).to eq "http://192.168.111.11/internal/v3/bulk/task_states"
-          expect(subject["httpstart"]["user_agent"]).to eq "Go-http-client/1.1"
-        end
-
-      end
-    end
-
-    describe "HttpStop" do
-
-      sample_event = $app_event_dummy.clone
-      sample_event["@message"] = construct_event( "HttpStop", false,
-                                                  {"content_length" => 38,
-                                                   "peer_type" => "Client",
-                                                   "request_id" => "aa694b2c-6e26-4688-4b88-4574aa4e95a5",
-                                                   "status_code" => 200,
-                                                   "timestamp" => 1471387748618073991,
-                                                   "uri" => "http://192.168.111.11/internal/v3/bulk/task_states",
-                                                   "level" => "info",
-                                                   "msg" => ""})
-
-
-      when_parsing_log(sample_event) do
-
-        verify_app_general_fields("app", "HttpStop", "HTTP",
-                                  "200 http://192.168.111.11/internal/v3/bulk/task_states", "INFO")
-
-        # verify event-specific fields
-        it { expect(subject["tags"]).to include "http" }
-
-        it "sets [httpstop] fields" do
-          expect(subject["httpstop"]["content_length"]).to eq 38
-          expect(subject["httpstop"]["peer_type"]).to eq "Client"
-          expect(subject["httpstop"]["request_id"]).to eq "aa694b2c-6e26-4688-4b88-4574aa4e95a5"
-          expect(subject["httpstop"]["status_code"]).to eq 200
-          expect(subject["httpstop"]["uri"]).to eq "http://192.168.111.11/internal/v3/bulk/task_states"
-        end
-
-      end
     end
 
   end

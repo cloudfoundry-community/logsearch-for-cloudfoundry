@@ -44,7 +44,7 @@ These fields are common for application and platform logs and store the followin
 | `@source.job` | cell_z1, ... ||
 | `@source.job_index` | 52ba268e-5578-4e79-afa2-2ddefd70badg, ... | Bosh ID of the job (guid) - value of `spec.id` extracted from Bosh for the job |
 | `@source.component` | rep, nats, bbs, uaa, ... ||
-| `@source.type` | APP, RTR, STG, ...</br>system, cf | For application logs the field is set with [_CloudFoundry log source types_](https://docs.cloudfoundry.org/devguide/deploy-apps/streaming-logs.html#format). Additionally, for log events that don't specify a source type we [use](../src/logsearch-config/src/logstash-filters/snippets/app.conf#L101)) a dictionary based on an event type:</br>`LogMessage -> LOG`,</br>`Error -> ERR`,</br>`ContainerMetric -> CONTAINER`,</br>`ValueMetric -> METRIC`,</br>`CounterEvent -> COUNT`,</br>`HttpStart, HttpStop, HttpStartStop -> HTTP`</br></br>For platform logs the value is either `system` or `cf`. |
+| `@source.type` | APP, RTR, STG, ...</br>system, cf | For application logs the field is set with [_CloudFoundry log source types_](https://docs.cloudfoundry.org/devguide/deploy-apps/streaming-logs.html#format). Additionally, for log events that don't specify a source type we [use](../src/logsearch-config/src/logstash-filters/snippets/app.conf#L101)) a dictionary based on an event type:</br>`LogMessage -> LOG`,</br>`Error -> ERR`,</br>`ContainerMetric -> CONTAINER`,</br>`ValueMetric -> METRIC`,</br>`CounterEvent -> COUNT`,</br>`HttpStartStop -> HTTP`</br></br>For platform logs the value is either `system` or `cf`. |
 | `@type` | LogMessage, Error, ValueMetric, ...</br>system, cf, haproxy, uaa, vcap |The field is used to define documents type in Elasticsearch (set in `logstash_parser.elasticsearch_index_type` [property](../templates/stub.logsearch-for-cloudfoundry.yml#L82)).</br>This field is set with values distinguishing logs of differnt types. |
 | `@message` | This is a sample log message text ||
 | `@level` | INFO, ERROR, WARN, ... ||
@@ -103,7 +103,7 @@ Note that snippet *app-logmessage-app.conf* parses APP log messages - those **lo
 
 * [app-error.conf](../src/logsearch-config/src/logstash-filters/snippets/app-error.conf), [app-containermetric.conf](../src/logsearch-config/src/logstash-filters/snippets/app-containermetric.conf), [app-valuemetric.conf](../src/logsearch-config/src/logstash-filters/snippets/app-valuemetric.conf), [app-counterevent.conf](../src/logsearch-config/src/logstash-filters/snippets/app-counterevent.conf), [app-http.conf](../src/logsearch-config/src/logstash-filters/snippets/app-http.conf)
 
-Parses *Error*, *ContainerMetric*, *ValueMetric*, *CounterEvent* and *HttpStart, HttpStop, HttpStartStop* events accordingly.
+Parses *Error*, *ContainerMetric*, *ValueMetric*, *CounterEvent* and *HttpStartStop* events accordingly.
 
 * [platform.conf](../src/logsearch-config/src/logstash-filters/snippets/platform.conf)
 

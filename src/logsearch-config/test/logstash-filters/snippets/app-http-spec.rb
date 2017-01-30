@@ -27,77 +27,29 @@ describe "app-http.conf" do
   # -- general case
   describe "#fields" do
 
-    context "when HttpStart" do
-      when_parsing_log(
-          "@type" => "HttpStart",
-          "parsed_json_field" => { "method" => "GET", "uri" => "/some/uri", "peer_type" => "Client",
-                                   "instance_id" => "abc", "instance_index" => 5 },
-          "@message" => "some message"
-      ) do
+    when_parsing_log(
+        "@type" => "HttpStartStop",
+        "parsed_json_field" => { "method" => "PUT", "status_code" => 200, "uri" => "/some/uri",
+                                 "duration_ms" => 300,
+                                 "peer_type" => "Client",
+                                 "instance_id" => "abc", "instance_index" => 5 },
+        "@message" => "some message"
+    ) do
 
-        it { expect(subject["tags"]).to eq ["http"] }
+      it { expect(subject["tags"]).to eq ["http"] }
 
-        it { expect(subject["@message"]).to eq "GET /some/uri" } # constructed
+      it { expect(subject["@message"]).to eq "200 PUT /some/uri (300 ms)" } # constructed
 
-        # keeps fields
-        it { expect(subject["parsed_json_field"]["method"]).to eq "GET" }
-        it { expect(subject["parsed_json_field"]["peer_type"]).to eq "Client" }
-        it { expect(subject["parsed_json_field"]["uri"]).to eq "/some/uri" }
-        it { expect(subject["parsed_json_field"]["instance_id"]).to eq "abc" }
-        it { expect(subject["parsed_json_field"]["instance_index"]).to eq 5 }
-        it { expect(subject["@type"]).to eq "HttpStart" }
+      # keeps fields
+      it { expect(subject["parsed_json_field"]["method"]).to eq "PUT" }
+      it { expect(subject["parsed_json_field"]["peer_type"]).to eq "Client" }
+      it { expect(subject["parsed_json_field"]["status_code"]).to eq 200 }
+      it { expect(subject["parsed_json_field"]["uri"]).to eq "/some/uri" }
+      it { expect(subject["parsed_json_field"]["duration_ms"]).to eq 300 }
+      it { expect(subject["parsed_json_field"]["instance_id"]).to eq "abc" }
+      it { expect(subject["parsed_json_field"]["instance_index"]).to eq 5 }
+      it { expect(subject["@type"]).to eq "HttpStartStop" }
 
-      end
-    end
-
-    context "when HttpStop" do
-      when_parsing_log(
-          "@type" => "HttpStop",
-          "parsed_json_field" => { "status_code" => 200, "uri" => "/some/uri", "peer_type" => "Server",
-                                   "instance_id" => "abc", "instance_index" => 5 },
-          "@message" => "some message"
-      ) do
-
-        it { expect(subject["tags"]).to eq ["http"] }
-
-        it { expect(subject["@message"]).to eq "200 /some/uri" } # constructed
-
-        # keeps fields
-        it { expect(subject["parsed_json_field"]["peer_type"]).to eq "Server" }
-        it { expect(subject["parsed_json_field"]["status_code"]).to eq 200 }
-        it { expect(subject["parsed_json_field"]["uri"]).to eq "/some/uri" }
-        it { expect(subject["parsed_json_field"]["instance_id"]).to eq "abc" }
-        it { expect(subject["parsed_json_field"]["instance_index"]).to eq 5 }
-        it { expect(subject["@type"]).to eq "HttpStop" }
-
-      end
-    end
-
-    context "when HttpStartStop (and NA peer_type)" do
-      when_parsing_log(
-          "@type" => "HttpStartStop",
-          "parsed_json_field" => { "method" => "PUT", "status_code" => 200, "uri" => "/some/uri",
-                                   "duration_ms" => 300,
-                                   "peer_type" => "Client",
-                                   "instance_id" => "abc", "instance_index" => 5 },
-          "@message" => "some message"
-      ) do
-
-        it { expect(subject["tags"]).to eq ["http"] }
-
-        it { expect(subject["@message"]).to eq "200 PUT /some/uri (300 ms)" } # constructed
-
-        # keeps fields
-        it { expect(subject["parsed_json_field"]["method"]).to eq "PUT" }
-        it { expect(subject["parsed_json_field"]["peer_type"]).to eq "Client" }
-        it { expect(subject["parsed_json_field"]["status_code"]).to eq 200 }
-        it { expect(subject["parsed_json_field"]["uri"]).to eq "/some/uri" }
-        it { expect(subject["parsed_json_field"]["duration_ms"]).to eq 300 }
-        it { expect(subject["parsed_json_field"]["instance_id"]).to eq "abc" }
-        it { expect(subject["parsed_json_field"]["instance_index"]).to eq 5 }
-        it { expect(subject["@type"]).to eq "HttpStartStop" }
-
-      end
     end
 
   end
@@ -107,7 +59,7 @@ describe "app-http.conf" do
 
     context "when empty instance_id" do
       when_parsing_log(
-          "@type" => "HttpStop",
+          "@type" => "HttpStartStop",
           "parsed_json_field" => { "method" => 1, "uri" => "/some/uri", "peer_type" => 1,
                                    "instance_id" => "", # empty
                                    "instance_index" => 0 },
@@ -122,7 +74,7 @@ describe "app-http.conf" do
 
     context "when missing instance_id" do
       when_parsing_log(
-          "@type" => "HttpStop",
+          "@type" => "HttpStartStop",
           "parsed_json_field" => { "method" => 1, "uri" => "/some/uri", "peer_type" => 1,
                                    "instance_index" => 0 }, # missing instance_id
           "@message" => "some message"

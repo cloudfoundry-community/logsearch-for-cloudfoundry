@@ -224,22 +224,6 @@ New line" }
       end
     end
 
-    context "HttpStart" do
-      when_parsing_log( "@index_type" => "app",
-                        "@message" => "{\"event_type\":\"HttpStart\", \"msg\":\"some message\"}" ) do
-
-        it { expect(subject["@source"]["type"]).to eq "HTTP" }
-      end
-    end
-
-    context "HttpStop" do
-      when_parsing_log( "@index_type" => "app",
-                        "@message" => "{\"event_type\":\"HttpStop\", \"msg\":\"some message\"}" ) do
-
-        it { expect(subject["@source"]["type"]).to eq "HTTP" }
-      end
-    end
-
     context "HttpStartStop" do
       when_parsing_log( "@index_type" => "app",
                         "@message" => "{\"event_type\":\"HttpStartStop\", \"msg\":\"some message\"}" ) do

@@ -15,7 +15,7 @@ jobs:
       doppler_endpoint: wss://doppler.my_sys.cf.example
       firehose_user: my_admin_user  # CF UAA username of user with 'doppler.firehose' permissions
       firehose_password: my_admin_password  # CF UAA password of user with 'doppler.firehose' permissions
-      firehose_events: LogMessage  # Default value. Comma seperated list of events you would like to get. Valid options are HttpStop,CounterEvent,Error,HttpStart,HttpStartStop,LogMessage,ValueMetric,ContainerMetric.
+      firehose_events: LogMessage  # Default value. Comma seperated list of events you would like to get. Valid options are CounterEvent,Error,HttpStartStop,LogMessage,ValueMetric,ContainerMetric.
       skip_ssl_validation: true
     syslog:
       host: (( grab jobs.ingestor.networks.[0].static_ips.[0] ))

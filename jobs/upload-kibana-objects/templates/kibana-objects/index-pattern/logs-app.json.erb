@@ -54,7 +54,7 @@ containermetric_enabled = p('cloudfoundry.firehose_events').include? 'ContainerM
 valuemetric_enabled = p('cloudfoundry.firehose_events').include? 'ValueMetric'
 counterevent_enabled = p('cloudfoundry.firehose_events').include? 'CounterEvent'
 error_enabled = p('cloudfoundry.firehose_events').include? 'Error'
-http_enabled = ['HttpStart', 'HttpStop', 'HttpStartStop'].any? { |http_event| p('cloudfoundry.firehose_events').include?(http_event)}
+http_enabled = p('cloudfoundry.firehose_events').include? 'HttpStartStop
 
 fields_json.concat(
   [
