@@ -23,7 +23,7 @@ Please note that __logs-__ prefix should be kept in a new name so that [Elastics
 
 #### Parsing rules
 
-To add custom parsing use `logstash_parser.filters` property of `parser` job:
+To add custom parsing use `logstash_parser.filters` property of `parser` job. You can either pass a list of file paths there:
 
 ```yaml
 - name: parser
@@ -32,9 +32,15 @@ To add custom parsing use `logstash_parser.filters` property of `parser` job:
       filters:
       - logsearch-for-cf: /var/vcap/packages/logsearch-config-logstash-filters/logstash-filters-default.conf
       - my-custom-rules: /path/to/my/custom/rules
-      - my-other-custom-rules: { .. }
 ```
-You can provide your custom parsing rules in two ways - 1) using a path to a file containing rules or 2) putting a block of code with rules.
+or put a block of code with your parsing rules:
+```yaml
+- name: parser
+  properties:
+    logstash_parser:
+      filters: { .. }
+```
+Note that the latter possibility overrides Logsearch-for-cloudfoundry parsing rules, while the former can be used in both ways - to append your custom parsing rules to the Logsearch-for-cloudfoundry parsing and to override them.
 
 Please do mind **the order** of parsing rules you specify.
 
