@@ -21,7 +21,9 @@ jobs:
         index_type: "%{@type}"
       filters:
       - logsearch-for-cf: /var/vcap/packages/logsearch-config-logstash-filters/logstash-filters-default.conf
-      deployment_dictionary: /var/vcap/jobs/parser-config-lfc/config/deployment_lookup.yml
+      deployment_dictionary: 
+      - /var/vcap/packages/logsearch-config/deployment_lookup.yml
+      - /var/vcap/jobs/parser-config-lfc/config/deployment_lookup.yml
       deployment_name:
         cf: my_cf
         diego: my_cf-diego

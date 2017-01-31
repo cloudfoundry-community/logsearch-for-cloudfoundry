@@ -1,14 +1,3 @@
-elasticsearch_data.*: logsearch
-elasticsearch_master.*: logsearch
-firehose-to-syslog.*: logsearch
-ingestor.*: logsearch
-kibana.*: logsearch
-maintenance.*: logsearch
-parser.*: logsearch
-queue.*: logsearch
-monitor.*: logsearch
-ls-router.*: logsearch
-
 consul.*: <%= p('logstash_parser.deployment_name.cf')%>
 ha_proxy.*: <%= p('logstash_parser.deployment_name.cf')%>
 nats.*: <%= p('logstash_parser.deployment_name.cf')%>
