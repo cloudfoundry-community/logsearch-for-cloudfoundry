@@ -34,8 +34,11 @@ jobs:
   - {name: elasticsearch-config-lfc, release: logsearch-for-cloudfoundry}
   properties:
     elasticsearch_config:
+      index_prefix: "logs-"  # Make sure the prefix matches `logstash_parser.elasticsearch.index` property set for your `parser`.
       templates:
-      - index_template: /var/vcap/packages/logsearch-config-es-mappings/logs-template.json
+        - shards-and-replicas: /var/vcap/jobs/elasticsearch_config/index-templates/shards-and-replicas.json
+        - index-settings: /var/vcap/jobs/elasticsearch_config/index-templates/index-settings.json
+        - index-mappings-lfc: /var/vcap/jobs/elasticsearch-config-lfc/index-mappings.json  # upload mappings defined in Logsearch-f-c
 
 - name: cf-kibana
   templates:

@@ -33,7 +33,7 @@ For more details on parsing please visit [Logs parsing](logs-parsing.md) page.
 
 #### Elasticsearch mappings
 
-Logsearch-for-cloudfoundry provides Elasticsearch [mappings](../src/logsearch-config/src/es-mappings) for logs index. The mappings include reasonable rules for making the parsed fields useful in data analysis. They include:
+Logsearch-for-cloudfoundry provides Elasticsearch [mappings](../jobs/elasticsearch-config-lfc/templates/index-mappings.json.erb) for logs index. The mappings include reasonable rules for making the parsed fields useful in data analysis. They include:
 
 * Make `*_id` fields *not_analyzed*. 
 

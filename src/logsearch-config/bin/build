@@ -7,8 +7,4 @@ BASE_DIR=$(cd $SCRIPT_DIR/.. ; pwd)
 
 cd $BASE_DIR
 
-if [ $# -eq 0 ]
-  then rake build
-elif [ $# -eq 1 ]
-  then rake build_$1
-fi
+rake build
