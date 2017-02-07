@@ -17,7 +17,7 @@ $ bosh download manifest $logsearch_deployment_name > ~/workspace/logsearch.yml
 > Example:
 
 > ```sh
-> $ git pull https://github.com/cloudfoundry-community/logsearch-for-cloudfoundry.git
+> $ git clone https://github.com/cloudfoundry-community/logsearch-for-cloudfoundry.git
 > $ cd logsearch-for-cloudfoundry
 > $ git submodule update --init --recursive
 > $ bosh create release
