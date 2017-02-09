@@ -48,7 +48,7 @@
                 "input": {
                   "query": {
                     "query_string": {
-                      "query": "@level.raw:ERROR",
+                      "query": "@level:ERROR",
                       "analyze_wildcard": true
                     }
                   }
@@ -59,7 +59,7 @@
                 "input": {
                   "query": {
                     "query_string": {
-                      "query": "NOT @level.raw:ERROR",
+                      "query": "NOT @level:ERROR",
                       "analyze_wildcard": true
                     }
                   }
@@ -74,7 +74,7 @@
           "type": "terms",
           "schema": "split",
           "params": {
-            "field": "@cf.app.raw",
+            "field": "@cf.app",
             "size": 5,
             "order": "desc",
             "orderBy": "1",

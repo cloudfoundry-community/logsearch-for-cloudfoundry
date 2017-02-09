@@ -90,7 +90,7 @@ def verify_platform_fields (expected_shipper, expected_component, expected_type,
   it { expect(subject["@index_type"]).to eq "platform" }
   it { expect(subject["@metadata"]["index"]).to eq "platform" }
   it { expect(subject["@input"]).to eq "relp" }
-  it { expect(subject["@shipper"]["priority"]).to eq "14" }
+  it { expect(subject["@shipper"]["priority"]).to eq 14 }
   it { expect(subject["@shipper"]["name"]).to eq expected_shipper }
   it { expect(subject["@source"]["host"]).to eq "192.168.111.24" }
   it { expect(subject["@source"]["component"]).to eq expected_component }

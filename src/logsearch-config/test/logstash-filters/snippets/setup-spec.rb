@@ -49,7 +49,7 @@ describe "setup.conf" do
       when_parsing_log(
           "@type" => "some-type",
           "syslog_program" => "some-program",
-          "syslog_pri" => "5",
+          "syslog_pri" => 5,
           "@message" => "Some message" # OK
       ) do
 
@@ -57,7 +57,7 @@ describe "setup.conf" do
         it { expect(subject["@index_type"]).to eq "platform" }
         it { expect(subject["@metadata"]["index"]).to eq "platform" }
         it { expect(subject["@input"]).to eq "some-type" }
-        it { expect(subject["@shipper"]["priority"]).to eq "5" }
+        it { expect(subject["@shipper"]["priority"]).to eq 5 }
         it { expect(subject["@shipper"]["name"]).to eq "some-program_some-type" }
         it { expect(subject["@source"]["component"]).to eq "some-program" }
 

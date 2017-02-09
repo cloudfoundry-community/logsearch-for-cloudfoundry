@@ -102,3 +102,16 @@ properties:
   cloudfoundry.firehose_events:
     description: "Comma seperated list of events you would like to get. Valid options are CounterEvent,Error,HttpStartStop,LogMessage,ValueMetric,ContainerMetric"
     default: "LogMessage"
+    
+  elasticsearch_config.index_prefix:
+    description: |
+      Name prefix of your log indices that you use in `logstash_parser.elasticsearch.index` property set for your parser.
+    default: "logs-"
+  elasticsearch_config.app_index_prefix:
+    description: |
+      Name prefix of your `app` log indices. If you don't split `app` and `platform` indices, then just set it with the value of `elasticsearch_config.index_prefix`.
+    default: "logs-app"
+  elasticsearch_config.platform_index_prefix:
+    description: |
+      Name prefix of your `platform` log indices. If you don't split `app` and `platform` indices, then just set it with the value of `elasticsearch_config.index_prefix`.
+    default: "logs-platform" 

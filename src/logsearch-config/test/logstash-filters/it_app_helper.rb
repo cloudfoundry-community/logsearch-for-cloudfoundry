@@ -4,7 +4,7 @@
 $app_event_dummy = {
     "@type" => "syslog",
     "syslog_program" => "doppler",
-    "syslog_pri" => "6",
+    "syslog_pri" => 6,
     "syslog_severity_code" => 3, # error
     "host" => "bed08922-4734-4d62-9eba-3291aed1b8ce",
     "@message" => "Dummy message"}
@@ -77,7 +77,7 @@ def verify_app_general_fields (metadata_index, type, source_type, message, level
 
   it { expect(subject["@input"]).to eq "syslog" }
 
-  it { expect(subject["@shipper"]["priority"]).to eq "6" }
+  it { expect(subject["@shipper"]["priority"]).to eq 6 }
   it { expect(subject["@shipper"]["name"]).to eq "doppler_syslog" }
 
   it "sets @source fields" do

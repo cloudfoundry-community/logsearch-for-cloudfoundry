@@ -1,0 +1,97 @@
+<%
+# This file contains mappings specific for 'platform' indicies.
+#
+# By default all string fields are set as `not_analyzed`.
+#
+
+require 'json'
+
+
+string_default = { "type": "string", "index": "not_analyzed" }.to_json
+
+%>
+{
+  "template" : "<%= p('elasticsearch_config.platform_index_prefix') %>*",
+  "order": 204,
+  "mappings" : {
+            
+    <%# ------------ Platform specific types %>
+
+    "_default_": {
+      "properties": {
+        "geoip"  : {
+          "type" : "object",
+          "dynamic": true,
+          "properties" : {
+            "location" : { "type" : "geo_point" }
+          }
+        }     
+      }
+    },
+    
+    "uaa": {
+      "properties": {
+        "uaa": {
+          "type": "object",
+          "dynamic": true,
+          "properties": {
+            "timestamp":    <%= string_default %>,
+            "pid":          { "type": "long" },
+            "thread":       <%= string_default %>,
+            "log_category": <%= string_default %>,
+            "audit": {
+              "type": "object",
+              "dynamic": true,
+              "properties": {
+                "identity_zone_id": <%= string_default %>,
+                "data":             <%= string_default %>,
+                "origin":           <%= string_default %>,
+                "remote_address":   <%= string_default %>,
+                "type":             <%= string_default %>,
+                "principal":        <%= string_default %>
+              }
+            }
+          }
+        }
+      }
+    },
+    
+    "haproxy": {
+      "properties": {
+        "haproxy": {
+          "type": "object",
+          "dynamic": true,
+          "properties": {
+            "accept_date":              <%= string_default %>,
+            "time_backend_connect":     <%= string_default %>,
+            "frontend_name":            <%= string_default %>,
+            "retries":                  <%= string_default %>,
+            "srv_queue":                <%= string_default %>,
+            "captured_response_cookie": <%= string_default %>,
+            "termination_state":        <%= string_default %>,
+            "bytes_read":               <%= string_default %>,
+            "time_backend_response":    <%= string_default %>,
+            "backend_name":             <%= string_default %>,
+            "feconn":                   <%= string_default %>,
+            "http_request":             <%= string_default %>,
+            "client_port":              <%= string_default %>,
+            "http_status_code":         { "type": "long" },
+            "http_request_verb":        <%= string_default %>,
+            "server_name":              <%= string_default %>,
+            "actconn":                  <%= string_default %>,
+            "time_duration":            <%= string_default %>,
+            "captured_request_cookie":  <%= string_default %>,
+            "srvconn":                  <%= string_default %>,
+            "backend_queue":            <%= string_default %>,
+            "client_ip":                <%= string_default %>,
+            "beconn":                   <%= string_default %>,
+            "time_request":             <%= string_default %>,
+            "time_queue":               <%= string_default %>,
+            "bind_name":                <%= string_default %>
+          }
+        }
+      }
+    }
+        
+  }
+}
