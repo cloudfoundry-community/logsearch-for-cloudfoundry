@@ -1,8 +1,18 @@
 {
-  "template" : "logs-*",
-  "order": 100,
+  "template" : "<%= p('elasticsearch_config.index_prefix') %>*",
+  "order": 202,
+  "settings": { 
+    "index": {
+      "query": {
+        "default_field": "_all"
+      }      
+    }    
+  },
   "mappings" : {
     "_default_" : {
+      "_all": {
+        "enabled": true
+      },
       "dynamic_templates": [
         {
           "string_not_analyzed__id_fields": {

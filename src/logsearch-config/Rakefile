@@ -9,19 +9,8 @@ end
 
 # Build tasks
 desc "Builds Logstash filters"
-task :build_logstash_filters => :clean do
-  build_erb 'src/logstash-filters/default.conf.erb', 'target/logstash-filters-default.conf'
-end
-
-desc "Builds Elasticsearch mappings"
-task :build_es_mappings => :clean do
-  build_erb 'src/es-mappings/logs-template.json.erb', 'target/logs-template.json'
-end
-
-desc "Builds all logsearch configs"
 task :build => :clean do
   build_erb 'src/logstash-filters/default.conf.erb', 'target/logstash-filters-default.conf'
-  build_erb 'src/es-mappings/logs-template.json.erb', 'target/logs-template.json'
 end
 
 def build_erb(source_erb_file, target_file)
@@ -34,24 +23,17 @@ end
 
 # Test tasks
 desc "Runs unit tests against filters"
-task :utest, [:rspec_files] => :build_logstash_filters do |t, args|
+task :utest, [:rspec_files] => :build do |t, args|
   args.with_defaults(:rspec_files => "$(find test -name *-spec.rb ! -name *-it-spec.rb)")
   puts "===> Testing ..."
   sh %Q[ vendor/logstash/bin/rspec #{args[:rspec_files]} --colour ]
 end
 
 desc "Runs integration tests against filters"
-task :itest, [:rspec_files] => :build_logstash_filters do |t, args|
+task :itest, [:rspec_files] => :build do |t, args|
   args.with_defaults(:rspec_files => "$(find test -name *-it-spec.rb)")
   puts "===> Integration Testing ..."
   sh %Q[ vendor/logstash/bin/rspec #{args[:rspec_files]} --colour ]
-end
-
-desc "Runs JSON validation tests"
-task :json, [:json_files] => :build do |t, args|
-  args.with_defaults(:json_files => "$(find target -name *.json)")
-  puts "===> Validating JSON data ..."
-  sh %Q[ jsonlint #{args[:json_files]} ]
 end
 
 desc "Runs YAML validation tests"
@@ -64,7 +46,6 @@ end
 task default: [
   :utest,
   :itest,
-  :json,
   :yaml
 ]
 

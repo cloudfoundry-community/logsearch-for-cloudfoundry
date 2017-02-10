@@ -2,6 +2,6 @@ set -e
 
 export PATH=/var/vcap/packages/ruby-2.3/bin:$PATH
 
-logsearch-config/bin/build logstash_filters
+logsearch-config/bin/build
 
 cp logsearch-config/target/* ${BOSH_INSTALL_TARGET}

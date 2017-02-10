@@ -1,7 +1,0 @@
-set -e
-
-export PATH=/var/vcap/packages/ruby-2.3/bin:$PATH
-
-logsearch-config/bin/build es_mappings
-
-cp logsearch-config/target/* ${BOSH_INSTALL_TARGET}
