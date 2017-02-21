@@ -18,4 +18,6 @@ builds:
     version: 200.0.0
   15d81f09-c707-46d1-aec4-7a31c97ca599:
     version: 201.0.0
+  5e52c91e-021c-44b3-91c6-94c9aa37346b:
+    version: 202.0.0
 format-version: '2'
