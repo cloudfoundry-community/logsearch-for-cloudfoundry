@@ -49,7 +49,7 @@ case $1 in
 
     exec chpst -u vcap:vcap firehose-to-syslog \
         --api-endpoint=<%= p("cloudfoundry.api_endpoint") %> \
-        --doppler-endpoint=<%= p("cloudfoundry.doppler_endpoint") %> \
+        <% if_p("cloudfoundry.doppler_endpoint") do |endpoint| %>--doppler-endpoint=<%= endpoint %><% end %> \
         <% if p("cloudfoundry.skip_ssl_validation") %>--skip-ssl-validation <% end %> \
         --user=<%= p("cloudfoundry.firehose_user") %> \
         --password=<%= p("cloudfoundry.firehose_password") %> \
