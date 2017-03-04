@@ -15,7 +15,6 @@ jobs:
 properties:
   cloudfoundry:
     firehose_password: admin
-    firehose_port: 443
     firehose_user: admin
     skip_ssl_validation: true
     system_domain: 10.244.0.34.xip.io

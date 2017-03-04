@@ -21,7 +21,7 @@ jobs:
         index_type: "%{@type}"
       filters:
       - logsearch-for-cf: /var/vcap/packages/logsearch-config-logstash-filters/logstash-filters-default.conf
-      deployment_dictionary: 
+      deployment_dictionary:
       - /var/vcap/packages/logsearch-config/deployment_lookup.yml
       - /var/vcap/jobs/parser-config-lfc/config/deployment_lookup.yml
       deployment_name:
@@ -74,7 +74,7 @@ jobs:
       host: (( grab jobs.elasticsearch_master.networks.default.static_ips.[0] ))
       port: 9200
     cloudfoundry:
-      firehose_events: (( grab properties.cloudfoundry.firehose_events ))  
+      firehose_events: (( grab properties.cloudfoundry.firehose_events ))
     kibana_objects:
       upload_predefined_kibana_objects: true # Default value. Whether to upload Kibana objects predefined in this job or not.
       upload_data_files: []  # List of text files to put in API endpoint /_bulk
@@ -82,7 +82,6 @@ jobs:
 properties:
   cloudfoundry:
     api_endpoint: https://api.my_sys.cf.example
-    doppler_endpoint: wss://doppler.my_sys.cf.example
     firehose_user: my_admin_user  # CF UAA username of user with 'doppler.firehose' permissions
     firehose_password: my_admin_password  # CF UAA password of user with 'doppler.firehose' permissions
     firehose_events: LogMessage  # Default value. Comma seperated list of events you would like to get. Valid options are CounterEvent,Error,HttpStartStop,LogMessage,ValueMetric,ContainerMetric.

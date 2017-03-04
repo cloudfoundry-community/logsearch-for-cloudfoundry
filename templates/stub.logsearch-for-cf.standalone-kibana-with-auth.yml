@@ -12,7 +12,6 @@ jobs:
   properties:
     cloudfoundry:
       api_endpoint: https://api.VAR_CF_DOMAIN
-      doppler_endpoint: wss://doppler.VAR_CF_DOMAIN
       firehose_user: admin  # CF UAA username of user with 'doppler.firehose' permissions
       firehose_password: VAR_CF_SECRET  # CF UAA password of user with 'doppler.firehose' permissions
       firehose_events: LogMessage  # Default value. Comma seperated list of events you would like to get. Valid options are CounterEvent,Error,HttpStartStop,LogMessage,ValueMetric,ContainerMetric.
