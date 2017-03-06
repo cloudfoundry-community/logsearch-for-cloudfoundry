@@ -101,7 +101,7 @@ module.exports = function (kibana) {
           client_secret: Joi.string().default(client_secret),
           skip_ssl_validation: Joi.boolean().default(skip_ssl_validation),
           cf_system_org: Joi.string().default(cf_system_org),
-          authorization_uri: Joi.string().default(cf_info.token_endpoint + '/oauth/authorize'),
+          authorization_uri: Joi.string().default(cf_info.authorization_endpoint + '/oauth/authorize'),
           logout_uri: Joi.string().default(cf_info.token_endpoint + '/logout.do' +
             /* Set 'redirect' parameter if logout_redirect_uri property is set to get back to Kibana app after logout.
              (note that redirects after logout should be also enabled in UAA - e.g. https://github.com/cloudfoundry/uaa/blob/3.9.3/uaa/src/main/resources/login.yml#L38-L45)*/
