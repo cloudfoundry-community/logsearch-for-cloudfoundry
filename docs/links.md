@@ -7,7 +7,7 @@ From this page you can get quick links to all resources that can be useful when 
 #### Logsearch
 
 * [Logsearch](http://www.logsearch.io/)
-* [Logsearch boshrelease](https://github.com/logsearch/logsearch-boshrelease)
+* [Logsearch boshrelease](https://github.com/cloudfoundry-community/logsearch-boshrelease)
 
 #### ELK
 

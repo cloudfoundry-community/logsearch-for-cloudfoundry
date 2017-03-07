@@ -17,25 +17,25 @@ Below you can find a list of dependencies for the current version of Logsearch-f
   
   <tr>
     <td>Logsearch (boshrelease)</td>
-    <td><a href="https://github.com/logsearch/logsearch-boshrelease/tree/develop">develop</a></td>
+    <td><a href="https://github.com/cloudfoundry-community/logsearch-boshrelease/tree/develop">develop</a></td>
     <td>Logsearch</td>
   </tr>
 
   <tr>
     <td>Elasticsearch</td>
-    <td><a href="https://github.com/logsearch/logsearch-boshrelease/blob/develop/config/blobs.yml#L50">2.3.5</a></td>
+    <td><a href="https://github.com/cloudfoundry-community/logsearch-boshrelease/blob/develop/config/blobs.yml#L50">2.3.5</a></td>
     <td>Logsearch</td>
   </tr>
   
   <tr>
     <td>Logstash</td>
-    <td><a href="https://github.com/logsearch/logsearch-boshrelease/blob/develop/config/blobs.yml#L42">2.3.3</a></td>
+    <td><a href="https://github.com/cloudfoundry-community/logsearch-boshrelease/blob/develop/config/blobs.yml#L42">2.3.3</a></td>
     <td>Logsearch</td>
   </tr>
   
   <tr>
     <td rowspan="2">Kibana</td>
-    <td><a href="https://github.com/logsearch/logsearch-boshrelease/blob/develop/config/blobs.yml#L46">4.5.4</a> (when deploy as standalone instance)</td>
+    <td><a href="https://github.com/cloudfoundry-community/logsearch-boshrelease/blob/develop/config/blobs.yml#L46">4.5.4</a> (when deploy as standalone instance)</td>
     <td>Logsearch</td>
   </tr>
   <tr>
@@ -57,6 +57,6 @@ Below you can find a list of dependencies for the current version of Logsearch-f
   </tr>
 </table>
 
-</br>See full list of dependencies in [_Logsearch blobs config_](https://github.com/logsearch/logsearch-boshrelease/blob/develop/config/blobs.yml) and [Logsearch-for-cloudfoundry blobs config](../config/blobs.yml).
+</br>See full list of dependencies in [_Logsearch blobs config_](https://github.com/cloudfoundry-community/logsearch-boshrelease/blob/develop/config/blobs.yml) and [Logsearch-for-cloudfoundry blobs config](../config/blobs.yml).
 
 </br>[<- prev page](troubleshooting.md) | [next page ->](links.md)

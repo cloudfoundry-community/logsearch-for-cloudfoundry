@@ -12,7 +12,7 @@ Together, these three products are known as ELK stack and most commonly used in 
 #### Logsearch
 
 [_Logsearch_](http://www.logsearch.io/) is an open-source project that can be used to build and operate your own __log analysis cluster in the cloud__.
-It provides [_boshrelease_](https://github.com/logsearch/logsearch-boshrelease) of a scalable ELK cluster for your own [_BOSH_](http://bosh.io/)-managed infrastructure. The cluster is built using standard ELK stack with considering cloud specifics. It can be used as a standalone deployment or extended with add-ons that fulfills your goals.
+It provides [_boshrelease_](https://github.com/cloudfoundry-community/logsearch-boshrelease) of a scalable ELK cluster for your own [_BOSH_](http://bosh.io/)-managed infrastructure. The cluster is built using standard ELK stack with considering cloud specifics. It can be used as a standalone deployment or extended with add-ons that fulfills your goals.
 
 #### Logsearch-for-cloudfoundry
 
