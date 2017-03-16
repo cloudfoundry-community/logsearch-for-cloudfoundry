@@ -103,6 +103,59 @@ describe "app-logmessage-rtr.conf" do
 
         end
       end
+    end
+
+    context "RTR format (cf-release v252+)" do
+
+      context "" do
+        when_parsing_log(
+            "@type" => "LogMessage",
+            "@source" => { "type" => "RTR" },
+            "@level" => "SOME LEVEL",
+            # rtr format - quoted requestRemoteAddr and destIPandPort
+            "@message" => "parser.64.78.234.207.xip.io - [2017-03-16T13:28:25.166+0000] \"GET / HTTP/1.1\" 200 0 1677 \"-\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.67 Safari/537.36\" \"10.2.9.104:60079\" \"10.2.32.71:61010\" x_forwarded_for:\"82.209.244.50, 192.168.111.21\" x_forwarded_proto:\"https\" vcap_request_id:\"f322dd76-aacf-422e-49fb-c73bc46ce45b\" response_time:0.001602684 app_id:\"27c02dec-80ce-4af6-94c5-2b51848edae9\" app_index:\"1\"\n"
+        ) do
+
+          # no parsing errors
+          it { expect(subject["tags"]).to eq ["logmessage-rtr"] } # no fail tag
+
+          # fields
+          it { expect(subject["@message"]).to eq "200 GET / (1 ms)" }
+          it { expect(subject["@level"]).to eq "INFO" }
+
+          it "sets [rtr] fields" do
+            expect(subject["rtr"]["hostname"]).to eq "parser.64.78.234.207.xip.io"
+            expect(subject["rtr"]["timestamp"]).to eq "2017-03-16T13:28:25.166+0000"
+            expect(subject["rtr_time"]).to be_nil
+            expect(subject["rtr"]["verb"]).to eq "GET"
+            expect(subject["rtr"]["path"]).to eq "/"
+            expect(subject["rtr"]["http_spec"]).to eq "HTTP/1.1"
+            expect(subject["rtr"]["status"]).to eq 200
+            expect(subject["rtr"]["request_bytes_received"]).to eq 0
+            expect(subject["rtr"]["body_bytes_sent"]).to eq 1677
+            expect(subject["rtr"]["referer"]).to eq "-"
+            expect(subject["rtr"]["http_user_agent"]).to eq "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.67 Safari/537.36"
+            expect(subject["rtr"]["x_forwarded_for"]).to eq ["82.209.244.50", "192.168.111.21"]
+            expect(subject["rtr"]["x_forwarded_proto"]).to eq "https"
+            expect(subject["rtr"]["vcap_request_id"]).to eq "f322dd76-aacf-422e-49fb-c73bc46ce45b"
+            expect(subject["rtr"]["src"]["host"]).to eq "10.2.9.104"
+            expect(subject["rtr"]["src"]["port"]).to eq "60079"
+            expect(subject["rtr"]["dst"]["host"]).to eq "10.2.32.71"
+            expect(subject["rtr"]["dst"]["port"]).to eq "61010"
+            expect(subject["rtr"]["app"]["id"]).to eq "27c02dec-80ce-4af6-94c5-2b51848edae9"
+            expect(subject["rtr"]["app"]["index"]).to eq 1
+            # calculated values
+            expect(subject["rtr"]["remote_addr"]).to eq "82.209.244.50"
+            expect(subject["rtr"]["response_time_ms"]).to eq 1
+          end
+
+          it "sets geoip for [rtr][remote_addr]" do
+            expect(subject["geoip"]).not_to be_nil
+            expect(subject["geoip"]["ip"]).to eq "82.209.244.50"
+          end
+
+        end
+      end
 
       context "empty requestRemoteAddr and destIPandPort" do
         when_parsing_log(
