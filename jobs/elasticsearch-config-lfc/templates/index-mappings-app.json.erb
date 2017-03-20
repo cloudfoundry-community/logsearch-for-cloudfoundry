@@ -35,8 +35,7 @@ string_default = { "type": "string", "index": "not_analyzed" }.to_json
           "type": "object",
           "dynamic": true,
           "properties": {
-            "message_type":   <%= string_default %>,
-            "cf_ignored_app": { "type": "boolean" }
+            "message_type":   <%= string_default %>
           }
         },
         "rtr": {
@@ -63,8 +62,9 @@ string_default = { "type": "string", "index": "not_analyzed" }.to_json
         "geoip"  : {
           "type" : "object",
           "dynamic": true,
-          "properties" : {
-            "location" : { "type" : "geo_point" }
+          "properties": {
+            "location": { "type": "geo_point" },
+            "timezone": <%= string_default %>
           }
         }         
       }
@@ -93,8 +93,7 @@ string_default = { "type": "string", "index": "not_analyzed" }.to_json
             "memory_bytes":       { "type": "long" },
             "disk_bytes_quota":   { "type": "long" },
             "disk_bytes":         { "type": "long" },
-            "cpu_percentage":     { "type": "long" },
-            "cf_ignored_app":     { "type": "boolean" }
+            "cpu_percentage":     { "type": "long" }
           }
         }
       }
@@ -160,20 +159,19 @@ string_default = { "type": "string", "index": "not_analyzed" }.to_json
           "type": "object",
           "dynamic": true,
           "properties": {
-            "forwarded":      <%= string_default %>,
-            "status_code":    { "type": "long" },
-            "instance_id":    <%= string_default %>,
-            "duration_ms":    { "type": "long" },
-            "uri":            <%= string_default %>,
-            "content_length": { "type": "long" },
-            "method":         <%= string_default %>,
-            "remote_addr":    <%= string_default %>,
             "stop_timestamp": { "type": "long" },
-            "user_agent":     <%= string_default %>,
             "request_id":     <%= string_default %>,
             "peer_type":      <%= string_default %>,
+            "method":         <%= string_default %>,
+            "uri":            <%= string_default %>,
+            "remote_addr":    <%= string_default %>,
+            "user_agent":     <%= string_default %>,
+            "status_code":    { "type": "long" },
+            "content_length": { "type": "long" },
             "instance_index": { "type": "long" },
-            "cf_ignored_app": { "type": "boolean" }
+            "instance_id":    <%= string_default %>,
+            "forwarded":      <%= string_default %>,
+            "duration_ms":    { "type": "long" }
           }
         }
       }

@@ -101,7 +101,6 @@ end
 def verify_app_cf_fields (app_instance)
 
   it "sets @cf fields" do
-    expect(subject["@cf"]["origin"]).to eq "firehose"
     expect(subject["@cf"]["app"]).to eq "loggenerator"
     expect(subject["@cf"]["app_id"]).to eq "31b928ee-4110-4e7b-996c-334c5d7ac2ac"
     expect(subject["@cf"]["app_instance"]).to eq app_instance

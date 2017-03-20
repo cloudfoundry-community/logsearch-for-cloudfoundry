@@ -65,7 +65,6 @@ These fields are specific to _application_ logs only. They store CloudFoundry me
 | `@cf.space` | myspace, ... |
 | `@cf.app_id` | ee61d1b6-f08f-4f93-b93f-2a9b0ae82dfc, ... |
 | `@cf.app` | myapp, ... |
-| `@cf.origin` | 	firehose |
 | `@cf.app_instance` | 0, 1, 2, ... |
 
 ##### Event specific fields
