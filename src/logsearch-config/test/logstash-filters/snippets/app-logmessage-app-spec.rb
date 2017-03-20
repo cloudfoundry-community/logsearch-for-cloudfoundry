@@ -29,7 +29,7 @@ describe "app-logmessage-app.conf" do
     context "(composite [@source][type])" do
       when_parsing_log(
           "@type" => "LogMessage",
-          "@source" => {"type" => "APP/PROC/WEB"}, # composite APP/* value
+          "@source" => {"type" => "APP"},
           "@level" => "INFO",
           "@message" => "Some message here"
       ) do
