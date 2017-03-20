@@ -41,6 +41,9 @@ properties:
   cloudfoundry.firehose_subscription_id:
     description: "ID for the firehose-to-syslog subscription"
     default: "firehose"
+  cloudfoundry.firehose_cc_pull_interval:
+    description: "full app metadata update interval; defaults to 60s"
+    default: "60s"
 
   syslog.host:
     description: IP or hostname of the syslog drain
