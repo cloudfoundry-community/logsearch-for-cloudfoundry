@@ -1,17 +1,19 @@
 ---
-sudo: false
 language: ruby
+sudo: false
+
+gemfile: src/logsearch-config/Gemfile
+
 rvm:
-  - 2.3.1
+  - jruby-9.1.5.0
+
 jdk:
-  - openjdk7
-before_install:
-  - gem update --system
-  - gem --version
-install:
+  - oraclejdk8
+
+before_script:
   - cd $TRAVIS_BUILD_DIR/src/logsearch-config
-  - bin/install-dependencies
+
 script:
-  - bin/test default
+  - bundle exec rake
 notifications:
   email: false

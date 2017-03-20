@@ -1,5 +1,5 @@
 # encoding: utf-8
-require 'test/logstash-filters/filter_test_helpers'
+require 'spec_helper'
 
 describe "app-error.conf" do
 
@@ -19,7 +19,7 @@ describe "app-error.conf" do
     ) do
 
       # tag is NOT set
-      it { expect(subject["tags"]).to be_nil }
+      it { expect(parsed_results.get("tags")).to be_nil }
 
     end
   end
@@ -32,14 +32,14 @@ describe "app-error.conf" do
         "@message" => "some message"
     ) do
 
-      it { expect(subject["tags"]).to eq ["error"] }
+      it { expect(parsed_results.get("tags")).to eq ["error"] }
 
-      it { expect(subject["@message"]).to eq "Some error message" }
-      it { expect(subject["parsed_json_field"]["message"]).to be_nil }
-      it { expect(subject["parsed_json_field"]["source"]).to eq "abc" }
-      it { expect(subject["parsed_json_field"]["code"]).to eq "def" }
+      it { expect(parsed_results.get("@message")).to eq "Some error message" }
+      it { expect(parsed_results.get("parsed_json_field")["message"]).to be_nil }
+      it { expect(parsed_results.get("parsed_json_field")["source"]).to eq "abc" }
+      it { expect(parsed_results.get("parsed_json_field")["code"]).to eq "def" }
 
-      it { expect(subject["@type"]).to eq "Error" } # keeps unchanged
+      it { expect(parsed_results.get("@type")).to eq "Error" } # keeps unchanged
 
     end
   end

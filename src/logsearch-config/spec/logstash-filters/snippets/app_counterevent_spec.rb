@@ -1,5 +1,5 @@
 # encoding: utf-8
-require 'test/logstash-filters/filter_test_helpers'
+require 'spec_helper'
 
 describe "app-counterevent.conf" do
 
@@ -19,7 +19,7 @@ describe "app-counterevent.conf" do
     ) do
 
       # tag is NOT set
-      it { expect(subject["tags"]).to be_nil }
+      it { expect(parsed_results.get("tags")).to be_nil }
 
     end
   end
@@ -32,14 +32,14 @@ describe "app-counterevent.conf" do
         "@message" => "some message"
     ) do
 
-      it { expect(subject["tags"]).to eq ["counterevent"] }
+      it { expect(parsed_results.get("tags")).to eq ["counterevent"] }
 
-      it { expect(subject["@message"]).to eq "abc (delta=123, total=456)" }
-      it { expect(subject["parsed_json_field"]["name"]).to eq "abc" }
-      it { expect(subject["parsed_json_field"]["delta"]).to eq 123 }
-      it { expect(subject["parsed_json_field"]["total"]).to eq 456 }
+      it { expect(parsed_results.get("@message")).to eq "abc (delta=123, total=456)" }
+      it { expect(parsed_results.get("parsed_json_field")["name"]).to eq "abc" }
+      it { expect(parsed_results.get("parsed_json_field")["delta"]).to eq 123 }
+      it { expect(parsed_results.get("parsed_json_field")["total"]).to eq 456 }
 
-      it { expect(subject["@type"]).to eq "CounterEvent" } # keeps unchanged
+      it { expect(parsed_results.get("@type")).to eq "CounterEvent" } # keeps unchanged
 
     end
   end

@@ -1,5 +1,5 @@
 # encoding: utf-8
-require 'test/logstash-filters/filter_test_helpers'
+require 'spec_helper'
 
 describe "app-valuemetric.conf" do
 
@@ -19,7 +19,7 @@ describe "app-valuemetric.conf" do
     ) do
 
       # tag is NOT set
-      it { expect(subject["tags"]).to be_nil }
+      it { expect(parsed_results.get("tags")).to be_nil }
 
     end
   end
@@ -32,14 +32,14 @@ describe "app-valuemetric.conf" do
         "@message" => "some message"
     ) do
 
-      it { expect(subject["tags"]).to eq ["valuemetric"] }
+      it { expect(parsed_results.get("tags")).to eq ["valuemetric"] }
 
-      it { expect(subject["@message"]).to eq "abc = 123.456 (def)" }
-      it { expect(subject["parsed_json_field"]["name"]).to eq "abc" }
-      it { expect(subject["parsed_json_field"]["value"]).to eq 123.456 }
-      it { expect(subject["parsed_json_field"]["unit"]).to eq "def" }
+      it { expect(parsed_results.get("@message")).to eq "abc = 123.456 (def)" }
+      it { expect(parsed_results.get("parsed_json_field")["name"]).to eq "abc" }
+      it { expect(parsed_results.get("parsed_json_field")["value"]).to eq 123.456 }
+      it { expect(parsed_results.get("parsed_json_field")["unit"]).to eq "def" }
 
-      it { expect(subject["@type"]).to eq "ValueMetric" } # keeps unchanged
+      it { expect(parsed_results.get("@type")).to eq "ValueMetric" } # keeps unchanged
 
     end
   end
