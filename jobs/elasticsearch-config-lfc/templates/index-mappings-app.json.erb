@@ -56,7 +56,31 @@ string_default = { "type": "string", "index": "not_analyzed" }.to_json
             "http_spec":              <%= string_default %>,
             "referer":                <%= string_default %>,
             "http_user_agent":        <%= string_default %>,
-            "status":                 { "type": "long" }
+            "status":                 { "type": "long" },
+            "src": {
+              "type": "object",
+              "dynamic": true,
+              "properties": {
+                "host": <%= string_default %>,
+                "port": { "type": "long" }
+              }
+            },
+            "dst": {
+              "type": "object",
+              "dynamic": true,
+              "properties": {
+                "host": <%= string_default %>,
+                "port": { "type": "long" }
+              }
+            },
+            "app": {
+              "type": "object",
+              "dynamic": true,
+              "properties": {
+                "id": <%= string_default %>,
+                "index": { "type": "long" }
+              }
+            }
           }
         },
         "geoip"  : {
