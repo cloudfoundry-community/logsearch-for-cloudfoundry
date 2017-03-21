@@ -62,6 +62,8 @@ describe "app.conf" do
         it { expect(parsed_results.get("parsed_json_field")["time"]).to be_nil }
         it { expect(parsed_results.get("parsed_json_field")["timestamp"]).to be_nil }
 
+        it { expect(parsed_results.get("tags")).not_to include('_rubyexception') }
+
         it { expect(parsed_results.get("@message")).to eq "Some Message" }
         it { expect(parsed_results.get("@level")).to eq "info" }
 
