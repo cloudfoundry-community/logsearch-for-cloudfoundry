@@ -112,8 +112,9 @@ $ bosh run errand smoke-tests
 ```yaml
 properties:
   syslog_daemon_config:
-    address: ls-router-static-ip
+    address: ls-router-static-ip    
     port: 5514
+    transport: tcp   # default is udp. Check your security groups: port + transport should be open 
 ```
 
 ### 9. Update CloudFoundry deployment to include ELK URI to the whitelist of UAA logout redirects
