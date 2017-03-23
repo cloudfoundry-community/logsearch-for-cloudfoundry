@@ -2,6 +2,8 @@
 
 ### Troubleshooting
 
+Find some useful tips:
+
 * Note that if you change ES mappings the changes are applied to new indicies only.
 
 * Consider checking Logstash logs for errors and warnings: `/var/vcap/sys/log/parser/parser.stdout.log`
