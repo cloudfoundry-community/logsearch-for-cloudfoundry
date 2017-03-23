@@ -13,7 +13,7 @@ So **the following indices are created** as the result:
 </br>`logs-platform-%{+YYYY.MM.dd}` for platform logs,
 </br>`logs-app-%{[cf][org]}-%{[cf][space]}-%{+YYYY.MM.dd}` for application logs.
 
-Please note that index name is [configurable](../templates/stub.logsearch-for-cloudfoundry.yml#L81) and can be customized. But it is highly recommended to **keep the name prefix `logs-*`**, because Elasticsearch [mappings](features.md#elasticsearch-mappings) uploaded during deploy rely on this prefix ([see](../src/logsearch-config/src/es-mappings/logs-template.json.erb#L2) `template` definition in mapping sources).
+Please note that index name is configurable and can be customized.
 
 Also it can be useful to read how to [_get list of all indices in Elasticsearch_](https://www.elastic.co/guide/en/elasticsearch/reference/current/_list_all_indices.html).
 

@@ -16,10 +16,10 @@ To use custom index name it's enough to set `logstash_parser.elasticsearch.index
 properties:
   logstash_parser:
     elasticsearch:
-      index: "logs-my_custom_name"
+      index: "my_custom_name"
 ```
 
-Please note that __logs-__ prefix should be kept in a new name so that [Elasticsearch mappings](features.md#elasticsearch-mappings) be still applied.
+Make sure to set `elasticsearch_config.index_prefix`, `elasticsearch_config.app_index_prefix` and `elasticsearch_config.platform_index_prefix` properties accordingly, so that [mappings](features.md#elasticsearch-mappings) are applied to your indices.
 
 #### Parsing rules
 
@@ -54,10 +54,14 @@ Elasticsearch mappings can be customized via `elasticsearch_config.templates` pr
   - (( merge ))
   - {name: elasticsearch-config-lfc, release: logsearch-for-cloudfoundry}
   properties:
-    elasticsearch_config:
+    elasticsearch_config:    
       templates:
-      - index_template: /var/vcap/packages/logsearch-config-es-mappings/logs-template.json
-      - my_custom_mappings_template: /path/to/my-template.json
+        - shards-and-replicas: /var/vcap/jobs/elasticsearch_config/index-templates/shards-and-replicas.json
+        - index-settings: /var/vcap/jobs/elasticsearch_config/index-templates/index-settings.json
+        - index-mappings: /var/vcap/jobs/elasticsearch_config/index-templates/index-mappings.json
+        - index-mappings-lfc: /var/vcap/jobs/elasticsearch-config-lfc/index-mappings.json
+        - index-mappings-app-lfc: /var/vcap/jobs/elasticsearch-config-lfc/index-mappings-app.json
+        - index-mappings-platform-lfc: /var/vcap/jobs/elasticsearch-config-lfc/index-mappings-platform.json
 ```
 
 Please pay attention that [_Elasticsearch mappings ordering_](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-templates.html#multiple-templates) is resolved by `order` attribute.
