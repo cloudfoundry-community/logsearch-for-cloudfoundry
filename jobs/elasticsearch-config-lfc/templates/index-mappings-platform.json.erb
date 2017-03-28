@@ -1,0 +1,99 @@
+<%
+# This file contains mappings specific for 'platform' indicies.
+#
+# By default all string fields are set as `not_analyzed`.
+#
+
+require 'json'
+
+
+string_default = { "type": "string", "index": "not_analyzed" }.to_json
+
+%>
+{
+  "template" : "<%= p('elasticsearch_config.platform_index_prefix') %>*",
+  "order": 204,
+  "mappings" : {
+            
+    <%# ------------ Platform specific types %>
+
+    "_default_": {
+      "properties": {
+        "geoip"  : {
+          "type" : "object",
+          "dynamic": true,
+          "properties" : {
+            "location" : { "type" : "geo_point" }
+          }
+        }     
+      }
+    },
+    
+    "uaa": {
+      "properties": {
+        "uaa": {
+          "type": "object",
+          "dynamic": true,
+          "properties": {
+            "timestamp":    <%= string_default %>,
+            "pid":          { "type": "long" },
+            "thread":       <%= string_default %>,
+            "log_category": <%= string_default %>,
+            "audit": {
+              "type": "object",
+              "dynamic": true,
+              "properties": {
+                "type":             <%= string_default %>,
+                "data":             <%= string_default %>,
+                "principal":        <%= string_default %>,
+                "origin":           <%= string_default %>,
+                "identity_zone_id": <%= string_default %>,
+                "remote_address":   <%= string_default %>
+              }
+            }
+          }
+        }
+      }
+    },
+    
+    "haproxy": {
+      "properties": {
+        "haproxy": {
+          "type": "object",
+          "dynamic": true,
+          "properties": {
+            "client_ip":                  <%= string_default %>,
+            "client_port":                { "type": "long" },
+            "accept_date":                <%= string_default %>,
+            "frontend_name":              <%= string_default %>,
+            "backend_name":               <%= string_default %>,
+            "bind_name":                  <%= string_default %>,
+            "server_name":                <%= string_default %>,
+            "time_request":               { "type": "long" },
+            "time_queue":                 { "type": "long" },
+            "time_backend_connect":       { "type": "long" },
+            "time_backend_response":      { "type": "long" },
+            "time_duration":              { "type": "long" },
+            "http_status_code":           { "type": "long" },
+            "bytes_read":                 { "type": "long" },
+            "captured_request_cookie":    <%= string_default %>,
+            "captured_response_cookie":   <%= string_default %>,
+            "termination_state":          <%= string_default %>,
+            "actconn":                    { "type": "long" },
+            "feconn":                     { "type": "long" },
+            "beconn":                     { "type": "long" },
+            "srvconn":                    { "type": "long" },
+            "retries":                    { "type": "long" },
+            "srv_queue":                  { "type": "long" },
+            "backend_queue":              { "type": "long" },
+            "captured_request_headers":   <%= string_default %>,
+            "captured_response_headers":  <%= string_default %>,
+            "http_request":               <%= string_default %>,
+            "http_request_verb":          <%= string_default %>
+          }
+        }
+      }
+    }
+        
+  }
+}

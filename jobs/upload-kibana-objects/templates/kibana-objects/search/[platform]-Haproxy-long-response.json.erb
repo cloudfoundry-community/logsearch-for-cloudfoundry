@@ -15,18 +15,17 @@
   ],
   "version": 1,
   "kibanaSavedObjectMeta": {
-    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    "searchSourceJSON": "<%= JSON.parse(
     {
-      "index": "logs-platform-*",
+      "index": "#{p('elasticsearch_config.platform_index_prefix')}*",
       "filter": [
         {
           "$state": {
             "store": "appState"
           },
           "meta": {
-            "alias": null,
             "disabled": false,
-            "index": "logs-platform-*",
+            "index": "#{p('elasticsearch_config.platform_index_prefix')}*",
             "key": "@source.component",
             "negate": false,
             "value": "haproxy"
@@ -60,8 +59,8 @@
           "analyze_wildcard": true
         }
       }
-    }
-ENDOFFJSON
+    }.to_json
+).to_json.gsub(/"/) { '\"' }
 %>"
   }
 }

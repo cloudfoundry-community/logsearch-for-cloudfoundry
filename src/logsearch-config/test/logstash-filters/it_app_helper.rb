@@ -4,7 +4,7 @@
 $app_event_dummy = {
     "@type" => "syslog",
     "syslog_program" => "doppler",
-    "syslog_pri" => "6",
+    "syslog_pri" => 6,
     "syslog_severity_code" => 3, # error
     "host" => "bed08922-4734-4d62-9eba-3291aed1b8ce",
     "@message" => "Dummy message"}
@@ -77,7 +77,7 @@ def verify_app_general_fields (metadata_index, type, source_type, message, level
 
   it { expect(subject["@input"]).to eq "syslog" }
 
-  it { expect(subject["@shipper"]["priority"]).to eq "6" }
+  it { expect(subject["@shipper"]["priority"]).to eq 6 }
   it { expect(subject["@shipper"]["name"]).to eq "doppler_syslog" }
 
   it "sets @source fields" do
@@ -101,7 +101,6 @@ end
 def verify_app_cf_fields (app_instance)
 
   it "sets @cf fields" do
-    expect(subject["@cf"]["origin"]).to eq "firehose"
     expect(subject["@cf"]["app"]).to eq "loggenerator"
     expect(subject["@cf"]["app_id"]).to eq "31b928ee-4110-4e7b-996c-334c5d7ac2ac"
     expect(subject["@cf"]["app_instance"]).to eq app_instance

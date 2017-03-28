@@ -14,7 +14,7 @@ describe "Platform IT" do
 
   # init event (dummy)
   platform_event_dummy = {"@type" => "relp",
-                     "syslog_pri" => "14",
+                     "syslog_pri" => 14,
                      "syslog_severity_code" => 3, # ERROR
                      "host" => "192.168.111.24",
                      "syslog_program" => "Dummy program",

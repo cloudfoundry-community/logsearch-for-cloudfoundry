@@ -83,7 +83,6 @@ describe "app.conf" do
           expect(subject["@cf"]["space_id"]).to eq "59cf41f2-3a1d-42db-88e7-9540b02945e8"
           expect(subject["@cf"]["org"]).to eq "admin"
           expect(subject["@cf"]["org_id"]).to eq "9887ad0a-f9f7-449e-8982-76307bd17239"
-          expect(subject["@cf"]["origin"]).to eq "firehose"
         end
 
         it { expect(subject["parsed_json_field"]["message_type"]).to eq "OUT" }

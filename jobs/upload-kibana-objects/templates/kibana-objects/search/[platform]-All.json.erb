@@ -15,9 +15,9 @@
   ],
   "version": 1,
   "kibanaSavedObjectMeta": {
-    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    "searchSourceJSON": "<%= JSON.parse(
     {
-      "index": "logs-platform-*",
+      "index": "#{p('elasticsearch_config.platform_index_prefix')}*",
       "filter": [],
       "highlight": {
         "pre_tags": [
@@ -38,8 +38,8 @@
           "query": "*"
         }
       }
-    }
-ENDOFFJSON
+    }.to_json
+).to_json.gsub(/"/) { '\"' }
 %>"
   }
 }

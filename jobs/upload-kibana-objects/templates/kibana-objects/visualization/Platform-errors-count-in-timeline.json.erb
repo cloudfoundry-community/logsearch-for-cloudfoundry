@@ -47,7 +47,7 @@
                 "input": {
                   "query": {
                     "query_string": {
-                      "query": "@level.raw:ERROR",
+                      "query": "@level:ERROR",
                       "analyze_wildcard": true
                     }
                   }
@@ -58,7 +58,7 @@
                 "input": {
                   "query": {
                     "query_string": {
-                      "query": "NOT @level.raw:ERROR",
+                      "query": "NOT @level:ERROR",
                       "analyze_wildcard": true
                     }
                   }

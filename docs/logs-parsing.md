@@ -13,7 +13,7 @@ So **the following indices are created** as the result:
 </br>`logs-platform-%{+YYYY.MM.dd}` for platform logs,
 </br>`logs-app-%{[cf][org]}-%{[cf][space]}-%{+YYYY.MM.dd}` for application logs.
 
-Please note that index name is [configurable](../templates/stub.logsearch-for-cloudfoundry.yml#L81) and can be customized. But it is highly recommended to **keep the name prefix `logs-*`**, because Elasticsearch [mappings](features.md#elasticsearch-mappings) uploaded during deploy rely on this prefix ([see](../src/logsearch-config/src/es-mappings/logs-template.json.erb#L2) `template` definition in mapping sources).
+Please note that index name is configurable and can be customized.
 
 Also it can be useful to read how to [_get list of all indices in Elasticsearch_](https://www.elastic.co/guide/en/elasticsearch/reference/current/_list_all_indices.html).
 
@@ -43,6 +43,8 @@ These fields are common for application and platform logs and store the followin
 | `@source.deployment` | cf-full-diego, ... | For application logs this value is shipped within a log event.</br>For platform logs we provide a deployment [dictionary](../jobs/parser-config-lfc/templates/deployment_lookup.yml.erb) which uses deployment names set with `logstash_parser.deployment_name` [property](../templates/stub.logsearch-for-cloudfoundry.yml#L84) and maps CloudFoundry jobs to these names.</br>(NOTE: The deployment dictionary is applied in _Logsearch_ parsing rules) |
 | `@source.job` | cell_z1, ... ||
 | `@source.job_index` | 52ba268e-5578-4e79-afa2-2ddefd70badg, ... | Bosh ID of the job (guid) - value of `spec.id` extracted from Bosh for the job |
+| `@source.index` | 0, 1, ... | Bosh instance index - value of `spec.index` extracted from Bosh for the job |
+| `@source.vm` | cell_z1/0 | For those entries where `@source.index` is passed, calculated as `@source.job`/`@source.index` |
 | `@source.component` | rep, nats, bbs, uaa, ... ||
 | `@source.type` | APP, RTR, STG, ...</br>system, cf | For application logs the field is set with [_CloudFoundry log source types_](https://docs.cloudfoundry.org/devguide/deploy-apps/streaming-logs.html#format). Additionally, for log events that don't specify a source type we [use](../src/logsearch-config/src/logstash-filters/snippets/app.conf#L101)) a dictionary based on an event type:</br>`LogMessage -> LOG`,</br>`Error -> ERR`,</br>`ContainerMetric -> CONTAINER`,</br>`ValueMetric -> METRIC`,</br>`CounterEvent -> COUNT`,</br>`HttpStartStop -> HTTP`</br></br>For platform logs the value is either `system` or `cf`. |
 | `@type` | LogMessage, Error, ValueMetric, ...</br>system, cf, haproxy, uaa, vcap |The field is used to define documents type in Elasticsearch (set in `logstash_parser.elasticsearch_index_type` [property](../templates/stub.logsearch-for-cloudfoundry.yml#L82)).</br>This field is set with values distinguishing logs of differnt types. |
@@ -65,7 +67,6 @@ These fields are specific to _application_ logs only. They store CloudFoundry me
 | `@cf.space` | myspace, ... |
 | `@cf.app_id` | ee61d1b6-f08f-4f93-b93f-2a9b0ae82dfc, ... |
 | `@cf.app` | myapp, ... |
-| `@cf.origin` | 	firehose |
 | `@cf.app_instance` | 0, 1, 2, ... |
 
 ##### Event specific fields

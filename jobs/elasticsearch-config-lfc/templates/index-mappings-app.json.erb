@@ -1,0 +1,205 @@
+<%
+# This file contains mappings specific for 'app' indicies.
+#
+# By default all string fields are set as `not_analyzed`.
+#
+
+require 'json'
+
+
+string_default = { "type": "string", "index": "not_analyzed" }.to_json
+
+%>
+{
+  "template" : "<%= p('elasticsearch_config.app_index_prefix') %>*",
+  "order": 203,
+  "mappings" : {
+    
+    <%# ------------ App specific types %>
+    "LogMessage": {
+      "properties": {              
+        "@cf": {
+          "type": "object",
+          "dynamic": true,
+          "properties": {
+            "app":          <%= string_default %>,
+            "app_id":       <%= string_default %>,
+            "app_instance": { "type": "long" },
+            "org":          <%= string_default %>,
+            "org_id":       <%= string_default %>,
+            "space":        <%= string_default %>,
+            "space_id":     <%= string_default %>
+          }
+        },
+        "logmessage": {
+          "type": "object",
+          "dynamic": true,
+          "properties": {
+            "message_type":   <%= string_default %>
+          }
+        },
+        "rtr": {
+          "type": "object",
+          "dynamic": true,
+          "properties": {
+            "response_time_ms":       { "type": "long" },
+            "remote_addr":            <%= string_default %>,
+            "x_forwarded_proto":      <%= string_default %>,
+            "x_forwarded_for":        <%= string_default %>,
+            "vcap_request_id":        <%= string_default %>,
+            "body_bytes_sent":        { "type": "long" },
+            "hostname":               <%= string_default %>,
+            "timestamp":              <%= string_default %>,
+            "request_bytes_received": { "type": "long" },
+            "verb":                   <%= string_default %>,
+            "path":                   <%= string_default %>,
+            "http_spec":              <%= string_default %>,
+            "referer":                <%= string_default %>,
+            "http_user_agent":        <%= string_default %>,
+            "status":                 { "type": "long" },
+            "src": {
+              "type": "object",
+              "dynamic": true,
+              "properties": {
+                "host": <%= string_default %>,
+                "port": { "type": "long" }
+              }
+            },
+            "dst": {
+              "type": "object",
+              "dynamic": true,
+              "properties": {
+                "host": <%= string_default %>,
+                "port": { "type": "long" }
+              }
+            },
+            "app": {
+              "type": "object",
+              "dynamic": true,
+              "properties": {
+                "id": <%= string_default %>,
+                "index": { "type": "long" }
+              }
+            }
+          }
+        },
+        "geoip"  : {
+          "type" : "object",
+          "dynamic": true,
+          "properties": {
+            "location": { "type": "geo_point" },
+            "timezone": <%= string_default %>
+          }
+        }         
+      }
+    },
+    
+    "ContainerMetric": {
+      "properties": {
+        "@cf": {
+          "type": "object",
+          "dynamic": true,
+          "properties": {
+            "app":          <%= string_default %>,
+            "app_id":       <%= string_default %>,
+            "app_instance": { "type": "long" },
+            "org":          <%= string_default %>,
+            "org_id":       <%= string_default %>,
+            "space":        <%= string_default %>,
+            "space_id":     <%= string_default %>
+          }
+        },
+        "containermetric": {
+          "type": "object",
+          "dynamic": true,
+          "properties": {
+            "memory_bytes_quota": { "type": "long" },
+            "memory_bytes":       { "type": "long" },
+            "disk_bytes_quota":   { "type": "long" },
+            "disk_bytes":         { "type": "long" },
+            "cpu_percentage":     { "type": "long" }
+          }
+        }
+      }
+    },
+    
+    "ValueMetric": {
+      "properties": {
+        "valuemetric": {
+          "type": "object",
+          "dynamic": true,
+          "properties": {
+            "unit":  <%= string_default %>,
+            "name":  <%= string_default %>,
+            "value": { "type": "long" }
+          }
+        }                 
+      }
+    },
+    
+    "CounterEvent": {
+      "properties": {
+        "counterevent": {
+          "type": "object",
+          "dynamic": true,
+          "properties": {
+            "delta":  { "type": "long" },
+            "name":  <%= string_default %>,
+            "total": { "type": "long" }
+          }
+        }
+      }
+    },
+    
+    "Error": {
+      "properties": {
+        "error": {
+          "type": "object",
+          "dynamic": true,
+          "properties": {
+            "source":  <%= string_default %>,
+            "code": { "type": "long" }
+          }
+        }
+      }
+    },
+    
+    "HttpStartStop": {
+      "properties": {
+        "@cf": {
+          "type": "object",
+          "dynamic": true,
+          "properties": {
+            "app":          <%= string_default %>,
+            "app_id":       <%= string_default %>,
+            "app_instance": { "type": "long" },
+            "org":          <%= string_default %>,
+            "org_id":       <%= string_default %>,
+            "space":        <%= string_default %>,
+            "space_id":     <%= string_default %>
+          }
+        },
+        "httpstartstop": {
+          "type": "object",
+          "dynamic": true,
+          "properties": {
+            "stop_timestamp": { "type": "long" },
+            "request_id":     <%= string_default %>,
+            "peer_type":      <%= string_default %>,
+            "method":         <%= string_default %>,
+            "uri":            <%= string_default %>,
+            "remote_addr":    <%= string_default %>,
+            "user_agent":     <%= string_default %>,
+            "status_code":    { "type": "long" },
+            "content_length": { "type": "long" },
+            "instance_index": { "type": "long" },
+            "instance_id":    <%= string_default %>,
+            "forwarded":      <%= string_default %>,
+            "duration_ms":    { "type": "long" }
+          }
+        }
+      }
+    }
+        
+  }
+}

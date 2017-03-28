@@ -33,19 +33,21 @@ For more details on parsing please visit [Logs parsing](logs-parsing.md) page.
 
 #### Elasticsearch mappings
 
-Logsearch-for-cloudfoundry provides Elasticsearch [mappings](../jobs/elasticsearch-config-lfc/templates/index-mappings.json.erb) for logs index. The mappings include reasonable rules for making the parsed fields useful in data analysis. They include:
+Logsearch-for-cloudfoundry provides Elasticsearch [mappings](../jobs/elasticsearch-config-lfc/templates) for logs indices. The mappings include reasonable rules for fields. They include:
 
-* Make `*_id` fields *not_analyzed*. 
+* All string fields are *not_analyzed* by default
 
-  There is no need to analyze ID fields because of their nature - they are indicators, not a full text. Additionally, Kibana *authentication plugin* __relies on this mapping__, because it uses fields `@cf.org_id` and `@cf.space_id` for data filtering (read below).
+  This mapping [is defined](https://github.com/cloudfoundry-community/logsearch-boshrelease/blob/develop/jobs/elasticsearch_config/templates/index-templates/index-mappings.json.erb#L11-L28) in Logsearch release.
 
-* Add `*.raw` fields as *not_analyzed* copies of some string fields. 
+* All static fields are mapped according to their datatypes. So, all fields, known during parsing, are mapped implicitly. Dynamic fields (e.g. json fields) are mapped using defined default mappings (see above) and Elasticsearch [_dynamic mapping_](https://www.elastic.co/guide/en/elasticsearch/reference/current/dynamic-mapping.html) mechanism.
 
-  By using this mapping a string field is indexed as an analyzed field for full-text search, and as a not_analyzed field for sorting and aggregations in data analysis. We apply this mapping to all known string fields that we parse and whant to use not only for full-text search, but also for data analysis.
+* There are two string fields that can be used for full text search - `@raw` and `@message`. These fields are defined as *analyzed* strings. Additionaly, for `@message` field a *not_analyzed* field copy [is defined](../../mappings/jobs/elasticsearch-config-lfc/templates/index-mappings.json.erb#L46) as `@message.raw` - this field can be used for analytics. Field `@raw` [is set](https://github.com/cloudfoundry-community/logsearch-boshrelease/blob/develop/jobs/elasticsearch_config/templates/index-templates/index-mappings.json.erb#L6-L8) to be a default full text search field.
 
-* Make `geopoint` field of *geo_point* datatype.
+Mappings are uploaded to Elasticsearch in [_indices templates_](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-templates.html). Note, that Elasticsearch applies them to those indices matching specified index pattern (`template` property in a template) and according to specified order (`order` field).
 
-  This mapping allows to build *tile map* visualizations on this field.
+##### Mappings and Kibana Authentication
+
+Note, that Kibana *authentication plugin* uses fields `@cf.org_id` and `@cf.space_id` for data filtering (read below). And it is important that **these fields should be _not_analyzed_**. Keep this in mind if decide to customize mappings.
 
 #### Kibana authentication plugin
 
