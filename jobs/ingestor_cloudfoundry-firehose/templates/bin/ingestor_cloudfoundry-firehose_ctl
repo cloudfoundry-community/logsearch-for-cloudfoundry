@@ -60,7 +60,7 @@ case $1 in
         --events=<%= p("cloudfoundry.firehose_events") %> \
         --subscription-id=<%= p("cloudfoundry.firehose_subscription_id") %> \
         --boltdb-path=$TMP_DIR/firehose-to-syslog.cache.db \
-        --cc-pull-time=60s \<% if p("ingestor_cloudfoundry-firehose.debug") %>
+        --cc-pull-time=<%= p("cloudfoundry.firehose_cc_pull_interval") %> \<% if p("ingestor_cloudfoundry-firehose.debug") %>
         --debug \<% end%>
          >>$LOG_DIR/$JOB_NAME.stdout.log \
          2>>$LOG_DIR/$JOB_NAME.stderr.log
