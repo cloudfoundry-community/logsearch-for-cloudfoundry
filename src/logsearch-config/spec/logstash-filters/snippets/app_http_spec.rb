@@ -1,5 +1,5 @@
 # encoding: utf-8
-require 'test/logstash-filters/filter_test_helpers'
+require 'spec_helper'
 
 describe "app-http.conf" do
 
@@ -19,7 +19,7 @@ describe "app-http.conf" do
     ) do
 
       # tag is NOT set
-      it { expect(subject["tags"]).to be_nil }
+      it { expect(parsed_results.get("tags")).to be_nil }
 
     end
   end
@@ -36,19 +36,19 @@ describe "app-http.conf" do
         "@message" => "some message"
     ) do
 
-      it { expect(subject["tags"]).to eq ["http"] }
+      it { expect(parsed_results.get("tags")).to eq ["http"] }
 
-      it { expect(subject["@message"]).to eq "200 PUT /some/uri (300 ms)" } # constructed
+      it { expect(parsed_results.get("@message")).to eq "200 PUT /some/uri (300 ms)" } # constructed
 
       # keeps fields
-      it { expect(subject["parsed_json_field"]["method"]).to eq "PUT" }
-      it { expect(subject["parsed_json_field"]["peer_type"]).to eq "Client" }
-      it { expect(subject["parsed_json_field"]["status_code"]).to eq 200 }
-      it { expect(subject["parsed_json_field"]["uri"]).to eq "/some/uri" }
-      it { expect(subject["parsed_json_field"]["duration_ms"]).to eq 300 }
-      it { expect(subject["parsed_json_field"]["instance_id"]).to eq "abc" }
-      it { expect(subject["parsed_json_field"]["instance_index"]).to eq 5 }
-      it { expect(subject["@type"]).to eq "HttpStartStop" }
+      it { expect(parsed_results.get("parsed_json_field")["method"]).to eq "PUT" }
+      it { expect(parsed_results.get("parsed_json_field")["peer_type"]).to eq "Client" }
+      it { expect(parsed_results.get("parsed_json_field")["status_code"]).to eq 200 }
+      it { expect(parsed_results.get("parsed_json_field")["uri"]).to eq "/some/uri" }
+      it { expect(parsed_results.get("parsed_json_field")["duration_ms"]).to eq 300 }
+      it { expect(parsed_results.get("parsed_json_field")["instance_id"]).to eq "abc" }
+      it { expect(parsed_results.get("parsed_json_field")["instance_index"]).to eq 5 }
+      it { expect(parsed_results.get("@type")).to eq "HttpStartStop" }
 
     end
 
@@ -66,8 +66,8 @@ describe "app-http.conf" do
           "@message" => "some message"
       ) do
 
-        it { expect(subject["parsed_json_field"]["instance_id"]).to be_nil } # removes unnecessary field
-        it { expect(subject["parsed_json_field"]["instance_index"]).to be_nil } # removes unnecessary field
+        it { expect(parsed_results.get("parsed_json_field")["instance_id"]).to be_nil } # removes unnecessary field
+        it { expect(parsed_results.get("parsed_json_field")["instance_index"]).to be_nil } # removes unnecessary field
 
       end
     end
@@ -80,8 +80,8 @@ describe "app-http.conf" do
           "@message" => "some message"
       ) do
 
-        it { expect(subject["parsed_json_field"]["instance_id"]).to be_nil } # removes unnecessary field
-        it { expect(subject["parsed_json_field"]["instance_index"]).to be_nil } # removes unnecessary field
+        it { expect(parsed_results.get("parsed_json_field")["instance_id"]).to be_nil } # removes unnecessary field
+        it { expect(parsed_results.get("parsed_json_field")["instance_index"]).to be_nil } # removes unnecessary field
 
       end
     end

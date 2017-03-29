@@ -23,29 +23,29 @@ end
 
 # Test tasks
 desc "Runs unit tests against filters"
-task :utest, [:rspec_files] => :build do |t, args|
-  args.with_defaults(:rspec_files => "$(find test -name *-spec.rb ! -name *-it-spec.rb)")
+task :unit, [:rspec_files] => :build do |t, args|
+  args.with_defaults(:rspec_files => "$(find spec -name *_spec.rb | grep -v integration)")
   puts "===> Testing ..."
-  sh %Q[ vendor/logstash/bin/rspec #{args[:rspec_files]} --colour ]
+  sh %Q[ bundle exec rspec #{args[:rspec_files]} --colour ]
 end
 
 desc "Runs integration tests against filters"
-task :itest, [:rspec_files] => :build do |t, args|
-  args.with_defaults(:rspec_files => "$(find test -name *-it-spec.rb)")
+task :integration, [:rspec_files] => :build do |t, args|
+  args.with_defaults(:rspec_files => "$(find spec -name *_spec.rb | grep integration)")
   puts "===> Integration Testing ..."
-  sh %Q[ vendor/logstash/bin/rspec #{args[:rspec_files]} --colour ]
+  sh %Q[ bundle exec rspec #{args[:rspec_files]} --colour ]
 end
 
 desc "Runs YAML validation tests"
 task :yaml, [:yaml_files] => :build do |t, args|
   args.with_defaults(:yaml_files => "$(find ../.. -path ../../src -prune -o -name '*.yml' -print)")
   puts "===> Validating YAML data ..."
-  sh %Q[ yaml-lint #{args[:yaml_files]} ]
+  sh %Q[ bundle exec yaml-lint #{args[:yaml_files]} ]
 end
 
 task default: [
-  :utest,
-  :itest,
+  :unit,
+  :integration,
   :yaml
 ]
 

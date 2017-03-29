@@ -1,5 +1,5 @@
 # encoding: utf-8
-require 'test/logstash-filters/filter_test_helpers'
+require 'spec_helper'
 
 describe "setup.conf" do
 
@@ -18,7 +18,7 @@ describe "setup.conf" do
       ) do
 
         # event is dropped
-        it { expect(subject).to be_nil }
+        it { expect(parsed_results).to be_nil}
 
       end
     end
@@ -29,7 +29,7 @@ describe "setup.conf" do
       ) do
 
         # event is dropped
-        it { expect(subject).to be_nil }
+        it { expect(parsed_results).to be_nil}
 
       end
     end
@@ -40,7 +40,7 @@ describe "setup.conf" do
       ) do
 
         # unicode removed
-        it { expect(subject["@message"]).to eq "abc" }
+        it { expect(parsed_results.get("@message")).to eq "abc" }
 
       end
     end
@@ -54,12 +54,12 @@ describe "setup.conf" do
       ) do
 
         # fields
-        it { expect(subject["@index_type"]).to eq "platform" }
-        it { expect(subject["@metadata"]["index"]).to eq "platform" }
-        it { expect(subject["@input"]).to eq "some-type" }
-        it { expect(subject["@shipper"]["priority"]).to eq 5 }
-        it { expect(subject["@shipper"]["name"]).to eq "some-program_some-type" }
-        it { expect(subject["@source"]["component"]).to eq "some-program" }
+        it { expect(parsed_results.get("@index_type")).to eq "platform" }
+        it { expect(parsed_results.get("@metadata")["index"]).to eq "platform" }
+        it { expect(parsed_results.get("@input")).to eq "some-type" }
+        it { expect(parsed_results.get("@shipper")["priority"]).to eq 5 }
+        it { expect(parsed_results.get("@shipper")["name"]).to eq "some-program_some-type" }
+        it { expect(parsed_results.get("@source")["component"]).to eq "some-program" }
 
       end
     end
@@ -74,8 +74,8 @@ describe "setup.conf" do
       ) do
 
         # fields
-        it { expect(subject["@index_type"]).to eq "app" }
-        it { expect(subject["@metadata"]["index"]).to eq "app" }
+        it { expect(parsed_results.get("@index_type")).to eq "app" }
+        it { expect(parsed_results.get("@metadata")["index"]).to eq "app" }
 
       end
     end
@@ -87,8 +87,8 @@ describe "setup.conf" do
       ) do
 
         # fields
-        it { expect(subject["@index_type"]).to eq "platform" }
-        it { expect(subject["@metadata"]["index"]).to eq "platform" }
+        it { expect(parsed_results.get("@index_type")).to eq "platform" }
+        it { expect(parsed_results.get("@metadata")["index"]).to eq "platform" }
 
       end
     end

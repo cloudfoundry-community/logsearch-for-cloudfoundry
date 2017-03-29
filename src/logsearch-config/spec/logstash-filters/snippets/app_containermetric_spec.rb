@@ -1,5 +1,5 @@
 # encoding: utf-8
-require 'test/logstash-filters/filter_test_helpers'
+require 'spec_helper'
 
 describe "app-containermetric.conf" do
 
@@ -20,7 +20,7 @@ describe "app-containermetric.conf" do
     ) do
 
       # tag is NOT set
-      it { expect(subject["tags"]).to be_nil }
+      it { expect(parsed_results.get("tags")).to be_nil }
 
     end
   end
@@ -34,21 +34,21 @@ describe "app-containermetric.conf" do
         "@message" => "some message"
     ) do
 
-      it { expect(subject["tags"]).to eq ["containermetric"] }
+      it { expect(parsed_results.get("tags")).to eq ["containermetric"] }
 
-      it { expect(subject["@cf"]["app_id"]).to eq "abc" } # keeps unchanged
-      it { expect(subject["@cf"]["app_instance"]).to eq 5 }
-      it { expect(subject["parsed_json_field"]["instance_index"]).to be_nil }
+      it { expect(parsed_results.get("@cf")["app_id"]).to eq "abc" } # keeps unchanged
+      it { expect(parsed_results.get("@cf")["app_instance"]).to eq 5 }
+      it { expect(parsed_results.get("parsed_json_field")["instance_index"]).to be_nil }
 
       it "keeps containermetric fields" do
-        expect(subject["parsed_json_field"]["cpu_percentage"]).to eq 123
-        expect(subject["parsed_json_field"]["memory_bytes"]).to eq 456
-        expect(subject["parsed_json_field"]["disk_bytes"]).to eq 789
+        expect(parsed_results.get("parsed_json_field")["cpu_percentage"]).to eq 123
+        expect(parsed_results.get("parsed_json_field")["memory_bytes"]).to eq 456
+        expect(parsed_results.get("parsed_json_field")["disk_bytes"]).to eq 789
       end
 
-      it { expect(subject["@message"]).to eq "cpu=123, memory=456, disk=789" }
+      it { expect(parsed_results.get("@message")).to eq "cpu=123, memory=456, disk=789" }
 
-      it { expect(subject["@type"]).to eq "ContainerMetric" } # keeps unchanged
+      it { expect(parsed_results.get("@type")).to eq "ContainerMetric" } # keeps unchanged
 
     end
   end
@@ -64,9 +64,9 @@ describe "app-containermetric.conf" do
           "@message" => "some message"
       ) do
 
-        it { expect(subject["@cf"]["app_id"]).to be_nil } # removes empty field
-        it { expect(subject["@cf"]["app_instance"]).to be_nil } # doesn't set app_instance
-        it { expect(subject["parsed_json_field"]["instance_index"]).to be_nil } # removes unnecessary field
+        it { expect(parsed_results.get("@cf")["app_id"]).to be_nil } # removes empty field
+        it { expect(parsed_results.get("@cf")["app_instance"]).to be_nil } # doesn't set app_instance
+        it { expect(parsed_results.get("parsed_json_field")["instance_index"]).to be_nil } # removes unnecessary field
 
       end
     end
@@ -79,9 +79,9 @@ describe "app-containermetric.conf" do
           "@message" => "some message"
       ) do
 
-        it { expect(subject["@cf"]["app_id"]).to be_nil } # missing
-        it { expect(subject["@cf"]["app_instance"]).to be_nil } # doesn't set app_instance
-        it { expect(subject["parsed_json_field"]["instance_index"]).to be_nil } # removes unnecessary field
+        it { expect(parsed_results.get("@cf")["app_id"]).to be_nil } # missing
+        it { expect(parsed_results.get("@cf")["app_instance"]).to be_nil } # doesn't set app_instance
+        it { expect(parsed_results.get("parsed_json_field")["instance_index"]).to be_nil } # removes unnecessary field
 
       end
     end

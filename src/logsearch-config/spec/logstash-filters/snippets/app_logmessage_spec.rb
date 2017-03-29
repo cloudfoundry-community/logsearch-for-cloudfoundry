@@ -1,5 +1,5 @@
 # encoding: utf-8
-require 'test/logstash-filters/filter_test_helpers'
+require 'spec_helper'
 
 describe "app-logmessage.conf" do
 
@@ -20,7 +20,7 @@ describe "app-logmessage.conf" do
     ) do
 
       # tag is NOT set
-      it { expect(subject["tags"]).to be_nil }
+      it { expect(parsed_results.get("tags")).to be_nil }
 
     end
   end
@@ -34,18 +34,18 @@ describe "app-logmessage.conf" do
         "@message" => "some message"
     ) do
 
-      it { expect(subject["tags"]).to eq ["logmessage"] }
+      it { expect(parsed_results.get("tags")).to eq ["logmessage"] }
 
-      it { expect(subject["@source"]["type"]).to eq "TESTTYPE" } # uppercased
+      it { expect(parsed_results.get("@source")["type"]).to eq "TESTTYPE" } # uppercased
 
-      it { expect(subject["@cf"]["app_id"]).to eq "abc" } # keeps unchanged
-      it { expect(subject["@cf"]["app_instance"]).to eq 5 } # converted to int
-      it { expect(subject["parsed_json_field"]["source_instance"]).to be_nil }
+      it { expect(parsed_results.get("@cf")["app_id"]).to eq "abc" } # keeps unchanged
+      it { expect(parsed_results.get("@cf")["app_instance"]).to eq 5 } # converted to int
+      it { expect(parsed_results.get("parsed_json_field")["source_instance"]).to be_nil }
 
-      it { expect(subject["parsed_json_field"]["message_type"]).to eq "OUT" } # keeps json fields
-      it { expect(subject["@cf"]["space"]).to eq "def" } # keeps @cf fields
+      it { expect(parsed_results.get("parsed_json_field")["message_type"]).to eq "OUT" } # keeps json fields
+      it { expect(parsed_results.get("@cf")["space"]).to eq "def" } # keeps @cf fields
 
-      it { expect(subject["@message"]).to eq "some message" }
+      it { expect(parsed_results.get("@message")).to eq "some message" }
 
     end
   end
@@ -60,7 +60,7 @@ describe "app-logmessage.conf" do
       ) do
 
         # useless event was dropped
-        it { expect(subject).to be_nil }
+        it { expect(parsed_results).to be_nil}
 
       end
     end
@@ -72,7 +72,7 @@ describe "app-logmessage.conf" do
       ) do
 
         # useless event was dropped
-        it { expect(subject).to be_nil }
+        it { expect(parsed_results).to be_nil}
 
       end
     end
@@ -84,7 +84,7 @@ describe "app-logmessage.conf" do
       ) do
 
         # event was NOT dropped
-        it { expect(subject).not_to be_nil }
+        it { expect(parsed_results).not_to be_nil}
 
       end
     end
@@ -101,9 +101,9 @@ describe "app-logmessage.conf" do
           "@message" => "some message"
       ) do
 
-        it { expect(subject["@cf"]["app_id"]).to be_nil } # removes empty field
-        it { expect(subject["@cf"]["app_instance"]).to be_nil } # doesn't set app_instance
-        it { expect(subject["parsed_json_field"]["source_instance"]).to be_nil } # removes unnecessary field
+        it { expect(parsed_results.get("@cf")["app_id"]).to be_nil } # removes empty field
+        it { expect(parsed_results.get("@cf")["app_instance"]).to be_nil } # doesn't set app_instance
+        it { expect(parsed_results.get("parsed_json_field")["source_instance"]).to be_nil } # removes unnecessary field
 
 
       end
@@ -117,9 +117,9 @@ describe "app-logmessage.conf" do
           "@message" => "some message"
       ) do
 
-        it { expect(subject["@cf"]["app_id"]).to be_nil } # missing
-        it { expect(subject["@cf"]["app_instance"]).to be_nil } # doesn't set app_instance
-        it { expect(subject["parsed_json_field"]["source_instance"]).to be_nil } # removes unnecessary field
+        it { expect(parsed_results.get("@cf")["app_id"]).to be_nil } # missing
+        it { expect(parsed_results.get("@cf")["app_instance"]).to be_nil } # doesn't set app_instance
+        it { expect(parsed_results.get("parsed_json_field")["source_instance"]).to be_nil } # removes unnecessary field
 
       end
     end
