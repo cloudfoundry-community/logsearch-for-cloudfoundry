@@ -34,7 +34,7 @@ end
 module Helpers
   module PlatformHelper
     def construct_cf_message__metronagent_format (message_payload)
-      '[job='+ message_payload.job + ' index=5abc6def7ghi]  ' + message_payload.message_text
+      '[job='+ message_payload.job + ' index=555]  ' + message_payload.message_text
     end
 
     def construct_cf_message__syslogrelease_format (message_payload)
@@ -49,8 +49,10 @@ module Helpers
       verify_platform_cf_fields(expected_shipper, expected_job, expected_component, expected_type, expected_tags,
                                 expected_message, expected_level)
 
+      it { expect(parsed_results.get("@source")["index"]).to eq 555 }
+      it { expect(parsed_results.get("@source")["vm"]).to eq expected_job + '/555' }
+      it { expect(parsed_results.get("@source")["job_index"]).to be_nil }
       it { expect(parsed_results.get("@source")["deployment"]).to be_nil }
-
 
     end
 
@@ -61,8 +63,10 @@ module Helpers
       verify_platform_cf_fields(expected_shipper, expected_job, expected_component, expected_type, expected_tags,
                                 expected_message, expected_level);
 
+      it { expect(parsed_results.get("@source")["job_index"]).to eq "5abc6def7ghi" }
+      it { expect(parsed_results.get("@source")["index"]).to be_nil }
+      it { expect(parsed_results.get("@source")["vm"]).to be_nil }
       it { expect(parsed_results.get("@source")["deployment"]).to eq expected_deployment }
-
 
     end
 
@@ -79,7 +83,6 @@ module Helpers
       it { expect(parsed_results.get("tags")).not_to include "fail/cloudfoundry/platform/grok" }
       it { expect(parsed_results.get("@source")["type"]).to eq "cf" }
       it { expect(parsed_results.get("@source")["job"]).to eq expected_job }
-      it { expect(parsed_results.get("@source")["job_index"]).to eq "5abc6def7ghi" }
     end
 
     def verify_platform_fields (expected_shipper, expected_component, expected_type, expected_tags,
@@ -92,7 +95,7 @@ module Helpers
       it { expect(parsed_results.get("@index_type")).to eq "platform" }
       it { expect(parsed_results.get("@metadata")["index"]).to eq "platform" }
       it { expect(parsed_results.get("@input")).to eq "relp" }
-      it { expect(parsed_results.get("@shipper")["priority"]).to eq "14" }
+      it { expect(parsed_results.get("@shipper")["priority"]).to eq 14 }
       it { expect(parsed_results.get("@shipper")["name"]).to eq expected_shipper }
       it { expect(parsed_results.get("@source")["host"]).to eq "192.168.111.24" }
       it { expect(parsed_results.get("@source")["component"]).to eq expected_component }

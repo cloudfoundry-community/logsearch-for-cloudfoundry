@@ -69,7 +69,7 @@ describe "teardown.conf" do
       when_parsing_log(
           "@source" => {"job" => "Abc", "index" => 123}
       ) do
-        it { expect(subject["@source"]["vm"]).to eq "Abc/123" }
+        it { expect(parsed_results.get("@source")["vm"]).to eq "Abc/123" }
       end
     end
 
@@ -77,7 +77,7 @@ describe "teardown.conf" do
       when_parsing_log(
           "@source" => {"instance" => 123}
       ) do
-        it { expect(subject["@source"]["vm"]).to be_nil }
+        it { expect(parsed_results.get("@source")["vm"]).to be_nil }
       end
     end
 
@@ -85,7 +85,7 @@ describe "teardown.conf" do
       when_parsing_log(
           "@source" => {"job" => "Abc"}
       ) do
-        it { expect(subject["@source"]["vm"]).to be_nil }
+        it { expect(parsed_results.get("@source")["vm"]).to be_nil }
       end
     end
 
@@ -93,7 +93,7 @@ describe "teardown.conf" do
       when_parsing_log(
           "@source" => {"some useless field" => "Abc"}
       ) do
-        it { expect(subject["@source"]["vm"]).to be_nil }
+        it { expect(parsed_results.get("@source")["vm"]).to be_nil }
       end
     end
 

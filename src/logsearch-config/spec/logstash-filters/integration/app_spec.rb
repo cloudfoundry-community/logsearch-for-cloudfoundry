@@ -124,9 +124,9 @@ describe "App IT" do
           expect(parsed_results.get("rtr")["x_forwarded_proto"]).to eq "https"
           expect(parsed_results.get("rtr")["vcap_request_id"]).to eq "f322dd76-aacf-422e-49fb-c73bc46ce45b"
           expect(parsed_results.get("rtr")["src"]["host"]).to eq "10.2.9.104"
-          expect(parsed_results.get("rtr")["src"]["port"]).to eq "60079"
+          expect(parsed_results.get("rtr")["src"]["port"]).to eq 60079
           expect(parsed_results.get("rtr")["dst"]["host"]).to eq "10.2.32.71"
-          expect(parsed_results.get("rtr")["dst"]["port"]).to eq "61010"
+          expect(parsed_results.get("rtr")["dst"]["port"]).to eq 61010
           expect(parsed_results.get("rtr")["app"]["id"]).to eq "27c02dec-80ce-4af6-94c5-2b51848edae9"
           expect(parsed_results.get("rtr")["app"]["index"]).to eq 1
           # calculated values

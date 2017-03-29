@@ -59,7 +59,7 @@ describe "platform.conf" do
         it "sets grok fields" do
           expect(parsed_results.get("@message")).to eq "Some message"
           expect(parsed_results.get("@source")["job"]).to eq "nfs_z1"
-          expect(parsed_results.get("@source")["job_index"]).to eq "0"
+          expect(parsed_results.get("@source")["index"]).to eq 0
         end
 
       end
