@@ -1,6 +1,6 @@
 {
   "name": "authentication",
-  "version": "0.7.0",
+  "version": "5.0.0",
   "description": "Integrations Kibana into CF's OAuth 2 authentication mechanism + User page in Kibana",
   "repository": {
     "type": "git",
@@ -12,6 +12,7 @@
     "catbox": "^6.0.0",
     "catbox-redis": "^1.0.7",
     "hapi-auth-cookie": "3.1.0",
+    "randomstring": "^1.1.5",
     "request": "^2.40.0",
     "uuid": "^2.0.1"
   },

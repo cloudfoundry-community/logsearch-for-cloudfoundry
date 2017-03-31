@@ -1,20 +1,17 @@
-var $ = require('jquery');
-var _ = require('lodash');
-var notify = require('ui/notify');
+import $ from "jquery";
+import _ from "lodash";
 
+import notify from 'ui/notify';
+import uiModules from 'ui/modules';
+import 'ui/autoload/styles';
 
-require('plugins/authentication/user.less');
+import "plugins/authentication/user.less";
+import chrome from "ui/chrome";
+import indexView from "plugins/authentication/user.html";
 
-var chrome = require('ui/chrome')
-.setTabs([
-  {
-    id: '',
-    title: 'User',
-    activeIndicatorColor: '#EFF0F2'
-  }
-])
-.setRootTemplate(require('plugins/authentication/user.html'))
-.setRootController('ui', function ($http, $scope) {
+chrome
+  .setRootTemplate(indexView)
+  .setRootController('ui', function ($http, $scope) {
   var ui = this;
   ui.loading = false;
 

@@ -3,7 +3,7 @@ var AuthCookie = require('hapi-auth-cookie'); // auth strategies mechanism
 var Promise = require('bluebird');
 var request = Promise.promisify(require('request'));
 var uuid = require('uuid');
-
+var randomstring = require("randomstring");
 
 /*
  --------------------------
@@ -37,18 +37,13 @@ var uuid = require('uuid');
 
 module.exports = function (kibana) {
   return new kibana.Plugin({
-
     uiExports: {
       app: {
         title: 'User',
         main: 'plugins/authentication/user',
         icon: 'plugins/authentication/user_icon.png',
-
-        autoload: [].concat(kibana.autoload.styles, 'ui/chrome', 'angular')
       }
-
     },
-
     /*
      This will set the name of the plugin and will be used by the server for
      namespacing purposes in the configuration. In Hapi you can expose methods and
@@ -85,6 +80,7 @@ module.exports = function (kibana) {
       var redis_port = (process.env.REDIS_PORT) ? process.env.REDIS_PORT : '6379';
       var cfInfoUri = cloudFoundryApiUri + '/v2/info';
       var sessionExpirationMs = (process.env.SESSION_EXPIRATION_MS) ? process.env.SESSION_EXPIRATION_MS : 12 * 60 * 60 * 1000; // 12 hours by default
+      var random_string = randomstring.generate(40);
 
       if (skip_ssl_validation) {
         process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
@@ -110,7 +106,7 @@ module.exports = function (kibana) {
           account_info_uri: Joi.string().default(cf_info.token_endpoint + '/userinfo'),
           organizations_uri: Joi.string().default(cloudFoundryApiUri + '/v2/organizations'),
           spaces_uri: Joi.string().default(cloudFoundryApiUri + '/v2/spaces'),
-          random_passphrase: Joi.string().default(client_secret.split('').reverse().join('')),
+          random_passphrase: Joi.string().default(random_string),
           use_redis_sessions: Joi.boolean().default(use_redis_sessions),
           redis_host: Joi.string().default(redis_host),
           redis_port: Joi.string().default(redis_port),
@@ -433,7 +429,7 @@ module.exports = function (kibana) {
 };
 
 function filterQuery(payload, cached) {
-  var bool = ensureKeys(payload, ['query', 'filtered', 'filter', 'bool']);
+  var bool = ensureKeys(payload, ['query', 'bool']);
   bool.must = bool.must || [];
   // Note: the `must` clause may be an array or an object
   if (isObject(bool.must)) {
