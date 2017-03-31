@@ -14,7 +14,7 @@ properties:
     default: logs
   cf-kibana.app_memory:
     description: "Kibana app memory"
-    default: 512M
+    default: 2048M
   cf-kibana.app_instances:
     description: "Count of Kibana instances"
     default: 1

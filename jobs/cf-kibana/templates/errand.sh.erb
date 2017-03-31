@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 set -x
@@ -15,11 +15,11 @@ cp /var/vcap/jobs/cf-kibana/config/kibana.yml $WORKDIR/kibana/config/kibana.yml
 
 <% p("cf-kibana.plugins").each do |plugin| name, path = plugin.first %>
   <% if path.start_with? '/var/vcap' %>
-    $WORKDIR/kibana/bin/kibana plugin --install "<%= name %>" --url "file://<%= path %>"
+    $WORKDIR/kibana/bin/kibana-plugin install "file://<%= path %>"
   <% elsif path.start_with? 'http' %>
-    $WORKDIR/kibana/bin/kibana plugin --install "<%= name %>" --url "<%= path %>"
+    $WORKDIR/kibana/bin/kibana-plugin install "<%= path %>"
   <% else %>
-    $WORKDIR/kibana/bin/kibana plugin --install "<%= path %>"
+    $WORKDIR/kibana/bin/kibana-plugin install "<%= path %>"
   <% end %>
 <% end %>
 
@@ -93,6 +93,6 @@ echo "Creating new OAuth2 client: <%= p("cf-kibana.oauth2_client_id") %>"
 
 cf push
 
-EXITSTATUS=0
+EXITSTATUS=$?
 echo "Errand Complete; exit status: $EXITSTATUS"
 exit $EXITSTATUS
