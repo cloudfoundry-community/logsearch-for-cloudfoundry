@@ -5,7 +5,7 @@ set -u # report the usage of uninitialized variables
 # $BOSH_COMPILE_TARGET - where this package & spec'd source files are available
 # $BOSH_INSTALL_TARGET - where you copy/install files to be included in package
 
-tar -xzf cf-cli/cf-cli_6.22.1_linux_x86-64.tgz -C ${BOSH_INSTALL_TARGET}
+tar -xzf cf-cli/cf-cli_6.25.0_linux_x86-64.tgz -C ${BOSH_INSTALL_TARGET}
 
 cd ${BOSH_INSTALL_TARGET}
 BIN_DIR=${BOSH_INSTALL_TARGET}/bin
