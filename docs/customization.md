@@ -100,7 +100,7 @@ properties:
   properties:
     kibana:
       plugins:
-      - auth: /var/vcap/packages/kibana-auth-plugin/kibana-auth-plugin.tar.gz
+      - auth: /var/vcap/packages/kibana-auth-plugin/kibana-auth-plugin.zip
       - my-plugin-1: /path/to/my-plugin-1
       - my-plugin-2: /path/to/my-plugin-2
 ```

@@ -109,7 +109,7 @@ jobs:
       - NODE_ENV: production
       - USE_HTTPS: false
       plugins:
-      - auth: /var/vcap/packages/kibana-auth-plugin/kibana-auth-plugin.tar.gz
+      - auth: /var/vcap/packages/kibana-auth-plugin/kibana-auth-plugin.zip
 
 properties:
   elasticsearch_config:
