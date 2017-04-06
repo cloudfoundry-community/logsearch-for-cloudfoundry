@@ -23,7 +23,7 @@ cf-cli/cf-cli_6.25.0_linux_x86-64.tgz:
   object_id: 4316161b-3625-4eb3-97a7-6631de9360f2
   sha: 82728ff9fed87554a14a2e5d2b4b743b8f2885ae
   size: 5088758
-cf-kibana/kibana-5.0.0-linux-x86_64.tar.gz:
-  object_id: d8d7281e-4d14-47a0-84be-ec6c381a6bec
-  sha: 370b78f1600c4dde8ac29ff9bb71a0a429d58ba9
-  size: 40124789
+cf-kibana/kibana-5.3.0-linux-x86_64.tar.gz:
+  object_id: 9014fb85-751f-4d3c-8ec0-bf1063e66220
+  sha: 4e9daf275f8ef749fba931c1f5c35f85662efd53
+  size: 38912478
