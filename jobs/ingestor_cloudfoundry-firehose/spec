@@ -5,6 +5,7 @@ packages:
 templates:
   bin/ingestor_cloudfoundry-firehose_ctl: bin/ingestor_cloudfoundry-firehose_ctl
   bin/monit_debugger: bin/monit_debugger
+  config/cert.pem.erb: config/cert.pem
   data/properties.sh.erb: data/properties.sh
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
@@ -47,3 +48,6 @@ properties:
   syslog.protocol:
     description: Syslog protocol (tcp/udp).
     default: tcp
+  syslog.cert_pem:
+    description: Certificate PEM.
+    default: ~

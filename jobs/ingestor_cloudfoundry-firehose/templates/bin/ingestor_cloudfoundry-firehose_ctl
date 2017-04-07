@@ -50,6 +50,7 @@ case $1 in
     exec chpst -u vcap:vcap firehose-to-syslog \
         --api-endpoint=<%= p("cloudfoundry.api_endpoint") %> \
         <% if_p("cloudfoundry.doppler_endpoint") do |endpoint| %>--doppler-endpoint=<%= endpoint %><% end %> \
+        <% if properties.syslog.cert_pem %>--cert-pem-syslog=${JOB_DIR}/config/cert.pem<% end %> \
         <% if p("cloudfoundry.skip_ssl_validation") %>--skip-ssl-validation <% end %> \
         --client-id=<%= p("cloudfoundry.firehose_client_id") %> \
         --client-secret=<%= p("cloudfoundry.firehose_client_secret") %> \
