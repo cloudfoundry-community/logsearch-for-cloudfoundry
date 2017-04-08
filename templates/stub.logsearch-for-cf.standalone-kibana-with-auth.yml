@@ -20,6 +20,23 @@ jobs:
       host: (( grab jobs.ls-router.networks.[0].static_ips.[0] ))
       port: 5514
 
+- name: ls-router
+  templates:
+  - (( merge ))
+  - {name: route_registrar, release: logsearch-for-cloudfoundry}
+  properties:
+    nats:
+      machines: []
+      password: nats_password
+      port: 4222
+      user: nats_user
+    route_registrar:
+      routes:
+      - name: kibana
+        registration_interval: 60s
+        port: 80
+        uris: []
+
 - name: parser
   templates:
   - (( merge ))
@@ -32,7 +49,7 @@ jobs:
         index_type: "%{@type}"
       filters:
       - logsearch-for-cf: /var/vcap/packages/logsearch-config-logstash-filters/logstash-filters-default.conf
-      deployment_dictionary: 
+      deployment_dictionary:
       - /var/vcap/packages/logsearch-config/deployment_lookup.yml
       - /var/vcap/jobs/parser-config-lfc/config/deployment_lookup.yml
       deployment_name:
