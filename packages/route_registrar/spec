@@ -1,0 +1,26 @@
+---
+name: route_registrar
+
+dependencies:
+  - golang
+
+files:
+  - code.cloudfoundry.org/lager/*.go
+  - code.cloudfoundry.org/lager/lagerflags/*.go
+  - code.cloudfoundry.org/multierror/*.go
+  - code.cloudfoundry.org/route-registrar/*.go
+  - code.cloudfoundry.org/route-registrar/commandrunner/*.go
+  - code.cloudfoundry.org/route-registrar/commandrunner/fakes/*.go
+  - code.cloudfoundry.org/route-registrar/config/*.go
+  - code.cloudfoundry.org/route-registrar/healthchecker/*.go
+  - code.cloudfoundry.org/route-registrar/healthchecker/fakes/*.go
+  - code.cloudfoundry.org/route-registrar/messagebus/*.go
+  - code.cloudfoundry.org/route-registrar/messagebus/fakes/*.go
+  - code.cloudfoundry.org/route-registrar/registrar/*.go
+  - github.com/nats-io/nats/*.go
+  - github.com/nats-io/go-nats/encoders/builtin/*.go
+  - github.com/nats-io/go-nats/util/*.go
+  - github.com/nats-io/nuid/*.go
+  - github.com/nu7hatch/gouuid/*.go
+  - github.com/tedsuo/ifrit/*.go
+  - gopkg.in/yaml.v2/*.go

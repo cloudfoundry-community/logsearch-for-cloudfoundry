@@ -4,3 +4,30 @@
 [submodule "src/github.com/cloudfoundry-community/firehose-to-syslog"]
 	path = src/github.com/cloudfoundry-community/firehose-to-syslog
 	url = https://github.com/cloudfoundry-community/firehose-to-syslog.git
+[submodule "src/code.cloudfoundry.org/lager"]
+	path = src/code.cloudfoundry.org/lager
+	url = https://github.com/cloudfoundry/lager
+[submodule "src/code.cloudfoundry.org/multierror"]
+	path = src/code.cloudfoundry.org/multierror
+	url = https://github.com/cloudfoundry/multierror
+[submodule "src/code.cloudfoundry.org/route-registrar"]
+	path = src/code.cloudfoundry.org/route-registrar
+	url = https://github.com/cloudfoundry-incubator/route-registrar
+[submodule "src/github.com/nats-io/nats"]
+	path = src/github.com/nats-io/nats
+	url = https://github.com/nats-io/nats
+[submodule "src/github.com/nats-io/nuid"]
+	path = src/github.com/nats-io/nuid
+	url = https://github.com/nats-io/nuid
+[submodule "src/github.com/nu7hatch/gouuid"]
+	path = src/github.com/nu7hatch/gouuid
+	url = https://github.com/nu7hatch/gouuid
+[submodule "src/github.com/nats-io/go-nats"]
+	path = src/github.com/nats-io/go-nats
+	url = https://github.com/nats-io/go-nats
+[submodule "src/github.com/tedsuo/ifrit"]
+	path = src/github.com/tedsuo/ifrit
+	url = https://github.com/tedsuo/ifrit
+[submodule "src/gopkg.in/yaml.v2"]
+	path = src/gopkg.in/yaml.v2
+	url = https://gopkg.in/yaml.v2
