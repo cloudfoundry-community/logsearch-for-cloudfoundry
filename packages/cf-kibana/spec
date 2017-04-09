@@ -1,5 +1,6 @@
 ---
 name: cf-kibana
+dependencies:
+  - kibana-auth-plugin
 files:
-- kibana-cf_authentication/**/*
-- cf-kibana/kibana-5.3.0-linux-x86_64.tar.gz
+  - cf-kibana/kibana-5.3.0-linux-x86_64.tar.gz

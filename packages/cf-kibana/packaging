@@ -7,9 +7,5 @@ set -u # report the usage of uninitialized variables
 
 tar -xzf cf-kibana/kibana-5*-linux-x86_64.tar.gz --strip 1 -C ${BOSH_INSTALL_TARGET}
 
-mkdir kibana
-cp -r kibana-cf_authentication kibana/
-zip -r $BOSH_COMPILE_TARGET/kibana-auth-plugin.zip kibana/
-
 cd ${BOSH_INSTALL_TARGET}
-bin/kibana-plugin install file://${BOSH_COMPILE_TARGET}/kibana-auth-plugin.zip
+bin/kibana-plugin install file:///var/vcap/packages/kibana-auth-plugin/kibana-auth-plugin.zip
