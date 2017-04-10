@@ -40,7 +40,8 @@ jobs:
       - name: kibana
         registration_interval: 60s
         port: 80
-        uris: []
+        uris:
+        - (( grab jobs.create-uaa-client.properties.create-uaa-client.kibana_domain ))
 
 - name: parser
   templates:
@@ -86,7 +87,7 @@ jobs:
   resource_pool: errand
   properties:
     create-uaa-client:
-      kibana_domain: elk.VAR_CF_DOMAIN  # The Kibana dashboard domain. Is used for redirects. (Technically, it should be set with your ls-router IP)
+      kibana_domain: (( concat "logs." jobs.create-uaa-client.properties.create-uaa-client.cloudfoundry.system_domain )) # The Kibana dashboard domain.
       oauth2_client_id: my_kibana_client_id  # Default value. The UAA Kibana oauth2 client id. Put an existing client id or one you want the job to create. Note the client required scopes: `openid,oauth.approvals,scim.userids,cloud_controller.read`.
       oauth2_client_secret: my_kibana_client_password  # The UAA Kibana oauth2 client id's secret
       cloudfoundry:
