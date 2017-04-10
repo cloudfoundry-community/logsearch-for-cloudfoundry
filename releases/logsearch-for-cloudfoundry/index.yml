@@ -22,4 +22,6 @@ builds:
     version: 202.0.0
   51944f1c-14b5-4876-854b-288546556cac:
     version: 203.0.0
+  27cf1106-e1d7-4bfe-baeb-541839cac700:
+    version: 204.0.0
 format-version: '2'
