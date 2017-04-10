@@ -5,6 +5,7 @@ packages:
 templates:
   bin/ingestor_cloudfoundry-firehose_ctl: bin/ingestor_cloudfoundry-firehose_ctl
   bin/monit_debugger: bin/monit_debugger
+  bin/pre-start.erb: bin/pre-start
   config/cert.pem.erb: config/cert.pem
   data/properties.sh.erb: data/properties.sh
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
@@ -26,7 +27,7 @@ properties:
     default: false
   cloudfoundry.firehose_client_id:
     description: "CF UAA client ID with 'doppler.firehose' permissions"
-    default: ""
+    default: "firehose-to-syslog"
   cloudfoundry.firehose_client_secret:
     description: "CF UAA client secret with 'doppler.firehose' permissions"
     default: ""
@@ -51,3 +52,10 @@ properties:
   syslog.cert_pem:
     description: Certificate PEM.
     default: ~
+
+  create-uaa-client.cloudfoundry.system_domain:
+    description: "The Elastic Runtime system domain ( eg: system.10.244.0.34.xip.io )"
+  create-uaa-client.cloudfoundry.uaa_admin_client_id:
+    description: "The UAA admin client id (required scope is `uaa.admin`). The admin client is used to manage the UAA Kibana oauth2 client."
+  create-uaa-client.cloudfoundry.uaa_admin_client_secret:
+    description: "The UAA admin client's secret"

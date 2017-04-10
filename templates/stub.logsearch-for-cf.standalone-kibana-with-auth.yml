@@ -12,13 +12,18 @@ jobs:
   properties:
     cloudfoundry:
       api_endpoint: https://api.VAR_CF_DOMAIN
-      firehose_user: admin  # CF UAA username of user with 'doppler.firehose' permissions
-      firehose_password: VAR_CF_SECRET  # CF UAA password of user with 'doppler.firehose' permissions
-      firehose_events: LogMessage  # Default value. Comma seperated list of events you would like to get. Valid options are CounterEvent,Error,HttpStartStop,LogMessage,ValueMetric,ContainerMetric.
+      firehose_client_id: firehose-to-syslog # UAA client with 'doppler.firehose' permissions
+      firehose_client_secret: VAR_CF_SECRET # UAA password of client with 'doppler.firehose' permissions
+      firehose_events: LogMessage # Default value. Comma seperated list of events you would like to get. Valid options are CounterEvent,Error,HttpStartStop,LogMessage,ValueMetric,ContainerMetric.
       skip_ssl_validation: true
     syslog:
       host: (( grab jobs.ls-router.networks.[0].static_ips.[0] ))
       port: 5514
+    create-uaa-client:
+      cloudfoundry:
+        system_domain: (( grab jobs.create-uaa-client.properties.create-uaa-client.cloudfoundry.system_domain ))
+        uaa_admin_client_id: (( grab jobs.create-uaa-client.properties.create-uaa-client.cloudfoundry.uaa_admin_client_id ))
+        uaa_admin_client_secret: (( grab jobs.create-uaa-client.properties.create-uaa-client.cloudfoundry.uaa_admin_client_secret ))
 
 - name: ls-router
   templates:

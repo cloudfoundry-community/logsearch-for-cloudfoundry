@@ -33,7 +33,7 @@ cf api <%= p("cloudfoundry.api_endpoint") %>
 <% end %>
 
 set +x
-cf auth <%= p("cloudfoundry.firehose_user") %> <%= p("cloudfoundry.firehose_password") %>
+cf auth <%= p("cloudfoundry.admin_user") %> <%= p("cloudfoundry.admin_password") %>
 set -x
 cf create-org <%= p("cf-kibana.cloudfoundry.system_org") %> || true
 cf target -o <%= p("cf-kibana.cloudfoundry.system_org") %>

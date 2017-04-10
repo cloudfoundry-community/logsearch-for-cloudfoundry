@@ -1,0 +1,38 @@
+#!/bin/bash -e
+
+ACCESS_TOKEN=$(\
+curl -s -D - -k \
+-u <%= p('create-uaa-client.cloudfoundry.uaa_admin_client_id')%>:<%= p('create-uaa-client.cloudfoundry.uaa_admin_client_secret')%> \
+-H "Accept:application/json" \
+-X POST 'https://uaa.<%= p('create-uaa-client.cloudfoundry.system_domain') %>/oauth/token?grant_type=client_credentials&response_type=token&client_id=<%= p('create-uaa-client.cloudfoundry.uaa_admin_client_id')%>&redirect_uri=http://dummy.com' \
+| sed -n 's/.*access_token":"\([^"]*\).*/\1/p' \
+)
+
+CLIENT_EXISTS=$(\
+curl -s -k -w "%{http_code}" -o /dev/null \
+-H "Authorization:Bearer $ACCESS_TOKEN" \
+-H"Content-Type:application/json" \
+-H"Accept:application/json" \
+-X GET https://uaa.<%= p('create-uaa-client.cloudfoundry.system_domain') %>/oauth/clients/<%= p('cloudfoundry.firehose_client_id') %> \
+)
+
+if [ $CLIENT_EXISTS != "404" ]; then
+   echo "Deleting old OAuth2 client: <%= p('cloudfoundry.firehose_client_id')%>"
+   curl -s -k -w "%{http_code}" \
+	-H "Authorization:Bearer $ACCESS_TOKEN" \
+	-H"Content-Type:application/json" \
+	-H"Accept:application/json" \
+	-XDELETE \
+	https://uaa.<%= p('create-uaa-client.cloudfoundry.system_domain') %>/oauth/clients/<%= p('cloudfoundry.firehose_client_id') %>
+fi
+echo "Creating new OAuth2 client: <%= p('cloudfoundry.firehose_client_id') %>"
+	curl -s -k -H "Authorization:Bearer $ACCESS_TOKEN" \
+-H"Content-Type:application/json" \
+-H"Accept:application/json" \
+-d '{
+  "client_id" : "<%= p('cloudfoundry.firehose_client_id') %>",
+  "client_secret" : "<%= p('cloudfoundry.firehose_client_secret') %>",
+  "authorities" : ["doppler.firehose", "cloud_controller.admin"],
+  "authorized_grant_types" : ["client_credentials", "refresh_token"]
+}' \
+-X POST https://uaa.<%= p('create-uaa-client.cloudfoundry.system_domain') %>/oauth/clients

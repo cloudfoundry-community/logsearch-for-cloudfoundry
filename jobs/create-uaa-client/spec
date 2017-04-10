@@ -24,4 +24,4 @@ properties:
   create-uaa-client.cloudfoundry.uaa_admin_client_id:
     description: "The UAA admin client id (required scope is `uaa.admin`). The admin client is used to manage the UAA Kibana oauth2 client."
   create-uaa-client.cloudfoundry.uaa_admin_client_secret:
-    description: "The UAA admin client's secret"  
+    description: "The UAA admin client's secret"

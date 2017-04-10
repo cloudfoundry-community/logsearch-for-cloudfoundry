@@ -81,10 +81,10 @@ properties:
 
   cloudfoundry.api_endpoint:
     description: "The CF API URL"
-  cloudfoundry.firehose_user:
-    description: "The CF API user"
-  cloudfoundry.firehose_password:
-    description: "The CF API user's password"
+  cloudfoundry.admin_user:
+    description: "Username of the admin user"
+  cloudfoundry.admin_password:
+    description: "Password of the admin user"
   cloudfoundry.skip_ssl_validation:
     description: "Toggles cli verification of the CF API SSL certificate"
 
