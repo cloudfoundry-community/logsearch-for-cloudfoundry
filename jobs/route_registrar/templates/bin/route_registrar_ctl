@@ -15,10 +15,7 @@ case $1 in
   start)
     pid_guard $PIDFILE $JOB_NAME
 
-    # store pid in $PIDFILE
-    echo $$ > $PIDFILE
-
-    exec route-registrar \
+    exec chpst -u vcap:vcap route-registrar \
       -pidfile=${PIDFILE} \
       -configPath=${CONFIG_FILE} \
       >>$LOG_DIR/$JOB_NAME.stdout.log \
