@@ -17,3 +17,15 @@ Logsearch                   | Private Key                                    | `
 Logsearch for Cloud Foundry | PEM containing a private key and a certificate | `properties.syslog.cert_pem`
 
 **Note**: If you generate a self-signed certificate for the TLS Syslog, set the value of `properties.logstash_ingestor.syslog_tls.skip_ssl_validation` to true.
+
+## Update ingestor_cloudfoundry-firehose configuration 
+
+Update Syslog server and protocol with TLS Syslog endpoint:
+
+```
+properties:
+  syslog:
+    host: <ls-router ip>
+    port: 6514
+    protocol: tcp+tls
+```
