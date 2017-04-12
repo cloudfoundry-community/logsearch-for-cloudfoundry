@@ -1,0 +1,45 @@
+jobs:
+- name: pr tests
+  serial: true
+  plan:
+    - get: git-pull-requests
+      trigger: true
+      version: every
+    - task: test-pr
+      privileged: true
+      config:
+        image_resource:
+          type: docker-image
+          source:
+            repository: andreikrasnitski/logsearch-pr
+            tag: latest
+        inputs:
+          - name: git-pull-requests
+        platform: linux
+        run:
+          path: bash
+          args: ['-c', 'cd git-pull-requests/src/logsearch-config && bundle install && bundle exec rake']
+      on_success:
+        put: git-pull-requests
+        params:
+          path: git-pull-requests
+          status: success
+      on_failure:
+        put: git-pull-requests
+        params:
+          path: git-pull-requests
+          status: failure
+
+resources:
+- name: git-pull-requests
+  type: pull-request
+  source:
+    access_token: {{github-access-token}}
+    private_key: {{github-private-key}}
+    repo: {{github-repo}}
+
+resource_types:
+- name: pull-request
+  type: docker-image
+  source:
+    repository: jtarchie/pr
