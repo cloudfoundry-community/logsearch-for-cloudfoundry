@@ -1,10 +1,15 @@
 jobs:
 - name: pr tests
+  public: true
   serial: true
   plan:
     - get: git-pull-requests
       trigger: true
       version: every
+    - put: git-pull-requests
+      params:
+        path: git-pull-requests
+        status: pending
     - task: test-pr
       privileged: true
       config:
