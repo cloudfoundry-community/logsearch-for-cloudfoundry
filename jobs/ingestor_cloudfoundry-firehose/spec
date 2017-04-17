@@ -30,7 +30,6 @@ properties:
     default: "firehose-to-syslog"
   cloudfoundry.firehose_client_secret:
     description: "CF UAA client secret with 'doppler.firehose' permissions"
-    default: ""
   cloudfoundry.firehose_events:
     description: "Comma seperated list of events you would like to get. Valid options are CounterEvent,Error,HttpStartStop,LogMessage,ValueMetric,ContainerMetric"
     default: "LogMessage"

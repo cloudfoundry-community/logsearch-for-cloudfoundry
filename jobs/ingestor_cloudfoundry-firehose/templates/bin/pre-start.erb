@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+<% if_p("create-uaa-client.cloudfoundry.system_domain", "create-uaa-client.cloudfoundry.uaa_admin_client_id", "create-uaa-client.cloudfoundry.uaa_admin_client_secret") do %>
+
 ACCESS_TOKEN=$(\
 curl -s -D - -k \
 -u <%= p('create-uaa-client.cloudfoundry.uaa_admin_client_id')%>:<%= p('create-uaa-client.cloudfoundry.uaa_admin_client_secret')%> \
@@ -36,3 +38,5 @@ echo "Creating new OAuth2 client: <%= p('cloudfoundry.firehose_client_id') %>"
   "authorized_grant_types" : ["client_credentials", "refresh_token"]
 }' \
 -X POST https://uaa.<%= p('create-uaa-client.cloudfoundry.system_domain') %>/oauth/clients
+
+<% end %>
