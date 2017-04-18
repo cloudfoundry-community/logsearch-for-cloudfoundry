@@ -27,7 +27,7 @@ describe "app-logmessage-rtr.conf" do
         it { expect(parsed_results.get("tags")).to eq ["logmessage-rtr"] } # no fail tag
 
         # fields
-        it { expect(parsed_results.get("@message")).to eq "200 GET /some/http (5 ms)" }
+        it { expect(parsed_results.get("@message")).to eq "200 GET /some/http (5.329 ms)" }
         it { expect(parsed_results.get("@level")).to eq "INFO" }
 
         it "sets [rtr] fields" do
@@ -47,7 +47,7 @@ describe "app-logmessage-rtr.conf" do
           expect(parsed_results.get("rtr")["vcap_request_id"]).to eq "831e54f1-f09f-4971-6856-9fdd502d4ae3"
           # calculated values
           expect(parsed_results.get("rtr")["remote_addr"]).to eq "82.209.244.50"
-          expect(parsed_results.get("rtr")["response_time_ms"]).to eq 5
+          expect(parsed_results.get("rtr")["response_time_ms"]).to eq 5.329
         end
 
         it "sets geoip for [rtr][remote_addr]" do
@@ -73,7 +73,7 @@ describe "app-logmessage-rtr.conf" do
           it { expect(parsed_results.get("tags")).to eq ["logmessage-rtr"] } # no fail tag
 
           # fields
-          it { expect(parsed_results.get("@message")).to eq "200 GET /some/http (5 ms)" }
+          it { expect(parsed_results.get("@message")).to eq "200 GET /some/http (5.329 ms)" }
           it { expect(parsed_results.get("@level")).to eq "INFO" }
 
           it "sets [rtr] fields" do
@@ -93,7 +93,7 @@ describe "app-logmessage-rtr.conf" do
             expect(parsed_results.get("rtr")["vcap_request_id"]).to eq "831e54f1-f09f-4971-6856-9fdd502d4ae3"
             # calculated values
             expect(parsed_results.get("rtr")["remote_addr"]).to eq "82.209.244.50"
-            expect(parsed_results.get("rtr")["response_time_ms"]).to eq 5
+            expect(parsed_results.get("rtr")["response_time_ms"]).to eq 5.329
           end
 
           it "sets geoip for [rtr][remote_addr]" do
@@ -120,7 +120,7 @@ describe "app-logmessage-rtr.conf" do
           it { expect(parsed_results.get("tags")).to eq ["logmessage-rtr"] } # no fail tag
 
           # fields
-          it { expect(parsed_results.get("@message")).to eq "200 GET / (1 ms)" }
+          it { expect(parsed_results.get("@message")).to eq "200 GET / (1.603 ms)" }
           it { expect(parsed_results.get("@level")).to eq "INFO" }
 
           it "sets [rtr] fields" do
@@ -146,7 +146,7 @@ describe "app-logmessage-rtr.conf" do
             expect(parsed_results.get("rtr")["app"]["index"]).to eq 1
             # calculated values
             expect(parsed_results.get("rtr")["remote_addr"]).to eq "82.209.244.50"
-            expect(parsed_results.get("rtr")["response_time_ms"]).to eq 1
+            expect(parsed_results.get("rtr")["response_time_ms"]).to eq 1.603
           end
 
           it "sets geoip for [rtr][remote_addr]" do
