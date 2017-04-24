@@ -134,6 +134,25 @@ jobs:
       plugins:
       - auth: /var/vcap/packages/kibana-auth-plugin/kibana-auth-plugin.zip
 
+- name: smoke-tests
+  templates:
+  - (( replace ))
+  - { release: logsearch-for-cloudfoundry, name: smoke-tests }
+  lifecycle: errand
+  instances: 1
+  release: logsearch-for-cloudfoundry
+  resource_pool: errand
+  networks:
+  - name: default
+  properties:
+    smoke_tests:
+      api: (( grab jobs.ingestor.properties.cloudfoundry.api_endpoint ))
+      system_domain: (( grab jobs.create-uaa-client.properties.create-uaa-client.cloudfoundry.system_domain ))
+      admin_user: admin
+      admin_password: ""
+      elasticsearch_master:
+        host: (( grab jobs.elasticsearch_master.networks.default.static_ips.[0] ))
+
 properties:
   elasticsearch_config:
     index_prefix: "logs-"  # Name prefix of your log indices that you use in `logstash_parser.elasticsearch.index` property set for your parser.

@@ -117,7 +117,7 @@ properties:
     port: 5514
   smoke_tests:
     api: (( grab properties.cloudfoundry.api_endpoint ))
-    apps_domain: (( grab properties.cf-kibana.cloudfoundry.apps_domain ))
+    system_domain: (( grab grab properties.cf-kibana.cloudfoundry.system_domain ))
     admin_user: (( grab properties.cloudfoundry.admin_user ))
     admin_password: (( grab properties.cloudfoundry.admin_password ))
     elasticsearch_master:
