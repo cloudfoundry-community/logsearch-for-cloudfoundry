@@ -16,9 +16,6 @@ def log_status(message, is_error = false)
   puts message
 end
 
-<% if(p('kibana_objects.upload_predefined_kibana_objects') == true) %>
-
-
 #############################################
 # Generate default Kibana objects to upload #
 #############################################
@@ -28,9 +25,9 @@ log_status("------------------------------------------------------------")
 
 require 'json'
 
-def render_upsert_queries(type)
+def render_upsert_queries(type, pattern)
   combined = ""
-  Dir.glob("/var/vcap/jobs/upload-kibana-objects/kibana-objects/#{type}/*.json").each do |data_file|
+  Dir.glob(pattern).each do |data_file|
     file_content = File.read(data_file).strip
     if file_content.empty?
       # skip empty file
@@ -103,11 +100,11 @@ def process_bulk_query_result(result)
 end
 
 log_status("======= Defaults to upload:")
-upload_data = render_upsert_queries('index-pattern')
-upload_data += render_upsert_queries('config')
-upload_data += render_upsert_queries('search')
-upload_data += render_upsert_queries('visualization')
-upload_data += render_upsert_queries('dashboard')
+
+upload_data = ""
+<% p("kibana_objects.upload_patterns").each do |pattern| %>
+upload_data += render_upsert_queries("<%= pattern.fetch("type") %>", "<%= pattern.fetch("pattern") %>")
+<% end %>
 
 $logger.info("Defaults data to upload:\n#{upload_data}")
 
@@ -117,16 +114,6 @@ result = `curl http://<%= p('elasticsearch.host') %>:<%= p('elasticsearch.port')
 log_status("=======")
 $logger.info("======= Result of uploading defaults: #{result}")
 puts("======= Result of uploading defaults: #{process_bulk_query_result(result)}")
-
-<% else %>
-
-log_status("----------------------------------------")
-log_status("Upload Kibana objects from job defaults.")
-log_status("----------------------------------------")
-log_status("SKIP. Upload of defaults is disabled in deployment via 'kibana_objects.upload_predefined_kibana_objects' property.")
-
-<% end %>
-
 
 ###################################
 # Upload specified Kibana objects #
