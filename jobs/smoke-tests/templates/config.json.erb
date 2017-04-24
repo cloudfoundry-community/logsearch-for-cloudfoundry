@@ -1,9 +1,10 @@
 {
   "api":                              "<%= p('smoke_tests.api') %>",
-  "apps_domain":                      "<%= p('smoke_tests.apps_domain') %>",
+  "apps_domain":                      "<%= p('smoke_tests.apps_domain') != "" && p('smoke_tests.apps_domain') || p('smoke_tests.system_domain') %>",
   "admin_user":                       "<%= p('smoke_tests.admin_user') %>",
   "admin_password":                   "<%= p('smoke_tests.admin_password') %>",
   "skip_ssl_validation":              true,
+  "system_domain":                    "<%= p('smoke_tests.system_domain') %>",
   "elasticsearch_master_ip":          "<%= p('smoke_tests.elasticsearch_master.host') %>",
   "elasticsearch_master_port":        "<%= p('smoke_tests.elasticsearch_master.port') %>",
   "elasticsearch_app_index":          "<%= p('smoke_tests.elasticsearch_master.app_index') %>"

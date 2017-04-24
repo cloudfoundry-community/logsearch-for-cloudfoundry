@@ -15,6 +15,9 @@ properties:
     description: The Elastic Runtime API endpoint URL
   smoke_tests.apps_domain:
     description: The Elastic Runtime Application Domain
+    default: ""
+  smoke_tests.system_domain:
+    description: Full URL of Cloud Foundry System Domain
   smoke_tests.admin_user:
     description: The Elastic Runtime API admin user
   smoke_tests.admin_password:
