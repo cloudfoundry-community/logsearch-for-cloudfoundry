@@ -29,4 +29,4 @@ properties:
     default: 9200
   smoke_tests.elasticsearch_master.app_index:
     description: App index name
-    default: logs-app
+    default: 'logs-app-{{.Org}}-{{.Space}}-{{.Time.Format \"2006.01.02\"}}'
