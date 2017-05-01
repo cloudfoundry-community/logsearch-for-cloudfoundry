@@ -8,7 +8,7 @@ packages:
 
 templates:
   bin/run: bin/run
- 
+
   # Kibana objects (defaults).
   kibana-objects/index-pattern/logs-app.json.erb:       kibana-objects/index-pattern/logs-app.json
   kibana-objects/index-pattern/logs.json.erb:           kibana-objects/index-pattern/logs.json
@@ -17,7 +17,7 @@ templates:
   kibana-objects/config/4.4.0.json.erb:  kibana-objects/config/4.4.0.json
   kibana-objects/config/4.4.2.json.erb:  kibana-objects/config/4.4.2.json
   kibana-objects/config/4.5.4.json.erb:  kibana-objects/config/4.5.4.json
-  
+
   kibana-objects/search/[app]-All.json.erb:                         kibana-objects/search/[app]-All.json
   kibana-objects/search/[app]-All-Messages.json.erb:                kibana-objects/search/[app]-All-Messages.json
   kibana-objects/search/[app]-All-ERRORs.json.erb:                  kibana-objects/search/[app]-All-ERRORs.json
@@ -28,15 +28,15 @@ templates:
   kibana-objects/search/[app]-Counter.json.erb:                     kibana-objects/search/[app]-Counter.json
   kibana-objects/search/[app]-Http.json.erb:                        kibana-objects/search/[app]-Http.json
   kibana-objects/search/[app]-RTR.json.erb:                         kibana-objects/search/[app]-RTR.json
-  kibana-objects/search/[app]-RTR-long-response.json.erb:           kibana-objects/search/[app]-RTR-long-response.json  
+  kibana-objects/search/[app]-RTR-long-response.json.erb:           kibana-objects/search/[app]-RTR-long-response.json
   kibana-objects/search/[app]-Value-Metric.json.erb:                kibana-objects/search/[app]-Value-Metric.json
   kibana-objects/search/[platform]-All.json.erb:                    kibana-objects/search/[platform]-All.json
   kibana-objects/search/[platform]-All-ERRORs.json.erb:             kibana-objects/search/[platform]-All-ERRORs.json
-  kibana-objects/search/[platform]-All-Overview.json.erb:           kibana-objects/search/[platform]-All-Overview.json  
+  kibana-objects/search/[platform]-All-Overview.json.erb:           kibana-objects/search/[platform]-All-Overview.json
   kibana-objects/search/[platform]-Haproxy.json.erb:                kibana-objects/search/[platform]-Haproxy.json
   kibana-objects/search/[platform]-Haproxy-long-response.json.erb:  kibana-objects/search/[platform]-Haproxy-long-response.json
   kibana-objects/search/[platform]-UAA-Audit.json.erb:              kibana-objects/search/[platform]-UAA-Audit.json
-  
+
   kibana-objects/dashboard/App-Errors.json.erb:          kibana-objects/dashboard/App-Errors.json
   kibana-objects/dashboard/App-Location.json.erb:        kibana-objects/dashboard/App-Location.json
   kibana-objects/dashboard/App-Logs.json.erb:            kibana-objects/dashboard/App-Logs.json
@@ -48,20 +48,20 @@ templates:
   kibana-objects/dashboard/Platform-Logs.json.erb:       kibana-objects/dashboard/Platform-Logs.json
   kibana-objects/dashboard/Platform-Overview.json.erb:   kibana-objects/dashboard/Platform-Overview.json
   kibana-objects/dashboard/Platform-UAA-Audit.json.erb:  kibana-objects/dashboard/Platform-UAA-Audit.json
-  
-  kibana-objects/visualization/App-APP-logs-count-(top-10-apps).json.erb: kibana-objects/visualization/App-APP-logs-count-(top-10-apps).json 
+
+  kibana-objects/visualization/App-APP-logs-count-(top-10-apps).json.erb: kibana-objects/visualization/App-APP-logs-count-(top-10-apps).json
   kibana-objects/visualization/App-APP-logs-count-by-level-(top-5-apps).json.erb: kibana-objects/visualization/App-APP-logs-count-by-level-(top-5-apps).json
   kibana-objects/visualization/App-APP-logs-count-by-level.json.erb: kibana-objects/visualization/App-APP-logs-count-by-level.json
   kibana-objects/visualization/App-APP-logs-count-in-timeline.json.erb: kibana-objects/visualization/App-APP-logs-count-in-timeline.json
   kibana-objects/visualization/App-apps-with-errors.json.erb: kibana-objects/visualization/App-apps-with-errors.json
   kibana-objects/visualization/App-errors-count-in-timeline-(top-5-apps).json.erb: kibana-objects/visualization/App-errors-count-in-timeline-(top-5-apps).json
-  kibana-objects/visualization/App-links.json.erb: kibana-objects/visualization/App-links.json  
+  kibana-objects/visualization/App-links.json.erb: kibana-objects/visualization/App-links.json
   kibana-objects/visualization/App-logs-by-source-type-(top-10).json.erb: kibana-objects/visualization/App-logs-by-source-type-(top-10).json
   kibana-objects/visualization/App-logs-count-by-source-type-(APP-or-cf-top-5-apps).json.erb: kibana-objects/visualization/App-logs-count-by-source-type-(APP-or-cf-top-5-apps).json
   kibana-objects/visualization/App-METRIC-CPU-usage.json.erb: kibana-objects/visualization/App-METRIC-CPU-usage.json
-  kibana-objects/visualization/App-METRIC-disk-usage.json.erb: kibana-objects/visualization/App-METRIC-disk-usage.json  
+  kibana-objects/visualization/App-METRIC-disk-usage.json.erb: kibana-objects/visualization/App-METRIC-disk-usage.json
   kibana-objects/visualization/App-METRIC-memory-usage.json.erb: kibana-objects/visualization/App-METRIC-memory-usage.json
-  kibana-objects/visualization/App-names.json.erb: kibana-objects/visualization/App-names.json  
+  kibana-objects/visualization/App-names.json.erb: kibana-objects/visualization/App-names.json
   kibana-objects/visualization/App-RTR-request-count-(top-10-apps).json.erb: kibana-objects/visualization/App-RTR-request-count-(top-10-apps).json
   kibana-objects/visualization/App-RTR-request-count-by-timezone-(top-5).json.erb: kibana-objects/visualization/App-RTR-request-count-by-timezone-(top-5).json
   kibana-objects/visualization/App-RTR-requests-map.json.erb: kibana-objects/visualization/App-RTR-requests-map.json
@@ -81,28 +81,33 @@ templates:
   kibana-objects/visualization/Platform-logs-by-source-job-(top-5).json.erb: kibana-objects/visualization/Platform-logs-by-source-job-(top-5).json
   kibana-objects/visualization/Platform-logs-count-(top-10-components).json.erb: kibana-objects/visualization/Platform-logs-count-(top-10-components).json
   kibana-objects/visualization/Platform-logs-count-by-level.json.erb: kibana-objects/visualization/Platform-logs-count-by-level.json
-  kibana-objects/visualization/Platform-logs-count-in-timeline.json.erb: kibana-objects/visualization/Platform-logs-count-in-timeline.json  
+  kibana-objects/visualization/Platform-logs-count-in-timeline.json.erb: kibana-objects/visualization/Platform-logs-count-in-timeline.json
   kibana-objects/visualization/Platform-UAA-Audit-event-locations.json.erb: kibana-objects/visualization/Platform-UAA-Audit-event-locations.json
   kibana-objects/visualization/Platform-UAA-Audit-events-by-type.json.erb: kibana-objects/visualization/Platform-UAA-Audit-events-by-type.json
   kibana-objects/visualization/Platform-UAA-Audit-event-types.json.erb: kibana-objects/visualization/Platform-UAA-Audit-event-types.json
 
 properties:
-  kibana_objects.upload_predefined_kibana_objects:
-    description: "Whether to upload Kibana objects predefined in this job or not"
-    default: true 
+  kibana_objects.upload_patterns:
+    description: "List of glob patterns of Kibana objects to upload"
+    default:
+    - {type: index-pattern, pattern: /var/vcap/jobs/upload-kibana-objects/kibana-objects/index-pattern/*.json}
+    - {type: config, pattern: /var/vcap/jobs/upload-kibana-objects/kibana-objects/config/*.json}
+    - {type: search, pattern: /var/vcap/jobs/upload-kibana-objects/kibana-objects/search/*.json}
+    - {type: visualization, pattern: /var/vcap/jobs/upload-kibana-objects/kibana-objects/visualization/*.json}
+    - {type: dashboard, pattern: /var/vcap/jobs/upload-kibana-objects/kibana-objects/dashboard/*.json}
   kibana_objects.upload_data_files:
     description: "List of text files to put in API endpoint /_bulk"
-    default: [] 
-  
+    default: []
+
   elasticsearch.host:
     description: Elasticsearch host
   elasticsearch.port:
     description: Elasticsearch port
-  
+
   cloudfoundry.firehose_events:
     description: "Comma seperated list of events you would like to get. Valid options are CounterEvent,Error,HttpStartStop,LogMessage,ValueMetric,ContainerMetric"
     default: "LogMessage"
-    
+
   elasticsearch_config.index_prefix:
     description: |
       Name prefix of your log indices that you use in `logstash_parser.elasticsearch.index` property set for your parser.
@@ -114,4 +119,4 @@ properties:
   elasticsearch_config.platform_index_prefix:
     description: |
       Name prefix of your `platform` log indices. If you don't split `app` and `platform` indices, then just set it with the value of `elasticsearch_config.index_prefix`.
-    default: "logs-platform" 
+    default: "logs-platform"
