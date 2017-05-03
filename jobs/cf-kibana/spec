@@ -72,6 +72,9 @@ properties:
   cf-kibana.plugins:
     description: "a list of key-value pairs of plugins. e.g. Kibana-auth: /var/vcap/packagaes/kibana/kibana-auth"
     default: []
+  cf-kibana.console_enabled:
+    description: "Enable Kibana development console; should be set to `false` in a multi-tenant deployment."
+    default: false
   cf-kibana.config_options:
     description: "Additional options to append to kibana configuration (YAML format)."
     default: ~
