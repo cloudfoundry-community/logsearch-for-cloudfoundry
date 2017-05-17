@@ -44,6 +44,29 @@ Note that the latter possibility overrides Logsearch-for-cloudfoundry parsing ru
 
 Please do mind **the order** of parsing rules you specify.
 
+You can add custom parsing rules via manifest property `logstash_parser.custom_filters` directly. This will
+populate the file `logstash-filters-custom.conf` which must be loaded as above. Example:
+
+```yaml
+- name: parser
+  properties:
+    logstash_parser:
+      filters:
+      - logsearch-for-cf: /var/vcap/packages/logsearch-config-logstash-filters/logstash-filters-default.conf
+      - my-custom-filters: /var/vcap/jobs/logsearch-for-cloudfoundry-filters/config/logstash-filters-custom.conf
+      custom_filters:
+        if [@source][component] == "vcap_nginx_access" {
+          grok {
+            match => {
+              "@message" =>
+                '%{IPORHOST:[nginx][clientip]} - \[%{HTTPDATE:[nginx][timestamp]}\]
+                [...]
+                vcap_request_id:%{UUID:[nginx][vcap_request_id]} response_time:%{NUMBER:[nginx][response_time]}'
+            }
+          }
+        }
+```
+
 #### Elasticsearch mappings
 
 Elasticsearch mappings can be customized via `elasticsearch_config.templates` property of `maintenance` job:
