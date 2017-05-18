@@ -47,7 +47,7 @@ These fields are common for application and platform logs and store the followin
 | `@source.vm` | cell_z1/0 | For those entries where `@source.index` is passed, calculated as `@source.job`/`@source.index` |
 | `@source.component` | rep, nats, bbs, uaa, ... ||
 | `@source.type` | APP, RTR, STG, ...</br>system, cf | For application logs the field is set with [_CloudFoundry log source types_](https://docs.cloudfoundry.org/devguide/deploy-apps/streaming-logs.html#format). Additionally, for log events that don't specify a source type we [use](../src/logsearch-config/src/logstash-filters/snippets/app.conf#L101)) a dictionary based on an event type:</br>`LogMessage -> LOG`,</br>`Error -> ERR`,</br>`ContainerMetric -> CONTAINER`,</br>`ValueMetric -> METRIC`,</br>`CounterEvent -> COUNT`,</br>`HttpStartStop -> HTTP`</br></br>For platform logs the value is either `system` or `cf`. |
-| `@type` | LogMessage, Error, ValueMetric, ...</br>system, cf, haproxy, uaa, vcap |The field is used to define documents type in Elasticsearch (set in `logstash_parser.elasticsearch_index_type` [property](../templates/stub.logsearch-for-cloudfoundry.yml#L82)).</br>This field is set with values distinguishing logs of differnt types. |
+| `@type` | LogMessage, Error, ValueMetric, ...</br>system, cf, haproxy, uaa, vcap |The field is used to define documents type in Elasticsearch (set in `logstash_parser.elasticsearch_index_type` [property](../templates/stub.logsearch-for-cloudfoundry.yml#L82)).</br>This field is set with values distinguishing logs of different types. |
 | `@message` | This is a sample log message text ||
 | `@level` | INFO, ERROR, WARN, ... ||
 | `@raw` | \<13\>2016-09-26T18:20:25.134194+00:00 192.168.111.63 vcap.rep [job=cell_z1 index=0] My log message | This field stores an unparsed log event (as it came).</br></br>(NOTE: This field is provided by _Logsearch_ deployment) |
@@ -71,9 +71,9 @@ These fields are specific to _application_ logs only. They store CloudFoundry me
 
 ##### Event specific fields
 
-* _Application logs_ are shipped in JSON events. Set of JSON fields varies for different event types. All common fields from JSON are mapped accordingly to common fields and CF meta fields listed above. Other JSON fields (those extra fields specific to a particular event type) are stored as `<@type>.<json field name>`.</br>Example: `logmessage.message_type`.</br></br>Additionally, format of a log line (message shipped in a log event) may vary for differnt events. Parsed fields from a log line are stored as `<@source.type>.<field name>`. Example: `rtr.path`.
+* _Application logs_ are shipped in JSON events. Set of JSON fields varies for different event types. All common fields from JSON are mapped accordingly to common fields and CF meta fields listed above. Other JSON fields (those extra fields specific to a particular event type) are stored as `<@type>.<json field name>`.</br>Example: `logmessage.message_type`.</br></br>Additionally, format of a log line (message shipped in a log event) may vary for different events. Parsed fields from a log line are stored as `<@source.type>.<field name>`. Example: `rtr.path`.
 
-* _Platform logs_ are shipped in events of plain text format. The format is parsed and common fields are set from the parsed data.</br></br>A format of a log line (message shipped in a log event) may vary for differnt event types. For consistency we store fields parsed from the log line as `<@source.component>.<field name>`. Example: `uaa.pid`.
+* _Platform logs_ are shipped in events of plain text format. The format is parsed and common fields are set from the parsed data.</br></br>A format of a log line (message shipped in a log event) may vary for different event types. For consistency we store fields parsed from the log line as `<@source.component>.<field name>`. Example: `uaa.pid`.
 
 ##### Elasticsearch meta fields
 
