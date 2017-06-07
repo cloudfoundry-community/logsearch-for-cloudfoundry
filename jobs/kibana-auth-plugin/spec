@@ -1,8 +1,36 @@
 ---
 name: kibana-auth-plugin
-templates: {}
+templates:
+  config/config.sh.erb: config/config.sh
 
 packages:
 - kibana-auth-plugin
 
-properties: {}
+properties:
+  kibana-auth.app_name:
+    description: "Kibana dashboard app name"
+    default: logs
+  kibana-auth.use_https:
+    description: "A boolean indicating whether or not you want the redirect_uri to be forced to https"
+    default: "true"
+  kibana-auth.cloudfoundry.api_endpoint:
+    description: "The CF API URL"
+  kibana-auth.cloudfoundry.skip_ssl_validation:
+    description: "Toggles verification of the CF API SSL certificate"
+    default: "false"
+  kibana-auth.cloudfoundry.client_id:
+    description: "The UAA Kibana oauth2 client id"
+  kibana-auth.cloudfoundry.client_secret:
+    description: "Password to be used for the UAA kibana oauth2 client"
+  kibana-auth.cloudfoundry.system_org:
+    description: "The organisation that owns the CF system domain"
+  kibana-auth.cloudfoundry.system_domain:
+    description: "The CF system domain"
+  kibana-auth.session_expiration_ms:
+    description: "Kibana user session expiration period in milliseconds (default to 12h)"
+    default: 43200000
+  kibana-auth.redis_host:
+    description: Redis host address
+  kibana-auth.redis_port:
+    description: Redis port
+    default: 6379
