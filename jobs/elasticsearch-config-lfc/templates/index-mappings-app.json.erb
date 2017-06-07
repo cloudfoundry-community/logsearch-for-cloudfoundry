@@ -6,7 +6,6 @@
 
 require 'json'
 
-
 string_default = { "type": "string", "index": "not_analyzed" }.to_json
 
 %>
@@ -14,10 +13,9 @@ string_default = { "type": "string", "index": "not_analyzed" }.to_json
   "template" : "<%= p('elasticsearch_config.app_index_prefix') %>*",
   "order": 203,
   "mappings" : {
-    
     <%# ------------ App specific types %>
     "LogMessage": {
-      "properties": {              
+      "properties": {
         "@cf": {
           "type": "object",
           "dynamic": true,
@@ -90,10 +88,10 @@ string_default = { "type": "string", "index": "not_analyzed" }.to_json
             "location": { "type": "geo_point" },
             "timezone": <%= string_default %>
           }
-        }         
+        }
       }
     },
-    
+
     "ContainerMetric": {
       "properties": {
         "@cf": {
@@ -117,12 +115,12 @@ string_default = { "type": "string", "index": "not_analyzed" }.to_json
             "memory_bytes":       { "type": "long" },
             "disk_bytes_quota":   { "type": "long" },
             "disk_bytes":         { "type": "long" },
-            "cpu_percentage":     { "type": "long" }
+            "cpu_percentage":     { "type": "scaled_float", "scaling_factor": 100 }
           }
         }
       }
     },
-    
+
     "ValueMetric": {
       "properties": {
         "valuemetric": {
@@ -133,10 +131,10 @@ string_default = { "type": "string", "index": "not_analyzed" }.to_json
             "name":  <%= string_default %>,
             "value": { "type": "long" }
           }
-        }                 
+        }
       }
     },
-    
+
     "CounterEvent": {
       "properties": {
         "counterevent": {
@@ -150,7 +148,7 @@ string_default = { "type": "string", "index": "not_analyzed" }.to_json
         }
       }
     },
-    
+
     "Error": {
       "properties": {
         "error": {
@@ -163,7 +161,7 @@ string_default = { "type": "string", "index": "not_analyzed" }.to_json
         }
       }
     },
-    
+
     "HttpStartStop": {
       "properties": {
         "@cf": {
@@ -200,6 +198,5 @@ string_default = { "type": "string", "index": "not_analyzed" }.to_json
         }
       }
     }
-        
   }
 }
