@@ -18,24 +18,24 @@ templates:
   kibana-objects/config/4.4.2.json.erb:  kibana-objects/config/4.4.2.json
   kibana-objects/config/4.5.4.json.erb:  kibana-objects/config/4.5.4.json
 
-  kibana-objects/search/[app]-All.json.erb:                         kibana-objects/search/[app]-All.json
-  kibana-objects/search/[app]-All-Messages.json.erb:                kibana-objects/search/[app]-All-Messages.json
-  kibana-objects/search/[app]-All-ERRORs.json.erb:                  kibana-objects/search/[app]-All-ERRORs.json
-  kibana-objects/search/[app]-All-Overview.json.erb:                kibana-objects/search/[app]-All-Overview.json
-  kibana-objects/search/[app]-APP-Logs.json.erb:                    kibana-objects/search/[app]-APP-Logs.json
-  kibana-objects/search/[app]-APP-Logs-ERRORs.json.erb:             kibana-objects/search/[app]-APP-Logs-ERRORs.json
-  kibana-objects/search/[app]-Container-Metric.json.erb:            kibana-objects/search/[app]-Container-Metric.json
-  kibana-objects/search/[app]-Counter.json.erb:                     kibana-objects/search/[app]-Counter.json
-  kibana-objects/search/[app]-Http.json.erb:                        kibana-objects/search/[app]-Http.json
-  kibana-objects/search/[app]-RTR.json.erb:                         kibana-objects/search/[app]-RTR.json
-  kibana-objects/search/[app]-RTR-long-response.json.erb:           kibana-objects/search/[app]-RTR-long-response.json
-  kibana-objects/search/[app]-Value-Metric.json.erb:                kibana-objects/search/[app]-Value-Metric.json
-  kibana-objects/search/[platform]-All.json.erb:                    kibana-objects/search/[platform]-All.json
-  kibana-objects/search/[platform]-All-ERRORs.json.erb:             kibana-objects/search/[platform]-All-ERRORs.json
-  kibana-objects/search/[platform]-All-Overview.json.erb:           kibana-objects/search/[platform]-All-Overview.json
-  kibana-objects/search/[platform]-Haproxy.json.erb:                kibana-objects/search/[platform]-Haproxy.json
-  kibana-objects/search/[platform]-Haproxy-long-response.json.erb:  kibana-objects/search/[platform]-Haproxy-long-response.json
-  kibana-objects/search/[platform]-UAA-Audit.json.erb:              kibana-objects/search/[platform]-UAA-Audit.json
+  kibana-objects/search/app-all.json.erb:                         kibana-objects/search/app-all.json
+  kibana-objects/search/app-all-messages.json.erb:                kibana-objects/search/app-all-messages.json
+  kibana-objects/search/app-all-errors.json.erb:                  kibana-objects/search/app-all-errors.json
+  kibana-objects/search/app-all-overview.json.erb:                kibana-objects/search/app-all-overview.json
+  kibana-objects/search/app-logs.json.erb:                        kibana-objects/search/app-logs.json
+  kibana-objects/search/app-logs-errors.json.erb:                 kibana-objects/search/app-logs-errors.json
+  kibana-objects/search/app-container-metric.json.erb:            kibana-objects/search/app-container-metric.json
+  kibana-objects/search/app-counter.json.erb:                     kibana-objects/search/app-counter.json
+  kibana-objects/search/app-http.json.erb:                        kibana-objects/search/app-http.json
+  kibana-objects/search/app-rtr.json.erb:                         kibana-objects/search/app-rtr.json
+  kibana-objects/search/app-rtr-long-response.json.erb:           kibana-objects/search/app-rtr-long-response.json
+  kibana-objects/search/app-value-metric.json.erb:                kibana-objects/search/app-value-metric.json
+  kibana-objects/search/platform-all.json.erb:                    kibana-objects/search/platform-all.json
+  kibana-objects/search/platform-all-errors.json.erb:             kibana-objects/search/platform-all-errors.json
+  kibana-objects/search/platform-all-overview.json.erb:           kibana-objects/search/platform-all-overview.json
+  kibana-objects/search/platform-haproxy.json.erb:                kibana-objects/search/platform-haproxy.json
+  kibana-objects/search/platform-haproxy-long-response.json.erb:  kibana-objects/search/platform-haproxy-long-response.json
+  kibana-objects/search/platform-uaa-audit.json.erb:              kibana-objects/search/platform-uaa-audit.json
 
   kibana-objects/dashboard/App-Errors.json.erb:          kibana-objects/dashboard/App-Errors.json
   kibana-objects/dashboard/App-Location.json.erb:        kibana-objects/dashboard/App-Location.json
