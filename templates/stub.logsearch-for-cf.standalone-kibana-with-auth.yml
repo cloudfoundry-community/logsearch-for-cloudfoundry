@@ -121,18 +121,21 @@ jobs:
   properties:
     kibana:
       env:
-      - KIBANA_DOMAIN: (( grab jobs.create-uaa-client.properties.create-uaa-client.kibana_domain ))
-      - KIBANA_OAUTH2_CLIENT_ID: (( grab jobs.create-uaa-client.properties.create-uaa-client.oauth2_client_id  ))
-      - KIBANA_OAUTH2_CLIENT_SECRET: (( grab jobs.create-uaa-client.properties.create-uaa-client.oauth2_client_secret ))
-      - SKIP_SSL_VALIDATION: (( grab jobs.ingestor.properties.cloudfoundry.skip_ssl_validation ))
-      - CF_API_URI: (( grab jobs.ingestor.properties.cloudfoundry.api_endpoint ))
-      - CF_SYSTEM_ORG: admin  # Org Managers of this org get admin access to data in Kibana
-      - REDIS_HOST: (( grab jobs.queue.networks.default.static_ips.[0] ))  # Redis host to use for auth sessions
-      - SESSION_EXPIRATION_MS: 43200000
       - NODE_ENV: production
-      - USE_HTTPS: false
       plugins:
       - auth: /var/vcap/packages/kibana-auth-plugin/kibana-auth-plugin.zip
+      source_files: [/var/vcap/jobs/kibana-auth-plugin/config/config.sh]
+    kibana-auth:
+      cloudfoundry:
+        skip_ssl_validation: true
+        api_endpoint: (( grab jobs.ingestor.properties.cloudfoundry.api_endpoint ))
+        client_id: (( grab jobs.create-uaa-client.properties.create-uaa-client.oauth2_client_id ))
+        client_secret: (( grab jobs.create-uaa-client.properties.create-uaa-client.oauth2_client_secret ))
+        system_domain: (( grab jobs.create-uaa-client.properties.create-uaa-client.cloudfoundry.system_domain ))
+        system_org: admin
+      use_https: false
+      session_expiration_ms: 43200000
+      redis_host: (( grab jobs.queue.networks.default.static_ips.[0] ))  # Redis host to use for auth sessions
 
 - name: smoke-tests
   templates:
