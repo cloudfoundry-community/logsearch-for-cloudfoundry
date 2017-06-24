@@ -58,7 +58,7 @@ properties:
     description: "Kibana user session expiration period in milliseconds (default to 12h)"
     default: 43200000
   cf-kibana.session_key:
-    description: "Session cookie encryption passphrase; should be >=32 bytes long"
+    description: "Session cookie encryption passphrase; must be >=32 bytes long"
   cf-kibana.default_app_id:
     description: "The default application to load"
     default: "dashboard/App-Overview"
