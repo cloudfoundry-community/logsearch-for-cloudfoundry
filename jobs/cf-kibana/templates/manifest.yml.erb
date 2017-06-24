@@ -18,3 +18,4 @@ applications:
     SKIP_SSL_VALIDATION: <%= p('cloudfoundry.skip_ssl_validation')%>
     REDIS_HOST: <%= p('redis.host')%>
     SESSION_EXPIRATION_MS: <%= p('cf-kibana.session_expiration_ms')%>
+    <%= if_p('cf-kibana.session_key') do |key| %>SESSION_KEY: <%= key %><% end %>
