@@ -5,6 +5,7 @@ export KIBANA_OAUTH2_CLIENT_ID="<%= p("kibana-auth.cloudfoundry.client_id") %>"
 export KIBANA_OAUTH2_CLIENT_SECRET="<%= p("kibana-auth.cloudfoundry.client_secret") %>"
 export CF_SYSTEM_ORG="<%= p("kibana-auth.cloudfoundry.system_org") %>"
 export SESSION_EXPIRATION_MS="<%= p("kibana-auth.session_expiration_ms") %>"
+<% if_p("kibana-auth.session_key") do |key| %>export SESSION_KEY="<%= key %>"<% end %>
 export REDIS_HOST="<%= p("kibana-auth.redis_host") %>"
 export REDIS_PORT="<%= p("kibana-auth.redis_port") %>"
 export KIBANA_DOMAIN="<%= p("kibana-auth.app_name") %>.<%= p("kibana-auth.cloudfoundry.system_domain")%>"

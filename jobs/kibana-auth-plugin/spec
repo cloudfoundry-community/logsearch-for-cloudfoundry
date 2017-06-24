@@ -29,6 +29,8 @@ properties:
   kibana-auth.session_expiration_ms:
     description: "Kibana user session expiration period in milliseconds (default to 12h)"
     default: 43200000
+  kibana-auth.session_key:
+    description: "Session cookie encryption passphrase; should be >=32 bytes long"
   kibana-auth.redis_host:
     description: Redis host address
   kibana-auth.redis_port:
