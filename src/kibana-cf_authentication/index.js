@@ -80,7 +80,7 @@ module.exports = function (kibana) {
       var redis_port = (process.env.REDIS_PORT) ? process.env.REDIS_PORT : '6379';
       var cfInfoUri = cloudFoundryApiUri + '/v2/info';
       var sessionExpirationMs = (process.env.SESSION_EXPIRATION_MS) ? process.env.SESSION_EXPIRATION_MS : 12 * 60 * 60 * 1000; // 12 hours by default
-      var random_string = randomstring.generate(40);
+      var random_string = process.env.SESSION_KEY || randomstring.generate(40);
 
       if (skip_ssl_validation) {
         process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
