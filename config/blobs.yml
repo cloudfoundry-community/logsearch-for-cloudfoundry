@@ -15,10 +15,6 @@ ruby-2.3/rubygems-2.6.4.tgz:
   object_id: 40690581-ce13-473c-9cc5-3a459e67be3b
   sha: 8ef39e536af2ecd20b0e7a95765fa6a485087ac8
   size: 478582
-golang/go1.7.5.linux-amd64.tar.gz:
-  object_id: 0c5b5c61-90f1-4432-9aa1-dd426c9fa7d4
-  sha: 7c6902ce8cd3b9963082d748c50df074e4896796
-  size: 84176916
 cf-cli/cf-cli_6.25.0_linux_x86-64.tgz:
   object_id: 4316161b-3625-4eb3-97a7-6631de9360f2
   sha: 82728ff9fed87554a14a2e5d2b4b743b8f2885ae
@@ -27,3 +23,7 @@ cf-kibana/kibana-5.3.2-linux-x86_64.tar.gz:
   object_id: b9a78107-5765-4ab5-97d3-b788c18821fc
   sha: 003cec9da459cec0bb0feffd6859aa47fbe72795
   size: 38743345
+golang/go1.8.3.linux-amd64.tar.gz:
+  object_id: 82d190b8-1659-4075-b3ed-0a732074e375
+  sha: 838c415896ef5ecd395dfabde5e7e6f8ac943c8e
+  size: 90029041
