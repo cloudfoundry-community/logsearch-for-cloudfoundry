@@ -57,6 +57,8 @@ case $1 in
         --syslog-protocol=<%= p("syslog.protocol") %>\
         --syslog-server=<%= p("syslog.host") %>:<%= p("syslog.port") %>\
         --events=<%= p("cloudfoundry.firehose_events") %> \
+        <% if p("cloudfoundry.ignore_missing_apps") %>--ignore-missing-apps  <% end %> \
+        <% if_p("cloudfoundry.missing_apps_ttl") do |ttl| %>--missing-apps-ttl=<%= ttl %><% end %> \
         --subscription-id=<%= p("cloudfoundry.firehose_subscription_id") %> \
         --boltdb-path=$TMP_DIR/firehose-to-syslog.cache.db \
         --cc-pull-time=<%= p("cloudfoundry.firehose_cc_pull_interval") %> \<% if p("ingestor_cloudfoundry-firehose.debug") %>

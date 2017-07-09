@@ -39,6 +39,12 @@ properties:
   cloudfoundry.firehose_cc_pull_interval:
     description: "full app metadata update interval; defaults to 60s"
     default: "60s"
+  cloudfoundry.ignore_missing_apps:
+    description: "Enable throttling on cache lookup for missing apps"
+    default: false
+  cloudfoundry.missing_apps_ttl:
+    description: "Ticker time for clearing missing apps bucket"
+    default: "1h"
 
   syslog.host:
     description: IP or hostname of the syslog drain
