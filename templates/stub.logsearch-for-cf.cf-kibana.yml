@@ -8,10 +8,6 @@ jobs:
   templates:
   - (( merge ))
   - {name: ingestor_cloudfoundry-firehose, release: logsearch-for-cloudfoundry}
-
-- name: parser
-  templates:
-  - (( merge ))
   - {name: parser-config-lfc, release: logsearch-for-cloudfoundry}
   properties:
     logstash_parser:
@@ -41,7 +37,6 @@ jobs:
         - index-mappings-lfc: /var/vcap/jobs/elasticsearch-config-lfc/index-mappings.json
         - index-mappings-app-lfc: /var/vcap/jobs/elasticsearch-config-lfc/index-mappings-app.json
         - index-mappings-platform-lfc: /var/vcap/jobs/elasticsearch-config-lfc/index-mappings-platform.json
-
 
 - name: cf-kibana
   templates:

@@ -9,6 +9,7 @@ jobs:
   templates:
   - (( merge ))
   - {name: ingestor_cloudfoundry-firehose, release: logsearch-for-cloudfoundry}
+  - {name: parser-config-lfc, release: logsearch-for-cloudfoundry}
   properties:
     cloudfoundry:
       api_endpoint: https://api.VAR_CF_DOMAIN
@@ -19,6 +20,19 @@ jobs:
     syslog:
       host: (( grab jobs.ls-router.networks.[0].static_ips.[0] ))
       port: 5514
+    logstash_parser:
+      debug: false
+      elasticsearch:
+        index: "logs-%{[@metadata][index]}-%{+YYYY.MM.dd}"
+        index_type: "%{@type}"
+      filters:
+      - logsearch-for-cf: /var/vcap/packages/logsearch-config-logstash-filters/logstash-filters-default.conf
+      deployment_dictionary:
+      - /var/vcap/packages/logsearch-config/deployment_lookup.yml
+      - /var/vcap/jobs/parser-config-lfc/config/deployment_lookup.yml
+      deployment_name:
+        cf: my_cf
+        diego: my_cf-diego
     create-uaa-client:
       cloudfoundry:
         system_domain: (( grab jobs.create-uaa-client.properties.create-uaa-client.cloudfoundry.system_domain ))
@@ -42,25 +56,6 @@ jobs:
         port: 80
         uris:
         - (( grab jobs.create-uaa-client.properties.create-uaa-client.kibana_domain ))
-
-- name: parser
-  templates:
-  - (( merge ))
-  - {name: parser-config-lfc, release: logsearch-for-cloudfoundry}
-  properties:
-    logstash_parser:
-      debug: false
-      elasticsearch:
-        index: "logs-%{[@metadata][index]}-%{+YYYY.MM.dd}"
-        index_type: "%{@type}"
-      filters:
-      - logsearch-for-cf: /var/vcap/packages/logsearch-config-logstash-filters/logstash-filters-default.conf
-      deployment_dictionary:
-      - /var/vcap/packages/logsearch-config/deployment_lookup.yml
-      - /var/vcap/jobs/parser-config-lfc/config/deployment_lookup.yml
-      deployment_name:
-        cf: my_cf
-        diego: my_cf-diego
 
 - name: maintenance
   templates:
@@ -118,6 +113,7 @@ jobs:
   templates:
   - (( merge ))
   - {name: kibana-auth-plugin, release: logsearch-for-cloudfoundry}
+  - {name: redis, release: logsearch-for-cloudfoundry}
   properties:
     kibana:
       env:
@@ -135,7 +131,7 @@ jobs:
         system_org: admin
       use_https: false
       session_expiration_ms: 43200000
-      redis_host: (( grab jobs.queue.networks.default.static_ips.[0] ))  # Redis host to use for auth sessions
+      redis_host: (( grab jobs.kibana.networks.default.static_ips.[0] ))  # Redis host to use for auth sessions
 
 - name: smoke-tests
   templates:

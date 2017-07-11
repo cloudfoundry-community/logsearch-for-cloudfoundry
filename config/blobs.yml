@@ -27,3 +27,7 @@ golang/go1.8.3.linux-amd64.tar.gz:
   object_id: 82d190b8-1659-4075-b3ed-0a732074e375
   sha: 838c415896ef5ecd395dfabde5e7e6f8ac943c8e
   size: 90029041
+redis/redis-3.2.9.tar.gz:
+  object_id: a1230536-4203-40b9-97e1-9f11d470308d
+  sha: 8fad759f28bcb14b94254124d824f1f3ed7b6aa6
+  size: 1547695

@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Setup env vars and folders for the webapp_ctl script
+source /var/vcap/jobs/redis/helpers/ctl_setup.sh 'redis'
+
+export LANG=en_US.UTF-8
+
+case $1 in
+
+  start)
+    pid_guard $PIDFILE $JOB_NAME
+
+    MEMORY_LIMIT=$(($(grep MemTotal /proc/meminfo | awk '{print $2}') * <%= p('redis.maxmemory') %>/100 * 1024))
+    sed -i "s/^maxmemory REPLACE_ME/maxmemory $MEMORY_LIMIT/" $JOB_DIR/config/redis.conf
+    chpst -u vcap /var/vcap/packages/redis/bin/redis-server $JOB_DIR/config/redis.conf
+
+    ;;
+
+  stop)
+    kill_and_wait $PIDFILE
+
+    ;;
+  *)
+    echo "Usage: redis_ctl {start|stop}"
+
+    ;;
+
+esac
+exit 0
