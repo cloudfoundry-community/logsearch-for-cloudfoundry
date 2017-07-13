@@ -114,6 +114,7 @@ jobs:
   - (( merge ))
   - {name: kibana-auth-plugin, release: logsearch-for-cloudfoundry}
   - {name: redis, release: logsearch-for-cloudfoundry}
+  persistent_disk: 1024
   properties:
     kibana:
       env:
