@@ -23,24 +23,7 @@ case $1 in
     fi
 
     echo "Waiting 1m for syslog ingestor to accept connections..."
-    n=0
-    until [ $n -ge 12 ]
-    do
-      if [[ -x `which nc` ]] && nc -h 2>&1 | grep -q  -- '-z';then
-        nc -4 -z -v <%= p("syslog.host") %> <%= p("syslog.port") %> 2>&1 && break
-      else
-        (echo > /dev/tcp/<%= p("syslog.host") %>/<%= p("syslog.port") %>) > \
-          /dev/null 2>&1 && echo "OPEN" || echo "CLOSED" | grep -q OPEN && break
-      fi
-      n=$[$n+1]
-      echo "Waiting for syslog to accept connections ($n of 12)..."
-      sleep 5
-    done
-
-    if [ "$n" -ge "12" ]; then
-       echo "ERROR:  Cannot connect to syslog ingestor. Exiting..."
-       exit 1
-    fi
+    wait_for_service_on_port <%= p("syslog.host") %> <%= p("syslog.prt") %>
 
     pid_guard $PIDFILE $JOB_NAME
 
