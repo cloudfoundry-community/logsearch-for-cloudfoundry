@@ -48,6 +48,7 @@ properties:
 
   syslog.host:
     description: IP or hostname of the syslog drain
+    default: "127.0.0.1"
   syslog.port:
     description: port of the syslog drain
     default: 5514

@@ -17,9 +17,6 @@ jobs:
       firehose_client_secret: VAR_CF_SECRET # UAA password of client with 'doppler.firehose' permissions
       firehose_events: LogMessage # Default value. Comma seperated list of events you would like to get. Valid options are CounterEvent,Error,HttpStartStop,LogMessage,ValueMetric,ContainerMetric.
       skip_ssl_validation: true
-    syslog:
-      host: (( grab jobs.ls-router.networks.[0].static_ips.[0] ))
-      port: 5514
     logstash_parser:
       debug: false
       elasticsearch:
