@@ -8,8 +8,8 @@ jobs:
 - name: ingestor
   templates:
   - (( merge ))
-  - {name: ingestor_cloudfoundry-firehose, release: logsearch-for-cloudfoundry}
-  - {name: parser-config-lfc, release: logsearch-for-cloudfoundry}
+  - { name: ingestor_cloudfoundry-firehose, release: logsearch-for-cloudfoundry, consumes: {ingestor: nil} }
+  - { name: parser-config-lfc, release: logsearch-for-cloudfoundry }
   properties:
     cloudfoundry:
       api_endpoint: https://api.VAR_CF_DOMAIN
@@ -39,7 +39,7 @@ jobs:
 - name: ls-router
   templates:
   - (( merge ))
-  - {name: route_registrar, release: logsearch-for-cloudfoundry}
+  - { name: route_registrar, release: logsearch-for-cloudfoundry }
   properties:
     nats:
       machines: []
@@ -57,7 +57,7 @@ jobs:
 - name: maintenance
   templates:
   - (( merge ))
-  - {name: elasticsearch-config-lfc, release: logsearch-for-cloudfoundry}
+  - { name: elasticsearch-config-lfc, release: logsearch-for-cloudfoundry }
   properties:
     elasticsearch_config:
       templates:
@@ -73,7 +73,7 @@ jobs:
   release: logsearch-for-cloudfoundry
   instances: 1
   templates:
-  - {name: create-uaa-client, release: logsearch-for-cloudfoundry}
+  - { name: create-uaa-client, release: logsearch-for-cloudfoundry }
   networks:
   - name: default
   resource_pool: errand
@@ -92,7 +92,7 @@ jobs:
   release: logsearch-for-cloudfoundry
   instances: 1
   templates:
-  - {name: upload-kibana-objects, release: logsearch-for-cloudfoundry}
+  - { name: upload-kibana-objects, release: logsearch-for-cloudfoundry, consumes: {elasticsearch: nil} }
   networks:
   - name: default
   resource_pool: errand
@@ -109,8 +109,8 @@ jobs:
 - name: kibana
   templates:
   - (( merge ))
-  - {name: kibana-auth-plugin, release: logsearch-for-cloudfoundry}
-  - {name: redis, release: logsearch-for-cloudfoundry}
+  - { name: kibana-auth-plugin, release: logsearch-for-cloudfoundry, consumes: {kibana: nil, redis: nil} }
+  - { name: redis, release: logsearch-for-cloudfoundry }
   persistent_disk: 1024
   properties:
     kibana:
@@ -134,7 +134,7 @@ jobs:
 - name: smoke-tests
   templates:
   - (( replace ))
-  - { release: logsearch-for-cloudfoundry, name: smoke-tests }
+  - { release: logsearch-for-cloudfoundry, name: smoke-tests, consumes: {elasticsearch: nil} }
   lifecycle: errand
   instances: 1
   release: logsearch-for-cloudfoundry

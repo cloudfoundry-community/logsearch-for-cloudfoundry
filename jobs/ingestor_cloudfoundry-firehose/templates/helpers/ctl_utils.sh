@@ -157,20 +157,15 @@ check_nfs_mount() {
 
 wait_for_service_on_port() {
   n=0
-  until [ $n -ge 12 ]
+  until [ $n -ge 24 ]
   do
-    if [[ -x `which nc` ]] && nc -h 2>&1 | grep -q  -- '-z';then
-      nc -4 -z -v $1 $2 2>&1 && break
-    else
-      (echo > /dev/tcp/$1/$2) > \
-        /dev/null 2>&1 && echo "OPEN" || echo "CLOSED" | grep -q OPEN && break
-    fi
+    nc -4 -z -v $1 $2 2>&1 && break
     n=$[$n+1]
-    echo "Waiting for $1:$2 to accept connections ($n of 12)..."
+    echo "Waiting for $1:$2 to accept connections ($n of 24)..."
     sleep 5
   done
 
-  if [ "$n" -ge "12" ]; then
+  if [ "$n" -ge "24" ]; then
      echo "ERROR:  Cannot connect to $1:$2. Exiting..."
      exit 1
   fi

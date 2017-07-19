@@ -1,7 +1,14 @@
 ---
 name: ingestor_cloudfoundry-firehose
+
 packages:
-- firehose-to-syslog
+  - firehose-to-syslog
+
+consumes:
+- name: ingestor
+  type: ingestor
+  optional: true
+
 templates:
   bin/ingestor_cloudfoundry-firehose_ctl: bin/ingestor_cloudfoundry-firehose_ctl
   bin/monit_debugger: bin/monit_debugger
@@ -10,6 +17,7 @@ templates:
   data/properties.sh.erb: data/properties.sh
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
+
 properties:
   ingestor_cloudfoundry-firehose.debug:
     description: Debug level logging. This disables forwarding to syslog

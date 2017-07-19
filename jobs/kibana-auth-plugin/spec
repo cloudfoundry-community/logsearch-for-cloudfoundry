@@ -1,10 +1,19 @@
 ---
 name: kibana-auth-plugin
+
 templates:
   config/config.sh.erb: config/config.sh
 
 packages:
-- kibana-auth-plugin
+  - kibana-auth-plugin
+
+consumes:
+- name: kibana
+  type: kibana
+  optional: true
+- name: redis
+  type: redis
+  optional: true
 
 properties:
   kibana-auth.app_name:

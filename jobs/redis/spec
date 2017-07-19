@@ -1,7 +1,9 @@
 ---
 name: redis
+
 packages:
-- redis
+  - redis
+
 templates:
   bin/redis_ctl: bin/redis_ctl
   bin/monit_debugger: bin/monit_debugger
@@ -9,6 +11,13 @@ templates:
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
   config/redis.conf.erb: config/redis.conf
+
+provides:
+- name: redis
+  type: redis
+  properties:
+  - redis.port
+
 properties:
   redis.port:
     description: Redis port of queue

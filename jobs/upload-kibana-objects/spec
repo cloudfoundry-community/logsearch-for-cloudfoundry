@@ -6,6 +6,11 @@ description: This job uploads Kibana saved objects (index-patterns, searches, vi
 packages:
 - ruby-2.3
 
+consumes:
+- name: elasticsearch
+  type: elasticsearch
+  optional: true
+
 templates:
   bin/run: bin/run
 

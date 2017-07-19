@@ -10,6 +10,11 @@ templates:
   run.erb: bin/run
   config.json.erb: bin/config.json
 
+consumes:
+- name: elasticsearch
+  type: elasticsearch
+  optional: true
+
 properties:
   smoke_tests.api:
     description: The Elastic Runtime API endpoint URL

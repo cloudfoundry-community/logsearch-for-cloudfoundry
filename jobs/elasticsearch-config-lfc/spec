@@ -2,7 +2,7 @@
 name: elasticsearch-config-lfc
 
 description: |
-  The job compiles Elasticsearch mappings specific to Logsearch-for-cloudfoundry. 
+  The job compiles Elasticsearch mappings specific to Logsearch-for-cloudfoundry.
   These mappings are add-ons to mappings defined in Logsearch release.
 
 templates:
