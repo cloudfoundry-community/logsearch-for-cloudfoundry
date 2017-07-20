@@ -1,3 +1,16 @@
+<%
+  redis_host = nil
+  if_link("redis") { |redis_link| redis_host = redis_link.instances.first.address }
+  unless redis_host
+    redis_host = p("redis.host")
+  end
+
+  redis_port = nil
+  if_link("redis") { |redis_link| redis_port = redis_link.p("redis.port") }
+  unless redis_port
+    redis_port = p("redis.port")
+  end
+%>
 ---
 applications:
 - name: <%= p('cf-kibana.app_name')%>
@@ -16,9 +29,10 @@ applications:
     CF_API_URI: "https://api.<%= p('cf-kibana.cloudfoundry.system_domain')%>"
     CF_SYSTEM_ORG: "<%= p('cf-kibana.cloudfoundry.system_org')%>"
     SKIP_SSL_VALIDATION: <%= p('cloudfoundry.skip_ssl_validation')%>
-    REDIS_HOST: <%= p('redis.host')%>
+    <% if redis_host %>REDIS_HOST: <%= redis_host %><% end %>
+    <% if redis_port %>REDIS_PORT: <%= redis_port %><% end %>
     SESSION_EXPIRATION_MS: <%= p('cf-kibana.session_expiration_ms')%>
-    <%= if_p('cf-kibana.session_key') do |key| %>
+    <% if_p("cf-kibana.session_key") do |key| %>
     <% raise ArgumentError, "session key must have length >= 32" unless key.size >= 32 %>
-    SESSION_KEY: <%= key %>
+    SESSION_KEY: "<%= key %>"
     <% end %>

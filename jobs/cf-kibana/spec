@@ -1,13 +1,24 @@
 ---
 name: cf-kibana
+
 packages:
-- cf-cli
-- cf-kibana
+  - cf-cli
+  - cf-kibana
+
+consumes:
+- name: elasticsearch
+  type: elasticsearch
+  optional: true
+- name: redis
+  type: redis
+  optional: true
+
 templates:
   errand.sh.erb: bin/run
   manifest.yml.erb: config/manifest.yml
   kibana.yml.erb: config/kibana.yml
   allow-logsearch-access.json.erb: config/allow-logsearch-access.json
+
 properties:
   cf-kibana.app_name:
     description: "Kibana dashboard app name"
@@ -95,3 +106,6 @@ properties:
 
   redis.host:
     description: "Redis endpoint"
+  redis.port:
+    description: Redis port
+    default: 6379

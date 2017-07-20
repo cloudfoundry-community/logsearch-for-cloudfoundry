@@ -7,8 +7,8 @@ jobs:
 - name: ingestor
   templates:
   - (( merge ))
-  - {name: ingestor_cloudfoundry-firehose, release: logsearch-for-cloudfoundry}
-  - {name: parser-config-lfc, release: logsearch-for-cloudfoundry}
+  - { name: ingestor_cloudfoundry-firehose, release: logsearch-for-cloudfoundry, consumes: {ingestor: nil} }
+  - { name: parser-config-lfc, release: logsearch-for-cloudfoundry }
   properties:
     logstash_parser:
       debug: false
@@ -27,7 +27,7 @@ jobs:
 - name: maintenance
   templates:
   - (( merge ))
-  - {name: elasticsearch-config-lfc, release: logsearch-for-cloudfoundry}
+  - { name: elasticsearch-config-lfc, release: logsearch-for-cloudfoundry }
   properties:
     elasticsearch_config:
       templates:
@@ -38,9 +38,19 @@ jobs:
         - index-mappings-app-lfc: /var/vcap/jobs/elasticsearch-config-lfc/index-mappings-app.json
         - index-mappings-platform-lfc: /var/vcap/jobs/elasticsearch-config-lfc/index-mappings-platform.json
 
+- name: redis
+  instances: 1
+  networks:
+  - name: default
+    static_ips: (( static_ips(15) ))
+  templates:
+  - { name: redis, release: logsearch-for-cloudfoundry }
+  persistent_disk: 1024
+  resource_pool: errand
+
 - name: cf-kibana
   templates:
-  - { release: logsearch-for-cloudfoundry, name: cf-kibana }
+  - { release: logsearch-for-cloudfoundry, name: cf-kibana, consumes: {elasticsearch: nil, redis: nil} }
   lifecycle: errand
   instances: 1
   resource_pool: errand
@@ -50,7 +60,7 @@ jobs:
 - name: smoke-tests
   templates:
   - (( replace ))
-  - { release: logsearch-for-cloudfoundry, name: smoke-tests }
+  - { release: logsearch-for-cloudfoundry, name: smoke-tests, consumes: {elasticsearch: nil} }
   lifecycle: errand
   instances: 1
   release: logsearch-for-cloudfoundry
@@ -63,7 +73,7 @@ jobs:
   release: logsearch-for-cloudfoundry
   instances: 1
   templates:
-  - {name: upload-kibana-objects, release: logsearch-for-cloudfoundry}
+  - { name: upload-kibana-objects, release: logsearch-for-cloudfoundry, consumes: {elasticsearch: nil} }
   networks:
   - name: default
   resource_pool: errand
@@ -107,9 +117,11 @@ properties:
     index_prefix: "logs-"  # Name prefix of your log indices that you use in `logstash_parser.elasticsearch.index` property set for your parser.
     app_index_prefix: "logs-app"  # Name prefix of your `app` log indices. If you don't split `app` and `platform` indices, then just set it with the value of `elasticsearch_config.index_prefix`.
     platform_index_prefix: "logs-platform"  # Name prefix of your `platform` log indices. If you don't split `app` and `platform` indices, then just set it with the value of `elasticsearch_config.index_prefix`.
+  redis:
+    host: (( grab jobs.redis.networks.default.static_ips.[0] ))
   smoke_tests:
     api: (( grab properties.cloudfoundry.api_endpoint ))
-    system_domain: (( grab grab properties.cf-kibana.cloudfoundry.system_domain ))
+    system_domain: (( grab properties.cf-kibana.cloudfoundry.system_domain ))
     admin_user: (( grab properties.cloudfoundry.admin_user ))
     admin_password: (( grab properties.cloudfoundry.admin_password ))
     elasticsearch_master:
