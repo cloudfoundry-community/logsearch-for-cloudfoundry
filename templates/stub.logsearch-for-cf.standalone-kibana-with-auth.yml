@@ -39,7 +39,7 @@ jobs:
 - name: ls-router
   templates:
   - (( merge ))
-  - { name: route_registrar, release: logsearch-for-cloudfoundry }
+  - { name: route_registrar, release: logsearch-for-cloudfoundry, consumes: {nats: nil} }
   properties:
     nats:
       machines: []

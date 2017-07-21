@@ -12,6 +12,11 @@ templates:
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
 
+consumes:
+- name: nats
+  type: nats
+  optional: true
+
 properties:
   nats.machines:
     description: IPs of each NATS cluster member
