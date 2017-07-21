@@ -8,6 +8,9 @@ packages:
   - kibana-auth-plugin
 
 consumes:
+- name: cloud_controller
+  type: cloud_controller
+  optional: true
 - name: kibana
   type: kibana
   optional: true
@@ -29,10 +32,12 @@ properties:
     default: "false"
   kibana-auth.cloudfoundry.client_id:
     description: "The UAA Kibana oauth2 client id"
+    default: kibana_oauth2_client
   kibana-auth.cloudfoundry.client_secret:
     description: "Password to be used for the UAA kibana oauth2 client"
   kibana-auth.cloudfoundry.system_org:
     description: "The organisation that owns the CF system domain"
+    default: system
   kibana-auth.cloudfoundry.system_domain:
     description: "The CF system domain"
   kibana-auth.session_expiration_ms:

@@ -10,10 +10,17 @@
   unless redis_port
     redis_port = p("kibana-auth.redis_port")
   end
+
+  system_domain = nil
+  if_p('kibana-auth.cloudfoundry.system_domain') do |prop|
+    system_domain = prop
+  end.else do
+    system_domain = link('cloud_controller').p('system_domain')
+  end
 %>
 
 export USE_HTTPS="<%= p("kibana-auth.use_https") %>"
-export CF_API_URI="<%= p("kibana-auth.cloudfoundry.api_endpoint") %>"
+export CF_API_URI="https://api.<%= system_domain %>"
 export SKIP_SSL_VALIDATION="<%= p("kibana-auth.cloudfoundry.skip_ssl_validation") %>"
 export KIBANA_OAUTH2_CLIENT_ID="<%= p("kibana-auth.cloudfoundry.client_id") %>"
 export KIBANA_OAUTH2_CLIENT_SECRET="<%= p("kibana-auth.cloudfoundry.client_secret") %>"
@@ -21,7 +28,7 @@ export CF_SYSTEM_ORG="<%= p("kibana-auth.cloudfoundry.system_org") %>"
 export SESSION_EXPIRATION_MS="<%= p("kibana-auth.session_expiration_ms") %>"
 export REDIS_HOST="<%= redis_host %>"
 export REDIS_PORT="<%= redis_port %>"
-export KIBANA_DOMAIN="<%= p("kibana-auth.app_name") %>.<%= p("kibana-auth.cloudfoundry.system_domain")%>"
+export KIBANA_DOMAIN="<%= p("kibana-auth.app_name") %>.<%= system_domain %>"
 
 <% if_p("kibana-auth.session_key") do |key| %>
 <% raise ArgumentError, "session key must have length >= 32" unless key.size >= 32 %>

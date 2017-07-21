@@ -5,6 +5,9 @@ packages:
   - firehose-to-syslog
 
 consumes:
+- name: cloud_controller
+  type: cloud_controller
+  optional: true
 - name: ingestor
   type: ingestor
   optional: true
@@ -71,5 +74,6 @@ properties:
     description: "The Elastic Runtime system domain ( eg: system.10.244.0.34.xip.io )"
   create-uaa-client.cloudfoundry.uaa_admin_client_id:
     description: "The UAA admin client id (required scope is `uaa.admin`). The admin client is used to manage the UAA Kibana oauth2 client."
+    default: admin
   create-uaa-client.cloudfoundry.uaa_admin_client_secret:
     description: "The UAA admin client's secret"

@@ -14,6 +14,13 @@ export LANG=en_US.UTF-8
   unless syslog_port
     syslog_port = p("syslog.port")
   end
+
+  api_endpoint = nil
+  if_p('cloudfoundry.api_endpoint') do |prop|
+    api_endpoint = prop
+  end.else do
+    api_endpoint = "https://api." + link('cloud_controller').p('system_domain').to_s
+  end
 %>
 
 case $1 in
@@ -30,7 +37,7 @@ case $1 in
     echo $$ > $PIDFILE
 
     exec chpst -u vcap:vcap firehose-to-syslog \
-        --api-endpoint=<%= p("cloudfoundry.api_endpoint") %> \
+        --api-endpoint=<%= api_endpoint %> \
         <% if_p("cloudfoundry.doppler_endpoint") do |endpoint| %>--doppler-endpoint=<%= endpoint %><% end %> \
         <% if properties.syslog.cert_pem %>--cert-pem-syslog=${JOB_DIR}/config/cert.pem<% end %> \
         <% if p("cloudfoundry.skip_ssl_validation") %>--skip-ssl-validation <% end %> \

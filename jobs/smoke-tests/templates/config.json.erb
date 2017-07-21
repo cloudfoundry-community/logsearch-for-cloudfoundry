@@ -10,15 +10,22 @@
   unless elasticsearch_port
     elasticsearch_port = p("smoke_tests.elasticsearch_master.port")
   end
+
+  system_domain = nil
+  if_p('smoke_tests.system_domain') do |prop|
+    system_domain = prop
+  end.else do
+    system_domain = link('cloud_controller').p('system_domain')
+  end
 %>
 
 {
-  "api":                              "<%= p('smoke_tests.api') %>",
-  "apps_domain":                      "<%= p('smoke_tests.apps_domain') != "" && p('smoke_tests.apps_domain') || p('smoke_tests.system_domain') %>",
+  "api":                              "api.<%= system_domain %>",
+  "apps_domain":                      "<%= p('smoke_tests.apps_domain') != "" && p('smoke_tests.apps_domain') || system_domain %>",
   "admin_user":                       "<%= p('smoke_tests.admin_user') %>",
   "admin_password":                   "<%= p('smoke_tests.admin_password') %>",
   "skip_ssl_validation":              true,
-  "system_domain":                    "<%= p('smoke_tests.system_domain') %>",
+  "system_domain":                    "<%= system_domain %>",
   "elasticsearch_master_ip":          "<%= elasticsearch_host %>",
   "elasticsearch_master_port":        "<%= elasticsearch_port %>",
   "elasticsearch_app_index":          "<%= p('smoke_tests.elasticsearch_master.app_index') %>"
