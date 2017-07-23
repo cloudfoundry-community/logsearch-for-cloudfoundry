@@ -4,8 +4,8 @@
   system_domain = nil
   if_p('create-uaa-client.cloudfoundry.system_domain') do |prop|
     system_domain = prop
-  end.else do
-    system_domain = link('cloud_controller').p('system_domain')
+  end.else_if_link('cloud_controller') do |cloud_controller|
+    system_domain = cloud_controller.p('system_domain')
   end
 
   admin_client = nil
