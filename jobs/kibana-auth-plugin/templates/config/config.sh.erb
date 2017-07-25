@@ -2,7 +2,9 @@
   redis_host = nil
   redis_port = nil
   if_link("redis") { |redis_link|
-    redis_host = redis_link.instances.first.address
+    redis_link.instances.reject{ |instance| instance.bootstrap == false }.map { |instance|
+      redis_host = instance.address
+    }
     redis_port = redis_link.p("redis.port")
   }
   unless redis_host
