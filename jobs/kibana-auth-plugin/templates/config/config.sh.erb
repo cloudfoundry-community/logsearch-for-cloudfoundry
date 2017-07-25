@@ -1,12 +1,13 @@
 <%
   redis_host = nil
-  if_link("kibana") { |kibana_link| redis_host = kibana_link.instances.first.address }
+  redis_port = nil
+  if_link("redis") { |redis_link|
+    redis_host = redis_link.instances.first.address
+    redis_port = redis_link.p("redis.port")
+  }
   unless redis_host
     redis_host = p("kibana-auth.redis_host")
   end
-
-  redis_port = nil
-  if_link("redis") { |redis_link| redis_port = redis_link.p("redis.port") }
   unless redis_port
     redis_port = p("kibana-auth.redis_port")
   end
