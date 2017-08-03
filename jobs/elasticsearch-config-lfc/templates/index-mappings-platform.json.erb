@@ -12,11 +12,10 @@ string_default = { "type": "string", "index": "not_analyzed" }.to_json
 %>
 {
   "template" : "<%= p('elasticsearch_config.platform_index_prefix') %>*",
+  "settings": <%= p('elasticsearch_config.platform_index_settings', {}).to_json %>,
   "order": 204,
   "mappings" : {
-            
     <%# ------------ Platform specific types %>
-
     "_default_": {
       "properties": {
         "geoip"  : {
@@ -25,10 +24,10 @@ string_default = { "type": "string", "index": "not_analyzed" }.to_json
           "properties" : {
             "location" : { "type" : "geo_point" }
           }
-        }     
+        }
       }
     },
-    
+
     "uaa": {
       "properties": {
         "uaa": {
@@ -55,7 +54,7 @@ string_default = { "type": "string", "index": "not_analyzed" }.to_json
         }
       }
     },
-    
+
     "haproxy": {
       "properties": {
         "haproxy": {
@@ -94,6 +93,5 @@ string_default = { "type": "string", "index": "not_analyzed" }.to_json
         }
       }
     }
-        
   }
 }
