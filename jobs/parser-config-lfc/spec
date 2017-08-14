@@ -15,6 +15,15 @@ properties:
   logstash_parser.deployment_name.diego:
     description: "Name of Cloud Foundry diego deployment (if there is one). Diego jobs are mapped to this value in deployment_lookup.yml dictionary file."
     default: cloudfoundry-diego
+  logstash_parser.deployment_name.mysql:
+    description: "Name of MySQL deployment (if there is one). MySQL jobs are mapped to this value in deployment_lookup.yml dictionary file."
+    default: p-mysql
+  logstash_parser.deployment_name.redis:
+    description: "Name of Redis deployment (if there is one). Redis jobs are mapped to this value in deployment_lookup.yml dictionary file."
+    default: p-redis
+  logstash_parser.deployment_name.rabbitmq:
+    description: "Name of RabbiMQ deployment (if there is one). RabbiMQ jobs are mapped to this value in deployment_lookup.yml dictionary file."
+    default: p-rabbitmq
   logstash_parser.custom_filters:
     description: |
       Custom logstash filters that will be appended to the logstash filters list.
