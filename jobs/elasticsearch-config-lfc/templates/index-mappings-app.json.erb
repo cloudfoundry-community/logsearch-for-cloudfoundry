@@ -11,6 +11,7 @@ string_default = { "type": "string", "index": "not_analyzed" }.to_json
 %>
 {
   "template" : "<%= p('elasticsearch_config.app_index_prefix') %>*",
+  "settings": <%= p('elasticsearch_config.app_index_settings', {}).to_json %>,
   "order": 203,
   "mappings" : {
     <%# ------------ App specific types %>
