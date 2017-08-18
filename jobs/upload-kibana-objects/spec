@@ -110,8 +110,8 @@ properties:
     description: Elasticsearch port
 
   cloudfoundry.firehose_events:
-    description: "Comma seperated list of events you would like to get. Valid options are CounterEvent,Error,HttpStartStop,LogMessage,ValueMetric,ContainerMetric"
-    default: "LogMessage"
+    description: "Array of events you would like to get. Valid options are CounterEvent,Error,HttpStartStop,LogMessage,ValueMetric,ContainerMetric"
+    default: ["LogMessage"]
 
   elasticsearch_config.index_prefix:
     description: |
