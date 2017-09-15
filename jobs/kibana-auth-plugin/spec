@@ -43,6 +43,9 @@ properties:
   kibana-auth.session_expiration_ms:
     description: "Kibana user session expiration period in milliseconds (default to 12h)"
     default: 43200000
+  kibana-auth.skip_authorization:
+    description: "Allow any authenticated user to view all logs for all organizations in Kibana"
+    default: false
   kibana-auth.session_key:
     description: "Session cookie encryption passphrase; must be >=32 bytes long"
   kibana-auth.redis_host:
