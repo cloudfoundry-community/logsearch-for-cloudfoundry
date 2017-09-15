@@ -53,6 +53,15 @@ properties:
   cloudfoundry.ignore_missing_apps:
     description: "Enable throttling on cache lookup for missing apps"
     default: false
+  cloudfoundry.min_retry_delay:
+    description: "Doppler Cloud Foundry Doppler min. retry delay duration"
+    default: "500ms"
+  cloudfoundry.max_retry_delay:
+    description: "Doppler Cloud Foundry Doppler max. retry delay duration"
+    default: "1m"
+  cloudfoundry.max_retry_count:
+    description: "Doppler Cloud Foundry Doppler max. retry Count duration"
+    default: 1000
 
   syslog.host:
     description: IP or hostname of the syslog drain
