@@ -50,3 +50,6 @@ properties:
   kibana-auth.redis_port:
     description: Redis port
     default: 6379
+  kibana-auth.skip_authorization:
+    description: "If true returns all logs for authenticated users"
+    default: false
