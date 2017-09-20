@@ -112,7 +112,7 @@ module.exports = function (kibana) {
           redis_host: Joi.string().default(redis_host),
           redis_port: Joi.string().default(redis_port),
           session_expiration_ms: Joi.number().integer().default(sessionExpirationMs),
-          use_https: Joi.boolean().default(useHttps)
+          use_https: Joi.boolean().default(useHttps),
           skip_authorization: Joi.boolean().default(skip_authorization)
         }).default();
 
