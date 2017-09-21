@@ -51,7 +51,7 @@ case $1 in
         --boltdb-path=$TMP_DIR/firehose-to-syslog.cache.db \
         --min-retry-delay=<%= p("cloudfoundry.min_retry_delay") %> \
         --max-retry-delay=<%= p("cloudfoundry.max_retry_delay") %> \
-        --max_retry_count=<%= p("cloudfoundry.max_retry_count") %> \
+        --max-retry-count=<%= p("cloudfoundry.max_retry_count") %> \
         --cc-pull-time=<%= p("cloudfoundry.firehose_cc_pull_interval") %> \<% if p("ingestor_cloudfoundry-firehose.debug") %>
         --debug \<% end%>
          >>$LOG_DIR/$JOB_NAME.stdout.log \
