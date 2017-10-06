@@ -22,7 +22,7 @@
 <% if system_domain && admin_client && admin_client_secret %>
 
 ACCESS_TOKEN=$(\
-curl -s -D - -k \
+curl -s -D - -k -d "" \
 -u <%= admin_client %>:<%= admin_client_secret %> \
 -H "Accept:application/json" \
 -X POST 'https://uaa.<%= system_domain %>/oauth/token?grant_type=client_credentials&response_type=token&client_id=<%= admin_client %>&redirect_uri=http://dummy.com' \
