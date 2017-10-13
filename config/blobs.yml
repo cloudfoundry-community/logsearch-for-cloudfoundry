@@ -2,10 +2,10 @@ cf-cli/cf-cli_6.25.0_linux_x86-64.tgz:
   size: 5088758
   object_id: 4316161b-3625-4eb3-97a7-6631de9360f2
   sha: 82728ff9fed87554a14a2e5d2b4b743b8f2885ae
-cf-kibana/kibana-5.5.2-linux-x86_64.tar.gz:
-  size: 51073441
-  object_id: 71e862b4-613f-4186-66b0-62bcd177fcbe
-  sha: 89731f567b38e06515b1c74aac44f4c6a98bc47a
+cf-kibana/kibana-5.6.3-linux-x86_64.tar.gz:
+  size: 51583164
+  object_id: 9f58a415-b255-44e4-60a3-7e33010a65f8
+  sha: 0dcf451c0327346c08d40bdb855358e8468bb45c
 golang/go1.9.linux-amd64.tar.gz:
   size: 102601309
   object_id: 6758822e-af0a-4e8d-70f3-505de7c3d25b
