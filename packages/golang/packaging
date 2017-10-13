@@ -1,3 +1,0 @@
-set -e
-
-tar xzf golang/go1.9.linux-amd64.tar.gz -C $BOSH_INSTALL_TARGET --strip-components 1

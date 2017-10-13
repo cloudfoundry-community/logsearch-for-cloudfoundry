@@ -2,13 +2,10 @@
 
 set -e
 
-export GOROOT=$(readlink -nf /var/vcap/packages/golang)
-export PATH=${GOROOT}/bin:${PATH}
-
-export PATH=/var/vcap/packages/cf-cli/bin:${PATH}
+source /var/vcap/packages/golang-1.8-linux/bosh/runtime.env
 
 export GOPATH=/var/vcap/packages/smoke-tests
-export PATH=${GOPATH}/bin:${PATH}
+export PATH=${GOPATH}/bin:${GOROOT}/bin:/var/vcap/packages/cf-cli/bin:${PATH}
 
 export CF_COLOR=false
 export CONFIG=/var/vcap/jobs/smoke-tests/bin/config.json
