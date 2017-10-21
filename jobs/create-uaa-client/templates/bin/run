@@ -14,7 +14,7 @@ set -x
 
 # Create UAA client: <%= p('create-uaa-client.oauth2_client_id')%> if not already exists
 ACCESS_TOKEN=$(\
-curl -s -D - -k \
+curl -s -D - -k -d "" \
 -u <%= p('create-uaa-client.cloudfoundry.uaa_admin_client_id')%>:<%= p('create-uaa-client.cloudfoundry.uaa_admin_client_secret')%> \
 -H "Accept:application/json" \
 -X POST 'https://uaa.<%= system_domain %>/oauth/token?grant_type=client_credentials&response_type=token&client_id=<%= p('create-uaa-client.cloudfoundry.uaa_admin_client_id')%>&redirect_uri=http://dummy.com' \
