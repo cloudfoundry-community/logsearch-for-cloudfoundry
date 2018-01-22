@@ -93,6 +93,8 @@ describe "app.conf" do
         it { expect(parsed_results.get("@index_type")).to eq "app" } # keeps unchanged
         it { expect(parsed_results.get("@metadata")["index"]).to eq "app-admin-demo" }
 
+        it { expect(parsed_results.get("@timestamp").to_i).to eq LogStash::Timestamp.at(1467972040).to_i }
+
       end
     end
 
@@ -122,6 +124,25 @@ describe "app.conf" do
   end
 
   # -- special cases
+
+  describe "sets the timestamp correctly" do
+    context "when start_timestamp is set" do
+      when_parsing_log( "@index_type" => "app",
+                        "@message" => "{\"start_timestamp\":1467972040073786262}"
+      ) do
+        it { expect(parsed_results.get("@timestamp").to_i).to eq LogStash::Timestamp.at(1467972040).to_i }
+      end
+    end
+
+    context "when both start_timestamp and timestamp are set it uses timestamp" do
+      when_parsing_log( "@index_type" => "app",
+                        "@message" => "{\"start_timestamp\":1467972040073786262,\"timestamp\":1467972050073786262}"
+      ) do
+        it { expect(parsed_results.get("@timestamp").to_i).to eq LogStash::Timestamp.at(1467972050).to_i }
+      end
+    end
+  end
+
   describe "mutates 'msg'" do
 
     context "when it contains unicode (null)" do
