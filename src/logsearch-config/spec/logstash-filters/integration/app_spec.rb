@@ -98,7 +98,7 @@ describe "App IT" do
 
         verify_app_general_fields("app-admin-demo", "LogMessage", "RTR",
                                   # RTR message
-                                  '200 GET / (1.603 ms)', "INFO")
+                                  '200 GET / (1.602 ms)', "INFO")
 
         verify_app_cf_fields(99)
 
@@ -131,7 +131,7 @@ describe "App IT" do
           expect(parsed_results.get("rtr")["app"]["index"]).to eq 1
           # calculated values
           expect(parsed_results.get("rtr")["remote_addr"]).to eq "82.209.244.50"
-          expect(parsed_results.get("rtr")["response_time_ms"]).to eq 1.603
+          expect(parsed_results.get("rtr")["response_time_ms"]).to eq 1.602
         end
 
         it "sets geoip for [rtr][remote_addr]" do
