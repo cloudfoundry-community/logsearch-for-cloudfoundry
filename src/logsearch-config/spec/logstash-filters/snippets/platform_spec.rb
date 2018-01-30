@@ -92,7 +92,13 @@ describe "platform.conf" do
           "@index_type" => "platform",
           "@message" => "Some message",
           "syslog_sd_id" => "instance@47450",
-          "syslog_sd_params" => {"deployment" => "test", "group" => "job1"},
+          "syslog_sd_params" => {
+            "az" => "az1",
+            "deployment" => "deployment1",
+            "director" => "director1",
+            "group" => "group1",
+            "id" => "id1",
+          },
       ) do
 
         it { expect(parsed_results.get("tags")).to eq ["platform", "cf"] } # no fail tag
@@ -102,8 +108,11 @@ describe "platform.conf" do
 
         it "sets the common fields" do
           expect(parsed_results.get("@message")).to eq "Some message"
-          expect(parsed_results.get("@source")["deployment"]).to eq "test"
-          expect(parsed_results.get("@source")["job"]).to eq "job1"
+          expect(parsed_results.get("@source")["az"]).to eq "az1"
+          expect(parsed_results.get("@source")["deployment"]).to eq "deployment1"
+          expect(parsed_results.get("@source")["director"]).to eq "director1"
+          expect(parsed_results.get("@source")["id"]).to eq "id1"
+          expect(parsed_results.get("@source")["job"]).to eq "group1"
         end
       end
     end
