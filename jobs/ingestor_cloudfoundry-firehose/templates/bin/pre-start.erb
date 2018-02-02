@@ -53,7 +53,7 @@ echo "Creating new OAuth2 client: <%= p('cloudfoundry.firehose_client_id') %>"
 -d '{
   "client_id" : "<%= p('cloudfoundry.firehose_client_id') %>",
   "client_secret" : "<%= p('cloudfoundry.firehose_client_secret') %>",
-  "authorities" : ["doppler.firehose", "cloud_controller.admin_read_only"],
+  "authorities" : ["doppler.firehose", "cloud_controller.global_auditor"],
   "authorized_grant_types" : ["client_credentials"]
 }' \
 -X POST https://uaa.<%= system_domain %>/oauth/clients
