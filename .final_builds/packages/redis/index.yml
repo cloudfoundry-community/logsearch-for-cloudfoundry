@@ -1,9 +1,10 @@
----
 builds:
-  !binary "ODNkNjVkOTQyMDBlNGNlOTMyOWMyNGJjN2M2YmVhYjc2MWYyZmI5MA==":
-    version: !binary |-
-      ODNkNjVkOTQyMDBlNGNlOTMyOWMyNGJjN2M2YmVhYjc2MWYyZmI5MA==
-    sha1: !binary |-
-      MzhiMzI0NDdkM2U3NDAyYjQ1MDY4YjFmNDgxNTQ3MWM2Y2M5MmZiMg==
+  83d65d94200e4ce9329c24bc7c6beab761f2fb90:
+    version: 83d65d94200e4ce9329c24bc7c6beab761f2fb90
     blobstore_id: 7df6539f-6151-4859-80bb-a68ccbbcb14d
-format-version: '2'
+    sha1: 38b32447d3e7402b45068b1f4815471c6cc92fb2
+  c8f263099cf28c80cf6f91a3863beb96843b8638:
+    version: c8f263099cf28c80cf6f91a3863beb96843b8638
+    blobstore_id: ec5e8ea4-019e-4016-5667-eb080e9a7ec8
+    sha1: 270d9cde1c6d0a542f61a7be8884189b80e983b2
+format-version: "2"
