@@ -46,6 +46,7 @@ case $1 in
         --syslog-protocol=<%= p("syslog.protocol") %>\
         --syslog-server=<%= p("syslog.host") %>:<%= syslog_port %>\
         --events=<%= p('cloudfoundry.firehose_events').join(',') %> \
+        <% if_p("cloudfoundry.extra_fields") do |fields| %> --extra-fields="<%= fields.map { |key, value| "#{key}:#{value}" }.join(',') %>" <% end %> \
         <% if p("cloudfoundry.ignore_missing_apps") %>--ignore-missing-apps  <% end %> \
         <% if p("ingestor_cloudfoundry-firehose.enable_stats_server") %>--enable-stats-server  <% end %> \
         --subscription-id=<%= p("cloudfoundry.firehose_subscription_id") %> \
