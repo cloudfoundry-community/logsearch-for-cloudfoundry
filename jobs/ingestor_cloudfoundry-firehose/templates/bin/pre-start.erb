@@ -1,4 +1,6 @@
-#!/bin/bash -e
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
 
 <%
   system_domain = nil
@@ -39,9 +41,12 @@ CLIENT_EXISTS=$(\
     https://uaa.<%= system_domain %>/oauth/clients/<%= p('cloudfoundry.firehose_client_id') %> \
 )
 
-if [ $CLIENT_EXISTS != "404" ]; then
+if [[ $CLIENT_EXISTS == 5?? ]]; then
+    echo "Error fetching any old OAuth2 client: '$CLIENT_EXISTS'. Aborting."
+    exit 1
+elif [ $CLIENT_EXISTS != "404" ]; then
   echo "Deleting old OAuth2 client: <%= p('cloudfoundry.firehose_client_id')%>"
-  curl -s -k -w "%{http_code}" \
+  curl -s -k -w "%{http_code}" -o /dev/null \
     -H "Authorization:Bearer $ACCESS_TOKEN" \
     -H "Content-Type:application/json" \
     -H "Accept:application/json" \
@@ -50,7 +55,8 @@ if [ $CLIENT_EXISTS != "404" ]; then
   echo
 fi
 echo "Creating new OAuth2 client: <%= p('cloudfoundry.firehose_client_id') %>"
-curl -s -k -H "Authorization:Bearer $ACCESS_TOKEN" \
+curl -s -k -w "%{http_code}" -o /dev/null \
+  -H "Authorization:Bearer $ACCESS_TOKEN" \
   -H "Content-Type:application/json" \
   -H "Accept:application/json" \
   -d '{
@@ -61,5 +67,6 @@ curl -s -k -H "Authorization:Bearer $ACCESS_TOKEN" \
 }' \
   -X POST \
   https://uaa.<%= system_domain %>/oauth/clients
+echo
 
 <% end %>
