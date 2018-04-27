@@ -71,6 +71,12 @@ properties:
   cloudfoundry.cc_polling_request:
     description: "Cloud Controller polling requests by second"
     default: 50
+  cloudfoundry.extra_fields:
+    description: "(Optional) Additional fields to add to syslog output"
+    example:
+      extra_fields:
+        env: dev
+        foo: bar
 
   syslog.host:
     description: IP or hostname of the syslog drain
