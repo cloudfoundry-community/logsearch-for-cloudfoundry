@@ -22,40 +22,44 @@
 <% if system_domain && admin_client && admin_client_secret %>
 
 ACCESS_TOKEN=$(\
-curl -s -D - -k -d "" \
--u <%= admin_client %>:<%= admin_client_secret %> \
--H "Accept:application/json" \
--X POST 'https://uaa.<%= system_domain %>/oauth/token?grant_type=client_credentials&response_type=token&client_id=<%= admin_client %>&redirect_uri=http://dummy.com' \
-| sed -n 's/.*access_token":"\([^"]*\).*/\1/p' \
+  curl -s -D - -k -d "" \
+    -u <%= admin_client %>:<%= admin_client_secret %> \
+    -H "Accept:application/json" \
+    -X POST \
+    'https://uaa.<%= system_domain %>/oauth/token?grant_type=client_credentials&response_type=token&client_id=<%= admin_client %>&redirect_uri=http://dummy.com' \
+  | sed -n 's/.*access_token":"\([^"]*\).*/\1/p' \
 )
 
 CLIENT_EXISTS=$(\
-curl -s -k -w "%{http_code}" -o /dev/null \
--H "Authorization:Bearer $ACCESS_TOKEN" \
--H"Content-Type:application/json" \
--H"Accept:application/json" \
--X GET https://uaa.<%= system_domain %>/oauth/clients/<%= p('cloudfoundry.firehose_client_id') %> \
+  curl -s -k -w "%{http_code}" -o /dev/null \
+    -H "Authorization:Bearer $ACCESS_TOKEN" \
+    -H "Content-Type:application/json" \
+    -H "Accept:application/json" \
+    -X GET \
+    https://uaa.<%= system_domain %>/oauth/clients/<%= p('cloudfoundry.firehose_client_id') %> \
 )
 
 if [ $CLIENT_EXISTS != "404" ]; then
-   echo "Deleting old OAuth2 client: <%= p('cloudfoundry.firehose_client_id')%>"
-   curl -s -k -w "%{http_code}" \
-	-H "Authorization:Bearer $ACCESS_TOKEN" \
-	-H"Content-Type:application/json" \
-	-H"Accept:application/json" \
-	-XDELETE \
-	https://uaa.<%= system_domain %>/oauth/clients/<%= p('cloudfoundry.firehose_client_id') %>
+  echo "Deleting old OAuth2 client: <%= p('cloudfoundry.firehose_client_id')%>"
+  curl -s -k -w "%{http_code}" \
+    -H "Authorization:Bearer $ACCESS_TOKEN" \
+    -H "Content-Type:application/json" \
+    -H "Accept:application/json" \
+    -X DELETE \
+    https://uaa.<%= system_domain %>/oauth/clients/<%= p('cloudfoundry.firehose_client_id') %>
+  echo
 fi
 echo "Creating new OAuth2 client: <%= p('cloudfoundry.firehose_client_id') %>"
-	curl -s -k -H "Authorization:Bearer $ACCESS_TOKEN" \
--H"Content-Type:application/json" \
--H"Accept:application/json" \
--d '{
-  "client_id" : "<%= p('cloudfoundry.firehose_client_id') %>",
-  "client_secret" : "<%= p('cloudfoundry.firehose_client_secret') %>",
-  "authorities" : ["doppler.firehose", "cloud_controller.global_auditor"],
-  "authorized_grant_types" : ["client_credentials"]
+curl -s -k -H "Authorization:Bearer $ACCESS_TOKEN" \
+  -H "Content-Type:application/json" \
+  -H "Accept:application/json" \
+  -d '{
+    "client_id" : "<%= p('cloudfoundry.firehose_client_id') %>",
+    "client_secret" : "<%= p('cloudfoundry.firehose_client_secret') %>",
+    "authorities" : ["doppler.firehose", "cloud_controller.global_auditor"],
+    "authorized_grant_types" : ["client_credentials"]
 }' \
--X POST https://uaa.<%= system_domain %>/oauth/clients
+  -X POST \
+  https://uaa.<%= system_domain %>/oauth/clients
 
 <% end %>
