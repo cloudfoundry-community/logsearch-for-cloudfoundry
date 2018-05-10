@@ -27,5 +27,5 @@ properties:
   logstash_parser.custom_filters:
     description: |
       Custom logstash filters that will be appended to the logstash filters list.
-      Populates the file /var/vcap/jobs/logsearch-for-cloudfoundry-filters/config/logstash-filters-custom.conf
+      Populates the file /var/vcap/jobs/parser-config-lfc/config/logstash-filters-custom.conf
     default: ""
