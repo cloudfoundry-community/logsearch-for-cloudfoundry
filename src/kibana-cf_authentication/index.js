@@ -81,6 +81,7 @@ module.exports = function (kibana) {
       var cfInfoUri = cloudFoundryApiUri + '/v2/info';
       var sessionExpirationMs = (process.env.SESSION_EXPIRATION_MS) ? process.env.SESSION_EXPIRATION_MS : 12 * 60 * 60 * 1000; // 12 hours by default
       var random_string = process.env.SESSION_KEY || randomstring.generate(40);
+      var skip_authorization = process.env.SKIP_AUTHORIZATION;
 
       if (skip_ssl_validation) {
         process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
@@ -111,7 +112,8 @@ module.exports = function (kibana) {
           redis_host: Joi.string().default(redis_host),
           redis_port: Joi.string().default(redis_port),
           session_expiration_ms: Joi.number().integer().default(sessionExpirationMs),
-          use_https: Joi.boolean().default(useHttps)
+          use_https: Joi.boolean().default(useHttps),
+          skip_authorization: Joi.boolean().default(skip_authorization)
         }).default();
 
       }).catch(function (error) {
@@ -337,7 +339,7 @@ module.exports = function (kibana) {
                 if (err) {
                   server.log(['error', 'authentication', 'session:get:_filtered_msearch'], JSON.stringify(err));
                 }
-                if (cached.account.orgs.indexOf(config.get('authentication.cf_system_org')) === -1) {
+                if (cached.account.orgs.indexOf(config.get('authentication.cf_system_org')) === -1 && !(config.get('authentication.skip_authorization'))) {
                   var modified_payload = [];
                   var lines = request.payload.toString().split('\n');
                   var num_lines = lines.length;
@@ -383,7 +385,7 @@ module.exports = function (kibana) {
                 if (err) {
                   server.log(['error', 'authentication', 'session:get:_filtered_search'], JSON.stringify(err));
                 }
-                if (cached.account.orgs.indexOf(config.get('authentication.cf_system_org')) === -1) {
+                if (cached.account.orgs.indexOf(config.get('authentication.cf_system_org')) === -1 && !(config.get('authentication.skip_authorization')))  {
                   var payload = JSON.parse(request.payload.toString() || '{}');
                   payload = filterQuery(payload, cached);
                   options.payload = new Buffer(JSON.stringify(payload));

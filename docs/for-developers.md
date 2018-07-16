@@ -19,6 +19,17 @@ Additionally, you can check out [Troubleshooting](troubleshooting.md) page for t
 
 For questions / issues / contribution please follow [Contribution](#contribution) section below.
 
+#### Creating a dev release
+
+Logsearch-for-cloudfoundry uses [git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules) and [BOSH package vendoring](https://bosh.io/docs/package-vendoring.html). If you have problems creating a release, check that you've updated the submodules and have a BOSH CLI version that supports vendoring (i.e., `bosh --version` is at least v2.0.36).
+
+```bash
+$ git clone --recursive https://github.com/cloudfoundry-community/logsearch-for-cloudfoundry
+$ cd logsearch-for-cloudfoundry
+$ bosh create-release
+$ bosh -e your-director-name upload-release
+```
+
 #### Tests
 
 ##### Logsearch-config tests

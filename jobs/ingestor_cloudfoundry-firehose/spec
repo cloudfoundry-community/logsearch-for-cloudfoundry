@@ -25,6 +25,9 @@ properties:
   ingestor_cloudfoundry-firehose.debug:
     description: Debug level logging. This disables forwarding to syslog
     default: false
+  ingestor_cloudfoundry-firehose.enable_stats_server:
+    description: "Will enable firehose-to-syslog stats server on port 8080"
+    default: false
   logstash.metadata_level:
     description: "Whether to include additional metadata throughout the event lifecycle. NONE = disabled, DEBUG = fully enabled"
     default: "NONE"
@@ -42,8 +45,8 @@ properties:
   cloudfoundry.firehose_client_secret:
     description: "CF UAA client secret with 'doppler.firehose' permissions"
   cloudfoundry.firehose_events:
-    description: "Comma seperated list of events you would like to get. Valid options are CounterEvent,Error,HttpStartStop,LogMessage,ValueMetric,ContainerMetric"
-    default: "LogMessage"
+    description: "List of events you would like to get. Valid options are ContainerMetric, CounterEvent, Error, HttpStartStop, LogMessage, ValueMetric."
+    default: ["LogMessage"]
   cloudfoundry.firehose_subscription_id:
     description: "ID for the firehose-to-syslog subscription"
     default: "firehose"
@@ -53,6 +56,27 @@ properties:
   cloudfoundry.ignore_missing_apps:
     description: "Enable throttling on cache lookup for missing apps"
     default: false
+  cloudfoundry.min_retry_delay:
+    description: "Doppler Cloud Foundry Doppler min. retry delay duration"
+    default: "500ms"
+  cloudfoundry.max_retry_delay:
+    description: "Doppler Cloud Foundry Doppler max. retry delay duration"
+    default: "1m"
+  cloudfoundry.max_retry_count:
+    description: "Doppler Cloud Foundry Doppler max. retry Count duration"
+    default: 1000
+  cloudfoundry.logs_buffer_size:
+    description: "Firehose message are bufferized before being send to syslog"
+    default: 10000
+  cloudfoundry.cc_polling_request:
+    description: "Cloud Controller polling requests by second"
+    default: 50
+  cloudfoundry.extra_fields:
+    description: "(Optional) Additional fields to add to syslog output"
+    example:
+      extra_fields:
+        env: dev
+        foo: bar
 
   syslog.host:
     description: IP or hostname of the syslog drain

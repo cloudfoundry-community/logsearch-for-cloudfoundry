@@ -10,23 +10,37 @@
   unless redis_port
     redis_port = p("redis.port")
   end
+
+  apps_domain = nil
+  if_p('cf-kibana.cloudfoundry.apps_domain') do |prop|
+    apps_domain = prop
+  end.else do
+    apps_domain = link('cloud_controller').p('system_domain')
+  end
+
+  system_domain = nil
+  if_p('cf-kibana.cloudfoundry.system_domain') do |prop|
+    system_domain = prop
+  end.else do
+    system_domain = link('cloud_controller').p('system_domain')
+  end
 %>
 ---
 applications:
 - name: <%= p('cf-kibana.app_name')%>
   memory: <%= p('cf-kibana.app_memory')%>
   instances: <%= p('cf-kibana.app_instances')%>
-  domain: <%= p('cf-kibana.cloudfoundry.apps_domain')%>
+  domain: <%= apps_domain %>
   buildpack: binary_buildpack
   command: bash -c "\$HOME/bin/kibana --port \$PORT & pid=\$!; while true; do process=\$(ps uh \$pid | awk '{print \$6}'); [ -z \$process ] && { echo exiting due to kibana failure... >&2; exit 1; }; [ ${process:-0} -eq 300000 ] && { echo memory limit reached, recycling instance >&2; exit 1; }; sleep 1; done"
   timeout: 180
   env:
     NODE_ENV: production
     USE_HTTPS: <%= p('cf-kibana.use_https')%>
-    KIBANA_DOMAIN: "<%= p("cf-kibana.app_name") %>.<%= p("cf-kibana.cloudfoundry.system_domain") %>"
+    KIBANA_DOMAIN: "<%= p("cf-kibana.app_name") %>.<%= apps_domain %>"
     KIBANA_OAUTH2_CLIENT_ID: "<%= p('cf-kibana.oauth2_client_id')%>"
     KIBANA_OAUTH2_CLIENT_SECRET: "<%= p('cf-kibana.oauth2_client_secret')%>"
-    CF_API_URI: "https://api.<%= p('cf-kibana.cloudfoundry.system_domain')%>"
+    CF_API_URI: "https://api.<%= system_domain %>"
     CF_SYSTEM_ORG: "<%= p('cf-kibana.cloudfoundry.system_org')%>"
     SKIP_SSL_VALIDATION: <%= p('cloudfoundry.skip_ssl_validation')%>
     <% if redis_host %>REDIS_HOST: <%= redis_host %><% end %>

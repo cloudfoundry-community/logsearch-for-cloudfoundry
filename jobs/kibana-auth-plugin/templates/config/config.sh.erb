@@ -32,6 +32,7 @@ export SESSION_EXPIRATION_MS="<%= p("kibana-auth.session_expiration_ms") %>"
 export REDIS_HOST="<%= redis_host %>"
 export REDIS_PORT="<%= redis_port %>"
 export KIBANA_DOMAIN="<%= p("kibana-auth.app_name") %>.<%= system_domain %>"
+export SKIP_AUTHORIZATION="<%= p("kibana-auth.skip_authorization") %>"
 
 <% if_p("kibana-auth.session_key") do |key| %>
 <% raise ArgumentError, "session key must have length >= 32" unless key.size >= 32 %>

@@ -12,6 +12,9 @@ consumes:
 - name: redis
   type: redis
   optional: true
+- name: cloud_controller
+  type: cloud_controller
+  optional: true
 
 templates:
   errand.sh.erb: bin/run
@@ -53,6 +56,7 @@ properties:
     description: "CF security group with API access"
   cf-kibana.cloudfoundry.uaa_admin_client_id:
     description: "The UAA admin client id (required scope is `uaa.admin`). The admin client is used to manage the UAA Kibana oauth2 client."
+    default: admin
   cf-kibana.cloudfoundry.uaa_admin_client_secret:
     description: "The UAA admin client's secret"
 
@@ -99,10 +103,12 @@ properties:
     description: "The CF API URL"
   cloudfoundry.admin_user:
     description: "Username of the admin user"
+    default: admin
   cloudfoundry.admin_password:
     description: "Password of the admin user"
   cloudfoundry.skip_ssl_validation:
     description: "Toggles cli verification of the CF API SSL certificate"
+    default: true
 
   redis.host:
     description: "Redis endpoint"

@@ -3,6 +3,22 @@
 set -e
 set -x
 
+<%
+  system_domain = nil
+  if_p('cf-kibana.cloudfoundry.system_domain') do |prop|
+    system_domain = prop
+  end.else do
+    system_domain = link('cloud_controller').p('system_domain')
+  end
+
+  apps_domain = nil
+  if_p('cf-kibana.cloudfoundry.apps_domain') do |prop|
+    apps_domain = prop
+  end.else do
+    apps_domain = link('cloud_controller').p('system_domain')
+  end
+%>
+
 export PATH=/var/vcap/packages/cf-cli/bin:${PATH}
 export CF_COLOR=false
 export WORKDIR=/var/vcap/data/tmp
@@ -27,9 +43,9 @@ cd $WORKDIR/kibana
 
 cf --version
 <% if p("cloudfoundry.skip_ssl_validation") %>
-cf api --skip-ssl-validation <%= p("cloudfoundry.api_endpoint") %>
+cf api --skip-ssl-validation api.<%= system_domain %>
 <% else %>
-cf api <%= p("cloudfoundry.api_endpoint") %>
+cf api api.<%= system_domain %>
 <% end %>
 
 set +x
@@ -52,7 +68,7 @@ ACCESS_TOKEN=$(\
 curl -s -D - -k \
 -u <%= p("cf-kibana.cloudfoundry.uaa_admin_client_id") %>:<%= p("cf-kibana.cloudfoundry.uaa_admin_client_secret") %> \
 -H "Accept:application/json" \
--X POST 'https://uaa.<%= p("cf-kibana.cloudfoundry.system_domain") %>/oauth/token?grant_type=client_credentials&response_type=token&client_id=<%= p("cf-kibana.cloudfoundry.uaa_admin_client_id") %>&redirect_uri=http://dummy.com' \
+-X POST 'https://uaa.<%= system_domain %>/oauth/token?grant_type=client_credentials&response_type=token&client_id=<%= p("cf-kibana.cloudfoundry.uaa_admin_client_id") %>&redirect_uri=http://dummy.com' \
 | sed -n 's/.*access_token":"\([^"]*\).*/\1/p' \
 )
 
@@ -61,7 +77,7 @@ curl -s -k -w "%{http_code}" -o /dev/null \
 -H "Authorization:Bearer $ACCESS_TOKEN" \
 -H"Content-Type:application/json" \
 -H"Accept:application/json" \
--X GET https://uaa.<%= p("cf-kibana.cloudfoundry.system_domain") %>/oauth/clients/<%= p("cf-kibana.oauth2_client_id") %> \
+-X GET https://uaa.<%= system_domain %>/oauth/clients/<%= p("cf-kibana.oauth2_client_id") %> \
 )
 
 if [ $CLIENT_EXISTS != "404" ]; then
@@ -71,7 +87,7 @@ if [ $CLIENT_EXISTS != "404" ]; then
   -H"Content-Type:application/json" \
   -H"Accept:application/json" \
   -XDELETE \
-  https://uaa.<%= p("cf-kibana.cloudfoundry.system_domain") %>/oauth/clients/<%= p("cf-kibana.oauth2_client_id") %>
+  https://uaa.<%= system_domain %>/oauth/clients/<%= p("cf-kibana.oauth2_client_id") %>
 fi
 
 echo "Creating new OAuth2 client: <%= p("cf-kibana.oauth2_client_id") %>"
@@ -86,9 +102,9 @@ echo "Creating new OAuth2 client: <%= p("cf-kibana.oauth2_client_id") %>"
   "resource_ids" : ["none"],
   "authorized_grant_types" : ["authorization_code", "refresh_token"],
   "access_token_validity": 43200,
-  "redirect_uri": ["https://<%= p("cf-kibana.app_name") %>.<%= p("cf-kibana.cloudfoundry.system_domain") %>/login", "http://<%= p("cf-kibana.app_name") %>.<%= p("cf-kibana.cloudfoundry.system_domain") %>/login"]
+  "redirect_uri": ["https://<%= p("cf-kibana.app_name") %>.<%= apps_domain %>/login", "http://<%= p("cf-kibana.app_name") %>.<%= apps_domain %>/login"]
 }' \
--X POST https://uaa.<%= p("cf-kibana.cloudfoundry.system_domain") %>/oauth/clients
+-X POST https://uaa.<%= system_domain %>/oauth/clients
 <% end %>
 
 cf push

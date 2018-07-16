@@ -3,7 +3,7 @@ name: smoke-tests
 
 packages:
   - cf-cli
-  - golang
+  - golang-1.8-linux
   - smoke-tests
 
 templates:

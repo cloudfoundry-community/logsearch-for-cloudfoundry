@@ -15,7 +15,7 @@ full_text_with_raw_copy = {
   "type": "string",
   "index": "analyzed",
   "norms": { "enabled": false },
-  "fields": {            
+  "fields": {
     "raw": {
       "type": "string",
       "index": "not_analyzed",
@@ -28,16 +28,15 @@ full_text_with_raw_copy = {
 %>
 {
   "template" : "<%= p('elasticsearch_config.index_prefix') %>*",
-  "order": 202,  
+  "settings": <%= p('elasticsearch_config.index_settings', {}).to_json %>,
+  "order": 202,
   "mappings" : {
-
     <%# --------------  Default type (applied to all types) %>
-    
     "_default_" : {
       "properties" : {
-         
+
          <%# ------  common fields %>
-            
+
          "tags":        <%= string_default %>,
          "@input":      <%= string_default %>,
          "@index_type": <%= string_default %>,
@@ -45,16 +44,16 @@ full_text_with_raw_copy = {
          "@timestamp":  { "type": "date" },
          "@message":    <%= full_text_with_raw_copy %>,
          "@level":      <%= string_default %>,
-               
+
          "@shipper": {
            "type": "object",
            "dynamic": true,
            "properties": {
              "name":     <%= string_default %>,
-             "priority": { "type": "long" }             
+             "priority": { "type": "long" }
            }
          },
-      
+
          "@source": {
            "type": "object",
            "dynamic": true,
@@ -69,8 +68,7 @@ full_text_with_raw_copy = {
              "vm":         <%= string_default %>
            }
          }
-         
       }
-    }    
+    }
   }
 }

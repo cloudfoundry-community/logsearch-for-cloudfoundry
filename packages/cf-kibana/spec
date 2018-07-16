@@ -5,4 +5,4 @@ dependencies:
   - kibana-auth-plugin
 
 files:
-  - cf-kibana/kibana-5.5.1-linux-x86_64.tar.gz
+  - cf-kibana/kibana-5.6.4-linux-x86_64.tar.gz

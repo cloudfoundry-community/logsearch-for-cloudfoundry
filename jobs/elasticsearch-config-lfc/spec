@@ -23,3 +23,10 @@ properties:
     description: |
       Name prefix of your `platform` log indices. If you don't split `app` and `platform` indices, then just set it with the value of `elasticsearch_config.index_prefix`.
     default: "logs-platform"
+
+  elasticsearch_config.index_settings:
+    description: Index settings for logs
+  elasticsearch_config.app_index_settings:
+    description: Index settings for app logs
+  elasticsearch_config.platform_index_settings:
+    description: Index settings for platform logs
