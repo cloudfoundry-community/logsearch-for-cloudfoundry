@@ -141,5 +141,5 @@ log_status("<%= object %>")
 result = `cat <%= object %> | curl --data-binary @- http://<%= elasticsearch_host %>:<%= elasticsearch_port %>/_bulk`
 $logger.info("======= Result of uploading '<%= object %>': #{result}")
 puts "======= Result of uploading '<%= object %>': #{process_bulk_query_result(result)}"
-<% end if ! kibana_objects.upload_data_files.nil? %>
+<% end if ! p("kibana_objects.upload_data_files").nil? %>
 log_status("=======")
