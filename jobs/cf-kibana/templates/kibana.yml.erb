@@ -100,4 +100,11 @@ logging.quiet: <%= p("cf-kibana.logging_quiet") %>
 # Configure development console
 console.enabled: <%= p("cf-kibana.console_enabled") %>
 
+# disable x-pack
+xpack.monitoring.enabled: true
+xpack.graph.enabled: false
+xpack.ml.enabled: false
+xpack.security.enabled: false
+xpack.watcher.enabled: false
+
 <% if_p('cf-kibana.config_options') do | v | %><%= v %><% end %>

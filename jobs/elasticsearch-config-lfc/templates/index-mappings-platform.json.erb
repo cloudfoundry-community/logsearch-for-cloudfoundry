@@ -7,7 +7,7 @@
 require 'json'
 
 
-string_default = { "type": "string", "index": "not_analyzed" }.to_json
+string_default = { "type": "keyword", "index": true }.to_json
 
 %>
 {
@@ -24,12 +24,8 @@ string_default = { "type": "string", "index": "not_analyzed" }.to_json
           "properties" : {
             "location" : { "type" : "geo_point" }
           }
-        }
-      }
-    },
+        },
 
-    "uaa": {
-      "properties": {
         "uaa": {
           "type": "object",
           "dynamic": true,
@@ -51,12 +47,8 @@ string_default = { "type": "string", "index": "not_analyzed" }.to_json
               }
             }
           }
-        }
-      }
-    },
+        },
 
-    "haproxy": {
-      "properties": {
         "haproxy": {
           "type": "object",
           "dynamic": true,
