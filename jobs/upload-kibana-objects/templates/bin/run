@@ -43,8 +43,8 @@ def render_upsert_queries(type, pattern)
       else
         id = File.basename(data_file, ".json")
       end
-      combined += "{\"delete\":{\"_index\":\".kibana\",\"_type\":\"#{type}\",\"_id\":\"#{id}\"}}\n"
-      combined += "{\"index\":{\"_index\":\".kibana\",\"_type\":\"#{type}\",\"_id\":\"#{id}\"}}\n"
+      combined += "{\"delete\":{\"_index\":\".kibana\",\"_type\":\"_doc\",\"_id\":\"#{id}\"}}\n"
+      combined += "{\"index\":{\"_index\":\".kibana\",\"_type\":\"_doc\",\"_id\":\"#{id}\"}}\n"
       combined += "#{parsed_json.to_json}\n"
       log_status("#{data_file}")
     rescue StandardError => err
