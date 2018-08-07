@@ -44,7 +44,7 @@ def render_upsert_queries(type, pattern)
       else
         id = File.basename(data_file, ".json")
       end
-      now = DateTime.new.strftime('%Y-%m-%dT%H:%M:%S.%LZ')
+      now = DateTime.now.strftime('%Y-%m-%dT%H:%M:%S.%LZ')
       combined += "{\"delete\":{\"_index\":\".kibana\",\"_type\":\"doc\",\"_id\":\"#{id}\"}}\n"
       combined += "{\"index\":{\"_index\":\".kibana\",\"_type\":\"doc\",\"_id\":\"#{id}\"}}\n"
       combined += "{\"updated_at\": \"#{now}\", \"type\": \"#{type}\",\"#{type}\":#{parsed_json.to_json}}\n"
