@@ -45,8 +45,8 @@ def render_upsert_queries(type, pattern)
         id = File.basename(data_file, ".json")
       end
       now = DateTime.now.strftime('%Y-%m-%dT%H:%M:%S.%LZ')
-      combined += "{\"delete\":{\"_index\":\".kibana\",\"_type\":\"doc\",\"_id\":\"#{id}\"}}\n"
-      combined += "{\"index\":{\"_index\":\".kibana\",\"_type\":\"doc\",\"_id\":\"#{id}\"}}\n"
+      combined += "{\"delete\":{\"_index\":\".kibana\",\"_type\":\"doc\",\"_id\":\"#{type}:#{id}\"}}\n"
+      combined += "{\"index\":{\"_index\":\".kibana\",\"_type\":\"doc\",\"_id\":\"{type}:#{id}\"}}\n"
       combined += "{\"updated_at\": \"#{now}\", \"type\": \"#{type}\",\"#{type}\":#{parsed_json.to_json}}\n"
       log_status("#{data_file}")
     rescue StandardError => err
