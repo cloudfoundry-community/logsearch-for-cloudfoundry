@@ -22,6 +22,7 @@ templates:
   kibana-objects/config/4.4.0.json.erb:  kibana-objects/config/4.4.0.json
   kibana-objects/config/4.4.2.json.erb:  kibana-objects/config/4.4.2.json
   kibana-objects/config/4.5.4.json.erb:  kibana-objects/config/4.5.4.json
+  kibana-objects/config/6.3.2.json.erb:  kibana-objects/config/6.3.2.json
 
   kibana-objects/search/app-all.json.erb:                         kibana-objects/search/app-all.json
   kibana-objects/search/app-all-messages.json.erb:                kibana-objects/search/app-all-messages.json
