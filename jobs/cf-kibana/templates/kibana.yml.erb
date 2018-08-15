@@ -99,9 +99,14 @@ logging.quiet: <%= p("cf-kibana.logging_quiet") %>
 
 # Configure development console
 console.enabled: <%= p("cf-kibana.console_enabled") %>
+xpack.searchprofiler.enabled: <%= p("cf-kibana.searchprofiler_enabled") %>
+xpack.grokdebugger.enabled: <%= p("cf-kibana.grokdebugger_enabled") %>
+
+# disable apm
+xpack.apm.ui.enabled: <%= p("cf-kibana.grokdebugger_enabled") %>
 
 # disable x-pack
-xpack.monitoring.enabled: true
+xpack.monitoring.enabled: false
 xpack.graph.enabled: false
 xpack.ml.enabled: false
 xpack.security.enabled: false

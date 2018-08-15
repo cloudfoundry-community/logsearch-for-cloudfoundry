@@ -92,6 +92,12 @@ properties:
   cf-kibana.console_enabled:
     description: "Enable Kibana development console; should be set to `false` in a multi-tenant deployment."
     default: false
+  cf-kibana.searchprofiler_enabled:
+    description: "Enable Kibana development search profiler; should be set to `false` in a multi-tenant deployment."
+    default: false
+  cf-kibana.grokdebugger_enabled:
+    description: "Enable Kibana development grok debugger; should be set to `false` in a multi-tenant deployment."
+    default: false
   cf-kibana.config_options:
     description: "Additional options to append to kibana configuration (YAML format)."
     default: ~
