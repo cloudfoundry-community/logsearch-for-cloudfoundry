@@ -51,8 +51,14 @@ properties:
     description: "ID for the firehose-to-syslog subscription"
     default: "firehose"
   cloudfoundry.firehose_cc_pull_interval:
-    description: "full app metadata update interval; defaults to 60s"
-    default: "60s"
+    description: "full app metadata update interval; defaults to 3600s"
+    default: "3600s"
+  cloudfoundry.firehose_app_name_suffixes_to_strip:
+    description: "app name suffixes to strip"
+    default:
+    - "-venerable"
+    - "-blue"
+    - "-green"
   cloudfoundry.ignore_missing_apps:
     description: "Enable throttling on cache lookup for missing apps"
     default: false

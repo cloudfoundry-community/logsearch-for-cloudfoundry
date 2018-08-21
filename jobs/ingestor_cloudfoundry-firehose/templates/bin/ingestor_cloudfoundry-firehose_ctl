@@ -55,6 +55,7 @@ case $1 in
         --min-retry-delay=<%= p("cloudfoundry.min_retry_delay") %> \
         --max-retry-delay=<%= p("cloudfoundry.max_retry_delay") %> \
         --max-retry-count=<%= p("cloudfoundry.max_retry_count") %> \
+        --strip-app-name-suffixes=<%= p("cloudfoundry.firehose_app_name_suffixes_to_strip").join(',') %> \
         --cc-rps=<%= p("cloudfoundry.cc_polling_request") %> \
         --cc-pull-time=<%= p("cloudfoundry.firehose_cc_pull_interval") %> \<% if p("ingestor_cloudfoundry-firehose.debug") %>
         --debug \<% end%>
