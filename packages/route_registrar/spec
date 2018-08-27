@@ -18,6 +18,7 @@ files:
   - code.cloudfoundry.org/route-registrar/messagebus/fakes/*.go
   - code.cloudfoundry.org/route-registrar/registrar/*.go
   - github.com/nats-io/nats/*.go
+  - github.com/nats-io/go-nats/*.go
   - github.com/nats-io/go-nats/encoders/builtin/*.go
   - github.com/nats-io/go-nats/util/*.go
   - github.com/nats-io/nuid/*.go
