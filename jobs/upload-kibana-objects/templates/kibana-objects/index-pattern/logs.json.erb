@@ -7,35 +7,35 @@ require 'json'
 #########################
 fields_json =
   [
-    {"name":"_id","type":"string","count":0,"scripted":false,"indexed":false,"analyzed":false,"doc_values":false},
-    {"name":"_type","type":"string","count":0,"scripted":false,"indexed":false,"analyzed":false,"doc_values":false},
+    {"name":"_id","type":"keyword","count":0,"scripted":false,"indexed":false,"analyzed":false,"doc_values":false},
+    {"name":"_type","type":"keyword","count":0,"scripted":false,"indexed":false,"analyzed":false,"doc_values":false},
     {"name":"_score","type":"number","count":0,"scripted":false,"indexed":false,"analyzed":false,"doc_values":false},
     {"name":"_source","type":"_source","count":0,"scripted":false,"indexed":false,"analyzed":false,"doc_values":false},
-    {"name":"_index","type":"string","count":0,"scripted":false,"indexed":false,"analyzed":false,"doc_values":false},
+    {"name":"_index","type":"keyword","count":0,"scripted":false,"indexed":false,"analyzed":false,"doc_values":false},
     
-    {"name":"tags","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"tags","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
 
-    {"name":"@input","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"@index_type","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"@type","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"@input","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"@index_type","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"@type","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
 
     {"name":"@timestamp","type":"date","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"@raw","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":true,"doc_values":false},
-    {"name":"@message","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":true,"doc_values":false},
-    {"name":"@message.raw","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"@level","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"@raw","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":true,"doc_values":false},
+    {"name":"@message","type":"text","count":0,"scripted":false,"indexed":true,"analyzed":true,"doc_values":false},
+    {"name":"@message.raw","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"@level","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
 
-    {"name":"@shipper.name","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"@shipper.name","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
     {"name":"@shipper.priority","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
 
-    {"name":"@source.deployment","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"@source.host","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"@source.job","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"@source.job_index","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"@source.deployment","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"@source.host","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"@source.job","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"@source.job_index","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
     {"name":"@source.index","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"@source.component","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"@source.type","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"@source.vm","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"@source.component","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"@source.type","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"@source.vm","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
   ]
 
 ###########################
@@ -43,55 +43,55 @@ fields_json =
 ###########################
 fields_json.concat(
   [   
-    {"name":"uaa.timestamp","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"uaa.timestamp","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
     {"name":"uaa.pid","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"uaa.thread","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"uaa.log_category","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"uaa.audit.identity_zone_id","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"uaa.audit.data","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"uaa.audit.origin","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"uaa.audit.remote_address","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"uaa.audit.type","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"uaa.audit.principal","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"uaa.thread","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"uaa.log_category","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"uaa.audit.identity_zone_id","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"uaa.audit.data","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"uaa.audit.origin","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"uaa.audit.remote_address","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"uaa.audit.type","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"uaa.audit.principal","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
     
-    {"name":"haproxy.accept_date","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"haproxy.accept_date","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
     {"name":"haproxy.time_backend_connect","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"haproxy.frontend_name","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"haproxy.frontend_name","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
     {"name":"haproxy.retries","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"haproxy.captured_response_headers","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"haproxy.captured_response_cookie","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"haproxy.captured_response_headers","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"haproxy.captured_response_cookie","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
     {"name":"haproxy.srv_queue","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"haproxy.termination_state","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"haproxy.termination_state","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
     {"name":"haproxy.bytes_read","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
     {"name":"haproxy.time_backend_response","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
     {"name":"haproxy.feconn","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"haproxy.backend_name","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"haproxy.http_request","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"haproxy.bind_name","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"haproxy.backend_name","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"haproxy.http_request","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"haproxy.bind_name","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
     {"name":"haproxy.client_port","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
     {"name":"haproxy.http_status_code","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"haproxy.http_request_verb","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"haproxy.server_name","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"haproxy.captured_request_headers","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"haproxy.http_request_verb","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"haproxy.server_name","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"haproxy.captured_request_headers","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
     {"name":"haproxy.actconn","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
     {"name":"haproxy.time_duration","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"haproxy.captured_request_cookie","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"haproxy.captured_request_cookie","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
     {"name":"haproxy.srvconn","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
     {"name":"haproxy.backend_queue","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"haproxy.client_ip","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"haproxy.client_ip","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
     {"name":"haproxy.beconn","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
     {"name":"haproxy.time_request","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
     {"name":"haproxy.time_queue","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
     
     {"name":"geoip.location","type":"geo_point","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"geoip.timezone","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"geoip.timezone","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
     {"name":"geoip.longitude","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
     {"name":"geoip.latitude","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"geoip.continent_code","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"geoip.ip","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"geoip.country_code3","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"geoip.country_code2","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-    {"name":"geoip.country_name","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true}
+    {"name":"geoip.continent_code","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"geoip.ip","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"geoip.country_code3","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"geoip.country_code2","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+    {"name":"geoip.country_name","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true}
   ]
 )
 ###########################
@@ -108,12 +108,12 @@ http_enabled = p('cloudfoundry.firehose_events').include? 'HttpStartStop'
 if(logmessage_enabled == true or containermetric_enabled == true or http_enabled == true)
   fields_json.concat(
     [
-      {"name":"@cf.org","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"@cf.org_id","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"@cf.space","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"@cf.space_id","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"@cf.app","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"@cf.app_id","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"@cf.org","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"@cf.org_id","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"@cf.space","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"@cf.space_id","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"@cf.app","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"@cf.app_id","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
       {"name":"@cf.app_instance","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true}
     ]
   )
@@ -122,29 +122,29 @@ end
 if(logmessage_enabled == true)
   fields_json.concat(
     [
-      {"name":"logmessage.message_type","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"logmessage.message_type","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
 
       {"name":"rtr.response_time_sec","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
       {"name":"rtr.response_time_ms","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"rtr.remote_addr","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"rtr.x_forwarded_proto","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"rtr.x_forwarded_for","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"rtr.vcap_request_id","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"rtr.remote_addr","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"rtr.x_forwarded_proto","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"rtr.x_forwarded_for","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"rtr.vcap_request_id","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
       {"name":"rtr.body_bytes_sent","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"rtr.hostname","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"rtr.timestamp","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"rtr.hostname","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"rtr.timestamp","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
       {"name":"rtr.request_bytes_received","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"rtr.verb","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"rtr.path","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"rtr.http_spec","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"rtr.referer","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"rtr.http_user_agent","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"rtr.verb","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"rtr.path","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"rtr.http_spec","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"rtr.referer","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"rtr.http_user_agent","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
       {"name":"rtr.status","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"rtr.src.host","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"rtr.src.host","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
       {"name":"rtr.src.port","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"rtr.dst.host","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"rtr.dst.host","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
       {"name":"rtr.dst.port","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"rtr.app.id","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"rtr.app.id","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
       {"name":"rtr.app.index","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true}
     ]
   )
@@ -153,14 +153,14 @@ if(logmessage_enabled == true)
   fields_json.concat(
     [
       {"name":"geoip.location","type":"geo_point","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"geoip.timezone","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"geoip.timezone","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
       {"name":"geoip.longitude","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
       {"name":"geoip.latitude","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"geoip.continent_code","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"geoip.ip","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"geoip.country_code3","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"geoip.country_code2","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"geoip.country_name","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true}
+      {"name":"geoip.continent_code","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"geoip.ip","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"geoip.country_code3","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"geoip.country_code2","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"geoip.country_name","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true}
     ]
   )
 end
@@ -180,8 +180,8 @@ end
 if(valuemetric_enabled == true)
   fields_json.concat(
     [
-      {"name":"valuemetric.unit","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"valuemetric.name","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"valuemetric.unit","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"valuemetric.name","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
       {"name":"valuemetric.value","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true}
     ]
   )
@@ -191,7 +191,7 @@ if(counterevent_enabled == true)
   fields_json.concat(
     [
       {"name":"counterevent.delta","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"counterevent.name","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"counterevent.name","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
       {"name":"counterevent.total","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true}
     ]
   )
@@ -200,7 +200,7 @@ end
 if(error_enabled == true)
   fields_json.concat(
     [
-      {"name":"error.source","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"error.source","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
       {"name":"error.code","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true}
     ]
   )
@@ -209,18 +209,18 @@ end
 if(http_enabled == true)
   fields_json.concat(
     [
-      {"name":"httpstartstop.forwarded","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"httpstartstop.forwarded","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
       {"name":"httpstartstop.status_code","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"httpstartstop.instance_id","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"httpstartstop.instance_id","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
       {"name":"httpstartstop.duration_ms","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"httpstartstop.uri","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"httpstartstop.uri","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
       {"name":"httpstartstop.content_length","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"httpstartstop.method","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"httpstartstop.remote_addr","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"httpstartstop.method","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"httpstartstop.remote_addr","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
       {"name":"httpstartstop.stop_timestamp","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"httpstartstop.user_agent","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"httpstartstop.request_id","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
-      {"name":"httpstartstop.peer_type","type":"string","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"httpstartstop.user_agent","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"httpstartstop.request_id","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
+      {"name":"httpstartstop.peer_type","type":"keyword","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true},
       {"name":"httpstartstop.instance_index","type":"number","count":0,"scripted":false,"indexed":true,"analyzed":false,"doc_values":true}
     ]
   )
