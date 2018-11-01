@@ -9,16 +9,16 @@
 require 'json'
 
 
-string_default = { "type": "string", "index": "not_analyzed" }.to_json
+string_default = { "type": "keyword", "index": true }.to_json
 
 full_text_with_raw_copy = {
-  "type": "string",
-  "index": "analyzed",
-  "norms": { "enabled": false },
+  "type": "text",
+  "index": true,
+  "norms": false,
   "fields": {
     "raw": {
-      "type": "string",
-      "index": "not_analyzed",
+      "type": "keyword",
+      "index": true,
       "ignore_above": 256
     }
   }
