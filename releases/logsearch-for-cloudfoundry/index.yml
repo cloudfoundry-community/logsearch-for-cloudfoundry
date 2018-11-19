@@ -25,6 +25,8 @@ builds:
     version: "5"
   a4c145cc-17be-4c02-997f-ab881cf72b28:
     version: "7"
+  c1d5c582-8536-41e2-41da-cbf27587ba65:
+    version: 207.0.3
   c70beebc-0c89-4077-afcd-51214110cc4d:
     version: 205.0.0
   ca9203a3-d9b9-4ffe-52f9-8c056a9632dc:

@@ -1,0 +1,104 @@
+name: logsearch-for-cloudfoundry
+version: 207.0.3
+commit_hash: 55c0075
+uncommitted_changes: false
+jobs:
+- name: cf-kibana
+  version: 0070e99c9373363d85db308c7e61d3d5d8a4ae54217899f135cc5f566299f166
+  fingerprint: 0070e99c9373363d85db308c7e61d3d5d8a4ae54217899f135cc5f566299f166
+  sha1: sha256:2559d1699819e3ee3e02987dbd919e458f3d014e1a26056d3d7ec0a8e9d80459
+- name: create-uaa-client
+  version: 9971b409a3db6991f289e927ced22ceb71707a1f4c05444dd1ff298cf9d569a7
+  fingerprint: 9971b409a3db6991f289e927ced22ceb71707a1f4c05444dd1ff298cf9d569a7
+  sha1: sha256:39e5bed2eb2d6131d6b202a67dab6fab6b6b7e5faac51d097fe4c6fe62da248c
+- name: elasticsearch-config-lfc
+  version: da517228f76b3286a4a93738e8b2b8c4f63b4e33ad9bb7ce4099e1e396dd5b40
+  fingerprint: da517228f76b3286a4a93738e8b2b8c4f63b4e33ad9bb7ce4099e1e396dd5b40
+  sha1: sha256:4fd4e60fd247e6cee26d82203e0adbc163194dc1240d570b79b3853edc01e91a
+- name: ingestor_cloudfoundry-firehose
+  version: 4a8ee23d478d1b60aaf876f28b4678fd37456e40bbabf8c4b47d86965a9d1eb5
+  fingerprint: 4a8ee23d478d1b60aaf876f28b4678fd37456e40bbabf8c4b47d86965a9d1eb5
+  sha1: sha256:c405542dfa37342679b1008f959a2167035e96b22ffca59162eb9b90954011c9
+- name: kibana-auth-plugin
+  version: a8626b03e3d05cff0f46a21b6f0ed1767e1446cf9b4272bce66e7d1eb4ca5e5b
+  fingerprint: a8626b03e3d05cff0f46a21b6f0ed1767e1446cf9b4272bce66e7d1eb4ca5e5b
+  sha1: sha256:1ea2c9b47334db1ea166d10ad5e6de0a8730305749d0eb31bfde42e5f03e788c
+- name: parser-config-lfc
+  version: 8bbc7e1579b3a5e5a1578362948f5fc8bbe76192ef5520ced598d42c6150ad20
+  fingerprint: 8bbc7e1579b3a5e5a1578362948f5fc8bbe76192ef5520ced598d42c6150ad20
+  sha1: sha256:888f08ff42639eef621af2c965962d42d030a32bd05dad0b17dd4782ff846b39
+- name: redis
+  version: cfcf0afd3b61f395d88218850cf590cf334d882e91a11ba20f38cc88937a8a6e
+  fingerprint: cfcf0afd3b61f395d88218850cf590cf334d882e91a11ba20f38cc88937a8a6e
+  sha1: sha256:db1644a94f24e0f54fc81daa235ec31c478f4911dca524b26fc8ad07ca77b9ef
+- name: route_registrar
+  version: 8a21006ebd9fd5d34e62b246d8544c640d90af3136b1fcbf40fe676d3e80f575
+  fingerprint: 8a21006ebd9fd5d34e62b246d8544c640d90af3136b1fcbf40fe676d3e80f575
+  sha1: sha256:ae9883426a54b112fcd90121da84ecf60193130c9d027d5f2c8404d3d857d55b
+- name: smoke-tests
+  version: 2711a100f0db66f55dc04cf7bbb9aa8d45349931a6284785a3f75e3a13ad8d7a
+  fingerprint: 2711a100f0db66f55dc04cf7bbb9aa8d45349931a6284785a3f75e3a13ad8d7a
+  sha1: sha256:80e55e91c66bc009de478ec182efacda0293c77c1fa38f9f74e41e3bfdb4f37a
+- name: upload-kibana-objects
+  version: cac782ffbf502c588fcc895c9e3fc6df025409017c0cef647ce23eb5ef1321ac
+  fingerprint: cac782ffbf502c588fcc895c9e3fc6df025409017c0cef647ce23eb5ef1321ac
+  sha1: sha256:b7b018fb6cd2f398f5ae570a871b826db9aa197ec0f87798cd25159863c35474
+packages:
+- name: cf-cli
+  version: 3625f1844052a7b5155410ee6e4e8436ed9a9be5e80d5948599e30d3de281b60
+  fingerprint: 3625f1844052a7b5155410ee6e4e8436ed9a9be5e80d5948599e30d3de281b60
+  sha1: sha256:6abc3c36801d1e21ec5bd70d04e3792f9d0047cbea737654d02f4290ae5b762e
+  dependencies: []
+- name: cf-kibana
+  version: bf171356c74d9762d85333df641553c399aa61f3e4cb7c3ecc6f5d735cd46ca5
+  fingerprint: bf171356c74d9762d85333df641553c399aa61f3e4cb7c3ecc6f5d735cd46ca5
+  sha1: sha256:83535c87195c518b51317065c20c8e20aff9db96bb270a9438553d3a58307b31
+  dependencies:
+  - kibana-auth-plugin
+- name: firehose-to-syslog
+  version: fbf9b3acbaa787a648ce9b6372801fde077cb6505e845c4e2058ce45b4f9b2ef
+  fingerprint: fbf9b3acbaa787a648ce9b6372801fde077cb6505e845c4e2058ce45b4f9b2ef
+  sha1: sha256:78f9877fa755a3edf31f8271f9d3abdc09bd90ef15b5a0b0128456f085c7d5fc
+  dependencies:
+  - golang-1.8-linux
+- name: golang-1.8-linux
+  version: 1509998fbf5c66cb8fc361a479beafb41ef8cc14
+  fingerprint: 1509998fbf5c66cb8fc361a479beafb41ef8cc14
+  sha1: 3d8d63ef92977b3e4ec1ac71a555e7374078fb80
+  dependencies: []
+- name: kibana-auth-plugin
+  version: 105418a8c04619302f791f76cd8038833b79e22cafaa76b363d8a63ad8028ae5
+  fingerprint: 105418a8c04619302f791f76cd8038833b79e22cafaa76b363d8a63ad8028ae5
+  sha1: sha256:4553b20d79f201237d94da976de2dea82606f325a077a365248344b5c30e098d
+  dependencies: []
+- name: logsearch-config-logstash-filters
+  version: 677f9e384718b0f1989476a1830f8b4e81c0355dc809845c78e55db87b6039b0
+  fingerprint: 677f9e384718b0f1989476a1830f8b4e81c0355dc809845c78e55db87b6039b0
+  sha1: sha256:008d38073c705b863fa624084753acd8c7bc2567ba6d414b29a6dddc637edb2a
+  dependencies:
+  - ruby-2.3
+- name: redis
+  version: 8eab85721451cea5f7b03de98182943c975aa718e4efdaaa6b7f1911cbc9cb8e
+  fingerprint: 8eab85721451cea5f7b03de98182943c975aa718e4efdaaa6b7f1911cbc9cb8e
+  sha1: sha256:7d08342ad5555bf060718c2dd3886efebaaea4646e78a6ec6e05ee882b1744d7
+  dependencies: []
+- name: route_registrar
+  version: caf1ae2a8e0ba4f2d18742054fd87f21a2eab9607d510c1edfad30981bd98123
+  fingerprint: caf1ae2a8e0ba4f2d18742054fd87f21a2eab9607d510c1edfad30981bd98123
+  sha1: sha256:a44ab453b4591f20d990764b6a758a028f2387b9c0cc4e695d0ecdf587f0b63e
+  dependencies:
+  - golang-1.8-linux
+- name: ruby-2.3
+  version: 9ca1b00fe28d7e89e9d35fc36e95401c13b09efd6953e0489a4e76736db4041f
+  fingerprint: 9ca1b00fe28d7e89e9d35fc36e95401c13b09efd6953e0489a4e76736db4041f
+  sha1: sha256:06981d56e76495b39c1a243a3722a5dd7fe20c746a7a7f9fd958c3ade0be6cc4
+  dependencies: []
+- name: smoke-tests
+  version: bf0bcf578987f1568d82bdcbd699193af5843f8ad6097f286e3f61e4de23db5a
+  fingerprint: bf0bcf578987f1568d82bdcbd699193af5843f8ad6097f286e3f61e4de23db5a
+  sha1: sha256:6c1dd0b36dcf71c1befc3ef4e41a8f4ac57eae8ceebfe80428afe0a1a11944e0
+  dependencies: []
+license:
+  version: 533dc6d51862cd8ee5d89c84e54ce7ff9d84252b237382de5867096f02c1cd02
+  fingerprint: 533dc6d51862cd8ee5d89c84e54ce7ff9d84252b237382de5867096f02c1cd02
+  sha1: sha256:1f54df8f59e8977c2633d56fb7d0f13d96553372dbaaecb15d9e9dd12fc7a272
