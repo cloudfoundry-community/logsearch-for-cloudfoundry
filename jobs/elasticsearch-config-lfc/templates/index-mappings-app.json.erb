@@ -1,10 +1,12 @@
 <%
 # This file contains mappings specific for 'app' indicies.
 #
+# By default all string fields are set as `keyword` (not analyzed values).
+#
 
 require 'json'
 
-string_default = { "type": "keyword", "index": true }.to_json
+keyword_default = { "type": "keyword", "index": true }.to_json
 
 %>
 {
@@ -12,27 +14,27 @@ string_default = { "type": "keyword", "index": true }.to_json
   "settings": <%= p('elasticsearch_config.app_index_settings', {}).to_json %>,
   "order": 203,
   "mappings" : {
-    <%# ------------ App specific types %>
     "doc": {
+      <%# ------------ App specific fields %>
       "properties": {
         "@cf": {
           "type": "object",
           "dynamic": true,
           "properties": {
-            "app":          <%= string_default %>,
-            "app_id":       <%= string_default %>,
+            "app":          <%= keyword_default %>,
+            "app_id":       <%= keyword_default %>,
             "app_instance": { "type": "long" },
-            "org":          <%= string_default %>,
-            "org_id":       <%= string_default %>,
-            "space":        <%= string_default %>,
-            "space_id":     <%= string_default %>
+            "org":          <%= keyword_default %>,
+            "org_id":       <%= keyword_default %>,
+            "space":        <%= keyword_default %>,
+            "space_id":     <%= keyword_default %>
           }
         },
-        "LogMessage": {
+        "logmessage": {
           "type": "object",
           "dynamic": true,
           "properties": {
-            "message_type":   <%= string_default %>
+            "message_type":   <%= keyword_default %>
           }
         },
         "rtr": {
@@ -40,25 +42,25 @@ string_default = { "type": "keyword", "index": true }.to_json
           "dynamic": true,
           "properties": {
             "response_time_ms":       { "type": "long" },
-            "remote_addr":            <%= string_default %>,
-            "x_forwarded_proto":      <%= string_default %>,
-            "x_forwarded_for":        <%= string_default %>,
-            "vcap_request_id":        <%= string_default %>,
+            "remote_addr":            <%= keyword_default %>,
+            "x_forwarded_proto":      <%= keyword_default %>,
+            "x_forwarded_for":        <%= keyword_default %>,
+            "vcap_request_id":        <%= keyword_default %>,
             "body_bytes_sent":        { "type": "long" },
-            "hostname":               <%= string_default %>,
-            "timestamp":              <%= string_default %>,
+            "hostname":               <%= keyword_default %>,
+            "timestamp":              <%= keyword_default %>,
             "request_bytes_received": { "type": "long" },
-            "verb":                   <%= string_default %>,
-            "path":                   <%= string_default %>,
-            "http_spec":              <%= string_default %>,
-            "referer":                <%= string_default %>,
-            "http_user_agent":        <%= string_default %>,
+            "verb":                   <%= keyword_default %>,
+            "path":                   <%= keyword_default %>,
+            "http_spec":              <%= keyword_default %>,
+            "referer":                <%= keyword_default %>,
+            "http_user_agent":        <%= keyword_default %>,
             "status":                 { "type": "long" },
             "src": {
               "type": "object",
               "dynamic": true,
               "properties": {
-                "host": <%= string_default %>,
+                "host": <%= keyword_default %>,
                 "port": { "type": "long" }
               }
             },
@@ -66,7 +68,7 @@ string_default = { "type": "keyword", "index": true }.to_json
               "type": "object",
               "dynamic": true,
               "properties": {
-                "host": <%= string_default %>,
+                "host": <%= keyword_default %>,
                 "port": { "type": "long" }
               }
             },
@@ -74,7 +76,7 @@ string_default = { "type": "keyword", "index": true }.to_json
               "type": "object",
               "dynamic": true,
               "properties": {
-                "id": <%= string_default %>,
+                "id": <%= keyword_default %>,
                 "index": { "type": "long" }
               }
             }
@@ -85,11 +87,11 @@ string_default = { "type": "keyword", "index": true }.to_json
           "dynamic": true,
           "properties": {
             "location": { "type": "geo_point" },
-            "timezone": <%= string_default %>
+            "timezone": <%= keyword_default %>
           }
         },
-
-        "ContainerMetric": {
+        
+        "containermetric": {
           "type": "object",
           "dynamic": true,
           "properties": {
@@ -100,52 +102,52 @@ string_default = { "type": "keyword", "index": true }.to_json
             "cpu_percentage":     { "type": "scaled_float", "scaling_factor": 100 }
           }
         },
-
-        "ValueMetric": {
+        
+        "valuemetric": {
           "type": "object",
           "dynamic": true,
           "properties": {
-            "unit":  <%= string_default %>,
-            "name":  <%= string_default %>,
+            "unit":  <%= keyword_default %>,
+            "name":  <%= keyword_default %>,
             "value": { "type": "long" }
           }
         },
-
-        "CounterEvent": {
+        
+        "counterevent": {
           "type": "object",
           "dynamic": true,
           "properties": {
             "delta":  { "type": "long" },
-            "name":  <%= string_default %>,
+            "name":  <%= keyword_default %>,
             "total": { "type": "long" }
           }
         },
-
-        "Error": {
+        
+        "error": {
           "type": "object",
           "dynamic": true,
           "properties": {
-            "source":  <%= string_default %>,
+            "source":  <%= keyword_default %>,
             "code": { "type": "long" }
           }
         },
-
-        "HttpStartStop": {
+        
+        "httpstartstop": {
           "type": "object",
           "dynamic": true,
           "properties": {
             "stop_timestamp": { "type": "long" },
-            "request_id":     <%= string_default %>,
-            "peer_type":      <%= string_default %>,
-            "method":         <%= string_default %>,
-            "uri":            <%= string_default %>,
-            "remote_addr":    <%= string_default %>,
-            "user_agent":     <%= string_default %>,
+            "request_id":     <%= keyword_default %>,
+            "peer_type":      <%= keyword_default %>,
+            "method":         <%= keyword_default %>,
+            "uri":            <%= keyword_default %>,
+            "remote_addr":    <%= keyword_default %>,
+            "user_agent":     <%= keyword_default %>,
             "status_code":    { "type": "long" },
             "content_length": { "type": "long" },
             "instance_index": { "type": "long" },
-            "instance_id":    <%= string_default %>,
-            "forwarded":      <%= string_default %>,
+            "instance_id":    <%= keyword_default %>,
+            "forwarded":      <%= keyword_default %>,
             "duration_ms":    { "type": "long" }
           }
         }

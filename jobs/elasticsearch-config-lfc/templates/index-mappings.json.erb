@@ -3,18 +3,18 @@
 #
 # This file contains mappings applied to all logs indicies (both 'app*' and 'platform*').
 #
-# By default all string fields are set as `not_analyzed`. Field `@message` is set as a full-text field.
+# By default all string fields are set as `keyword` (not analyzed values). Field `@message` is set as a full-text-search field.
 #
 
 require 'json'
 
 
-string_default = { "type": "keyword", "index": true }.to_json
+keyword_default = { "type": "keyword", "index": true }.to_json
 
 full_text_with_raw_copy = {
   "type": "text",
   "index": true,
-  "norms": false,
+  "norms": { "enabled": false },
   "fields": {
     "raw": {
       "type": "keyword",
@@ -31,25 +31,24 @@ full_text_with_raw_copy = {
   "settings": <%= p('elasticsearch_config.index_settings', {}).to_json %>,
   "order": 202,
   "mappings" : {
-    <%# --------------  Default type (applied to all types) %>
     "doc" : {
       "properties" : {
 
          <%# ------  common fields %>
 
-         "tags":        <%= string_default %>,
-         "@input":      <%= string_default %>,
-         "@index_type": <%= string_default %>,
-         "@type":       <%= string_default %>,
+         "tags":        <%= keyword_default %>,
+         "@input":      <%= keyword_default %>,
+         "@index_type": <%= keyword_default %>,
+         "@type":       <%= keyword_default %>,
          "@timestamp":  { "type": "date" },
          "@message":    <%= full_text_with_raw_copy %>,
-         "@level":      <%= string_default %>,
+         "@level":      <%= keyword_default %>,
 
          "@shipper": {
            "type": "object",
            "dynamic": true,
            "properties": {
-             "name":     <%= string_default %>,
+             "name":     <%= keyword_default %>,
              "priority": { "type": "long" }
            }
          },
@@ -58,14 +57,14 @@ full_text_with_raw_copy = {
            "type": "object",
            "dynamic": true,
            "properties": {
-             "deployment": <%= string_default %>,
-             "host":       <%= string_default %>,
-             "job":        <%= string_default %>,
-             "job_index":  <%= string_default %>,
+             "deployment": <%= keyword_default %>,
+             "host":       <%= keyword_default %>,
+             "job":        <%= keyword_default %>,
+             "job_index":  <%= keyword_default %>,
              "index":      { "type": "long" },
-             "component":  <%= string_default %>,
-             "type":       <%= string_default %>,
-             "vm":         <%= string_default %>
+             "component":  <%= keyword_default %>,
+             "type":       <%= keyword_default %>,
+             "vm":         <%= keyword_default %>
            }
          }
       }
