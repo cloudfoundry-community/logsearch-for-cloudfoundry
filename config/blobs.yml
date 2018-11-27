@@ -2,18 +2,10 @@ cf-cli/cf-cli_6.25.0_linux_x86-64.tgz:
   size: 5088758
   object_id: 4316161b-3625-4eb3-97a7-6631de9360f2
   sha: 82728ff9fed87554a14a2e5d2b4b743b8f2885ae
-cf-kibana/kibana-5.6.13-linux-x86_64.tar.gz:
-  size: 53161803
-  object_id: 69d51cbc-ab69-4f87-4edf-beb063fd8e91
-  sha: 5562635acea8b262dc47e2c09f25572e30cef950
 cf-kibana/kibana-6.4.3-linux-x86_64.tar.gz:
   size: 235299366
   object_id: f4bc4084-d5c7-402e-59df-595a3213d33b
   sha: 30d9adca00c0c4bae35b40a305fcb16a046a9601
-cf-kibana/kibana-6.5.0-linux-x86_64.tar.gz:
-  size: 206012037
-  object_id: 2855a0e6-746c-4e91-6443-5207554aa97c
-  sha: 369b8514c3d7cb8ea1270842e1fd1330b320f000
 redis/redis-3.2.9.tar.gz:
   size: 1547695
   object_id: a1230536-4203-40b9-97e1-9f11d470308d
