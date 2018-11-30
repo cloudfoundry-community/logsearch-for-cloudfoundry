@@ -43,8 +43,8 @@ def render_upsert_queries(type, pattern)
       else
         id = File.basename(data_file, ".json")
       end
-      combined += "{\"delete\":{\"_index\":\".kibana\",\"_type\":\"#{type}\",\"_id\":\"#{id}\"}}\n"
-      combined += "{\"index\":{\"_index\":\".kibana\",\"_type\":\"#{type}\",\"_id\":\"#{id}\"}}\n"
+      combined += "{\"delete\":{\"_index\":\".kibana\",\"_type\":\"doc\",\"_id\":\"#{id}\"}}\n"
+      combined += "{\"index\":{\"_index\":\".kibana\",\"_type\":\"doc\",\"_id\":\"#{id}\"}}\n"
       combined += "#{parsed_json.to_json}\n"
       log_status("#{data_file}")
     rescue StandardError => err
@@ -123,7 +123,7 @@ $logger.info("Defaults data to upload:\n#{upload_data}")
   end
 %>
 
-result = `curl http://<%= elasticsearch_host %>:<%= elasticsearch_port %>/_bulk -d '#{upload_data.to_s}'`
+result = `curl -H 'Content-Type: application/json' http://<%= elasticsearch_host %>:<%= elasticsearch_port %>/_bulk -d '#{upload_data.to_s}'`
 log_status("=======")
 $logger.info("======= Result of uploading defaults: #{result}")
 puts("======= Result of uploading defaults: #{process_bulk_query_result(result)}")
@@ -138,7 +138,7 @@ log_status("--------------------------------------------------")
 log_status("======= Files to upload:")
 <% p("kibana_objects.upload_data_files").each do |object| %>
 log_status("<%= object %>")
-result = `cat <%= object %> | curl --data-binary @- http://<%= elasticsearch_host %>:<%= elasticsearch_port %>/_bulk`
+result = `cat <%= object %> | curl -H 'Content-Type: application/json' --data-binary @- http://<%= elasticsearch_host %>:<%= elasticsearch_port %>/_bulk`
 $logger.info("======= Result of uploading '<%= object %>': #{result}")
 puts "======= Result of uploading '<%= object %>': #{process_bulk_query_result(result)}"
 <% end %>

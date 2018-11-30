@@ -100,4 +100,6 @@ logging.quiet: <%= p("cf-kibana.logging_quiet") %>
 # Configure development console
 console.enabled: <%= p("cf-kibana.console_enabled") %>
 
-<% if_p('cf-kibana.config_options') do | v | %><%= v %><% end %>
+<% if_p('cf-kibana.config_options') do p("cf-kibana.config_options", {}).each do | k, v | %>
+<%= k %>: <%= v %><% end %>
+<% end %>

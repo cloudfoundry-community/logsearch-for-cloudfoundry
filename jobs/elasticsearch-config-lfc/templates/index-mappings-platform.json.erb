@@ -1,13 +1,13 @@
 <%
 # This file contains mappings specific for 'platform' indicies.
 #
-# By default all string fields are set as `not_analyzed`.
+# By default all string fields are set as `keyword` (not analyzed values).
 #
 
 require 'json'
 
 
-string_default = { "type": "string", "index": "not_analyzed" }.to_json
+keyword_default = { "type": "keyword", "index": true }.to_json
 
 %>
 {
@@ -15,8 +15,8 @@ string_default = { "type": "string", "index": "not_analyzed" }.to_json
   "settings": <%= p('elasticsearch_config.platform_index_settings', {}).to_json %>,
   "order": 204,
   "mappings" : {
-    <%# ------------ Platform specific types %>
-    "_default_": {
+    "doc": {
+      <%# ------------ Platform specific fields %>
       "properties": {
         "geoip"  : {
           "type" : "object",
@@ -24,50 +24,42 @@ string_default = { "type": "string", "index": "not_analyzed" }.to_json
           "properties" : {
             "location" : { "type" : "geo_point" }
           }
-        }
-      }
-    },
-
-    "uaa": {
-      "properties": {
+        },
+        
         "uaa": {
           "type": "object",
           "dynamic": true,
           "properties": {
-            "timestamp":    <%= string_default %>,
+            "timestamp":    <%= keyword_default %>,
             "pid":          { "type": "long" },
-            "thread":       <%= string_default %>,
-            "log_category": <%= string_default %>,
+            "thread":       <%= keyword_default %>,
+            "log_category": <%= keyword_default %>,
             "audit": {
               "type": "object",
               "dynamic": true,
               "properties": {
-                "type":             <%= string_default %>,
-                "data":             <%= string_default %>,
-                "principal":        <%= string_default %>,
-                "origin":           <%= string_default %>,
-                "identity_zone_id": <%= string_default %>,
-                "remote_address":   <%= string_default %>
+                "type":             <%= keyword_default %>,
+                "data":             <%= keyword_default %>,
+                "principal":        <%= keyword_default %>,
+                "origin":           <%= keyword_default %>,
+                "identity_zone_id": <%= keyword_default %>,
+                "remote_address":   <%= keyword_default %>
               }
             }
           }
-        }
-      }
-    },
-
-    "haproxy": {
-      "properties": {
+        },
+        
         "haproxy": {
           "type": "object",
           "dynamic": true,
           "properties": {
-            "client_ip":                  <%= string_default %>,
+            "client_ip":                  <%= keyword_default %>,
             "client_port":                { "type": "long" },
-            "accept_date":                <%= string_default %>,
-            "frontend_name":              <%= string_default %>,
-            "backend_name":               <%= string_default %>,
-            "bind_name":                  <%= string_default %>,
-            "server_name":                <%= string_default %>,
+            "accept_date":                <%= keyword_default %>,
+            "frontend_name":              <%= keyword_default %>,
+            "backend_name":               <%= keyword_default %>,
+            "bind_name":                  <%= keyword_default %>,
+            "server_name":                <%= keyword_default %>,
             "time_request":               { "type": "long" },
             "time_queue":                 { "type": "long" },
             "time_backend_connect":       { "type": "long" },
@@ -75,9 +67,9 @@ string_default = { "type": "string", "index": "not_analyzed" }.to_json
             "time_duration":              { "type": "long" },
             "http_status_code":           { "type": "long" },
             "bytes_read":                 { "type": "long" },
-            "captured_request_cookie":    <%= string_default %>,
-            "captured_response_cookie":   <%= string_default %>,
-            "termination_state":          <%= string_default %>,
+            "captured_request_cookie":    <%= keyword_default %>,
+            "captured_response_cookie":   <%= keyword_default %>,
+            "termination_state":          <%= keyword_default %>,
             "actconn":                    { "type": "long" },
             "feconn":                     { "type": "long" },
             "beconn":                     { "type": "long" },
@@ -85,10 +77,10 @@ string_default = { "type": "string", "index": "not_analyzed" }.to_json
             "retries":                    { "type": "long" },
             "srv_queue":                  { "type": "long" },
             "backend_queue":              { "type": "long" },
-            "captured_request_headers":   <%= string_default %>,
-            "captured_response_headers":  <%= string_default %>,
-            "http_request":               <%= string_default %>,
-            "http_request_verb":          <%= string_default %>
+            "captured_request_headers":   <%= keyword_default %>,
+            "captured_response_headers":  <%= keyword_default %>,
+            "http_request":               <%= keyword_default %>,
+            "http_request_verb":          <%= keyword_default %>
           }
         }
       }
