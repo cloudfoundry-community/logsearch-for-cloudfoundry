@@ -1,15 +1,16 @@
 <%
   elasticsearch_host = nil
   elasticsearch_port = nil
-  if_link("elasticsearch") { |elasticsearch_link|
-    elasticsearch_host = elasticsearch_link.instances.first.address
-    elasticsearch_port = elasticsearch_link.p("elasticsearch.port")
-  }
-  unless elasticsearch_host
-    elasticsearch_host = p("cf-kibana.elasticsearch.host")
+  if_p('cf-kibana.elasticsearch.host') do |prop|
+    elasticsearch_host = prop
+  end.else do
+    elasticsearch_host = link('elasticsearch').instances.first.address
   end
-  unless elasticsearch_port
-    elasticsearch_port = p("cf-kibana.elasticsearch.port")
+
+  if_p('cf-kibana.elasticsearch.port') do |prop|
+    elasticsearch_port = prop
+  end.else do
+    elasticsearch_port = link('elasticsearch').p("elasticsearch.port")
   end
 
   redis_host = nil
