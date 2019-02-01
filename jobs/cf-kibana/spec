@@ -29,6 +29,9 @@ properties:
   cf-kibana.app_memory:
     description: "Kibana app memory"
     default: 2048M
+  cf-kibana.disk_quota:
+    description: "Kibana disk quota"
+    default: 1GB
   cf-kibana.app_instances:
     description: "Count of Kibana instances"
     default: 1
