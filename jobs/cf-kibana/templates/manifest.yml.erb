@@ -29,6 +29,7 @@
 applications:
 - name: <%= p('cf-kibana.app_name')%>
   memory: <%= p('cf-kibana.app_memory')%>
+  disk_quota: <%= p('cf-kibana.disk_quota')%>
   instances: <%= p('cf-kibana.app_instances')%>
   domain: <%= apps_domain %>
   buildpack: binary_buildpack
