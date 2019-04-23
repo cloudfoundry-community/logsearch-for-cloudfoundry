@@ -2,7 +2,7 @@
 
 set -e
 
-source /var/vcap/packages/golang-1.8-linux/bosh/runtime.env
+source /var/vcap/packages/golang-1.12-linux/bosh/runtime.env
 
 export GOPATH=/var/vcap/packages/smoke-tests
 export PATH=${GOPATH}/bin:${GOROOT}/bin:/var/vcap/packages/cf-cli/bin:${PATH}

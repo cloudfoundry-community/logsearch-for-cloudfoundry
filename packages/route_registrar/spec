@@ -2,7 +2,7 @@
 name: route_registrar
 
 dependencies:
-  - golang-1.8-linux
+  - golang-1.12-linux
 
 files:
   - code.cloudfoundry.org/lager/*.go
