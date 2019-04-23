@@ -77,6 +77,13 @@ properties:
       extra_fields:
         env: dev
         foo: bar
+  cloudfoundry.log_formatter_type:
+    description: "Log formatter type to use. Valid options are text, json, json-cee"
+    default: json
+  cloudfoundry.orgs:
+    description: "List of CF orgs to forward logs from"
+  cloudfoundry.app_name_suffixes_to_strip:
+    description: "List of suffixes that should be stripped from application names"
 
   syslog.host:
     description: IP or hostname of the syslog drain
@@ -90,6 +97,9 @@ properties:
   syslog.cert_pem:
     description: Certificate PEM.
     default: ~
+  syslog.skip_ssl_validation:
+    description: "Skip SSL validation for syslog"
+    default: false
 
   create-uaa-client.cloudfoundry.system_domain:
     description: "The Elastic Runtime system domain ( eg: system.10.244.0.34.xip.io )"

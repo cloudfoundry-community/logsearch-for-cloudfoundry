@@ -45,7 +45,10 @@ case $1 in
         --client-secret=<%= p("cloudfoundry.firehose_client_secret") %> \
         --syslog-protocol=<%= p("syslog.protocol") %>\
         --syslog-server=<%= p("syslog.host") %>:<%= syslog_port %>\
+        <% if p("syslog.skip_ssl_validation") %>--skip-ssl-validation-syslog <% end %> \
         --events=<%= p('cloudfoundry.firehose_events').join(',') %> \
+        <% if_p("cloudfoundry.orgs") do |orgs| %> --orgs="<%= orgs.join(',') %>" <% end %> \
+        <% if_p("cloudfoundry.app_name_suffixes_to_strip") do |suffixes| %> --strip-app-name-suffixes="<%= suffixes.join(',') %>" <% end %> \
         <% if_p("cloudfoundry.extra_fields") do |fields| %> --extra-fields="<%= fields.map { |key, value| "#{key}:#{value}" }.join(',') %>" <% end %> \
         <% if p("cloudfoundry.ignore_missing_apps") %>--ignore-missing-apps  <% end %> \
         <% if p("ingestor_cloudfoundry-firehose.enable_stats_server") %>--enable-stats-server  <% end %> \
@@ -53,6 +56,7 @@ case $1 in
         --boltdb-path=$TMP_DIR/firehose-to-syslog.cache.db \
         --logs-buffer-size=<%= p("cloudfoundry.logs_buffer_size") %> \
         --min-retry-delay=<%= p("cloudfoundry.min_retry_delay") %> \
+        --log-formatter-type=<%= p("cloudfoundry.log_formatter_type") %> \
         --max-retry-delay=<%= p("cloudfoundry.max_retry_delay") %> \
         --max-retry-count=<%= p("cloudfoundry.max_retry_count") %> \
         --cc-rps=<%= p("cloudfoundry.cc_polling_request") %> \
