@@ -1,33 +1,35 @@
 <% require 'json' %>
 {
-  "title": "Platform links",
-  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-    {
-      "type": "markdown",
-      "params": {
-        "markdown": "This is overview of Platform logs. Find some more useful dashboards:  [errors](#/dashboard/Platform-Errors) | [logs](#/dashboard/Platform-Logs) | [uaa audit](#/dashboard/Platform-UAA-Audit) | [haproxy](#/dashboard/Platform-Haproxy)"
-      },
-      "aggs": [],
-      "listeners": {}
+  "attributes": {
+    "title": "Platform links",
+    "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+      {
+        "type": "markdown",
+        "params": {
+          "markdown": "This is overview of Platform logs. Find some more useful dashboards:  [errors](#/dashboard/Platform-Errors) | [logs](#/dashboard/Platform-Logs) | [uaa audit](#/dashboard/Platform-UAA-Audit) | [haproxy](#/dashboard/Platform-Haproxy)"
+        },
+        "aggs": [],
+        "listeners": {}
+      }
+  ENDOFFJSON
+  %>",
+    "description": "",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+      {
+        "query": {
+          "query_string": {
+            "query": "*",
+            "analyze_wildcard": true
+          }
+        },
+        "filter": [
+  
+        ]
+      }
+  ENDOFFJSON
+  %>"
     }
-ENDOFFJSON
-%>",
-  "description": "",
-  "version": 1,
-  "kibanaSavedObjectMeta": {
-    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-    {
-      "query": {
-        "query_string": {
-          "query": "*",
-          "analyze_wildcard": true
-        }
-      },
-      "filter": [
-
-      ]
-    }
-ENDOFFJSON
-%>"
   }
 }

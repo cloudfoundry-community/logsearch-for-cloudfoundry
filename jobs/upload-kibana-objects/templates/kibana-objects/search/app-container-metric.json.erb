@@ -1,71 +1,73 @@
 <% require 'json' %>
 <% if(p('cloudfoundry.firehose_events').include? 'ContainerMetric') %>
 {
-  "title": "[app] Container Metric",
-  "description": "",
-  "hits": 0,
-  "columns": [
-    "@source.component",
-    "@cf.app",
-    "containermetric.cpu_percentage",
-    "containermetric.disk_bytes",
-    "containermetric.disk_bytes_quota",
-    "containermetric.memory_bytes",
-    "containermetric.memory_bytes_quota"
-  ],
-  "sort": [
-    "@timestamp",
-    "desc"
-  ],
-  "version": 1,
-  "kibanaSavedObjectMeta": {
-    "searchSourceJSON": "<%= JSON.parse(
-    {
-      "index": "#{p('elasticsearch_config.app_index_prefix')}*",
-      "query": {
-        "query_string": {
-          "analyze_wildcard": true,
-          "query": "*"
-        }
-      },
-      "filter": [
-        {
-          "$state": {
-            "store": "appState"
-          },
-          "meta": {
-            "disabled": false,
-            "index": "#{p('elasticsearch_config.app_index_prefix')}*",
-            "key": "@source.type",
-            "negate": false,
-            "value": "CONTAINER"
-          },
-          "query": {
-            "match": {
-              "@source.type": {
-                "query": "CONTAINER",
-                "type": "phrase"
+  "attributes": {
+    "title": "[app] Container Metric",
+    "description": "",
+    "hits": 0,
+    "columns": [
+      "@source.component",
+      "@cf.app",
+      "containermetric.cpu_percentage",
+      "containermetric.disk_bytes",
+      "containermetric.disk_bytes_quota",
+      "containermetric.memory_bytes",
+      "containermetric.memory_bytes_quota"
+    ],
+    "sort": [
+      "@timestamp",
+      "desc"
+    ],
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "<%= JSON.parse(
+      {
+        "index": "#{p('elasticsearch_config.app_index_prefix')}*",
+        "query": {
+          "query_string": {
+            "analyze_wildcard": true,
+            "query": "*"
+          }
+        },
+        "filter": [
+          {
+            "$state": {
+              "store": "appState"
+            },
+            "meta": {
+              "disabled": false,
+              "index": "#{p('elasticsearch_config.app_index_prefix')}*",
+              "key": "@source.type",
+              "negate": false,
+              "value": "CONTAINER"
+            },
+            "query": {
+              "match": {
+                "@source.type": {
+                  "query": "CONTAINER",
+                  "type": "phrase"
+                }
               }
             }
           }
+        ],
+        "highlight": {
+          "pre_tags": [
+            "@kibana-highlighted-field@"
+          ],
+          "post_tags": [
+            "@/kibana-highlighted-field@"
+          ],
+          "fields": {
+            "*": {}
+          },
+          "require_field_match": false,
+          "fragment_size": 2147483647
         }
-      ],
-      "highlight": {
-        "pre_tags": [
-          "@kibana-highlighted-field@"
-        ],
-        "post_tags": [
-          "@/kibana-highlighted-field@"
-        ],
-        "fields": {
-          "*": {}
-        },
-        "require_field_match": false,
-        "fragment_size": 2147483647
-      }
-    }.to_json
-).to_json.gsub(/"/) { '\"' }
-%>"
+      }.to_json
+  ).to_json.gsub(/"/) { '\"' }
+  %>"
+    }
   }
 }
 <% end %>

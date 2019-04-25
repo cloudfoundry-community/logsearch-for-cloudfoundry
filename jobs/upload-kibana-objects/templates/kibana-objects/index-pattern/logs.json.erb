@@ -227,7 +227,9 @@ if(http_enabled == true)
 end
 %>
 {
-  "title": "<%= p('elasticsearch_config.index_prefix') %>*",
-  "timeFieldName": "@timestamp",
-  "fields": "<%= fields_json.to_json.gsub(/"/) { '\"' } %>"
+  "attributes": {
+    "title": "<%= p('elasticsearch_config.index_prefix') %>*",
+    "timeFieldName": "@timestamp",
+    "fields": "<%= fields_json.to_json.gsub(/"/) { '\"' } %>"
+  }
 }

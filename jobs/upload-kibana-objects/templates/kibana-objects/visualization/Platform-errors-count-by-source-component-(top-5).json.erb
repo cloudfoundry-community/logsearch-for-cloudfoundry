@@ -1,49 +1,51 @@
 <% require 'json' %>
 {
-  "title": "Platform: errors count by source component (top 5)",
-  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-    {
-      "type": "pie",
-      "params": {
-        "shareYAxis": true,
-        "addTooltip": true,
-        "addLegend": true,
-        "isDonut": false
-      },
-      "aggs": [
-        {
-          "id": "1",
-          "type": "count",
-          "schema": "metric",
-          "params": {}
+  "attributes": {
+    "title": "Platform: errors count by source component (top 5)",
+    "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+      {
+        "type": "pie",
+        "params": {
+          "shareYAxis": true,
+          "addTooltip": true,
+          "addLegend": true,
+          "isDonut": false
         },
-        {
-          "id": "2",
-          "type": "terms",
-          "schema": "segment",
-          "params": {
-            "field": "@source.component",
-            "size": 5,
-            "order": "desc",
-            "orderBy": "1"
+        "aggs": [
+          {
+            "id": "1",
+            "type": "count",
+            "schema": "metric",
+            "params": {}
+          },
+          {
+            "id": "2",
+            "type": "terms",
+            "schema": "segment",
+            "params": {
+              "field": "@source.component",
+              "size": 5,
+              "order": "desc",
+              "orderBy": "1"
+            }
           }
-        }
-      ],
-      "listeners": {}
+        ],
+        "listeners": {}
+      }
+  ENDOFFJSON
+  %>",
+    "description": "",
+    "savedSearchId": "platform-all-errors",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+      {
+        "filter": [
+  
+        ]
+      }
+  ENDOFFJSON
+  %>"
     }
-ENDOFFJSON
-%>",
-  "description": "",
-  "savedSearchId": "platform-all-errors",
-  "version": 1,
-  "kibanaSavedObjectMeta": {
-    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-    {
-      "filter": [
-
-      ]
-    }
-ENDOFFJSON
-%>"
   }
 }

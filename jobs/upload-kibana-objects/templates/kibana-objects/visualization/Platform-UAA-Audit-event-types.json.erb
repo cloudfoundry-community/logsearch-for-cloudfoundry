@@ -1,50 +1,52 @@
 <% require 'json' %>
 {
-  "title": "Platform UAA Audit: event types",
-  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-    {
-      "type": "table",
-      "params": {
-        "perPage": 10,
-        "showPartialRows": false,
-        "showMeticsAtAllLevels": false
-      },
-      "aggs": [
-        {
-          "id": "1",
-          "type": "count",
-          "schema": "metric",
-          "params": {
-          }
+  "attributes": {
+    "title": "Platform UAA Audit: event types",
+    "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+      {
+        "type": "table",
+        "params": {
+          "perPage": 10,
+          "showPartialRows": false,
+          "showMeticsAtAllLevels": false
         },
-        {
-          "id": "2",
-          "type": "terms",
-          "schema": "bucket",
-          "params": {
-            "field": "uaa.audit.type",
-            "size": 10,
-            "order": "asc",
-            "orderBy": "_term"
+        "aggs": [
+          {
+            "id": "1",
+            "type": "count",
+            "schema": "metric",
+            "params": {
+            }
+          },
+          {
+            "id": "2",
+            "type": "terms",
+            "schema": "bucket",
+            "params": {
+              "field": "uaa.audit.type",
+              "size": 10,
+              "order": "asc",
+              "orderBy": "_term"
+            }
           }
+        ],
+        "listeners": {
         }
-      ],
-      "listeners": {
       }
+  ENDOFFJSON
+  %>",
+    "description": "",
+    "savedSearchId": "platform-uaa-audit",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+      {
+        "filter": [
+  
+        ]
+      }
+  ENDOFFJSON
+  %>"
     }
-ENDOFFJSON
-%>",
-  "description": "",
-  "savedSearchId": "platform-uaa-audit",
-  "version": 1,
-  "kibanaSavedObjectMeta": {
-    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-    {
-      "filter": [
-
-      ]
-    }
-ENDOFFJSON
-%>"
   }
 }

@@ -1,51 +1,53 @@
 <% require 'json' %>
 <% if(p('cloudfoundry.firehose_events').include? 'LogMessage') %>
 {
-  "title": "App APP: logs count by level",
-  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-    {
-      "type": "pie",
-      "params": {
-        "shareYAxis": true,
-        "addTooltip": true,
-        "addLegend": true,
-        "isDonut": false
-      },
-      "aggs": [
-        {
-          "id": "1",
-          "type": "count",
-          "schema": "metric",
-          "params": {}
+  "attributes": {
+    "title": "App APP: logs count by level",
+    "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+      {
+        "type": "pie",
+        "params": {
+          "shareYAxis": true,
+          "addTooltip": true,
+          "addLegend": true,
+          "isDonut": false
         },
-        {
-          "id": "2",
-          "type": "terms",
-          "schema": "segment",
-          "params": {
-            "field": "@level",
-            "size": 100,
-            "order": "desc",
-            "orderBy": "1"
+        "aggs": [
+          {
+            "id": "1",
+            "type": "count",
+            "schema": "metric",
+            "params": {}
+          },
+          {
+            "id": "2",
+            "type": "terms",
+            "schema": "segment",
+            "params": {
+              "field": "@level",
+              "size": 100,
+              "order": "desc",
+              "orderBy": "1"
+            }
           }
-        }
-      ],
-      "listeners": {}
+        ],
+        "listeners": {}
+      }
+  ENDOFFJSON
+  %>",
+    "description": "",
+    "savedSearchId": "app-logs",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+      {
+        "filter": [
+  
+        ]
+      }
+  ENDOFFJSON
+  %>"
     }
-ENDOFFJSON
-%>",
-  "description": "",
-  "savedSearchId": "app-logs",
-  "version": 1,
-  "kibanaSavedObjectMeta": {
-    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-    {
-      "filter": [
-
-      ]
-    }
-ENDOFFJSON
-%>"
   }
 }
 <% end %>

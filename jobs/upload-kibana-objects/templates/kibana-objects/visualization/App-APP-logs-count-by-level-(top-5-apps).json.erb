@@ -1,79 +1,81 @@
 <% require 'json' %>
 <% if(p('cloudfoundry.firehose_events').include? 'LogMessage') %>
 {
-  "title": "App APP: logs count by level (top 5 apps)",
-  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-    {
-      "type": "histogram",
-      "params": {
-        "shareYAxis": true,
-        "addTooltip": true,
-        "addLegend": true,
-        "scale": "linear",
-        "mode": "stacked",
-        "times": [],
-        "addTimeMarker": false,
-        "defaultYExtents": false,
-        "setYExtents": false,
-        "yAxis": {}
-      },
-      "aggs": [
-        {
-          "id": "1",
-          "type": "count",
-          "schema": "metric",
-          "params": {}
+  "attributes": {
+    "title": "App APP: logs count by level (top 5 apps)",
+    "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+      {
+        "type": "histogram",
+        "params": {
+          "shareYAxis": true,
+          "addTooltip": true,
+          "addLegend": true,
+          "scale": "linear",
+          "mode": "stacked",
+          "times": [],
+          "addTimeMarker": false,
+          "defaultYExtents": false,
+          "setYExtents": false,
+          "yAxis": {}
         },
-        {
-          "id": "2",
-          "type": "terms",
-          "schema": "segment",
-          "params": {
-            "field": "@level",
-            "size": 100,
-            "order": "desc",
-            "orderBy": "1"
+        "aggs": [
+          {
+            "id": "1",
+            "type": "count",
+            "schema": "metric",
+            "params": {}
+          },
+          {
+            "id": "2",
+            "type": "terms",
+            "schema": "segment",
+            "params": {
+              "field": "@level",
+              "size": 100,
+              "order": "desc",
+              "orderBy": "1"
+            }
+          },
+          {
+            "id": "3",
+            "type": "terms",
+            "schema": "split",
+            "params": {
+              "field": "@cf.app",
+              "size": 5,
+              "order": "desc",
+              "orderBy": "1",
+              "row": false
+            }
           }
-        },
-        {
-          "id": "3",
-          "type": "terms",
-          "schema": "split",
-          "params": {
-            "field": "@cf.app",
-            "size": 5,
-            "order": "desc",
-            "orderBy": "1",
-            "row": false
+        ],
+        "listeners": {}
+      }
+  ENDOFFJSON
+  %>",
+    "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+      {
+        "vis": {
+          "colors": {
+            "Count": "#64B0C8"
           }
-        }
-      ],
-      "listeners": {}
-    }
-ENDOFFJSON
-%>",
-  "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-    {
-      "vis": {
-        "colors": {
-          "Count": "#64B0C8"
         }
       }
+  ENDOFFJSON
+  %>",
+    "description": "",
+    "savedSearchId": "app-logs",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+      {
+        "filter": [
+  
+        ]
+      }
+  ENDOFFJSON
+  %>"
     }
-ENDOFFJSON
-%>",
-  "description": "",
-  "savedSearchId": "app-logs",
-  "version": 1,
-  "kibanaSavedObjectMeta": {
-    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-    {
-      "filter": [
-
-      ]
-    }
-ENDOFFJSON
-%>"
   }
 }
 <% end %>

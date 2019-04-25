@@ -1,104 +1,106 @@
 <% require 'json' %>
 <% if(p('cloudfoundry.firehose_events').include? 'ContainerMetric') %>
 {
-  "title": "App - Metrics",
-  "hits": 0,
-  "description": "",
-  "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-    [
-      {
-        "col": 1,
-        "id": "App-METRIC-memory-usage",
-        "row": 1,
-        "size_x": 9,
-        "size_y": 5,
-        "type": "visualization"
-      },
-      {
-        "col": 10,
-        "id": "App-names",
-        "row": 1,
-        "size_x": 3,
-        "size_y": 5,
-        "type": "visualization"
-      },
-      {
-        "id": "App-METRIC-CPU-usage",
-        "type": "visualization",
-        "size_x": 6,
-        "size_y": 4,
-        "col": 1,
-        "row": 6
-      },
-      {
-        "id": "App-METRIC-disk-usage",
-        "type": "visualization",
-        "size_x": 6,
-        "size_y": 4,
-        "col": 7,
-        "row": 6
-      },
-      {
-        "id": "app-container-metric",
-        "type": "search",
-        "size_x": 12,
-        "size_y": 5,
-        "col": 1,
-        "row": 10,
-        "columns": [
-          "@cf.app",
-          "@cf.app_instance",
-          "containermetric.cpu_percentage",
-          "containermetric.disk_bytes",
-          "containermetric.memory_bytes"
-        ],
-        "sort": [
-          "@timestamp",
-          "desc"
-        ]
-      }
-    ]
-ENDOFFJSON
-%>",
-  "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-    {
-      "P-1": {
-        "vis": {
-          "legendOpen": true
-        }
-      },
-      "P-3": {
-        "vis": {
-          "legendOpen": true
-        }
-      },
-      "P-4": {
-        "vis": {
-          "legendOpen": true
-        }
-      }
-    }
-ENDOFFJSON
-%>",
-  "optionsJSON": "{\"darkTheme\":false}",
-  "version": 1,
-  "timeRestore": false,
-  "kibanaSavedObjectMeta": {
-    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-    {
-      "filter": [
+  "attributes": {
+    "title": "App - Metrics",
+    "hits": 0,
+    "description": "",
+    "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+      [
         {
-          "query": {
-            "query_string": {
-              "analyze_wildcard": true,
-              "query": "*"
-            }
-          }
+          "col": 1,
+          "id": "App-METRIC-memory-usage",
+          "row": 1,
+          "size_x": 9,
+          "size_y": 5,
+          "type": "visualization"
+        },
+        {
+          "col": 10,
+          "id": "App-names",
+          "row": 1,
+          "size_x": 3,
+          "size_y": 5,
+          "type": "visualization"
+        },
+        {
+          "id": "App-METRIC-CPU-usage",
+          "type": "visualization",
+          "size_x": 6,
+          "size_y": 4,
+          "col": 1,
+          "row": 6
+        },
+        {
+          "id": "App-METRIC-disk-usage",
+          "type": "visualization",
+          "size_x": 6,
+          "size_y": 4,
+          "col": 7,
+          "row": 6
+        },
+        {
+          "id": "app-container-metric",
+          "type": "search",
+          "size_x": 12,
+          "size_y": 5,
+          "col": 1,
+          "row": 10,
+          "columns": [
+            "@cf.app",
+            "@cf.app_instance",
+            "containermetric.cpu_percentage",
+            "containermetric.disk_bytes",
+            "containermetric.memory_bytes"
+          ],
+          "sort": [
+            "@timestamp",
+            "desc"
+          ]
         }
       ]
+  ENDOFFJSON
+  %>",
+    "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+      {
+        "P-1": {
+          "vis": {
+            "legendOpen": true
+          }
+        },
+        "P-3": {
+          "vis": {
+            "legendOpen": true
+          }
+        },
+        "P-4": {
+          "vis": {
+            "legendOpen": true
+          }
+        }
+      }
+  ENDOFFJSON
+  %>",
+    "optionsJSON": "{\"darkTheme\":false}",
+    "version": 1,
+    "timeRestore": false,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+      {
+        "filter": [
+          {
+            "query": {
+              "query_string": {
+                "analyze_wildcard": true,
+                "query": "*"
+              }
+            }
+          }
+        ]
+      }
+  ENDOFFJSON
+  %>"
     }
-ENDOFFJSON
-%>"
   }
 }
 <% end %>
