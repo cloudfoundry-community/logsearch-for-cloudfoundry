@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+
+import glob
+import logging
+import os
+import requests
+
+logging.basicConfig(level=logging.INFO)
+
+if __name__ == "__main__":
+    session = requests.Session()
+
+    logs = session.get('https://logs.{}'.format(os.environ['CF_SYSTEM_DOMAIN']))
+    assert logs.url == 'https://login.{}/login'.format(os.environ['CF_SYSTEM_DOMAIN'])
+    assert logs.status_code == 200
+
+    login = session.post(
+        'https://login.{}/login.do'.format(os.environ['CF_SYSTEM_DOMAIN']),
+        data={
+            'username': os.environ['CF_USERNAME'],
+            'password': os.environ['CF_PASSWORD'],
+            'X-Uaa-Csrf': logs.cookies['X-Uaa-Csrf'],
+        },
+    )
+    assert login.url == 'https://logs.{}/'.format(os.environ['CF_SYSTEM_DOMAIN'])
+    assert login.status_code == 200
+
+    for filename in glob.iglob('/var/vcap/jobs/upload-kibana-objects/kibana-objects/**/*.json', recursive=True):
+        headers = {'content-type': 'application/json', 'kbn-xsrf': 'true'}
+        r = session.post(
+                'https://logs.{}/api/saved_objects/{}/{}'.format(os.environ['CF_SYSTEM_DOMAIN'], os.path.basename(os.path.dirname(filename)), os.path.basename(os.path.splitext(filename)[0])),
+                data=open(filename, 'rb'),
+                headers=headers
+        )
+        if r.status_code == 409:
+            put = session.put(
+                    'https://logs.{}/api/saved_objects/{}/{}'.format(os.environ['CF_SYSTEM_DOMAIN'], os.path.basename(os.path.dirname(filename)), os.path.basename(os.path.splitext(filename)[0])),
+                    data=open(filename, 'rb'),
+                    headers=headers
+            )
+            if put.status_code == 200:
+                logging.info('Object %s Uploaded Successfully', filename)
+            else:
+                logging.info('Object %s Failed to Upload', filename)
+        elif r.status_code == 200:
+            logging.info('Object %s Uploaded Successfully', filename)
+        else:
+            logging.info('Object %s Failed to Upload', filename)
