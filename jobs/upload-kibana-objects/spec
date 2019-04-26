@@ -12,6 +12,7 @@ consumes:
   optional: true
 
 templates:
+  bin/generate-objects: bin/generate-objects
   bin/run: bin/run
 
   # Kibana objects (defaults).
