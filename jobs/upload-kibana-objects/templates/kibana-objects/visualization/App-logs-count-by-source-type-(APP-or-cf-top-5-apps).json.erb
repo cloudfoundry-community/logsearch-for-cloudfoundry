@@ -2,7 +2,7 @@
 <% if( ['LogMessage', 'ContainerMetric'].any? { |event| p('cloudfoundry.firehose_events').include?(event)} ) %>
 {
   "attributes": {
-    "title": "App: logs count by source type (APP or cf, top 5 apps)",
+   "title": "App: logs count by source type (APP or cf, top 5 apps)",
     "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
       {
         "type": "histogram",
@@ -70,7 +70,7 @@
         ],
         "listeners": {}
       }
-  ENDOFFJSON
+ENDOFFJSON
   %>",
     "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
       {
@@ -83,7 +83,7 @@
           "legendOpen": true
         }
       }
-  ENDOFFJSON
+ENDOFFJSON
   %>",
     "description": "",
     "savedSearchId": "app-all",
@@ -95,7 +95,7 @@
   
         ]
       }
-  ENDOFFJSON
+  
   %>"
     }
   }
