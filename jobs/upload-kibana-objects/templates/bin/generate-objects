@@ -1,0 +1,66 @@
+#!/var/vcap/packages/ruby-2.3/bin/ruby
+
+`set -x`
+
+
+require 'logger'
+
+$logger = Logger.new("/var/vcap/sys/log/upload-kibana-objects.stdout.log")
+
+def log_status(message, is_error = false)
+  if is_error
+    $logger.error(message)
+  else
+    $logger.info(message)
+  end
+  puts message
+end
+
+#############################################
+# Generate default Kibana objects to upload #
+#############################################
+log_status("------------------------------------------------------------")
+log_status("Upload Kibana objects from job defaults. Start processing...")
+log_status("------------------------------------------------------------")
+
+require 'json'
+
+def render_upsert_queries(type, pattern)
+  combined = ""
+  Dir.glob(pattern).each do |data_file|
+    file_content = File.read(data_file).strip
+    if file_content.empty?
+      # skip empty file
+      $logger.warn("SKIP file (empty content) '#{data_file}'")
+      next
+    end
+    begin
+      parsed_json = JSON.parse(file_content)
+      if 'index-pattern' == type
+        # index-pattern usually contains '*' which is special character and can't be used in file name
+        # so we set its 'id' from 'title' field instead
+        id = parsed_json["title"]
+      else
+        id = File.basename(data_file, ".json")
+      end
+      combined += "{\"delete\":{\"_index\":\".kibana\",\"_type\":\"doc\",\"_id\":\"#{id}\"}}\n"
+      combined += "{\"index\":{\"_index\":\".kibana\",\"_type\":\"doc\",\"_id\":\"#{id}\"}}\n"
+      combined += "#{parsed_json.to_json}\n"
+      log_status("#{data_file}")
+    rescue StandardError => err
+      # skip
+      log_status("SKIP file (error in processing) '#{data_file}': #{err.message}", true)
+      next
+    end
+  end
+  combined
+end
+
+log_status("======= Defaults to upload:")
+
+upload_data = ""
+<% p("kibana_objects.upload_patterns").each do |pattern| %>
+upload_data += render_upsert_queries("<%= pattern.fetch("type") %>", "<%= pattern.fetch("pattern") %>")
+<% end %>
+
+$logger.info("Defaults data to upload:\n#{upload_data}")

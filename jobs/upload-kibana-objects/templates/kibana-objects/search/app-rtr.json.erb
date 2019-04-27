@@ -1,71 +1,73 @@
 <% require 'json' %>
 <% if(p('cloudfoundry.firehose_events').include? 'LogMessage') %>
 {
-  "title": "[app] RTR",
-  "description": "",
-  "hits": 0,
-  "columns": [
-    "@cf.app",
-    "rtr.response_time_ms",
-    "rtr.verb",
-    "rtr.status",
-    "rtr.path"
-  ],
-  "sort": [
-    "@timestamp",
-    "desc"
-  ],
-  "version": 1,
-  "kibanaSavedObjectMeta": {
-    "searchSourceJSON": "<%= JSON.parse(
-    {
-      "index": "#{p('elasticsearch_config.app_index_prefix')}*",
-      "query": {
-        "query_string": {
-          "analyze_wildcard": true,
-          "query": "*"
-        }
-      },
-      "highlight": {
-        "pre_tags": [
-          "@kibana-highlighted-field@"
-        ],
-        "post_tags": [
-          "@/kibana-highlighted-field@"
-        ],
-        "fields": {
-          "*": {
-
+  "attributes": {
+    "title": "[app] RTR",
+    "description": "",
+    "hits": 0,
+    "columns": [
+      "@cf.app",
+      "rtr.response_time_ms",
+      "rtr.verb",
+      "rtr.status",
+      "rtr.path"
+    ],
+    "sort": [
+      "@timestamp",
+      "desc"
+    ],
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "<%= JSON.parse(
+      {
+        "index": "#{p('elasticsearch_config.app_index_prefix')}*",
+        "query": {
+          "query_string": {
+            "analyze_wildcard": true,
+            "query": "*"
           }
         },
-        "require_field_match": false,
-        "fragment_size": 2147483647
-      },
-      "filter": [
-        {
-          "meta": {
-            "negate": false,
-            "index": "#{p('elasticsearch_config.app_index_prefix')}*",
-            "key": "@source.type",
-            "value": "RTR",
-            "disabled": false
-          },
-          "query": {
-            "match": {
-              "@source.type": {
-                "query": "RTR",
-                "type": "phrase"
-              }
+        "highlight": {
+          "pre_tags": [
+            "@kibana-highlighted-field@"
+          ],
+          "post_tags": [
+            "@/kibana-highlighted-field@"
+          ],
+          "fields": {
+            "*": {
+  
             }
           },
-          "$state": {
-            "store": "appState"
+          "require_field_match": false,
+          "fragment_size": 2147483647
+        },
+        "filter": [
+          {
+            "meta": {
+              "negate": false,
+              "index": "#{p('elasticsearch_config.app_index_prefix')}*",
+              "key": "@source.type",
+              "value": "RTR",
+              "disabled": false
+            },
+            "query": {
+              "match": {
+                "@source.type": {
+                  "query": "RTR",
+                  "type": "phrase"
+                }
+              }
+            },
+            "$state": {
+              "store": "appState"
+            }
           }
-        }
-      ]
-    }.to_json
-).to_json.gsub(/"/) { '\"' }
-%>"
+        ]
+      }.to_json
+  ).to_json.gsub(/"/) { '\"' }
+  %>"
+    }
   }
 }
 <% end %>

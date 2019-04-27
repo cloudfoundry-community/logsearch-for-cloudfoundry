@@ -1,55 +1,57 @@
 <% require 'json' %>
 {
-  "title": "Platform Haproxy: request time duration",
-  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-    {
-      "type": "table",
-      "params": {
-        "perPage": 10,
-        "showPartialRows": false,
-        "showMeticsAtAllLevels": false
-      },
-      "aggs": [
-        {
-          "id": "1",
-          "type": "percentiles",
-          "schema": "metric",
-          "params": {
-            "field": "haproxy.time_duration",
-            "percents": [
-              50,
-              95,
-              99
-            ]
-          }
+  "attributes": {
+    "title": "Platform Haproxy: request time duration",
+    "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+      {
+        "type": "table",
+        "params": {
+          "perPage": 10,
+          "showPartialRows": false,
+          "showMeticsAtAllLevels": false
         },
-        {
-          "id": "2",
-          "type": "terms",
-          "schema": "bucket",
-          "params": {
-            "field": "haproxy.http_request_verb",
-            "size": 5,
-            "order": "desc",
-            "orderBy": "1.50"
+        "aggs": [
+          {
+            "id": "1",
+            "type": "percentiles",
+            "schema": "metric",
+            "params": {
+              "field": "haproxy.time_duration",
+              "percents": [
+                50,
+                95,
+                99
+              ]
+            }
+          },
+          {
+            "id": "2",
+            "type": "terms",
+            "schema": "bucket",
+            "params": {
+              "field": "haproxy.http_request_verb",
+              "size": 5,
+              "order": "desc",
+              "orderBy": "1.50"
+            }
           }
-        }
-      ],
-      "listeners": {}
-    }
+        ],
+        "listeners": {}
+      }
 ENDOFFJSON
-%>",
-  "description": "",
-  "savedSearchId": "platform-haproxy",
-  "version": 1,
-  "kibanaSavedObjectMeta": {
-    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-    {
-      "filter": [
+  %>",
+    "description": "",
+    "savedSearchId": "platform-haproxy",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+      {
+        "filter": [
 
-      ]
-    }
+        ]
+      }
 ENDOFFJSON
-%>"
+  %>"
+    }
   }
 }

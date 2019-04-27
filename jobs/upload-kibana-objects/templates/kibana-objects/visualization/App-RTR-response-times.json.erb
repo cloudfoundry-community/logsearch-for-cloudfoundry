@@ -1,57 +1,59 @@
 <% require 'json' %>
 <% if(p('cloudfoundry.firehose_events').include? 'LogMessage') %>
 {
-  "title": "App RTR: response times",
-  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-    {
-      "type": "table",
-      "params": {
-        "perPage": 25,
-        "showPartialRows": false,
-        "showMeticsAtAllLevels": false
-      },
-      "aggs": [
-        {
-          "id": "2",
-          "type": "terms",
-          "schema": "bucket",
-          "params": {
-            "field": "@cf.app",
-            "size": 50,
-            "order": "desc",
-            "orderBy": "_term"
-          }
+  "attributes": {
+    "title": "App RTR: response times",
+    "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+      {
+        "type": "table",
+        "params": {
+          "perPage": 25,
+          "showPartialRows": false,
+          "showMeticsAtAllLevels": false
         },
-        {
-          "id": "3",
-          "type": "percentiles",
-          "schema": "metric",
-          "params": {
-            "field": "rtr.response_time_ms",
-            "percents": [
-              50,
-              95
-            ]
+        "aggs": [
+          {
+            "id": "2",
+            "type": "terms",
+            "schema": "bucket",
+            "params": {
+              "field": "@cf.app",
+              "size": 50,
+              "order": "desc",
+              "orderBy": "_term"
+            }
+          },
+          {
+            "id": "3",
+            "type": "percentiles",
+            "schema": "metric",
+            "params": {
+              "field": "rtr.response_time_ms",
+              "percents": [
+                50,
+                95
+              ]
+            }
           }
+        ],
+        "listeners": {
         }
-      ],
-      "listeners": {
       }
-    }
 ENDOFFJSON
-%>",
-  "description": "",
-  "savedSearchId": "app-rtr",
-  "version": 1,
-  "kibanaSavedObjectMeta": {
-    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-    {
-      "filter": [
-
-      ]
-    }
+  %>",
+    "description": "",
+    "savedSearchId": "app-rtr",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+      {
+        "filter": [
+  
+        ]
+      }
 ENDOFFJSON
-%>"
+  %>"
+    }
   }
 }
 <% end %>

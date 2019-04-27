@@ -1,53 +1,55 @@
 <% require 'json' %>
 <% if( ['LogMessage', 'ContainerMetric'].any? { |event| p('cloudfoundry.firehose_events').include?(event)} ) %>
 {
-  "title": "[app] All",
-  "description": "",
-  "hits": 0,
-  "columns": [
-    "@cf.org",
-    "@cf.space",
-    "@cf.app",
-    "@source.type",
-    "@level",
-    "@message"
-  ],
-  "sort": [
-    "@timestamp",
-    "desc"
-  ],
-  "version": 1,
-  "kibanaSavedObjectMeta": {
-    "searchSourceJSON": "<%= JSON.parse(
-    {
-      "index": "#{p('elasticsearch_config.app_index_prefix')}*",
-      "filter": [
-        
-      ],
-      "highlight": {
-        "pre_tags": [
-          "@kibana-highlighted-field@"
+  "attributes": {
+    "title": "[app] All",
+    "description": "",
+    "hits": 0,
+    "columns": [
+      "@cf.org",
+      "@cf.space",
+      "@cf.app",
+      "@source.type",
+      "@level",
+      "@message"
+    ],
+    "sort": [
+      "@timestamp",
+      "desc"
+    ],
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "<%= JSON.parse(
+      {
+        "index": "#{p('elasticsearch_config.app_index_prefix')}*",
+        "filter": [
+          
         ],
-        "post_tags": [
-          "@/kibana-highlighted-field@"
-        ],
-        "fields": {
-          "*": {
-            
-          }
+        "highlight": {
+          "pre_tags": [
+            "@kibana-highlighted-field@"
+          ],
+          "post_tags": [
+            "@/kibana-highlighted-field@"
+          ],
+          "fields": {
+            "*": {
+              
+            }
+          },
+          "require_field_match": false,
+          "fragment_size": 2147483647
         },
-        "require_field_match": false,
-        "fragment_size": 2147483647
-      },
-      "query": {
-        "query_string": {
-          "query": "*",
-          "analyze_wildcard": true
+        "query": {
+          "query_string": {
+            "query": "*",
+            "analyze_wildcard": true
+          }
         }
-      }
-    }.to_json
-).to_json.gsub(/"/) { '\"' }
-%>"
+      }.to_json
+  ).to_json.gsub(/"/) { '\"' }
+  %>"
+    }
   }
 }
 <% end %>

@@ -1,68 +1,70 @@
 <% require 'json' %>
 <% if(p('cloudfoundry.firehose_events').include? 'LogMessage') %>
 {
-  "title": "App RTR: requests map",
-  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-    {
-      "type": "tile_map",
-      "params": {
-        "mapType": "Heatmap",
-        "isDesaturated": true,
-        "addTooltip": true,
-        "heatMaxZoom": 16,
-        "heatMinOpacity": 0.1,
-        "heatRadius": 25,
-        "heatBlur": 15,
-        "heatNormalizeData": true,
-        "wms": {
-          "enabled": true,
-          "url": "https://basemap.nationalmap.gov/arcgis/services/USGSTopo/MapServer/WMSServer",
-          "options": {
-            "version": "1.3.0",
-            "layers": "0",
-            "format": "image/png",
-            "transparent": true,
-            "attribution": "Maps provided by USGS",
-            "styles": ""
-          }
-        }
-      },
-      "aggs": [
-        {
-          "id": "1",
-          "type": "count",
-          "schema": "metric",
-          "params": {
+  "attributes": {
+    "title": "App RTR: requests map",
+    "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+      {
+        "type": "tile_map",
+        "params": {
+          "mapType": "Heatmap",
+          "isDesaturated": true,
+          "addTooltip": true,
+          "heatMaxZoom": 16,
+          "heatMinOpacity": 0.1,
+          "heatRadius": 25,
+          "heatBlur": 15,
+          "heatNormalizeData": true,
+          "wms": {
+            "enabled": true,
+            "url": "https://basemap.nationalmap.gov/arcgis/services/USGSTopo/MapServer/WMSServer",
+            "options": {
+              "version": "1.3.0",
+              "layers": "0",
+              "format": "image/png",
+              "transparent": true,
+              "attribution": "Maps provided by USGS",
+              "styles": ""
+            }
           }
         },
-        {
-          "id": "2",
-          "type": "geohash_grid",
-          "schema": "segment",
-          "params": {
-            "field": "geoip.location",
-            "autoPrecision": true,
-            "precision": 2
+        "aggs": [
+          {
+            "id": "1",
+            "type": "count",
+            "schema": "metric",
+            "params": {
+            }
+          },
+          {
+            "id": "2",
+            "type": "geohash_grid",
+            "schema": "segment",
+            "params": {
+              "field": "geoip.location",
+              "autoPrecision": true,
+              "precision": 2
+            }
           }
+        ],
+        "listeners": {
         }
-      ],
-      "listeners": {
       }
-    }
 ENDOFFJSON
-%>",
-  "description": "",
-  "savedSearchId": "app-all",
-  "version": 1,
-  "kibanaSavedObjectMeta": {
-    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-    {
-      "filter": [
-
-      ]
-    }
+  %>",
+    "description": "",
+    "savedSearchId": "app-all",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+      {
+        "filter": [
+  
+        ]
+      }
 ENDOFFJSON
-%>"
+  %>"
+    }
   }
 }
 <% end %>

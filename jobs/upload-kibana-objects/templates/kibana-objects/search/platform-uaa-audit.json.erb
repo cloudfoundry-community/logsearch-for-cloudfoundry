@@ -1,86 +1,88 @@
 <% require 'json' %>
 {
-  "title": "[platform] UAA Audit",
-  "description": "",
-  "hits": 0,
-  "columns": [
-    "@source.job",
-    "uaa.audit.type",
-    "uaa.audit.origin",
-    "uaa.audit.data"
-  ],
-  "sort": [
-    "@timestamp",
-    "desc"
-  ],
-  "version": 1,
-  "kibanaSavedObjectMeta": {
-    "searchSourceJSON": "<%= JSON.parse(
-    {
-      "index": "#{p('elasticsearch_config.platform_index_prefix')}*",
-      "filter": [
-        {
-          "meta": {
-            "negate": false,
-            "index": "#{p('elasticsearch_config.platform_index_prefix')}*",
-            "key": "@source.component",
-            "value": "uaa",
-            "disabled": false
-          },
-          "query": {
-            "match": {
-              "@source.component": {
-                "query": "uaa",
-                "type": "phrase"
+  "attributes": {
+    "title": "[platform] UAA Audit",
+    "description": "",
+    "hits": 0,
+    "columns": [
+      "@source.job",
+      "uaa.audit.type",
+      "uaa.audit.origin",
+      "uaa.audit.data"
+    ],
+    "sort": [
+      "@timestamp",
+      "desc"
+    ],
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "<%= JSON.parse(
+      {
+        "index": "#{p('elasticsearch_config.platform_index_prefix')}*",
+        "filter": [
+          {
+            "meta": {
+              "negate": false,
+              "index": "#{p('elasticsearch_config.platform_index_prefix')}*",
+              "key": "@source.component",
+              "value": "uaa",
+              "disabled": false
+            },
+            "query": {
+              "match": {
+                "@source.component": {
+                  "query": "uaa",
+                  "type": "phrase"
+                }
               }
+            },
+            "$state": {
+              "store": "appState"
             }
           },
-          "$state": {
-            "store": "appState"
-          }
-        },
-        {
-          "meta": {
-            "negate": false,
-            "index": "#{p('elasticsearch_config.platform_index_prefix')}*",
-            "key": "uaa.log_category",
-            "value": "Audit",
-            "disabled": false
-          },
-          "query": {
-            "match": {
-              "uaa.log_category": {
-                "query": "Audit",
-                "type": "phrase"
+          {
+            "meta": {
+              "negate": false,
+              "index": "#{p('elasticsearch_config.platform_index_prefix')}*",
+              "key": "uaa.log_category",
+              "value": "Audit",
+              "disabled": false
+            },
+            "query": {
+              "match": {
+                "uaa.log_category": {
+                  "query": "Audit",
+                  "type": "phrase"
+                }
               }
+            },
+            "$state": {
+              "store": "appState"
             }
+          }
+        ],
+        "highlight": {
+          "pre_tags": [
+            "@kibana-highlighted-field@"
+          ],
+          "post_tags": [
+            "@/kibana-highlighted-field@"
+          ],
+          "fields": {
+            "*": {}
           },
-          "$state": {
-            "store": "appState"
+          "require_field_match": false,
+          "fragment_size": 2147483647
+        },
+        "query": {
+          "query_string": {
+            "analyze_wildcard": true,
+            "query": "*"
           }
         }
-      ],
-      "highlight": {
-        "pre_tags": [
-          "@kibana-highlighted-field@"
-        ],
-        "post_tags": [
-          "@/kibana-highlighted-field@"
-        ],
-        "fields": {
-          "*": {}
-        },
-        "require_field_match": false,
-        "fragment_size": 2147483647
-      },
-      "query": {
-        "query_string": {
-          "analyze_wildcard": true,
-          "query": "*"
-        }
-      }
-    }.to_json
-).to_json.gsub(/"/) { '\"' }
-%>"
+      }.to_json
+  ).to_json.gsub(/"/) { '\"' }
+  %>"
+    }
   }
 }

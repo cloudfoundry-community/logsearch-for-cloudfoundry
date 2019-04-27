@@ -1,101 +1,103 @@
 <% require 'json' %>
 <% if( ['LogMessage', 'ContainerMetric'].any? { |event| p('cloudfoundry.firehose_events').include?(event)} ) %>
 {
-  "title": "App: logs count by source type (APP or cf, top 5 apps)",
-  "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-    {
-      "type": "histogram",
-      "params": {
-        "shareYAxis": true,
-        "addTooltip": true,
-        "addLegend": true,
-        "scale": "linear",
-        "mode": "stacked",
-        "times": [],
-        "addTimeMarker": false,
-        "defaultYExtents": false,
-        "setYExtents": false,
-        "yAxis": {}
-      },
-      "aggs": [
-        {
-          "id": "1",
-          "type": "count",
-          "schema": "metric",
-          "params": {}
+  "attributes": {
+   "title": "App: logs count by source type (APP or cf, top 5 apps)",
+    "visState": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+      {
+        "type": "histogram",
+        "params": {
+          "shareYAxis": true,
+          "addTooltip": true,
+          "addLegend": true,
+          "scale": "linear",
+          "mode": "stacked",
+          "times": [],
+          "addTimeMarker": false,
+          "defaultYExtents": false,
+          "setYExtents": false,
+          "yAxis": {}
         },
-        {
-          "id": "2",
-          "type": "terms",
-          "schema": "segment",
-          "params": {
-            "field": "@cf.app",
-            "size": 5,
-            "order": "desc",
-            "orderBy": "1"
-          }
-        },
-        {
-          "id": "3",
-          "type": "filters",
-          "schema": "group",
-          "params": {
-            "filters": [
-              {
-                "input": {
-                  "query": {
-                    "query_string": {
-                      "query": "@source.type:APP",
-                      "analyze_wildcard": true
+        "aggs": [
+          {
+            "id": "1",
+            "type": "count",
+            "schema": "metric",
+            "params": {}
+          },
+          {
+            "id": "2",
+            "type": "terms",
+            "schema": "segment",
+            "params": {
+              "field": "@cf.app",
+              "size": 5,
+              "order": "desc",
+              "orderBy": "1"
+            }
+          },
+          {
+            "id": "3",
+            "type": "filters",
+            "schema": "group",
+            "params": {
+              "filters": [
+                {
+                  "input": {
+                    "query": {
+                      "query_string": {
+                        "query": "@source.type:APP",
+                        "analyze_wildcard": true
+                      }
                     }
-                  }
+                  },
+                  "label": "APP"
                 },
-                "label": "APP"
-              },
-              {
-                "input": {
-                  "query": {
-                    "query_string": {
-                      "query": "NOT @source.type:APP",
-                      "analyze_wildcard": true
+                {
+                  "input": {
+                    "query": {
+                      "query_string": {
+                        "query": "NOT @source.type:APP",
+                        "analyze_wildcard": true
+                      }
                     }
-                  }
-                },
-                "label": "cf"
-              }
-            ]
+                  },
+                  "label": "cf"
+                }
+              ]
+            }
           }
-        }
-      ],
-      "listeners": {}
-    }
-ENDOFFJSON
-%>",
-  "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-    {
-      "vis": {
-        "colors": {
-          "Count": "#CCA300",
-          "cf": "#E5AC0E",
-          "APP": "#508642"
-        },
-        "legendOpen": true
+        ],
+        "listeners": {}
       }
-    }
 ENDOFFJSON
-%>",
-  "description": "",
-  "savedSearchId": "app-all",
-  "version": 1,
-  "kibanaSavedObjectMeta": {
-    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-    {
-      "filter": [
-
-      ]
-    }
+  %>",
+    "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+      {
+        "vis": {
+          "colors": {
+            "Count": "#CCA300",
+            "cf": "#E5AC0E",
+            "APP": "#508642"
+          },
+          "legendOpen": true
+        }
+      }
 ENDOFFJSON
-%>"
+  %>",
+    "description": "",
+    "savedSearchId": "app-all",
+    "version": 1,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+      {
+        "filter": [
+  
+        ]
+      }
+ENDOFFJSON
+  %>"
+    }
   }
 }
 <% end %>

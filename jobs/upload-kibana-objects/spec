@@ -10,14 +10,19 @@ consumes:
 - name: elasticsearch
   type: elasticsearch
   optional: true
+- name: cloud_controller
+  type: cloud_controller
+  optional: true
 
 templates:
+  bin/generate-objects: bin/generate-objects
+  bin/import-objects: bin/import-objects
   bin/run: bin/run
 
   # Kibana objects (defaults).
-  kibana-objects/index-pattern/logs-app.json.erb:       kibana-objects/index-pattern/logs-app.json
-  kibana-objects/index-pattern/logs.json.erb:           kibana-objects/index-pattern/logs.json
-  kibana-objects/index-pattern/logs-platform.json.erb:  kibana-objects/index-pattern/logs-platform.json
+  kibana-objects/index-pattern/logs-app.json.erb:       kibana-objects/index-pattern/logs-app*.json
+  kibana-objects/index-pattern/logs.json.erb:           kibana-objects/index-pattern/logs-*.json
+  kibana-objects/index-pattern/logs-platform.json.erb:  kibana-objects/index-pattern/logs-platform*.json
 
   kibana-objects/config/4.4.0.json.erb:  kibana-objects/config/4.4.0.json
   kibana-objects/config/4.4.2.json.erb:  kibana-objects/config/4.4.2.json
@@ -113,6 +118,12 @@ properties:
   cloudfoundry.firehose_events:
     description: "Array of events you would like to get. Valid options are CounterEvent,Error,HttpStartStop,LogMessage,ValueMetric,ContainerMetric"
     default: ["LogMessage"]
+  cloudfoundry.system_domain:
+    description: The Cloud Foundry System Domain
+  cloudfoundry.user:
+    description: The Cloud Foundry API user.
+  cloudfoundry.password:
+    description: The Cloud Foundry API user's password.
 
   elasticsearch_config.index_prefix:
     description: |

@@ -1,87 +1,89 @@
 <% require 'json' %>
 {
-  "title": "Platform - Logs",
-  "hits": 0,
-  "description": "",
-  "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-    [
-      {
-        "col": 1,
-        "id": "Platform-logs-count-(top-10-components)",
-        "panelIndex": 1,
-        "row": 1,
-        "size_x": 4,
-        "size_y": 5,
-        "type": "visualization"
-      },
-      {
-        "id": "Platform-components",
-        "type": "visualization",
-        "panelIndex": 2,
-        "size_x": 4,
-        "size_y": 5,
-        "col": 5,
-        "row": 1
-      },
-      {
-        "id": "Platform-logs-count-by-level",
-        "type": "visualization",
-        "panelIndex": 3,
-        "size_x": 4,
-        "size_y": 5,
-        "col": 9,
-        "row": 1
-      },
-      {
-        "col": 1,
-        "id": "Platform-logs-count-in-timeline",
-        "panelIndex": 4,
-        "row": 6,
-        "size_x": 12,
-        "size_y": 4,
-        "type": "visualization"
-      }
-    ]
-ENDOFFJSON
-%>",
-  "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-    {
-      "P-1": {
-        "vis": {
-          "legendOpen": true
-        }
-      },
-      "P-3": {
-        "vis": {
-          "legendOpen": false
-        }
-      },
-      "P-4": {
-        "vis": {
-          "legendOpen": true
-        }
-      }
-    }
-ENDOFFJSON
-%>",
-  "optionsJSON": "{\"darkTheme\":false}",
-  "version": 1,
-  "timeRestore": false,
-  "kibanaSavedObjectMeta": {
-    "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-    {
-      "filter": [
+  "attributes": {
+    "title": "Platform - Logs",
+    "hits": 0,
+    "description": "",
+    "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+      [
         {
-          "query": {
-            "query_string": {
-              "analyze_wildcard": true,
-              "query": "*"
-            }
-          }
+          "col": 1,
+          "id": "Platform-logs-count-(top-10-components)",
+          "panelIndex": 1,
+          "row": 1,
+          "size_x": 4,
+          "size_y": 5,
+          "type": "visualization"
+        },
+        {
+          "id": "Platform-components",
+          "type": "visualization",
+          "panelIndex": 2,
+          "size_x": 4,
+          "size_y": 5,
+          "col": 5,
+          "row": 1
+        },
+        {
+          "id": "Platform-logs-count-by-level",
+          "type": "visualization",
+          "panelIndex": 3,
+          "size_x": 4,
+          "size_y": 5,
+          "col": 9,
+          "row": 1
+        },
+        {
+          "col": 1,
+          "id": "Platform-logs-count-in-timeline",
+          "panelIndex": 4,
+          "row": 6,
+          "size_x": 12,
+          "size_y": 4,
+          "type": "visualization"
         }
       ]
-    }
 ENDOFFJSON
-%>"
+  %>",
+    "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+      {
+        "P-1": {
+          "vis": {
+            "legendOpen": true
+          }
+        },
+        "P-3": {
+          "vis": {
+            "legendOpen": false
+          }
+        },
+        "P-4": {
+          "vis": {
+            "legendOpen": true
+          }
+        }
+      }
+ENDOFFJSON
+  %>",
+    "optionsJSON": "{\"darkTheme\":false}",
+    "version": 1,
+    "timeRestore": false,
+    "kibanaSavedObjectMeta": {
+      "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+      {
+        "filter": [
+          {
+            "query": {
+              "query_string": {
+                "analyze_wildcard": true,
+                "query": "*"
+              }
+            }
+          }
+        ]
+      }
+ENDOFFJSON
+  %>"
+    }
   }
 }
