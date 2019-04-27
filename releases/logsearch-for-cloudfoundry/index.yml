@@ -13,6 +13,8 @@ builds:
     version: "4"
   3cdb686b-b733-4d22-a567-1a2e69de7e6b:
     version: 206.0.0
+  3eccc4f3-8941-41cf-5770-4b1967f0f219:
+    version: 210.2.0
   51944f1c-14b5-4876-854b-288546556cac:
     version: 203.0.0
   5e52c91e-021c-44b3-91c6-94c9aa37346b:
