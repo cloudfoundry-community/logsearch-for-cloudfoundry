@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -e
 set -x
@@ -19,7 +19,7 @@ set -x
   end
 %>
 
-export PATH=/var/vcap/packages/cf-cli/bin:${PATH}
+export PATH=/var/vcap/packages/cf-cli-6-linux/bin:${PATH}
 export CF_COLOR=false
 export WORKDIR=/var/vcap/data/tmp
 

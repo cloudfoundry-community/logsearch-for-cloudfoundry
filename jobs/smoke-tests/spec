@@ -2,7 +2,7 @@
 name: smoke-tests
 
 packages:
-  - cf-cli
+  - cf-cli-6-linux
   - golang-1.12-linux
   - smoke-tests
 

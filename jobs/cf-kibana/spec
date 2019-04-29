@@ -2,7 +2,7 @@
 name: cf-kibana
 
 packages:
-  - cf-cli
+  - cf-cli-6-linux
   - cf-kibana
 
 consumes:
