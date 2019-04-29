@@ -1,6 +1,0 @@
-properties:
-  logstash_parser:
-    filters: (( merge ))
-  elasticsearch_config:
-    templates:
-    - <<: (( merge ))
