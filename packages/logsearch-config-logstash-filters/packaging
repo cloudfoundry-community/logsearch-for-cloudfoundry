@@ -1,7 +1,14 @@
-set -e
+#!/usr/bin/env bash
 
-export PATH=/var/vcap/packages/ruby-2.3/bin:$PATH
+set -e -x
+
+RAKE_VERSION=$(find ruby -maxdepth 1 -name 'rake-*' | sed 's/ruby\/rake-\(.*\)\.gem/\1/' | head -1)
+
+# shellcheck disable=1090
+source "${BOSH_PACKAGES_DIR:-/var/vcap/packages}/ruby-2.4-r5/bosh/compile.env"
+
+gem install "ruby/rake-${RAKE_VERSION}.gem" --local --no-ri --no-rdoc
 
 logsearch-config/bin/build
 
-cp logsearch-config/target/* ${BOSH_INSTALL_TARGET}
+cp logsearch-config/target/* "${BOSH_INSTALL_TARGET}"

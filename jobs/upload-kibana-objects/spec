@@ -4,7 +4,7 @@ name: upload-kibana-objects
 description: This job uploads Kibana saved objects (index-patterns, searches, visualizations and dashboards). Allows to upload defaults predefined in the job and custom data files.
 
 packages:
-- ruby-2.3
+- ruby-2.4-r5
 
 consumes:
 - name: elasticsearch
