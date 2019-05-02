@@ -7,6 +7,7 @@ source /var/vcap/packages/ruby-2.4-r5/bosh/runtime.env
 export PATH=/var/vcap/packages/python3/bin:$PATH
 export PYTHONPATH="/var/vcap/packages/python3/lib/python3.6/site-packages${PYTHONPATH:+:$PYTHONPATH}"
 export LD_LIBRARY_PATH="/var/vcap/packages/python3/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+export REQUESTS_CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt"
 
 <%
   system_domain = nil
