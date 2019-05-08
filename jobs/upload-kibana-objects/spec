@@ -109,6 +109,9 @@ properties:
   kibana_objects.upload_data_files:
     description: "List of text files to put in API endpoint /_bulk"
     default: []
+  kibana_objects.default_index:
+    description: "Default index to set in Kibana"
+    default: "logs-app*"
 
   elasticsearch.host:
     description: Elasticsearch host

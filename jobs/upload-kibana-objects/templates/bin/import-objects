@@ -1,5 +1,14 @@
 #!/usr/bin/env python3
 
+<%
+  system_domain = nil
+  if_p('cloudfoundry.system_domain') do |prop|
+    system_domain = prop
+  end.else do
+    system_domain = link('cloud_controller').p('system_domain')
+  end
+%>
+
 import glob
 import logging
 import os
@@ -10,31 +19,31 @@ logging.basicConfig(level=logging.INFO)
 if __name__ == "__main__":
     session = requests.Session()
 
-    logs = session.get('https://logs.{}'.format(os.environ['CF_SYSTEM_DOMAIN']))
-    assert logs.url == 'https://login.{}/login'.format(os.environ['CF_SYSTEM_DOMAIN'])
+    logs = session.get('https://logs.<%= system_domain %>')
+    assert logs.url == 'https://login.<%= system_domain %>/login'
     assert logs.status_code == 200
 
     login = session.post(
-        'https://login.{}/login.do'.format(os.environ['CF_SYSTEM_DOMAIN']),
+        'https://login.<%= system_domain %>/login.do',
         data={
-            'username': os.environ['CF_USERNAME'],
-            'password': os.environ['CF_PASSWORD'],
+            'username': '<%= p('cloudfoundry.user') %>',
+            'password': '<%= p('cloudfoundry.password') %>',
             'X-Uaa-Csrf': logs.cookies['X-Uaa-Csrf'],
         },
     )
-    assert login.url == 'https://logs.{}/'.format(os.environ['CF_SYSTEM_DOMAIN'])
+    assert login.url == 'https://logs.<%= system_domain %>/'
     assert login.status_code == 200
 
     for filename in glob.iglob('/var/vcap/jobs/upload-kibana-objects/kibana-objects/**/*.json', recursive=True):
         headers = {'content-type': 'application/json', 'kbn-xsrf': 'true'}
         r = session.post(
-                'https://logs.{}/api/saved_objects/{}/{}'.format(os.environ['CF_SYSTEM_DOMAIN'], os.path.basename(os.path.dirname(filename)), os.path.basename(os.path.splitext(filename)[0])),
+                'https://logs.<%= system_domain %>/api/saved_objects/{}/{}'.format(os.path.basename(os.path.dirname(filename)), os.path.basename(os.path.splitext(filename)[0])),
                 data=open(filename, 'rb'),
                 headers=headers
         )
         if r.status_code == 409:
             put = session.put(
-                    'https://logs.{}/api/saved_objects/{}/{}'.format(os.environ['CF_SYSTEM_DOMAIN'], os.path.basename(os.path.dirname(filename)), os.path.basename(os.path.splitext(filename)[0])),
+                    'https://logs.<%= system_domain %>/api/saved_objects/{}/{}'.format(os.path.basename(os.path.dirname(filename)), os.path.basename(os.path.splitext(filename)[0])),
                     data=open(filename, 'rb'),
                     headers=headers
             )
@@ -46,3 +55,14 @@ if __name__ == "__main__":
             logging.info('Object %s Uploaded Successfully', filename)
         else:
             logging.info('Object %s Failed to Upload', filename)
+
+    r = session.post(
+      'https://logs.<%= system_domain %>/api/kibana/settings',
+      data='{"changes":{"defaultIndex":"<%= p('kibana_objects.default_index') %>"}}',
+      headers=headers
+    )
+    if r.status_code == 200:
+        logging.info('Successfully Set <%= p('kibana_objects.default_index') %> as Default Index')
+    else:
+        logging.info('Failed to Set <%= p('kibana_objects.default_index') %> as Default Index')
+
