@@ -8,19 +8,6 @@ export PATH=/var/vcap/packages/python3/bin:$PATH
 export PYTHONPATH="/var/vcap/packages/python3/lib/python3.6/site-packages${PYTHONPATH:+:$PYTHONPATH}"
 export LD_LIBRARY_PATH="/var/vcap/packages/python3/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 
-<%
-  system_domain = nil
-  if_p('cloudfoundry.system_domain') do |prop|
-    system_domain = prop
-  end.else do
-    system_domain = link('cloud_controller').p('system_domain')
-  end
-%>
-
-export CF_SYSTEM_DOMAIN=<%= system_domain %>
-export CF_USERNAME="<%= p('cloudfoundry.user') %>"
-export CF_PASSWORD="<%= p('cloudfoundry.password') %>"
-
 echo "[$(date)] Calling 'generate-objects'..."
 $(dirname $0)/generate-objects
 
