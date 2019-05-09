@@ -19,7 +19,7 @@ logging.basicConfig(level=logging.INFO)
 if __name__ == "__main__":
     session = requests.Session()
 
-    logs = session.get('https://logs.<%= system_domain %>')
+    logs = session.get('https://logs.<%= system_domain %>'<% if p("cloudfoundry.skip_ssl_validation") %>, verify=False<% end %>)
     assert logs.url == 'https://login.<%= system_domain %>/login'
     assert logs.status_code == 200
 

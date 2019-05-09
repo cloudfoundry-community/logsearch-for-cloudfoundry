@@ -123,6 +123,9 @@ properties:
     default: ["LogMessage"]
   cloudfoundry.system_domain:
     description: The Cloud Foundry System Domain
+  cloudfoundry.skip_ssl_validation:
+    description: "Set to true to skip SSL validation (defaults to false)"
+    default: false
   cloudfoundry.user:
     description: The Cloud Foundry API user.
   cloudfoundry.password:
