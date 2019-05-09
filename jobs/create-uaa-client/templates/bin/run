@@ -56,3 +56,5 @@ echo "Creating new OAuth2 client: <%= p('create-uaa-client.oauth2_client_id') %>
 }' \
 -X POST https://uaa.<%= system_domain %>/oauth/clients
 
+curl -s -o /dev/null -H "Authorization:Bearer $ACCESS_TOKEN" \
+'https://uaa.<%= system_domain %>/oauth/authorize?response_type=code&client_id=<%= p('create-uaa-client.oauth2_client_id') %>&redirect_uri=https://<%= p('create-uaa-client.kibana_host') %>.<%= system_domain %>/login'
