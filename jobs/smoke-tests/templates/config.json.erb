@@ -25,6 +25,9 @@
   "admin_user":                       "<%= p('smoke_tests.admin_user') %>",
   "admin_password":                   "<%= p('smoke_tests.admin_password') %>",
   "skip_ssl_validation":              true,
+  <% if_p('smoke_tests.test_password') do |v| -%>
+  "test_password":                    "<%= v %>",
+  <% end -%>
   "system_domain":                    "<%= system_domain %>",
   "elasticsearch_master_ip":          "<%= elasticsearch_host %>",
   "elasticsearch_master_port":        "<%= elasticsearch_port %>",
