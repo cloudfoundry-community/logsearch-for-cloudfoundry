@@ -1,20 +1,32 @@
 {
   "name": "authentication",
-  "version": "6.4.3",
+  "version": "6.8.1",
   "description": "Integrations Kibana into CF's OAuth 2 authentication mechanism + User page in Kibana",
   "repository": {
     "type": "git",
     "url": "https://github.com/cloudfoundry-community/logsearch-for-cloudfoundry.git"
   },
   "dependencies": {
-    "bell": "5.4.0",
-    "bluebird": "^2.9.30",
-    "catbox": "^6.0.0",
-    "catbox-redis": "^1.0.7",
-    "hapi-auth-cookie": "3.1.0",
+    "ansi-regex": "^2.0.0",
+    "array-uniq": "^1.0.2",
+    "bell": "^10.0.0",
+    "bluebird": "^2.10.2",
+    "boom": "^7.2.2",
+    "bounce": "^1.2.3",
+    "bourne": "^1.1.2",
+    "catbox": "^10.0.3",
+    "cryptiles": "^2.0.5",
+    "hapi-auth-cookie": "^9.0.0",
+    "hoek": "^5.0.4",
+    "isemail": "^3.2.0",
+    "joi": "^6.9.0",
+    "punycode": "^2.1.1",
     "randomstring": "^1.1.5",
-    "request": "^2.40.0",
-    "uuid": "^2.0.1"
+    "redis": "^2.4.2",
+    "request": "^2.65.0",
+    "topo": "^1.1.0",
+    "uuid": "^2.0.1",
+    "wreck": "^14.2.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
