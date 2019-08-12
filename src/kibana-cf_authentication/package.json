@@ -15,7 +15,7 @@
     "bounce": "^1.2.3",
     "bourne": "^1.1.2",
     "catbox": "^10.0.3",
-    "cryptiles": "^2.0.5",
+    "cryptiles": "^4.1.2",
     "hapi-auth-cookie": "^9.0.0",
     "hoek": "^5.0.4",
     "isemail": "^3.2.0",
