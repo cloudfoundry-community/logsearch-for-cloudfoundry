@@ -31,8 +31,8 @@ applications:
   memory: <%= p('cf-kibana.app_memory')%>
   disk_quota: <%= p('cf-kibana.disk_quota')%>
   instances: <%= p('cf-kibana.app_instances')%>
-  domain: <%= apps_domain %>
-  buildpack: binary_buildpack
+  buildpacks:
+  - binary_buildpack
   command: bash -c "\$HOME/bin/kibana --port \$PORT & pid=\$!; while true; do process=\$(ps uh \$pid | awk '{print \$6}'); [ -z \$process ] && { echo exiting due to kibana failure... >&2; exit 1; }; [ ${process:-0} -eq 300000 ] && { echo memory limit reached, recycling instance >&2; exit 1; }; sleep 1; done"
   timeout: 180
   env:
