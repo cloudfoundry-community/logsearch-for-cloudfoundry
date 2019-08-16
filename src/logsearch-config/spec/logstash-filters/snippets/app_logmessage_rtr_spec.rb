@@ -225,7 +225,7 @@ describe "app-logmessage-rtr.conf" do
               " 0 1413 \"-\" \"Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36\" 192.168.111.21:35826 x_forwarded_for:\"82.209.244.50, 192.168.111.21\" x_forwarded_proto:\"http\" vcap_request_id:\"831e54f1-f09f-4971-6856-9fdd502d4ae3\" response_time:0.005328859 app_id:7ae227a6-6ad1-46d4-bfb9-6e60d7796bb5\n"
       ) do
 
-        it { expect(parsed_results.get("@level")).to eq "ERROR" }
+        it { expect(parsed_results.get("@level")).to eq "WARN" }
 
       end
     end
@@ -240,7 +240,7 @@ describe "app-logmessage-rtr.conf" do
               " 0 1413 \"-\" \"Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36\" 192.168.111.21:35826 x_forwarded_for:\"82.209.244.50, 192.168.111.21\" x_forwarded_proto:\"http\" vcap_request_id:\"831e54f1-f09f-4971-6856-9fdd502d4ae3\" response_time:0.005328859 app_id:7ae227a6-6ad1-46d4-bfb9-6e60d7796bb5\n"
       ) do
 
-        it { expect(parsed_results.get("@level")).to eq "ERROR" }
+        it { expect(parsed_results.get("@level")).to eq "WARN" }
 
       end
     end
