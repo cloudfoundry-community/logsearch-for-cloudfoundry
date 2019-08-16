@@ -117,6 +117,27 @@ describe "platform.conf" do
       end
     end
 
+    context "empty BOSH director name" do
+      when_parsing_log(
+          "@index_type" => "platform",
+          "@message" => "Some message",
+          "syslog_sd_id" => "instance@47450",
+          "syslog_sd_params" => {
+            "director" => "",
+          },
+      ) do
+
+        it { expect(parsed_results.get("tags")).to eq ["platform", "cf"] } # no fail tag
+
+        it { expect(parsed_results.get("@source")["type"]).to eq "cf" }
+        it { expect(parsed_results.get("@type")).to eq "cf" }
+
+        it "sets the common fields" do
+          expect(parsed_results.get("@source")["director"]).to eq ""
+        end
+      end
+    end
+
     context "not CF format" do
       when_parsing_log(
           "@index_type" => "platform",
