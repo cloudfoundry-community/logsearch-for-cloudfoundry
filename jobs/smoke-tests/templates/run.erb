@@ -3,7 +3,7 @@
 set -e
 
 # shellcheck disable=1091
-source /var/vcap/packages/golang-1.12-linux/bosh/runtime.env
+source /var/vcap/packages/golang-1.13-linux/bosh/runtime.env
 
 export GOPATH=/var/vcap/packages/smoke-tests
 export PATH=${GOPATH}/bin:${GOROOT}/bin:/var/vcap/packages/cf-cli-6-linux/bin:${PATH}

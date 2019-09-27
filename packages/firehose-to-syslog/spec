@@ -2,7 +2,7 @@
 name: firehose-to-syslog
 
 dependencies:
-  - golang-1.12-linux
+  - golang-1.13-linux
 
 files:
   - github.com/cloudfoundry-community/firehose-to-syslog/**/*
