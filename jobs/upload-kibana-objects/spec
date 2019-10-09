@@ -112,6 +112,12 @@ properties:
   kibana_objects.default_index:
     description: "Default index to set in Kibana"
     default: "logs-app*"
+  kibana_objects.host_name:
+    description: the host-portion of the FQDN kibana is served from, without the domain name
+    default: logs
+  kibana_objects.login_host_name:
+    description: the host-portion of the login FQDN, without the domain name
+    default: login
 
   elasticsearch.host:
     description: Elasticsearch host
