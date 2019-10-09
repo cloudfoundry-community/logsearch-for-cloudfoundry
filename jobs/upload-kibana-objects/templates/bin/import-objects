@@ -19,31 +19,31 @@ logging.basicConfig(level=logging.INFO)
 if __name__ == "__main__":
     session = requests.Session()
 
-    logs = session.get('https://<=% kibana_objects.host_name %>.<%= system_domain %>'<% if p("cloudfoundry.skip_ssl_validation") %>, verify=False<% end %>)
-    assert logs.url == 'https://<=% kibana_objects.login_host_name %>.<%= system_domain %>/login'
+    logs = session.get('https://<%= p("kibana_objects.host_name") %>.<%= system_domain %>'<% if p("cloudfoundry.skip_ssl_validation") %>, verify=False<% end %>)
+    assert logs.url == 'https://<%= p("kibana_objects.login_host_name") %>.<%= system_domain %>/login'
     assert logs.status_code == 200
 
     login = session.post(
-        'https://<=% kibana_objects.login_host_name %>.<%= system_domain %>/login.do',
+        'https://<%= p("kibana_objects.login_host_name") %>.<%= system_domain %>/login.do',
         data={
             'username': '<%= p('cloudfoundry.user') %>',
             'password': '<%= p('cloudfoundry.password') %>',
             'X-Uaa-Csrf': logs.cookies['X-Uaa-Csrf'],
         },
     )
-    assert login.url == 'https://<=% kibana_objects.host_name %>.<%= system_domain %>/app/kibana'
+    assert login.url == 'https://<%= p("kibana_objects.host_name") %>.<%= system_domain %>/app/kibana'
     assert login.status_code == 200
 
     for filename in glob.iglob('/var/vcap/jobs/upload-kibana-objects/kibana-objects/**/*.json', recursive=True):
         headers = {'content-type': 'application/json', 'kbn-xsrf': 'true'}
         r = session.post(
-                'https://<=% kibana_objects.host_name %>.<%= system_domain %>/api/saved_objects/{}/{}'.format(os.path.basename(os.path.dirname(filename)), os.path.basename(os.path.splitext(filename)[0])),
+                'https://<%= p("kibana_objects.host_name") %>.<%= system_domain %>/api/saved_objects/{}/{}'.format(os.path.basename(os.path.dirname(filename)), os.path.basename(os.path.splitext(filename)[0])),
                 data=open(filename, 'rb'),
                 headers=headers
         )
         if r.status_code == 409:
             put = session.put(
-                    'https://<=% kibana_objects.host_name %>.<%= system_domain %>/api/saved_objects/{}/{}'.format(os.path.basename(os.path.dirname(filename)), os.path.basename(os.path.splitext(filename)[0])),
+                    'https://<%= p("kibana_objects.host_name") %>.<%= system_domain %>/api/saved_objects/{}/{}'.format(os.path.basename(os.path.dirname(filename)), os.path.basename(os.path.splitext(filename)[0])),
                     data=open(filename, 'rb'),
                     headers=headers
             )
@@ -57,7 +57,7 @@ if __name__ == "__main__":
             logging.info('Object %s Failed to Upload', filename)
 
     r = session.post(
-      'https://<=% kibana_objects.host_name %>.<%= system_domain %>/api/kibana/settings',
+      'https://<%= p("kibana_objects.host_name") %>.<%= system_domain %>/api/kibana/settings',
       data='{"changes":{"defaultIndex":"<%= p('kibana_objects.default_index') %>"}}',
       headers=headers
     )
