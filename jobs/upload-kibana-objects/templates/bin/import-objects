@@ -33,7 +33,7 @@ if __name__ == "__main__":
     assert logs.status_code == 200
 
     login = session.post(
-        'https://<%= p("kibana_objects.login_host_name") %>.<%= system_domain %>/login.do',
+        'https://<%= login_fqdn  %>/login.do',
         data={
             'username': '<%= p('cloudfoundry.user') %>',
             'password': '<%= p('cloudfoundry.password') %>',

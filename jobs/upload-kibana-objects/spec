@@ -118,7 +118,7 @@ properties:
   kibana_objects.login_host_name:
     description: the host-portion of the login FQDN, without the domain name
     default: login
-  kibana_objects.fqdn:
+  kibana_objects.login_fqdn:
     description: the fqdn of the login endpoint. If empty, kibana.log_host_name + . + cloudfoundry.system_domain is used 
 
   elasticsearch.host:
