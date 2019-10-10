@@ -9,6 +9,15 @@
   end
 %>
 
+<% 
+  login_fqdn = nil
+  if_p('kibana_objects.login_fqdn') do |prop|
+    login_fqdn = prop
+  end.else do
+    login_fqdn = [p("kibana_objects.login_host_name"), system_domain].join('.')
+  end
+%>
+
 import glob
 import logging
 import os
@@ -20,7 +29,7 @@ if __name__ == "__main__":
     session = requests.Session()
 
     logs = session.get('https://<%= p("kibana_objects.host_name") %>.<%= system_domain %>'<% if p("cloudfoundry.skip_ssl_validation") %>, verify=False<% end %>)
-    assert logs.url == 'https://<%= p("kibana_objects.login_host_name") %>.<%= system_domain %>/login'
+    assert logs.url == 'https://<%= login_fqdn %>/login'
     assert logs.status_code == 200
 
     login = session.post(
