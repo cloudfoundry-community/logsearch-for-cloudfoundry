@@ -1,9 +1,10 @@
 # Logsearch for Cloud Foundry
 
+<!--
 ### Build status
 
 [![Build Status](https://concourse.altoros.com/api/v1/teams/Logsearch/pipelines/logsearch-for-cloudfoundry-pr/jobs/pr%20tests/badge)](https://concourse.altoros.com/teams/Logsearch/pipelines/logsearch-for-cloudfoundry-pr)
-
+-->
 
 ### About
 
