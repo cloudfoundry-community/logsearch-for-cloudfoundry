@@ -31,6 +31,8 @@ builds:
     version: "7"
   aeab52c3-1a8b-41ab-5963-ed7c757ebde7:
     version: 210.1.0
+  b55da541-c151-4e18-7ac4-df8c0fbf6bd8:
+    version: 210.5.0
   c1d5c582-8536-41e2-41da-cbf27587ba65:
     version: 207.0.3
   c353e2dd-fe2e-4c13-4a4b-949a0c870b3f:
