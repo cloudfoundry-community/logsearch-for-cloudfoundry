@@ -7,6 +7,10 @@
   end.else do
     system_domain = link('cloud_controller').p('system_domain')
   end
+  logs_hostname = "logs"
+  if_p('cloudfoundry.logs_hostname') do |prop|
+    logs_hostname = prop
+  end
 %>
 
 import glob
@@ -19,7 +23,7 @@ logging.basicConfig(level=logging.INFO)
 if __name__ == "__main__":
     session = requests.Session()
 
-    logs = session.get('https://logs.<%= system_domain %>'<% if p("cloudfoundry.skip_ssl_validation") %>, verify=False<% end %>)
+    logs = session.get('https://<%= logs_hostname %>.<%= system_domain %>'<% if p("cloudfoundry.skip_ssl_validation") %>, verify=False<% end %>)
     assert logs.url == 'https://login.<%= system_domain %>/login'
     assert logs.status_code == 200
 
@@ -31,19 +35,19 @@ if __name__ == "__main__":
             'X-Uaa-Csrf': logs.cookies['X-Uaa-Csrf'],
         },
     )
-    assert login.url == 'https://logs.<%= system_domain %>/app/kibana'
+    assert login.url == 'https://<%= logs_hostname %>.<%= system_domain %>/app/kibana'
     assert login.status_code == 200
 
     for filename in glob.iglob('/var/vcap/jobs/upload-kibana-objects/kibana-objects/**/*.json', recursive=True):
         headers = {'content-type': 'application/json', 'kbn-xsrf': 'true'}
         r = session.post(
-                'https://logs.<%= system_domain %>/api/saved_objects/{}/{}'.format(os.path.basename(os.path.dirname(filename)), os.path.basename(os.path.splitext(filename)[0])),
+                'https://<%= logs_hostname %>.<%= system_domain %>/api/saved_objects/{}/{}'.format(os.path.basename(os.path.dirname(filename)), os.path.basename(os.path.splitext(filename)[0])),
                 data=open(filename, 'rb'),
                 headers=headers
         )
         if r.status_code == 409:
             put = session.put(
-                    'https://logs.<%= system_domain %>/api/saved_objects/{}/{}'.format(os.path.basename(os.path.dirname(filename)), os.path.basename(os.path.splitext(filename)[0])),
+                    'https://<%= logs_hostname %>.<%= system_domain %>/api/saved_objects/{}/{}'.format(os.path.basename(os.path.dirname(filename)), os.path.basename(os.path.splitext(filename)[0])),
                     data=open(filename, 'rb'),
                     headers=headers
             )
@@ -57,7 +61,7 @@ if __name__ == "__main__":
             logging.info('Object %s Failed to Upload', filename)
 
     r = session.post(
-      'https://logs.<%= system_domain %>/api/kibana/settings',
+      'https://<%= logs_hostname %>.<%= system_domain %>/api/kibana/settings',
       data='{"changes":{"defaultIndex":"<%= p('kibana_objects.default_index') %>"}}',
       headers=headers
     )
