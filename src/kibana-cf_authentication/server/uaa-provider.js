@@ -37,30 +37,40 @@ module.exports = (server, config, cache) => {
           raw: profile
         }
 
+        orgs_next_url = config.get('authentication.organizations_uri')
+        account.orgIds = []
+        account.orgs = []
         // get user orgs
-        const orgs = await get(config.get('authentication.organizations_uri'))
+        while (orgs_next_url) {
+          orgs = await get(orgs_next_url)
+          server.log(['debug', 'authentication', 'orgs'], JSON.stringify(orgs))
 
-        server.log(['debug', 'authentication', 'orgs'], JSON.stringify(orgs))
-
-        account.orgIds = orgs.resources.map((resource) => {
-          return resource.metadata.guid
-        })
-        account.orgs = orgs.resources.map((resource) => {
-          return resource.entity.name
-        })
+          account.orgIds.concat(orgs.resources.map((resource) => {
+            return resource.metadata.guid
+          }))
+          account.orgs.concat(orgs.resources.map((resource) => {
+            return resource.entity.name
+          }))
+          orgs_next_url = orgs.next_url
+        }
 
         // get user spaces
-        const spaces = await get(config.get('authentication.spaces_uri'))
+        spaces_next_url = config.get('authentications.spaces_uri')
+        account.spaces = []
+        account.spaceIds = []
 
-        server.log(['debug', 'authentication', 'spaces'], JSON.stringify(spaces))
+        while (spaces_next_url) {
+          spaces = await get(spaces_next_url)
+          server.log(['debug', 'authentication', 'spaces'], JSON.stringify(spaces))
 
-        account.spaceIds = spaces.resources.map((resource) => {
-          return resource.metadata.guid
-        })
-
-        account.spaces = spaces.resources.map((resource) => {
-          return resource.entity.name
-        })
+          account.spaceIds.concat( spaces.resources.map((resource) => {
+            return resource.metadata.guid
+          }))
+          account.spaces.concat(spaces.resources.map((resource) => {
+            return resource.entity.name
+          }))
+          spaces_next_url = spaces.next_url
+        }
 
         // store user data in the cache
         await cache.set(credentials.session_id, { credentials, account }, 0)
