@@ -47,6 +47,8 @@ builds:
     version: 207.0.0
   eb619929-9ebf-49c5-4da5-e43db2e71719:
     version: 210.4.0
+  ee762aa5-d2b1-4c1e-68e3-b41f11685ec8:
+    version: 210.5.1
   f29bcb4d-eb86-4237-7abb-973a4d26d551:
     version: 210.3.1
 format-version: "2"
