@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Setup env vars and folders for the webapp_ctl script
+#source /var/vcap/jobs/redis/helpers/ctl_setup.sh 'redis'
+
+export LANG=en_US.UTF-8
+export JOB_NAME=redis
+export JOB_DIR=/var/vcap/jobs/$JOB_NAME
+export DATA_DIR=/var/vcap/data/$JOB_NAME
+
+MEMORY_LIMIT=$(($(grep MemTotal /proc/meminfo | awk '{print $2}') * <%= p('redis.maxmemory') %>/100 * 1024))
+cat $JOB_DIR/config/redis.conf | sed "s/^maxmemory REPLACE_ME/maxmemory $MEMORY_LIMIT/" > $DATA_DIR/redis.conf
+/var/vcap/packages/redis/bin/redis-server $DATA_DIR/redis.conf
