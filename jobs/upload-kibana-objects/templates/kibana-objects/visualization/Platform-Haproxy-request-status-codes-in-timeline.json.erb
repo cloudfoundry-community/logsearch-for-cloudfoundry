@@ -53,17 +53,24 @@
 ENDOFFJSON
   %>",
     "description": "",
-    "savedSearchId": "platform-haproxy",
+    "savedSearchRefName": "search_0",
     "version": 1,
     "kibanaSavedObjectMeta": {
       "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
       {
         "filter": [
-  
+
         ]
       }
 ENDOFFJSON
   %>"
     }
-  }
+  },
+  "references": [
+    {
+      "id": "platform-haproxy",
+      "name": "search_0",
+      "type": "search"
+    }
+  ]
 }

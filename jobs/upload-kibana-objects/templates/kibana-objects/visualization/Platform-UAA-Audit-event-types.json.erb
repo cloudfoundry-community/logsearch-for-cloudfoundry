@@ -36,7 +36,7 @@
 ENDOFFJSON
   %>",
     "description": "",
-    "savedSearchId": "platform-uaa-audit",
+    "savedSearchRefName": "search_0",
     "version": 1,
     "kibanaSavedObjectMeta": {
       "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
@@ -48,5 +48,12 @@ ENDOFFJSON
 ENDOFFJSON
   %>"
     }
-  }
+  },
+  "references": [
+    {
+      "id": "platform-uaa-audit",
+      "name": "search_0",
+      "type": "search"
+    }
+  ]
 }
