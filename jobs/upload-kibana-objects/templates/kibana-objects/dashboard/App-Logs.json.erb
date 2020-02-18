@@ -8,88 +8,99 @@
     "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
       [
         {
-          "id": "App-logs-count-by-source-type-(APP-or-cf-top-5-apps)",
-          "type": "visualization",
-          "panelIndex": 1,
-          "size_x": 4,
-          "size_y": 4,
-          "col": 1,
-          "row": 1
+          "panelIndex": "1",
+          "panelRefName": "panel_0",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 0,
+            "y": 0,
+            "w": 16,
+            "h": 16,
+            "i": "1"
+          },
+          "embeddableConfig": {
+            "vis": {
+              "legendOpen": false
+            }
+          }
         },
         {
-          "col": 5,
-          "id": "App-APP-logs-count-by-level",
-          "panelIndex": 2,
-          "row": 1,
-          "size_x": 3,
-          "size_y": 4,
-          "type": "visualization"
+          "panelIndex": "2",
+          "panelRefName": "panel_1",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 16,
+            "y": 0,
+            "w": 12,
+            "h": 16,
+            "i": "2"
+          },
+          "embeddableConfig": {
+            "vis": {
+              "legendOpen": true
+            },
+            "spy": {
+              "mode": {
+                "name": null,
+                "fill": false
+              }
+            }
+          }
         },
         {
-          "col": 8,
-          "id": "App-APP-logs-count-in-timeline",
-          "panelIndex": 3,
-          "row": 1,
-          "size_x": 5,
-          "size_y": 4,
-          "type": "visualization"
+          "panelIndex": "3",
+          "panelRefName": "panel_2",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 28,
+            "y": 0,
+            "w": 20,
+            "h": 16,
+            "i": "3"
+          },
+          "embeddableConfig": {}
         },
         {
-          "col": 1,
-          "id": "App-APP-logs-count-(top-10-apps)",
-          "panelIndex": 4,
-          "row": 5,
-          "size_x": 4,
-          "size_y": 4,
-          "type": "visualization"
+          "panelIndex": "4",
+          "panelRefName": "panel_3",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 0,
+            "y": 16,
+            "w": 16,
+            "h": 16,
+            "i": "4"
+          },
+          "embeddableConfig": {
+            "vis": {
+              "legendOpen": true
+            }
+          }
         },
         {
-          "col": 5,
-          "id": "App-APP-logs-count-by-level-(top-5-apps)",
-          "panelIndex": 5,
-          "row": 5,
-          "size_x": 8,
-          "size_y": 4,
-          "type": "visualization"
+          "panelIndex": "5",
+          "panelRefName": "panel_4",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 16,
+            "y": 16,
+            "w": 32,
+            "h": 16,
+            "i": "5"
+          },
+          "embeddableConfig": {
+            "vis": {
+              "legendOpen": false
+            },
+            "spy": {
+              "mode": {
+                "name": null,
+                "fill": false
+              }
+            }
+          }
         }
       ]
-ENDOFFJSON
-  %>",
-    "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-      {
-        "P-1": {
-          "vis": {
-            "legendOpen": false
-          }
-        },
-        "P-2": {
-          "vis": {
-            "legendOpen": true
-          },
-          "spy": {
-            "mode": {
-              "name": null,
-              "fill": false
-            }
-          }
-        },
-        "P-4": {
-          "vis": {
-            "legendOpen": true
-          }
-        },
-        "P-5": {
-          "vis": {
-            "legendOpen": false
-          },
-          "spy": {
-            "mode": {
-              "name": null,
-              "fill": false
-            }
-          }
-        }
-      }
 ENDOFFJSON
   %>",
     "optionsJSON": "{\"darkTheme\":false}",
@@ -112,6 +123,33 @@ ENDOFFJSON
 ENDOFFJSON
   %>"
     }
-  }
+  },
+  "references": [
+    {
+      "id": "App-logs-count-by-source-type-(APP-or-cf-top-5-apps)",
+      "name": "panel_0",
+      "type": "visualization"
+    },
+    {
+      "id": "App-APP-logs-count-by-level",
+      "name": "panel_1",
+      "type": "visualization"
+    },
+    {
+      "id": "App-APP-logs-count-in-timeline",
+      "name": "panel_2",
+      "type": "visualization"
+    },
+    {
+      "id": "App-APP-logs-count-(top-10-apps)",
+      "name": "panel_3",
+      "type": "visualization"
+    },
+    {
+      "id": "App-APP-logs-count-by-level-(top-5-apps)",
+      "name": "panel_4",
+      "type": "visualization"
+    }
+  ]
 }
 <% end %>

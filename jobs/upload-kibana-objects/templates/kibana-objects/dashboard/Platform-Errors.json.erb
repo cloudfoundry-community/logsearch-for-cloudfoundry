@@ -7,66 +7,76 @@
     "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
       [
         {
-          "id": "Platform-errors-count-in-timeline",
-          "type": "visualization",
-          "panelIndex": 1,
-          "size_x": 6,
-          "size_y": 3,
-          "col": 1,
-          "row": 1
+          "panelIndex": "1",
+          "panelRefName": "panel_0",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 0,
+            "y": 0,
+            "w": 24,
+            "h": 12,
+            "i": "1"
+          },
+          "embeddableConfig": {
+            "vis": {
+              "legendOpen": true
+            }
+          }
         },
         {
-          "id": "Platform-errors-count-by-source-component-(top-5)",
-          "type": "visualization",
-          "panelIndex": 2,
-          "size_x": 3,
-          "size_y": 3,
-          "col": 7,
-          "row": 1
+          "panelIndex": "2",
+          "panelRefName": "panel_1",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 24,
+            "y": 0,
+            "w": 12,
+            "h": 12,
+            "i": "2"
+          },
+          "embeddableConfig": {
+            "vis": {
+              "legendOpen": true
+            }
+          }
         },
         {
-          "id": "Platform-components-with-errors",
-          "type": "visualization",
-          "panelIndex": 3,
-          "size_x": 3,
-          "size_y": 3,
-          "col": 10,
-          "row": 1
+          "panelIndex": "3",
+          "panelRefName": "panel_2",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 36,
+            "y": 0,
+            "w": 12,
+            "h": 12,
+            "i": "3"
+          },
+          "embeddableConfig": {}
         },
         {
-          "id": "platform-all-errors",
-          "type": "search",
-          "panelIndex": 4,
-          "size_x": 12,
-          "size_y": 7,
-          "col": 1,
-          "row": 4,
-          "columns": [
-            "@type",
-            "@source.component",
-            "@message"
-          ],
-          "sort": [
-            "@timestamp",
-            "desc"
-          ]
+          "panelIndex": "4",
+          "panelRefName": "panel_3",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 0,
+            "y": 12,
+            "w": 48,
+            "h": 28,
+            "i": "4"
+          },
+          "embeddableConfig": {
+            "columns": [
+              "@type",
+              "@source.component",
+              "@message"
+            ],
+            "sort": [
+              "@timestamp",
+              "desc"
+            ]
+          }
         }
       ]
-ENDOFFJSON
-  %>",
-    "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-      {
-        "P-1": {
-          "vis": {
-            "legendOpen": true
-          }
-        },
-        "P-2": {
-          "vis": {
-            "legendOpen": true
-          }
-        }
-      }
 ENDOFFJSON
   %>",
     "optionsJSON": "{\"darkTheme\":false}",
@@ -89,5 +99,27 @@ ENDOFFJSON
 ENDOFFJSON
   %>"
     }
-  }
+  },
+  "references": [
+    {
+      "id": "Platform-errors-count-in-timeline",
+      "name": "panel_0",
+      "type": "visualization"
+    },
+    {
+      "id": "Platform-errors-count-by-source-component-(top-5)",
+      "name": "panel_1",
+      "type": "visualization"
+    },
+    {
+      "id": "Platform-components-with-errors",
+      "name": "panel_2",
+      "type": "visualization"
+    },
+    {
+      "id": "platform-all-errors",
+      "name": "panel_3",
+      "type": "search"
+    }
+  ]
 }

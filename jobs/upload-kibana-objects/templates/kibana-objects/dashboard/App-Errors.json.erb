@@ -6,55 +6,36 @@
     "hits": 0,
     "description": "",
     "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-      [
-        {
-          "id": "App-errors-count-in-timeline-(top-5-apps)",
-          "type": "visualization",
-          "panelIndex": 1,
-          "size_x": 9,
-          "size_y": 6,
-          "col": 1,
-          "row": 1
-        },
-        {
-          "col": 10,
-          "id": "App-apps-with-errors",
-          "panelIndex": 2,
-          "row": 1,
-          "size_x": 3,
-          "size_y": 6,
-          "type": "visualization"
-        },
-        {
-          "col": 1,
-          "columns": [
-            "@level",
-            "@source.job",
-            "@cf.app",
-            "@message"
-          ],
-          "id": "app-all-errors",
-          "panelIndex": 3,
-          "row": 7,
-          "size_x": 12,
-          "size_y": 5,
-          "sort": [
-            "@timestamp",
-            "desc"
-          ],
-          "type": "search"
-        }
-      ]
-ENDOFFJSON
-  %>",
-    "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
+    [
       {
-        "P-1": {
+        "panelIndex": "1",
+        "panelRefName": "panel_0",
+        "version": "7.3.0",
+        "gridData": {
+          "x": 0,
+          "y": 0,
+          "w": 36,
+          "h": 24,
+          "i": "1"
+        },
+        "embeddableConfig": {
           "vis": {
             "legendOpen": true
           }
+        }
+      },
+      {
+        "panelIndex": "2",
+        "panelRefName": "panel_1",
+        "version": "7.3.0",
+        "gridData": {
+          "x": 36,
+          "y": 0,
+          "w": 12,
+          "h": 24,
+          "i": "2"
         },
-        "P-2": {
+        "embeddableConfig": {
           "spy": {
             "mode": {
               "name": null,
@@ -62,7 +43,32 @@ ENDOFFJSON
             }
           }
         }
+      },
+      {
+        "panelIndex": "3",
+        "panelRefName": "panel_2",
+        "version": "7.3.0",
+        "gridData": {
+          "x": 0,
+          "y": 24,
+          "w": 48,
+          "h": 20,
+          "i": "3"
+        },
+        "embeddableConfig": {
+          "columns": [
+            "@level",
+            "@source.job",
+            "@cf.app",
+            "@message"
+          ],
+          "sort": [
+            "@timestamp",
+            "desc"
+          ]
+        }
       }
+      ]
 ENDOFFJSON
   %>",
     "optionsJSON": "{\"darkTheme\":false}",
@@ -85,6 +91,23 @@ ENDOFFJSON
 ENDOFFJSON
   %>"
     }
-  }
+  },
+  "references": [
+    {
+      "id": "App-errors-count-in-timeline-(top-5-apps)",
+      "name": "panel_0",
+      "type": "visualization"
+    },
+    {
+      "id": "App-apps-with-errors",
+      "name": "panel_1",
+      "type": "visualization"
+    },
+    {
+      "id": "app-all-errors",
+      "name": "panel_2",
+      "type": "search"
+    }
+  ]
 }
 <% end %>
