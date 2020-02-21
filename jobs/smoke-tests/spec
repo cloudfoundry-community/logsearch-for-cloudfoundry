@@ -1,6 +1,10 @@
 ---
 name: smoke-tests
 
+description: |
+  This job runs Smoke tests by pushing an application into Cloud Foundry.
+  Then these logs must be retrieved from ElasticSearch cluster
+
 packages:
   - cf-cli-6-linux
   - golang-1.13-linux

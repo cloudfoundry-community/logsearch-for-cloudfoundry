@@ -1,6 +1,8 @@
 ---
 name: cf-kibana
 
+description: This job pushes Kibana UI as a Cloud Foundry application
+
 packages:
   - cf-cli-6-linux
   - cf-kibana

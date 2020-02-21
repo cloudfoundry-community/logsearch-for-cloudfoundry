@@ -1,6 +1,8 @@
 ---
 name: ingestor_cloudfoundry-firehose
 
+description: This job ingests log messages from Cloud Foundry via Firehose interface
+
 packages:
   - firehose-to-syslog
 

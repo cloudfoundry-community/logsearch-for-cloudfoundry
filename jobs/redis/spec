@@ -1,6 +1,8 @@
 ---
 name: redis
 
+description: This job runs Redis instance to keep Kibana user sessions
+
 packages:
   - redis
 

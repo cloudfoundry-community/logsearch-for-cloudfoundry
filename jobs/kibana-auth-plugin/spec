@@ -1,6 +1,8 @@
 ---
 name: kibana-auth-plugin
 
+description: This job runs authentication plugin for Kibana UI via Cloud Foundry API
+
 templates:
   config/config.sh.erb: config/config.sh
 
