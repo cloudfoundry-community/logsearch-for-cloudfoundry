@@ -26,11 +26,6 @@ templates:
   kibana-objects/index-pattern/logs.json.erb:           kibana-objects/index-pattern/logs-*.json
   kibana-objects/index-pattern/logs-platform.json.erb:  kibana-objects/index-pattern/logs-platform*.json
 
-  kibana-objects/config/4.4.0.json.erb:  kibana-objects/config/4.4.0.json
-  kibana-objects/config/4.4.2.json.erb:  kibana-objects/config/4.4.2.json
-  kibana-objects/config/4.5.4.json.erb:  kibana-objects/config/4.5.4.json
-  kibana-objects/config/6.3.2.json.erb:  kibana-objects/config/6.3.2.json
-
   kibana-objects/search/app-all.json.erb:                         kibana-objects/search/app-all.json
   kibana-objects/search/app-all-messages.json.erb:                kibana-objects/search/app-all-messages.json
   kibana-objects/search/app-all-errors.json.erb:                  kibana-objects/search/app-all-errors.json
@@ -104,7 +99,6 @@ properties:
     description: "List of glob patterns of Kibana objects to upload"
     default:
     - {type: index-pattern, pattern: /var/vcap/jobs/upload-kibana-objects/kibana-objects/index-pattern/*.json}
-    - {type: config, pattern: /var/vcap/jobs/upload-kibana-objects/kibana-objects/config/*.json}
     - {type: search, pattern: /var/vcap/jobs/upload-kibana-objects/kibana-objects/search/*.json}
     - {type: visualization, pattern: /var/vcap/jobs/upload-kibana-objects/kibana-objects/visualization/*.json}
     - {type: dashboard, pattern: /var/vcap/jobs/upload-kibana-objects/kibana-objects/dashboard/*.json}

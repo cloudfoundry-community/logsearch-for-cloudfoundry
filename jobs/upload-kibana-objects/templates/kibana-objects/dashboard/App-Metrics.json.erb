@@ -8,77 +8,83 @@
     "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
       [
         {
-          "col": 1,
-          "id": "App-METRIC-memory-usage",
-          "row": 1,
-          "size_x": 9,
-          "size_y": 5,
-          "type": "visualization"
+          "panelRefName": "panel_0",
+          "version": "7.3.0",
+          "panelIndex": "fbf2609d-069d-4a94-bece-9616c4bf9f63",
+          "gridData": {
+            "x": 0,
+            "y": 0,
+            "w": 36,
+            "h": 20,
+            "i": "fbf2609d-069d-4a94-bece-9616c4bf9f63"
+          },
+          "embeddableConfig": {}
         },
         {
-          "col": 10,
-          "id": "App-names",
-          "row": 1,
-          "size_x": 3,
-          "size_y": 5,
-          "type": "visualization"
+          "panelRefName": "panel_1",
+          "version": "7.3.0",
+          "panelIndex": "cf447345-10f2-4fc1-8eff-85914480904e",
+          "gridData": {
+            "x": 36,
+            "y": 0,
+            "w": 12,
+            "h": 20,
+            "i": "cf447345-10f2-4fc1-8eff-85914480904e"
+          },
+          "embeddableConfig": {}
         },
         {
-          "id": "App-METRIC-CPU-usage",
-          "type": "visualization",
-          "size_x": 6,
-          "size_y": 4,
-          "col": 1,
-          "row": 6
+          "panelRefName": "panel_2",
+          "version": "7.3.0",
+          "panelIndex": "62dd09bb-8dc7-468b-867b-15e4a8b0ac31",
+          "gridData": {
+            "x": 0,
+            "y": 20,
+            "w": 24,
+            "h": 16,
+            "i": "62dd09bb-8dc7-468b-867b-15e4a8b0ac31"
+          },
+          "embeddableConfig": {}
         },
         {
-          "id": "App-METRIC-disk-usage",
-          "type": "visualization",
-          "size_x": 6,
-          "size_y": 4,
-          "col": 7,
-          "row": 6
+          "panelRefName": "panel_3",
+          "version": "7.3.0",
+          "panelIndex": "4b6427d3-71b4-4799-96b9-13beedc241f5",
+          "gridData": {
+            "x": 24,
+            "y": 20,
+            "w": 24,
+            "h": 16,
+            "i": "4b6427d3-71b4-4799-96b9-13beedc241f5"
+          },
+          "embeddableConfig": {}
         },
         {
-          "id": "app-container-metric",
-          "type": "search",
-          "size_x": 12,
-          "size_y": 5,
-          "col": 1,
-          "row": 10,
-          "columns": [
-            "@cf.app",
-            "@cf.app_instance",
-            "containermetric.cpu_percentage",
-            "containermetric.disk_bytes",
-            "containermetric.memory_bytes"
-          ],
-          "sort": [
-            "@timestamp",
-            "desc"
-          ]
+          "panelRefName": "panel_4",
+          "version": "7.3.0",
+          "panelIndex": "80314e94-e0fa-4607-a89f-8a320a14b59a",
+          "gridData": {
+            "x": 0,
+            "y": 36,
+            "w": 48,
+            "h": 20,
+            "i": "80314e94-e0fa-4607-a89f-8a320a14b59a"
+          },
+          "embeddableConfig": {
+            "columns": [
+              "@cf.app",
+              "@cf.app_instance",
+              "containermetric.cpu_percentage",
+              "containermetric.disk_bytes",
+              "containermetric.memory_bytes"
+            ],
+            "sort": [
+              "@timestamp",
+              "desc"
+            ]
+          }
         }
       ]
-ENDOFFJSON
-  %>",
-    "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-      {
-        "P-1": {
-          "vis": {
-            "legendOpen": true
-          }
-        },
-        "P-3": {
-          "vis": {
-            "legendOpen": true
-          }
-        },
-        "P-4": {
-          "vis": {
-            "legendOpen": true
-          }
-        }
-      }
 ENDOFFJSON
   %>",
     "optionsJSON": "{\"darkTheme\":false}",
@@ -101,6 +107,33 @@ ENDOFFJSON
 ENDOFFJSON
   %>"
     }
-  }
+  },
+  "references": [
+    {
+      "id": "App-METRIC-memory-usage",
+      "name": "panel_0",
+      "type": "visualization"
+    },
+    {
+      "id": "App-names",
+      "name": "panel_1",
+      "type": "visualization"
+    },
+    {
+      "id": "App-METRIC-CPU-usage",
+      "name": "panel_2",
+      "type": "visualization"
+    },
+    {
+      "id": "App-METRIC-disk-usage",
+      "name": "panel_3",
+      "type": "visualization"
+    },
+    {
+      "id": "app-container-metric",
+      "name": "panel_4",
+      "type": "search"
+    }
+  ]
 }
 <% end %>
