@@ -25,7 +25,7 @@ server.host: "0.0.0.0"
     elasticsearch_port = p("cf-kibana.elasticsearch.port")
   end
 %>
-elasticsearch.url: "http://<%= elasticsearch_host + ':' + elasticsearch_port.to_s %>"
+elasticsearch.hosts: "http://<%= elasticsearch_host + ':' + elasticsearch_port.to_s %>"
 
 # When this setting’s value is true Kibana uses the hostname specified in the server.host
 # setting. When the value of this setting is false, Kibana uses the hostname of the host

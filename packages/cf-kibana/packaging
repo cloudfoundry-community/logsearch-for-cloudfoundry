@@ -3,4 +3,4 @@ set -e
 tar xzf cf-kibana/kibana-7.6.0-linux-x86_64.tar.gz --strip 1 -C ${BOSH_INSTALL_TARGET}
 
 cd ${BOSH_INSTALL_TARGET}
-bin/kibana-plugin install file:///var/vcap/packages/kibana-auth-plugin/kibana-auth-plugin.zip
+bin/kibana-plugin install file:///var/vcap/packages/kibana-auth-plugin/kibana-auth-plugin.zip --allow-root

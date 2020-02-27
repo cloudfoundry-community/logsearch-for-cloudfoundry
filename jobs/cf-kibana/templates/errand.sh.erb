@@ -33,9 +33,9 @@ cp /var/vcap/jobs/cf-kibana/config/kibana.yml $WORKDIR/kibana/config/kibana.yml
   <% if path.start_with? '/var/vcap' %>
     $WORKDIR/kibana/bin/kibana-plugin install "file://<%= path %>"
   <% elsif path.start_with? 'http' %>
-    $WORKDIR/kibana/bin/kibana-plugin install "<%= path %>"
+    $WORKDIR/kibana/bin/kibana-plugin install "<%= path %>" --allow-root
   <% else %>
-    $WORKDIR/kibana/bin/kibana-plugin install "<%= path %>"
+    $WORKDIR/kibana/bin/kibana-plugin install "<%= path %>" --allow-root
   <% end %>
 <% end %>
 
