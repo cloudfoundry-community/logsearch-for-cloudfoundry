@@ -24,8 +24,8 @@ if __name__ == "__main__":
     session = requests.Session()
 
     logs = session.get('https://<%= logs_hostname %>.<%= system_domain %>'<% if p("cloudfoundry.skip_ssl_validation") %>, verify=False<% end %>)
-    assert logs.url == 'https://login.<%= system_domain %>/login'
-    assert logs.status_code == 200
+    assert logs.url == 'https://login.<%= system_domain %>/login', logs.url
+    assert logs.status_code == 200, logs.status_code
 
     login = session.post(
         'https://login.<%= system_domain %>/login.do',
@@ -35,8 +35,8 @@ if __name__ == "__main__":
             'X-Uaa-Csrf': logs.cookies['X-Uaa-Csrf'],
         },
     )
-    assert login.url == 'https://<%= logs_hostname %>.<%= system_domain %>/app/kibana'
-    assert login.status_code == 200
+    assert login.url == 'https://<%= logs_hostname %>.<%= system_domain %>/app/kibana', login.url
+    assert login.status_code == 200, login.status_code
 
     for filename in glob.iglob('/var/vcap/jobs/upload-kibana-objects/kibana-objects/**/*.json', recursive=True):
         headers = {'content-type': 'application/json', 'kbn-xsrf': 'true'}
@@ -69,4 +69,3 @@ if __name__ == "__main__":
         logging.info('Successfully Set <%= p('kibana_objects.default_index') %> as Default Index')
     else:
         logging.info('Failed to Set <%= p('kibana_objects.default_index') %> as Default Index')
-
