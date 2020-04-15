@@ -72,7 +72,6 @@ module.exports = (server, config, cache) => {
         payload: {
           parse: false
         },
-        validate: { payload: null },
         handler: async (request, h) => {
           const options = {
             method: 'POST',
@@ -129,7 +128,6 @@ module.exports = (server, config, cache) => {
         payload: {
           parse: false
         },
-        validate: { payload: null },
         handler: async (request, h) => {
           const options = {
             method: 'POST',
