@@ -2,7 +2,6 @@
 
 set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
-set -x
 <%
   system_domain = nil
   if_p('create-uaa-client.cloudfoundry.system_domain') do |prop|
@@ -55,4 +54,3 @@ echo "Creating new OAuth2 client: <%= p('create-uaa-client.oauth2_client_id') %>
   "redirect_uri": ["https://<%= p('create-uaa-client.kibana_host') %>.<%= system_domain %>/login","http://<%= p('create-uaa-client.kibana_host') %>.<%= system_domain %>/login"]
 }' \
 -X POST https://uaa.<%= system_domain %>/oauth/clients
-
