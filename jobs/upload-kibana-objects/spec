@@ -9,9 +9,7 @@ packages:
 - ruby-2.4-r5
 
 consumes:
-- name: elasticsearch
-  type: elasticsearch
-  optional: true
+
 - name: cloud_controller
   type: cloud_controller
   optional: true
@@ -108,11 +106,6 @@ properties:
   kibana_objects.default_index:
     description: "Default index to set in Kibana"
     default: "logs-app*"
-
-  elasticsearch.host:
-    description: Elasticsearch host
-  elasticsearch.port:
-    description: Elasticsearch port
 
   cloudfoundry.firehose_events:
     description: "Array of events you would like to get. Valid options are CounterEvent,Error,HttpStartStop,LogMessage,ValueMetric,ContainerMetric"
