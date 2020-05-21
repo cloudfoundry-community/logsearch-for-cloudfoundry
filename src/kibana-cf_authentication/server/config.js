@@ -79,10 +79,13 @@ module.exports = async (Joi) => {
 
     return result
   } catch (error) {
-    console.error(`config.ERROR fetching CF info from "${cfInfoUri}`, error)
+    let message = `config.ERROR fetching CF info from "${cfInfoUri}". `;
 
-    return Joi.object({
-      enabled: Joi.boolean().default(true)
-    }).default()
+    message +=
+      error.message === "self signed certificate"
+        ? "Self signed certificate detected. Please set kibana-auth.cloudfoundry.skip_ssl_validation=true in kibana-auth-plugin.yml if this is desired behavior"
+        : error.message;
+
+    throw new Error(message);
   }
 }
