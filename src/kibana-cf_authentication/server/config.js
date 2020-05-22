@@ -21,10 +21,11 @@ module.exports = async (Joi) => {
 
   const cfSystemOrg = (process.env.CF_SYSTEM_ORG) ? process.env.CF_SYSTEM_ORG : 'system'
 
-  // TODO remove default value for CF_API_URI
-  const cloudFoundryApiUri = (process.env.CF_API_URI)
-    ? process.env.CF_API_URI.replace(/\/$/, '')
-    : 'https://api.cf03.mydeploy.xyz'
+  if (!process.env.CF_API_URI) {
+    throw new Error(`config.ERROR system_domain is missing in kibana-auth-plugin.yml`);
+  }
+
+  const cloudFoundryApiUri = process.env.CF_API_URI.replace(/\/$/, "");
 
   const logoutRedirectUri = (process.env.KIBANA_DOMAIN)
     ? ((useHttps)
