@@ -39,6 +39,7 @@ properties:
     description: Configurable Password for the test user
   smoke_tests.elasticsearch_master.host:
     description: IP of the elasticsearch master node
+    default: 127.0.0.1
   smoke_tests.elasticsearch_master.port:
     description: Port of the elasticsearch master node
     default: 9200
