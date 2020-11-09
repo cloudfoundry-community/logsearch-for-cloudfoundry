@@ -29,17 +29,17 @@ cp -R /var/vcap/packages/cf-kibana/. $WORKDIR/kibana
 cp /var/vcap/jobs/cf-kibana/config/manifest.yml $WORKDIR/kibana/manifest.yml
 cp /var/vcap/jobs/cf-kibana/config/kibana.yml $WORKDIR/kibana/config/kibana.yml
 
+cd $WORKDIR/kibana
+
 <% p("cf-kibana.plugins").each do |plugin| name, path = plugin.first %>
   <% if path.start_with? '/var/vcap' %>
-    $WORKDIR/kibana/bin/kibana-plugin install "file://<%= path %>"
+    ./bin/kibana-plugin install "file://<%= path %>"
   <% elsif path.start_with? 'http' %>
-    $WORKDIR/kibana/bin/kibana-plugin install "<%= path %>" --allow-root
+    ./bin/kibana-plugin install "<%= path %>" --allow-root
   <% else %>
-    $WORKDIR/kibana/bin/kibana-plugin install "<%= path %>" --allow-root
+    ./bin/kibana-plugin install "<%= path %>" --allow-root
   <% end %>
 <% end %>
-
-cd $WORKDIR/kibana
 
 cf --version
 <% if p("cloudfoundry.skip_ssl_validation") %>
