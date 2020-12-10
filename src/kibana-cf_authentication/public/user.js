@@ -3,7 +3,6 @@ import _ from "lodash";
 
 import notify from 'ui/notify';
 import uiModules from 'ui/modules';
-import 'ui/autoload/styles';
 
 import "plugins/authentication/user.less";
 import chrome from "ui/chrome";
