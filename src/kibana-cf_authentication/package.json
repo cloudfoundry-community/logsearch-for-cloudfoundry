@@ -1,6 +1,6 @@
 {
   "name": "authentication",
-  "version": "6.8.1",
+  "version": "7.9.3",
   "description": "Integrations Kibana into CF's OAuth 2 authentication mechanism + User page in Kibana",
   "repository": {
     "type": "git",
