@@ -1,73 +1,9 @@
-<%
-# ## README:
-#
-# This file contains mappings applied to all logs indicies (both 'app*' and 'platform*').
-#
-# By default all string fields are set as `keyword` (not analyzed values). Field `@message` is set as a full-text-search field.
-#
-
-require 'json'
-
-
-keyword_default = { "type": "keyword", "index": true }.to_json
-
-full_text_with_raw_copy = {
-  "type": "text",
-  "index": true,
-  "norms": { "enabled": false },
-  "fields": {
-    "raw": {
-      "type": "keyword",
-      "index": true,
-      "ignore_above": 256
-    }
-  }
-}.to_json
-
-
-%>
 {
-  "template" : "<%= p('elasticsearch_config.index_prefix') %>*",
-  "settings": <%= p('elasticsearch_config.index_settings', {}).to_json %>,
-  "order": 202,
-  "mappings" : {
-    "doc" : {
-      "properties" : {
-
-         <%# ------  common fields %>
-
-         "tags":        <%= keyword_default %>,
-         "@input":      <%= keyword_default %>,
-         "@index_type": <%= keyword_default %>,
-         "@type":       <%= keyword_default %>,
-         "@timestamp":  { "type": "date" },
-         "@message":    <%= full_text_with_raw_copy %>,
-         "@level":      <%= keyword_default %>,
-
-         "@shipper": {
-           "type": "object",
-           "dynamic": true,
-           "properties": {
-             "name":     <%= keyword_default %>,
-             "priority": { "type": "long" }
-           }
-         },
-
-         "@source": {
-           "type": "object",
-           "dynamic": true,
-           "properties": {
-             "deployment": <%= keyword_default %>,
-             "host":       <%= keyword_default %>,
-             "job":        <%= keyword_default %>,
-             "job_index":  <%= keyword_default %>,
-             "index":      { "type": "long" },
-             "component":  <%= keyword_default %>,
-             "type":       <%= keyword_default %>,
-             "vm":         <%= keyword_default %>
-           }
-         }
-      }
-    }
-  }
+    "index_patterns": ["<%= p('elasticsearch_config.index_prefix') %>*"],
+    "composed_of": [
+        "<%= p('elasticsearch_config.index_mappings_component_name %>",
+        "<%= p('elasticsearch_config.index_settings_component_name %>",
+        "<%= p('elasticsearch_config.shards_and_replicas_component_name %>",
+        "<%= p('elasticsearch_config.base_index_component_name') %>"],
+    "priority": 202
 }

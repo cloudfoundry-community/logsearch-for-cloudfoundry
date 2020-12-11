@@ -6,9 +6,12 @@ description: |
   These mappings are add-ons to mappings defined in Logsearch release.
 
 templates:
-  index-mappings.json.erb:             index-mappings.json
-  index-mappings-app.json.erb:         index-mappings-app.json
-  index-mappings-platform.json.erb:    index-mappings-platform.json
+  component-index-mappings.json.erb:             component-index-mappings.json
+  component-index-mappings-app.json.erb:         component-index-mappings-app.json
+  component-index-mappings-platform.json.erb:    component-index-mappings-platform.json
+  index-mappings.json.erb:                       index-mappings.json
+  index-mappings-app.json.erb:                   index-mappings-app.json
+  index-mappings-platform.json.erb:              index-mappings-platform.json
 
 properties:
   elasticsearch_config.index_prefix:
@@ -23,6 +26,13 @@ properties:
     description: |
       Name prefix of your `platform` log indices. If you don't split `app` and `platform` indices, then just set it with the value of `elasticsearch_config.index_prefix`.
     default: "logs-platform"
+  elasticsearch_config.base_index_component_name:
+    description: Name component-index-mappings.json is uploaded as.
+  elasticsearch_config.app_index_component_name:
+    description: Name component-index-mappings-app.json is uploaded as.
+  elasticsearch_config.base_index_component_name:
+    description: Name component-index-mappings-platform.json is uploaded as.
+  
 
   elasticsearch_config.index_settings:
     description: Index settings for logs
