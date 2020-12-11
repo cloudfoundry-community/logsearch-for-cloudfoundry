@@ -176,6 +176,63 @@ module.exports = (server, config, cache) => {
           }
         }
       }
+    },
+    {
+      method: 'POST',
+      path: '/_filtered_internal_search',
+      config: {
+        payload: {
+          parse: false
+        },
+        validate: { payload: null },
+        handler: async (request, h) => {
+          const options = {
+            method: 'POST',
+            url: "/internal/search/es",
+            artifacts: true
+          }
+
+          let cached
+          try {
+            cached = await cache.get(request.auth.credentials.session_id)
+
+            if (cached
+              && cached.account
+              && cached.account.orgs
+              && cached.account.orgs.indexOf(config.get('authentication.cf_system_org')) === -1
+              && !(config.get('authentication.skip_authorization'))) {
+              let payload = JSON.parse(request.payload.toString() || '{}')
+              payload = filterInternalQuery(payload, cached)
+
+              options.payload = new Buffer(JSON.stringify(payload))
+            } else {
+              options.payload = request.payload
+            }
+          } catch (error) {
+            server.log(['error', 'authentication', 'session:get:_filtered_internal_search'], JSON.stringify(error))
+          } finally {
+            options.headers = request.headers
+
+            delete options.headers.host
+            delete options.headers['user-agent']
+            delete options.headers['accept-encoding']
+
+            options.headers['content-length'] = (options.payload && options.payload.length)
+              ? options.payload.length
+              : 0
+
+            const resp = await server.inject(options)
+
+            const response = h.response()
+
+            response.code(resp.statusCode)
+            response.type(resp.headers['content-type'])
+            response.passThrough(true)
+
+            return resp.result || resp.payload
+          }
+        }
+      }
     }
   ]
 }

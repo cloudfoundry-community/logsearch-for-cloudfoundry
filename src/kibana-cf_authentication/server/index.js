@@ -162,6 +162,8 @@ module.exports = (kibana) => {
         server.ext('onRequest', (request, reply) => {
           if (/elasticsearch\/_msearch/.test(request.path) && !request.auth.artifacts) {
             request.setUrl('/_filtered_msearch')
+          } else if (/internal\/search\/es/.test(request.path) && !request.auth.artifacts) {
+            request.setUrl('/_filtered_internal_search')
           } else {
             const match = /elasticsearch\/([^\/]+)\/_search/.exec(request.path)
 
