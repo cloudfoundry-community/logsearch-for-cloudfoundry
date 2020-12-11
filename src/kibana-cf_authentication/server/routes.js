@@ -1,4 +1,4 @@
-const { filterQuery } = require('./helpers')
+const { filterQuery, filterInternalQuery } = require('./helpers')
 
 module.exports = (server, config, cache) => {
   return [
