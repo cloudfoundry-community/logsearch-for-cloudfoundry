@@ -30,8 +30,14 @@ properties:
     description: Name component-index-mappings.json is uploaded as.
   elasticsearch_config.app_index_component_name:
     description: Name component-index-mappings-app.json is uploaded as.
-  elasticsearch_config.base_index_component_name:
+  elasticsearch_config.platform_index_component_name:
     description: Name component-index-mappings-platform.json is uploaded as.
+  elasticsearch_config.index_mappings_component_name:
+    description: Name index-mappings component from logsearch-boshrelease is uploaded as
+  elasticsearch_config.index_settings_component_name:
+    description: Name index-settings component from logsearch-boshrelease is uploaded as
+  elasticsearch_config.shards_and_replicas_component_name:
+    description: Name shards-and-replicas component from logsearch-boshrelease is uploaded as
   
 
   elasticsearch_config.index_settings:
