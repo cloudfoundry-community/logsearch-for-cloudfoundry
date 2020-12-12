@@ -1,9 +1,9 @@
 {
     "index_patterns": ["<%= p('elasticsearch_config.index_prefix') %>*"],
     "composed_of": [
-        "<%= p('elasticsearch_config.index_mappings_component_name %>",
-        "<%= p('elasticsearch_config.index_settings_component_name %>",
-        "<%= p('elasticsearch_config.shards_and_replicas_component_name %>",
+        "<%= p('elasticsearch_config.index_mappings_component_name') %>",
+        "<%= p('elasticsearch_config.index_settings_component_name') %>",
+        "<%= p('elasticsearch_config.shards_and_replicas_component_name') %>",
         "<%= p('elasticsearch_config.base_index_component_name') %>"],
     "priority": 199
 }
