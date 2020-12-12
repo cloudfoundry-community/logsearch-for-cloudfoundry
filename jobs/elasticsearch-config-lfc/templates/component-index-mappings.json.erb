@@ -28,7 +28,7 @@ full_text_with_raw_copy = {
 %>
 {
   "template": {
-    settings": <%= p('elasticsearch_config.index_settings', {}).to_json %>,
+    "settings": <%= p('elasticsearch_config.index_settings', {}).to_json %>,
     "mappings" : {
       "properties" : {
         <%# ------  common fields %>
