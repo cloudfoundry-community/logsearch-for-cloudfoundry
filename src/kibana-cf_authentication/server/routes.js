@@ -261,7 +261,7 @@ module.exports = (server, config, cache) => {
               && cached.account.orgs.indexOf(config.get('authentication.cf_system_org')) === -1
               && !(config.get('authentication.skip_authorization'))) {
               let payload = JSON.parse(request.payload.toString() || '{}')
-              payload = filterQuery(payload, cached)
+              payload = filterSuggestionQuery(payload, cached)
 
               options.payload = new Buffer(JSON.stringify(payload))
             } else {
