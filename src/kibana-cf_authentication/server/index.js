@@ -158,12 +158,15 @@ module.exports = (kibana) => {
         // add routes to server
         server.route(initRoutes(server, config, cache))
 
-        // Redirect _msearch and _search through our own route so we can modify the payload
+        // Redirect _msearch and _search through our own routes so that we can modify the payload
+        // This also includes the auto-suggestions for filters.
         server.ext('onRequest', (request, reply) => {
           if (/elasticsearch\/_msearch/.test(request.path) && !request.auth.artifacts) {
             request.setUrl('/_filtered_msearch')
           } else if (/internal\/search\/es/.test(request.path) && !request.auth.artifacts) {
             request.setUrl('/_filtered_internal_search')
+          } else if (/api\/kibana\/suggestions\/values/.test(request.path) && !request.auth.artifacts) {
+            request.setUrl('_filtered_suggestions')
           } else {
             const match = /elasticsearch\/([^\/]+)\/_search/.exec(request.path)
 
