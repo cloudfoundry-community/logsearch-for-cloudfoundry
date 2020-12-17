@@ -249,36 +249,36 @@ module.exports = (server, config, cache) => {
             //url: '/api/kibana/suggestions/values/' + request.params.index,
             url: '/api/kibana/suggestions/values/logs-app*',
             artifacts: true
-          }
-
+          };
           let cached
           try {
             cached = await cache.get(request.auth.credentials.session_id)
 
-            if (cached
-              && cached.account
-              && cached.account.orgs
-              && cached.account.orgs.indexOf(config.get('authentication.cf_system_org')) === -1
-              && !(config.get('authentication.skip_authorization'))) {
-              let payload = JSON.parse(request.payload.toString() || '{}')
-              payload = filterSuggestionQuery(payload, cached)
+            if (cached.account.orgs.indexOf(config.get('authentication.cf_system_org')) === -1 && !(config.get('authentication.skip_authorization'))) {
+              const modifiedPayload = [];
+              const lines = request.payload.toString().split('\n')
+              const numLines = lines.length;
+              for (var i = 0; i < numLines - 1; i += 2) {
+                const indexes = lines[i]
+                let query = JSON.parse(lines[i + 1])
 
-              options.payload = new Buffer(JSON.stringify(payload))
+                query = filterSuggestionQuery(query, cached)
+                modifiedPayload.push(indexes)
+                modifiedPayload.push(JSON.stringify(query))
+              }
+              options.payload = new Buffer(modifiedPayload.join('\n') + '\n')
             } else {
               options.payload = request.payload
             }
           } catch (error) {
-            server.log(['error', 'authentication', 'session:get:_filtered_internal_search'], JSON.stringify(error))
+            server.log(['error', 'authentication', 'session:get:_filtered_suggestions'], JSON.stringify(error))
           } finally {
             options.headers = request.headers
 
             delete options.headers.host
             delete options.headers['user-agent']
             delete options.headers['accept-encoding']
-
-            options.headers['content-length'] = (options.payload && options.payload.length)
-              ? options.payload.length
-              : 0
+            options.headers['content-length'] = options.payload.length
 
             const resp = await server.inject(options)
 
