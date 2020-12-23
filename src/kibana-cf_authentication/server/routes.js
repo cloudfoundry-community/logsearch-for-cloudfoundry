@@ -284,6 +284,13 @@ module.exports = (server, config, cache) => {
 
             const response = h.response()
 
+            if (resp.statusCode > 399) {
+              response.code(200)
+              response.type("application/json")
+              response.passThrough(true)
+              return []
+            }
+
             response.code(resp.statusCode)
             response.type(resp.headers['content-type'])
             response.passThrough(true)
