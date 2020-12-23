@@ -64,5 +64,6 @@ const filterQuery = (payload, cached) => {
 
 module.exports = {
   filterQuery,
-  filterInternalQuery
+  filterInternalQuery,
+  filterSuggestionQuery
 }
