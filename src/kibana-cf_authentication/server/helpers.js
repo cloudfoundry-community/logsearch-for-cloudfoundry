@@ -18,14 +18,14 @@ const filterSuggestionQuery = (payload, cached) => {
   // query for /api/kibana/suggestions/values/<index name> endpoints after kibana 7.7
   let boolFilter = ensureKeys(payload, ['boolFilter'])
 
-  boolFilter.must = boolFilter.must || []
-  // Note: the `must` clause may be an array or an object
-  if (isObject(boolFilter.must)) {
-    boolFilter.must = [boolFilter.must]
-  }
-  boolFilter.must.push(
-    { 'terms': { '@cf.space_id': cached.account.spaceIds } },
-    { 'terms': { '@cf.org_id': cached.account.orgIds } }
+  boolFilter.push(
+    {'bool':
+      {'must': [
+        { 'terms': { '@cf.space_id': cached.account.spaceIds } },
+        { 'terms': { '@cf.org_id': cached.account.orgIds } }
+        ]
+      }
+    }
   )
   return payload
 }
