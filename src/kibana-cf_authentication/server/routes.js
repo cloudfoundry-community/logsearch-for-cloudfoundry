@@ -287,8 +287,10 @@ module.exports = (server, config, cache) => {
             if (resp.statusCode > 399) {
               response.code(200)
               response.type("application/json")
-              response.passThrough(true)
-              return []
+              return response.ok({
+                body: JSON.stringify([])
+              }
+              )
             }
 
             response.code(resp.statusCode)
