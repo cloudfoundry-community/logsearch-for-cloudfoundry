@@ -255,18 +255,9 @@ module.exports = (server, config, cache) => {
             cached = await cache.get(request.auth.credentials.session_id)
 
             if (cached.account.orgs.indexOf(config.get('authentication.cf_system_org')) === -1 && !(config.get('authentication.skip_authorization'))) {
-              const modifiedPayload = [];
-              const lines = request.payload.toString().split('\n')
-              const numLines = lines.length;
-              for (var i = 0; i < numLines - 1; i += 2) {
-                const indexes = lines[i]
-                let query = JSON.parse(lines[i + 1])
-
-                query = filterSuggestionQuery(query, cached)
-                modifiedPayload.push(indexes)
-                modifiedPayload.push(JSON.stringify(query))
-              }
-              options.payload = new Buffer(modifiedPayload.join('\n') + '\n')
+              let payload = JSON.parse(request.payload.toString() || '{}')
+              payload = filterSuggestionQuery(payload, cached)
+              options.payload = new Buffer(JSON.stringify(payload))
             } else {
               options.payload = request.payload
             }
@@ -285,12 +276,10 @@ module.exports = (server, config, cache) => {
             const response = h.response()
 
             if (resp.statusCode > 399) {
+              server.log(['error', 'authentication', 'session:get:_filtered_suggestions'], resp.result)
               response.code(200)
               response.type("application/json")
-              return response.ok({
-                body: JSON.stringify([])
-              }
-              )
+              return JSON.stringify([])
             }
 
             response.code(resp.statusCode)
