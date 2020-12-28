@@ -236,8 +236,7 @@ module.exports = (server, config, cache) => {
     },
     {
       method: 'POST',
-      //path: '/{index}/_filtered_suggestions',
-      path: '/_filtered_suggestions',
+      path: '/{index}/_filtered_suggestions',
       config: {
         payload: {
           parse: false
@@ -246,8 +245,7 @@ module.exports = (server, config, cache) => {
         handler: async (request, h) => {
           const options = {
             method: 'POST',
-            //url: '/api/kibana/suggestions/values/' + request.params.index,
-            url: '/api/kibana/suggestions/values/logs-app*',
+            url: '/api/kibana/suggestions/values/' + request.params.index,
             artifacts: true
           };
           let cached
