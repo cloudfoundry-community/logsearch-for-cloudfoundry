@@ -27,6 +27,7 @@ const filterSuggestionQuery = (payload, cached) => {
       }
     }
   )
+  payload.boolFilter = boolFilter
   return payload
 }
 
