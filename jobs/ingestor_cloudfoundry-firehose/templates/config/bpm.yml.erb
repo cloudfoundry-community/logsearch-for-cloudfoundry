@@ -1,0 +1,7 @@
+processes:
+  - name: ingestor_cloudfoundry-firehose
+    executable: /var/vcap/jobs/ingestor_cloudfoundry-firehose/bin/ingestor_cloudfoundry.sh
+    ephemeral_disk: true
+    additional_volumes:
+    - path: /var/vcap/sys/tmp/ingestor_cloudfoundry
+      writable: true

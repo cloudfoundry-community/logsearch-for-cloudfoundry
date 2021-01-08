@@ -1,0 +1,8 @@
+processes:
+  - name: redis
+    hooks:
+      pre_start: /var/vcap/jobs/redis/bin/pre_start
+    executable: /var/vcap/jobs/redis/bin/redis.sh
+    ephemeral_disk: true
+    persistent_disk: true
+    

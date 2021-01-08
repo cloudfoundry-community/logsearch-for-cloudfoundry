@@ -35,7 +35,7 @@
 ENDOFFJSON
   %>",
     "description": "",
-    "savedSearchId": "app-all-errors",
+    "savedSearchRefName": "search_0",
     "version": 1,
     "kibanaSavedObjectMeta": {
       "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
@@ -45,6 +45,13 @@ ENDOFFJSON
 ENDOFFJSON
   %>"
     }
-  }
+  },
+  "references": [
+    {
+      "id": "app-all-errors",
+      "name": "search_0",
+      "type": "search"
+    }
+  ]
 }
 <% end %>

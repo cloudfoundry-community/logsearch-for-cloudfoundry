@@ -34,6 +34,10 @@ export REDIS_PORT="<%= redis_port %>"
 export KIBANA_DOMAIN="<%= p("kibana-auth.app_name") %>.<%= system_domain %>"
 export SKIP_AUTHORIZATION="<%= p("kibana-auth.skip_authorization") %>"
 
+if [ -f /etc/ssl/certs/ca-certificates.crt ]; then
+  export NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
+fi
+
 <% if_p("kibana-auth.session_key") do |key| %>
 <% raise ArgumentError, "session key must have length >= 32" unless key.size >= 32 %>
 export SESSION_KEY="<%= key %>"

@@ -7,62 +7,70 @@
     "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
       [
         {
-          "col": 1,
-          "id": "Platform-logs-count-(top-10-components)",
-          "panelIndex": 1,
-          "row": 1,
-          "size_x": 4,
-          "size_y": 5,
-          "type": "visualization"
+          "panelIndex": "1",
+          "panelRefName": "panel_0",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 0,
+            "y": 0,
+            "w": 16,
+            "h": 20,
+            "i": "1"
+          },
+          "embeddableConfig": {
+            "vis": {
+              "legendOpen": true
+            }
+          }
         },
         {
-          "id": "Platform-components",
-          "type": "visualization",
-          "panelIndex": 2,
-          "size_x": 4,
-          "size_y": 5,
-          "col": 5,
-          "row": 1
+          "panelIndex": "2",
+          "panelRefName": "panel_1",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 16,
+            "y": 0,
+            "w": 16,
+            "h": 20,
+            "i": "2"
+          },
+          "embeddableConfig": {}
         },
         {
-          "id": "Platform-logs-count-by-level",
-          "type": "visualization",
-          "panelIndex": 3,
-          "size_x": 4,
-          "size_y": 5,
-          "col": 9,
-          "row": 1
+          "panelIndex": "3",
+          "panelRefName": "panel_2",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 32,
+            "y": 0,
+            "w": 16,
+            "h": 20,
+            "i": "3"
+          },
+          "embeddableConfig": {
+            "vis": {
+              "legendOpen": false
+            }
+          }
         },
         {
-          "col": 1,
-          "id": "Platform-logs-count-in-timeline",
-          "panelIndex": 4,
-          "row": 6,
-          "size_x": 12,
-          "size_y": 4,
-          "type": "visualization"
+          "panelIndex": "4",
+          "panelRefName": "panel_3",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 0,
+            "y": 20,
+            "w": 48,
+            "h": 16,
+            "i": "4"
+          },
+          "embeddableConfig": {
+            "vis": {
+              "legendOpen": true
+            }
+          }
         }
       ]
-ENDOFFJSON
-  %>",
-    "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-      {
-        "P-1": {
-          "vis": {
-            "legendOpen": true
-          }
-        },
-        "P-3": {
-          "vis": {
-            "legendOpen": false
-          }
-        },
-        "P-4": {
-          "vis": {
-            "legendOpen": true
-          }
-        }
-      }
 ENDOFFJSON
   %>",
     "optionsJSON": "{\"darkTheme\":false}",
@@ -85,5 +93,27 @@ ENDOFFJSON
 ENDOFFJSON
   %>"
     }
-  }
+  },
+  "references": [
+    {
+      "id": "Platform-logs-count-(top-10-components)",
+      "name": "panel_0",
+      "type": "visualization"
+    },
+    {
+      "id": "Platform-components",
+      "name": "panel_1",
+      "type": "visualization"
+    },
+    {
+      "id": "Platform-logs-count-by-level",
+      "name": "panel_2",
+      "type": "visualization"
+    },
+    {
+      "id": "Platform-logs-count-in-timeline",
+      "name": "panel_3",
+      "type": "visualization"
+    }
+  ]
 }

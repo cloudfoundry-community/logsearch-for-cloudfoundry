@@ -1,15 +1,15 @@
 ---
 name: upload-kibana-objects
 
-description: This job uploads Kibana saved objects (index-patterns, searches, visualizations and dashboards). Allows to upload defaults predefined in the job and custom data files.
+description: |
+  This job uploads Kibana saved objects (index-patterns, searches, visualizations and dashboards).
+  Allows to upload defaults predefined in the job and custom data files.
 
 packages:
 - ruby-2.4-r5
 
 consumes:
-- name: elasticsearch
-  type: elasticsearch
-  optional: true
+
 - name: cloud_controller
   type: cloud_controller
   optional: true
@@ -23,11 +23,6 @@ templates:
   kibana-objects/index-pattern/logs-app.json.erb:       kibana-objects/index-pattern/logs-app*.json
   kibana-objects/index-pattern/logs.json.erb:           kibana-objects/index-pattern/logs-*.json
   kibana-objects/index-pattern/logs-platform.json.erb:  kibana-objects/index-pattern/logs-platform*.json
-
-  kibana-objects/config/4.4.0.json.erb:  kibana-objects/config/4.4.0.json
-  kibana-objects/config/4.4.2.json.erb:  kibana-objects/config/4.4.2.json
-  kibana-objects/config/4.5.4.json.erb:  kibana-objects/config/4.5.4.json
-  kibana-objects/config/6.3.2.json.erb:  kibana-objects/config/6.3.2.json
 
   kibana-objects/search/app-all.json.erb:                         kibana-objects/search/app-all.json
   kibana-objects/search/app-all-messages.json.erb:                kibana-objects/search/app-all-messages.json
@@ -102,7 +97,6 @@ properties:
     description: "List of glob patterns of Kibana objects to upload"
     default:
     - {type: index-pattern, pattern: /var/vcap/jobs/upload-kibana-objects/kibana-objects/index-pattern/*.json}
-    - {type: config, pattern: /var/vcap/jobs/upload-kibana-objects/kibana-objects/config/*.json}
     - {type: search, pattern: /var/vcap/jobs/upload-kibana-objects/kibana-objects/search/*.json}
     - {type: visualization, pattern: /var/vcap/jobs/upload-kibana-objects/kibana-objects/visualization/*.json}
     - {type: dashboard, pattern: /var/vcap/jobs/upload-kibana-objects/kibana-objects/dashboard/*.json}
@@ -113,16 +107,14 @@ properties:
     description: "Default index to set in Kibana"
     default: "logs-app*"
 
-  elasticsearch.host:
-    description: Elasticsearch host
-  elasticsearch.port:
-    description: Elasticsearch port
-
   cloudfoundry.firehose_events:
     description: "Array of events you would like to get. Valid options are CounterEvent,Error,HttpStartStop,LogMessage,ValueMetric,ContainerMetric"
     default: ["LogMessage"]
   cloudfoundry.system_domain:
     description: The Cloud Foundry System Domain
+  cloudfoundry.logs_hostname:
+    description: logs deployment hostname
+    default: logs
   cloudfoundry.skip_ssl_validation:
     description: "Set to true to skip SSL validation (defaults to false)"
     default: false

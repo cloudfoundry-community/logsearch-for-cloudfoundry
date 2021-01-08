@@ -1,16 +1,16 @@
 ---
 name: redis
 
+description: This job runs Redis instance to keep Kibana user sessions
+
 packages:
   - redis
 
 templates:
-  bin/redis_ctl: bin/redis_ctl
-  bin/monit_debugger: bin/monit_debugger
-  data/properties.sh.erb: data/properties.sh
-  helpers/ctl_setup.sh: helpers/ctl_setup.sh
-  helpers/ctl_utils.sh: helpers/ctl_utils.sh
+  bin/redis: bin/redis.sh
+  bin/pre_start: bin/pre_start
   config/redis.conf.erb: config/redis.conf
+  config/bpm.yml.erb: config/bpm.yml
 
 provides:
 - name: redis
@@ -32,4 +32,3 @@ properties:
   redis.appendonly:
     description: Enable Redis Persistence through AOF file
     default: "yes"
-

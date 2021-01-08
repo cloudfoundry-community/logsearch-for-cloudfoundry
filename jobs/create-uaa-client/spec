@@ -1,6 +1,8 @@
 ---
 name: create-uaa-client
 
+description: This job created UAA client in CF API
+
 packages: []
 
 templates:

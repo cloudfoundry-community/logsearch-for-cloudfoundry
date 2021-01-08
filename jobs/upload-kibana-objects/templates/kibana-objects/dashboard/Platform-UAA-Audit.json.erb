@@ -7,60 +7,73 @@
     "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
       [
         {
-          "id": "Platform-UAA-Audit-event-types",
-          "type": "visualization",
-          "panelIndex": 1,
-          "size_x": 3,
-          "size_y": 4,
-          "col": 1,
-          "row": 1
+          "panelIndex": "1",
+          "panelRefName": "panel_0",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 0,
+            "y": 0,
+            "w": 12,
+            "h": 16,
+            "i": "1"
+          },
+          "embeddableConfig": {}
         },
         {
-          "id": "Platform-UAA-Audit-events-by-type",
-          "type": "visualization",
-          "panelIndex": 2,
-          "size_x": 5,
-          "size_y": 4,
-          "col": 4,
-          "row": 1
+          "panelIndex": "2",
+          "panelRefName": "panel_1",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 12,
+            "y": 0,
+            "w": 20,
+            "h": 16,
+            "i": "2"
+          },
+          "embeddableConfig": {
+            "vis": {
+              "legendOpen": true
+            }
+          }
         },
         {
-          "id": "Platform-UAA-Audit-event-locations",
-          "type": "visualization",
-          "size_x": 4,
-          "size_y": 4,
-          "col": 9,
-          "row": 1
+          "panelRefName": "panel_2",
+          "version": "7.3.0",
+          "panelIndex": "7fa8fcce-9d2f-4138-aeee-eab7b0b32d51",
+          "gridData": {
+            "x": 32,
+            "y": 0,
+            "w": 16,
+            "h": 16,
+            "i": "7fa8fcce-9d2f-4138-aeee-eab7b0b32d51"
+          },
+          "embeddableConfig": {}
         },
         {
-          "id": "platform-uaa-audit",
-          "type": "search",
-          "size_x": 12,
-          "size_y": 5,
-          "col": 1,
-          "row": 5,
-          "columns": [
-            "@source.job",
-            "uaa.audit.type",
-            "uaa.audit.origin",
-            "uaa.audit.data"
-          ],
-          "sort": [
-            "@timestamp",
-            "desc"
-          ]
-        }
-      ]
-ENDOFFJSON
-  %>",
-    "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-      {
-        "P-2": {
-          "vis": {
-            "legendOpen": true
+          "panelRefName": "panel_3",
+          "version": "7.3.0",
+          "panelIndex": "f8909a48-2bb3-41b3-a32a-8fca25f31543",
+          "gridData": {
+            "x": 0,
+            "y": 16,
+            "w": 48,
+            "h": 20,
+            "i": "f8909a48-2bb3-41b3-a32a-8fca25f31543"
+          },
+          "embeddableConfig": {
+            "columns": [
+              "@source.job",
+              "uaa.audit.type",
+              "uaa.audit.origin",
+              "uaa.audit.data"
+            ],
+            "sort": [
+              "@timestamp",
+              "desc"
+            ]
           }
         }
-      }
+      ]
 ENDOFFJSON
   %>",
     "optionsJSON": "{\"darkTheme\":false}",
@@ -83,5 +96,27 @@ ENDOFFJSON
 ENDOFFJSON
   %>"
     }
-  }
+  },
+  "references": [
+    {
+      "id": "Platform-UAA-Audit-event-types",
+      "name": "panel_0",
+      "type": "visualization"
+    },
+    {
+      "id": "Platform-UAA-Audit-events-by-type",
+      "name": "panel_1",
+      "type": "visualization"
+    },
+    {
+      "id": "Platform-UAA-Audit-event-locations",
+      "name": "panel_2",
+      "type": "visualization"
+    },
+    {
+      "id": "platform-uaa-audit",
+      "name": "panel_3",
+      "type": "search"
+    }
+  ]
 }

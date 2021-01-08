@@ -17,7 +17,7 @@
           "drawLinesBetweenPoints": true,
           "radiusRatio": 9,
           "times": [
-  
+
           ],
           "addTimeMarker": false,
           "defaultYExtents": false,
@@ -65,18 +65,25 @@
 ENDOFFJSON
   %>",
     "description": "",
-    "savedSearchId": "app-container-metric",
+    "savedSearchRefName": "search_0",
     "version": 1,
     "kibanaSavedObjectMeta": {
       "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
       {
         "filter": [
-  
+
         ]
       }
 ENDOFFJSON
   %>"
     }
-  }
+  },
+  "references": [
+    {
+      "id": "app-container-metric",
+      "name": "search_0",
+      "type": "search"
+    }
+  ]
 }
 <% end %>
