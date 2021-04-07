@@ -1,7 +1,7 @@
 <% if spec.bootstrap %>
 check process redis
-  with pidfile /var/vcap/sys/run/redis/redis.pid
-  start program "/var/vcap/jobs/redis/bin/monit_debugger queue_ctl '/var/vcap/jobs/redis/bin/redis_ctl start'"
-  stop program "/var/vcap/jobs/redis/bin/monit_debugger queue_ctl '/var/vcap/jobs/redis/bin/redis_ctl stop'"
+  with pidfile /var/vcap/sys/run/bpm/redis/redis.pid
+  start program "/var/vcap/jobs/bpm/bin/bpm start redis"
+  stop program "/var/vcap/jobs/bpm/bin/bpm stop redis"
   group vcap
 <% end %>

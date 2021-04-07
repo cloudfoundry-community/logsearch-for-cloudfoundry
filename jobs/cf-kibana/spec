@@ -1,6 +1,8 @@
 ---
 name: cf-kibana
 
+description: This job pushes Kibana UI as a Cloud Foundry application
+
 packages:
   - cf-cli-6-linux
   - cf-kibana
@@ -31,7 +33,7 @@ properties:
     default: 2048M
   cf-kibana.disk_quota:
     description: "Kibana disk quota"
-    default: 1GB
+    default: 2GB
   cf-kibana.app_instances:
     description: "Count of Kibana instances"
     default: 1
@@ -41,7 +43,7 @@ properties:
     default: false
   cf-kibana.oauth2_client_id:
     description: "The UAA Kibana oauth2 client id"
-    default: kibana_oauth2_client
+    default: cf-kibana_oauth2_client
   cf-kibana.oauth2_client_secret:
     description: "Password to be used for the UAA kibana oauth2 client"
 

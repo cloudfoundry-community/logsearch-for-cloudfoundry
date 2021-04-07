@@ -1,6 +1,8 @@
 ---
 name: parser-config-lfc
 
+description: This job contains Logstash parsing rules for Cloud Foundry logs 
+
 packages:
 - logsearch-config-logstash-filters
 

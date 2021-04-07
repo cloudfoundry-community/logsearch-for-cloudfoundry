@@ -64,18 +64,25 @@ ENDOFFJSON
 ENDOFFJSON
   %>",
     "description": "",
-    "savedSearchId": "app-logs",
+    "savedSearchRefName": "search_0",
     "version": 1,
     "kibanaSavedObjectMeta": {
       "searchSourceJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
       {
         "filter": [
-  
+
         ]
       }
 ENDOFFJSON
   %>"
     }
-  }
+  },
+  "references": [
+    {
+      "id": "app-logs",
+      "name": "search_0",
+      "type": "search"
+    }
+  ]
 }
 <% end %>

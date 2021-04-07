@@ -8,66 +8,77 @@
     "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
       [
         {
-          "col": 1,
-          "id": "App-links",
-          "panelIndex": 1,
-          "row": 1,
-          "size_x": 9,
-          "size_y": 1,
-          "type": "visualization"
+          "panelIndex": "1",
+          "panelRefName": "panel_0",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 0,
+            "y": 0,
+            "w": 36,
+            "h": 4,
+            "i": "1"
+          },
+          "embeddableConfig": {
+            "vis": {
+              "legendOpen": true
+            }
+          }
         },
         {
-          "col": 1,
-          "id": "App-logs-by-source-type-(top-10)",
-          "panelIndex": 2,
-          "row": 2,
-          "size_x": 9,
-          "size_y": 2,
-          "type": "visualization"
+          "panelIndex": "2",
+          "panelRefName": "panel_1",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 0,
+            "y": 4,
+            "w": 36,
+            "h": 8,
+            "i": "2"
+          },
+          "embeddableConfig": {}
         },
         {
-          "col": 10,
-          "id": "App-names",
-          "panelIndex": 3,
-          "row": 1,
-          "size_x": 3,
-          "size_y": 3,
-          "type": "visualization"
+          "panelIndex": "3",
+          "panelRefName": "panel_2",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 36,
+            "y": 0,
+            "w": 12,
+            "h": 12,
+            "i": "3"
+          },
+          "embeddableConfig": {}
         },
         {
-          "col": 1,
-          "columns": [
-            "@cf.org",
-            "@cf.space",
-            "@cf.app",
-            "@source.job",
-            "@source.component",
-            "@source.type",
-            "@level",
-            "@message"
-          ],
-          "id": "app-all-overview",
-          "panelIndex": 4,
-          "row": 4,
-          "size_x": 12,
-          "size_y": 5,
-          "sort": [
-            "@timestamp",
-            "desc"
-          ],
-          "type": "search"
-        }
-      ]
-ENDOFFJSON
-  %>",
-    "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-      {
-        "P-1": {
-          "vis": {
-            "legendOpen": true
+          "panelIndex": "4",
+          "panelRefName": "panel_3",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 0,
+            "y": 12,
+            "w": 48,
+            "h": 20,
+            "i": "4"
+          },
+          "embeddableConfig": {
+            "columns": [
+              "@cf.org",
+              "@cf.space",
+              "@cf.app",
+              "@source.job",
+              "@source.component",
+              "@source.type",
+              "@level",
+              "@message"
+            ],
+            "sort": [
+              "@timestamp",
+              "desc"
+            ]
           }
         }
-      }
+      ]
 ENDOFFJSON
   %>",
     "optionsJSON": "{\"darkTheme\":false}",
@@ -90,6 +101,28 @@ ENDOFFJSON
 ENDOFFJSON
   %>"
     }
-  }
+  },
+  "references": [
+    {
+      "id": "App-links",
+      "name": "panel_0",
+      "type": "visualization"
+    },
+    {
+      "id": "App-logs-by-source-type-(top-10)",
+      "name": "panel_1",
+      "type": "visualization"
+    },
+    {
+      "id": "App-names",
+      "name": "panel_2",
+      "type": "visualization"
+    },
+    {
+      "id": "app-all-overview",
+      "name": "panel_3",
+      "type": "search"
+    }
+  ]
 }
 <% end %>

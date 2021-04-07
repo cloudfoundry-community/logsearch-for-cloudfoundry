@@ -21,10 +21,11 @@ module.exports = async (Joi) => {
 
   const cfSystemOrg = (process.env.CF_SYSTEM_ORG) ? process.env.CF_SYSTEM_ORG : 'system'
 
-  // TODO remove default value for CF_API_URI
-  const cloudFoundryApiUri = (process.env.CF_API_URI)
-    ? process.env.CF_API_URI.replace(/\/$/, '')
-    : 'https://api.cf03.mydeploy.xyz'
+  if (!process.env.CF_API_URI) {
+    throw new Error(`config.ERROR system_domain is missing in kibana-auth-plugin.yml`);
+  }
+
+  const cloudFoundryApiUri = process.env.CF_API_URI.replace(/\/$/, "");
 
   const logoutRedirectUri = (process.env.KIBANA_DOMAIN)
     ? ((useHttps)
@@ -79,10 +80,13 @@ module.exports = async (Joi) => {
 
     return result
   } catch (error) {
-    console.error(`config.ERROR fetching CF info from "${cfInfoUri}`, error)
+    let message = `config.ERROR fetching CF info from "${cfInfoUri}". `;
 
-    return Joi.object({
-      enabled: Joi.boolean().default(true)
-    }).default()
+    message +=
+      error.message === "self signed certificate"
+        ? "Self signed certificate detected. Please set kibana-auth.cloudfoundry.skip_ssl_validation=true in kibana-auth-plugin.yml if this is desired behavior"
+        : error.message;
+
+    throw new Error(message);
   }
 }

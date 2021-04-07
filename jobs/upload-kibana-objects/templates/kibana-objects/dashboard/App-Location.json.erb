@@ -8,39 +8,45 @@
     "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
       [
         {
-          "id": "App-RTR-requests-map",
-          "type": "visualization",
-          "panelIndex": 1,
-          "size_x": 9,
-          "size_y": 8,
-          "col": 1,
-          "row": 1
+          "panelIndex": "1",
+          "panelRefName": "panel_0",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 0,
+            "y": 0,
+            "w": 36,
+            "h": 32,
+            "i": "1"
+          },
+          "embeddableConfig": {}
         },
         {
-          "id": "App-names",
-          "type": "visualization",
-          "panelIndex": 2,
-          "size_x": 3,
-          "size_y": 5,
-          "col": 10,
-          "row": 1
+          "panelIndex": "2",
+          "panelRefName": "panel_1",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 36,
+            "y": 0,
+            "w": 12,
+            "h": 20,
+            "i": "2"
+          },
+          "embeddableConfig": {}
         },
         {
-          "id": "App-RTR-request-count-by-timezone-(top-5)",
-          "type": "visualization",
-          "panelIndex": 3,
-          "size_x": 3,
-          "size_y": 3,
-          "col": 10,
-          "row": 6
+          "panelIndex": "3",
+          "panelRefName": "panel_2",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 36,
+            "y": 20,
+            "w": 12,
+            "h": 12,
+            "i": "3"
+          },
+          "embeddableConfig": {}
         }
       ]
-ENDOFFJSON
-  %>",
-    "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-      {
-
-      }
 ENDOFFJSON
   %>",
     "optionsJSON": "{\"darkTheme\":false}",
@@ -63,6 +69,23 @@ ENDOFFJSON
 ENDOFFJSON
   %>"
     }
-  }
+  },
+  "references": [
+    {
+      "id": "App-RTR-requests-map",
+      "name": "panel_0",
+      "type": "visualization"
+    },
+    {
+      "id": "App-names",
+      "name": "panel_1",
+      "type": "visualization"
+    },
+    {
+      "id": "App-RTR-request-count-by-timezone-(top-5)",
+      "name": "panel_2",
+      "type": "visualization"
+    }
+  ]
 }
 <% end %>

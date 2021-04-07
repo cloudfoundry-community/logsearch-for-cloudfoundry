@@ -8,68 +8,83 @@
     "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
       [
         {
-          "col": 1,
-          "id": "App-RTR-request-count-(top-10-apps)",
-          "panelIndex": 2,
-          "row": 1,
-          "size_x": 3,
-          "size_y": 4,
-          "type": "visualization"
+          "panelIndex": "2",
+          "panelRefName": "panel_0",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 0,
+            "y": 0,
+            "w": 12,
+            "h": 16,
+            "i": "2"
+          },
+          "embeddableConfig": {}
         },
         {
-          "col": 4,
-          "id": "App-RTR-traffic-by-response_time_ms-(first-10-apps)",
-          "panelIndex": 3,
-          "row": 1,
-          "size_x": 9,
-          "size_y": 4,
-          "type": "visualization"
+          "panelIndex": "3",
+          "panelRefName": "panel_1",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 12,
+            "y": 0,
+            "w": 36,
+            "h": 16,
+            "i": "3"
+          },
+          "embeddableConfig": {}
         },
         {
-          "col": 9,
-          "id": "App-RTR-response-times",
-          "panelIndex": 4,
-          "row": 5,
-          "size_x": 4,
-          "size_y": 4,
-          "type": "visualization"
+          "panelIndex": "4",
+          "panelRefName": "panel_2",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 32,
+            "y": 16,
+            "w": 16,
+            "h": 16,
+            "i": "4"
+          },
+          "embeddableConfig": {}
         },
         {
-          "col": 1,
-          "id": "App-RTR-response-times-(50th-and-95th-first-10-apps)",
-          "panelIndex": 5,
-          "row": 5,
-          "size_x": 8,
-          "size_y": 4,
-          "type": "visualization"
+          "panelIndex": "5",
+          "panelRefName": "panel_3",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 0,
+            "y": 16,
+            "w": 32,
+            "h": 16,
+            "i": "5"
+          },
+          "embeddableConfig": {}
         },
         {
-          "col": 1,
-          "columns": [
-            "@cf.app",
-            "rtr.response_time_ms",
-            "rtr.verb",
-            "rtr.status",
-            "rtr.path"
-          ],
-          "id": "app-rtr-long-response",
-          "panelIndex": 6,
-          "row": 9,
-          "size_x": 12,
-          "size_y": 4,
-          "sort": [
-            "@timestamp",
-            "desc"
-          ],
-          "type": "search"
+          "panelIndex": "6",
+          "panelRefName": "panel_4",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 0,
+            "y": 32,
+            "w": 48,
+            "h": 16,
+            "i": "6"
+          },
+          "embeddableConfig": {
+            "columns": [
+              "@cf.app",
+              "rtr.response_time_ms",
+              "rtr.verb",
+              "rtr.status",
+              "rtr.path"
+            ],
+            "sort": [
+              "@timestamp",
+              "desc"
+            ]
+          }
         }
       ]
-ENDOFFJSON
-  %>",
-    "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-      {
-
-      }
 ENDOFFJSON
   %>",
     "optionsJSON": "{\"darkTheme\":false}",
@@ -92,6 +107,33 @@ ENDOFFJSON
 ENDOFFJSON
   %>"
     }
-  }
+  },
+  "references": [
+    {
+      "id": "App-RTR-request-count-(top-10-apps)",
+      "name": "panel_0",
+      "type": "visualization"
+    },
+    {
+      "id": "App-RTR-traffic-by-response_time_ms-(first-10-apps)",
+      "name": "panel_1",
+      "type": "visualization"
+    },
+    {
+      "id": "App-RTR-response-times",
+      "name": "panel_2",
+      "type": "visualization"
+    },
+    {
+      "id": "App-RTR-response-times-(50th-and-95th-first-10-apps)",
+      "name": "panel_3",
+      "type": "visualization"
+    },
+    {
+      "id": "app-rtr-long-response",
+      "name": "panel_4",
+      "type": "search"
+    }
+  ]
 }
 <% end %>

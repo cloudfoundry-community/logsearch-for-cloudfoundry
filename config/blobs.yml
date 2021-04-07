@@ -1,7 +1,7 @@
-cf-kibana/kibana-6.8.1-linux-x86_64.tar.gz:
-  size: 186486884
-  object_id: 5fc2ccc4-0130-4d79-614d-369630619bf2
-  sha: sha256:45cc8c47286f218abbdab04ec502b5de99c86e3da2e8debadaeb99ac79391e02
+cf-kibana/kibana-7.6.1-linux-x86_64.tar.gz:
+  size: 249498863
+  object_id: b334c4f1-5add-4d24-76fa-bdf400415d56
+  sha: sha256:da636529511e707bbbc621dc131ff2ed18f50fe0df30821c375d16c5ba4248f6
 redis/redis-3.2.9.tar.gz:
   size: 1547695
   object_id: a1230536-4203-40b9-97e1-9f11d470308d

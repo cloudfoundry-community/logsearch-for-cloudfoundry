@@ -7,81 +7,94 @@
     "panelsJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
       [
         {
-          "col": 1,
-          "id": "Platform-Haproxy-requests-(top-10)",
-          "panelIndex": 1,
-          "row": 1,
-          "size_x": 4,
-          "size_y": 3,
-          "type": "visualization"
+          "panelIndex": "1",
+          "panelRefName": "panel_0",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 0,
+            "y": 0,
+            "w": 16,
+            "h": 12,
+            "i": "1"
+          },
+          "embeddableConfig": {
+            "vis": {
+              "legendOpen": true
+            }
+          }
         },
         {
-          "col": 5,
-          "id": "Platform-Haproxy-request-status-codes-in-timeline",
-          "panelIndex": 2,
-          "row": 1,
-          "size_x": 8,
-          "size_y": 3,
-          "type": "visualization"
+          "panelIndex": "2",
+          "panelRefName": "panel_1",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 16,
+            "y": 0,
+            "w": 32,
+            "h": 12,
+            "i": "2"
+          },
+          "embeddableConfig": {
+            "vis": {
+              "legendOpen": true
+            }
+          }
         },
         {
-          "id": "Platform-Haproxy-request-time-duration",
-          "type": "visualization",
-          "panelIndex": 3,
-          "size_x": 5,
-          "size_y": 3,
-          "col": 8,
-          "row": 4
+          "panelIndex": "3",
+          "panelRefName": "panel_2",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 28,
+            "y": 12,
+            "w": 20,
+            "h": 12,
+            "i": "3"
+          },
+          "embeddableConfig": {}
         },
         {
-          "id": "Platform-Haproxy-request-time-duration-(50th-95th-99th-top-5)",
-          "type": "visualization",
-          "panelIndex": 4,
-          "size_x": 7,
-          "size_y": 3,
-          "col": 1,
-          "row": 4
+          "panelIndex": "4",
+          "panelRefName": "panel_3",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 0,
+            "y": 12,
+            "w": 28,
+            "h": 12,
+            "i": "4"
+          },
+          "embeddableConfig": {
+            "vis": {
+              "legendOpen": false
+            }
+          }
         },
         {
-          "id": "platform-haproxy",
-          "type": "search",
-          "panelIndex": 5,
-          "size_x": 12,
-          "size_y": 6,
-          "col": 1,
-          "row": 7,
-          "columns": [
-            "@source.job",
-            "haproxy.time_duration",
-            "haproxy.http_status_code",
-            "haproxy.http_request"
-          ],
-          "sort": [
-            "@timestamp",
-            "desc"
-          ]
+          "panelIndex": "5",
+          "panelRefName": "panel_4",
+          "version": "7.3.0",
+          "gridData": {
+            "x": 0,
+            "y": 24,
+            "w": 48,
+            "h": 24,
+            "i": "5"
+          },
+          "embeddableConfig": {
+            "columns": [
+              "@source.job",
+              "haproxy.time_duration",
+              "haproxy.http_status_code",
+              "haproxy.http_request"
+            ],
+            "sort": [
+              "@timestamp",
+              "desc"
+            ]
+          }
         }
       ]
-ENDOFFJSON
-  %>",
-    "uiStateJSON": "<%= JSON.parse(<<'ENDOFFJSON').to_json.gsub(/"/) { '\"' }
-      {
-        "P-1": {
-          "vis": {
-            "legendOpen": true
-          }
-        },
-        "P-2": {
-          "vis": {
-            "legendOpen": true
-          }
-        },
-        "P-4": {
-          "vis": {
-            "legendOpen": false
-          }
-        }
-      }
 ENDOFFJSON
   %>",
     "optionsJSON": "{\"darkTheme\":false}",
@@ -104,5 +117,32 @@ ENDOFFJSON
 ENDOFFJSON
   %>"
     }
-  }
+  },
+  "references": [
+    {
+      "id": "Platform-Haproxy-requests-(top-10)",
+      "name": "panel_0",
+      "type": "visualization"
+    },
+    {
+      "id": "Platform-Haproxy-request-status-codes-in-timeline",
+      "name": "panel_1",
+      "type": "visualization"
+    },
+    {
+      "id": "Platform-Haproxy-request-time-duration",
+      "name": "panel_2",
+      "type": "visualization"
+    },
+    {
+      "id": "Platform-Haproxy-request-time-duration-(50th-95th-99th-top-5)",
+      "name": "panel_3",
+      "type": "visualization"
+    },
+    {
+      "id": "platform-haproxy",
+      "name": "panel_4",
+      "type": "search"
+    }
+  ]
 }
